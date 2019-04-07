@@ -1,0 +1,42 @@
+<html>
+    <head></head>
+    <body></body>
+</html>
+
+<a href="url">链接文本</a>
+
+<p>段落</p>
+
+<h1>一号标题</h1>
+
+<b>粗体</b> <strong>粗体</strong>
+<i>斜体</i> <em>斜体</em>
+
+<img src="url" alt="some_text" width="width_px" height="height_px">
+
+<a href="http://www.runoob.com/" target="_blank">访问菜鸟教程!</a>
+
+每30秒钟刷新当前页面:
+<meta http-equiv="refresh" content="30">
+
+
+table:
+
+<tr></tr>   :table row
+<td></td>   :table data
+       
+       边框粗细     单元格间距       单元格边距
+<table border="1" cellspacing="0" cellpadding="10">
+    <tr>
+        <th>Header 1</th>           表头
+        <th>Header 2</th>
+    </tr>
+    <tr>
+        <td>row 1, cell 1</td>
+        <td>row 1, cell 2</td>
+    </tr>
+    <tr>
+        <td>row 2, cell 1</td>
+        <td>row 2, cell 2</td>
+    </tr>
+</table>
