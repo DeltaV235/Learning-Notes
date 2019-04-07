@@ -21,7 +21,8 @@
 
 
 table:
-
+    占2Row 行     占2Col 列
+<th rowspan="2" colspan="2"></th>
 <tr></tr>   :table row
 <td></td>   :table data
        
@@ -40,3 +41,11 @@ table:
         <td>row 2, cell 2</td>
     </tr>
 </table>
+
+<ul>                :unorder list   无序列表
+    <li></li>
+</ul>         
+
+<ol start="50">     :order list     有序列表   start="开始序号"
+    <li></li>
+</ol> 
