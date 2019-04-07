@@ -49,3 +49,38 @@ table:
 <ol start="50">     :order list     有序列表   start="开始序号"
     <li></li>
 </ol> 
+
+
+
+<h4>编号列表：</h4>
+<ol>
+</ol>  
+
+<h4>大写字母列表：</h4>
+<ol type="A">
+</ol>  
+
+<h4>小写字母列表：</h4>
+<ol type="a">
+</ol>  
+
+<h4>罗马数字列表：</h4>
+<ol type="I">
+</ol>  
+
+<h4>小写罗马数字列表：</h4>
+<ol type="i">
+</ol>  
+
+
+<h4>圆点列表：</h4>
+<ul style="list-style-type:disc">
+</ul>  
+
+<h4>圆圈列表：</h4>
+<ul style="list-style-type:circle">
+</ul>  
+
+<h4>正方形列表：</h4>
+<ul style="list-style-type:square">
+</ul>
