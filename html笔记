@@ -12,7 +12,7 @@
 <b>粗体</b> <strong>粗体</strong>
 <i>斜体</i> <em>斜体</em>
 
-<img src="url" alt="some_text" width="width_px" height="height_px">
+<img src="url" alt="some_text" title="" width="width_px" height="height_px">
 
 <a href="http://www.runoob.com/" target="_blank">访问菜鸟教程!</a>
 
@@ -42,11 +42,11 @@ table:
     </tr>
 </table>
 
-<ul>                :unorder list   无序列表
+<ul>                :unordered list   无序列表
     <li></li>
 </ul>         
 
-<ol start="50">     :order list     有序列表   start="开始序号"
+<ol start="50">     :ordered list     有序列表   start="开始序号"
     <li></li>
 </ol> 
 
@@ -65,7 +65,7 @@ table:
 </ol>  
 
 <h4>罗马数字列表：</h4>
-<ol type="I">
+<ol type="I" start="401">
 </ol>  
 
 <h4>小写罗马数字列表：</h4>
@@ -74,6 +74,8 @@ table:
 
 
 <h4>圆点列表：</h4>
+<ul type="disc"></ul>
+<==>
 <ul style="list-style-type:disc">
 </ul>  
 
