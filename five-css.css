@@ -1,0 +1,49 @@
+.wrapper {
+    position: fixed;
+    width: 1000px;
+    height: 500px;
+    left: 50%;
+    top:50%;
+    margin-left: -500px;
+    margin-top: -250px;
+    border: 1px solid black;
+}
+
+.circle {
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+}
+
+.border-solid {
+    border-style: solid;
+    border-width: 10px;
+}
+
+#blue {
+    border-color: blue;
+    position: absolute;
+}
+
+#yellow {
+    border-color: yellow;
+    position: absolute;
+}
+ 
+#black {
+    border-color: black;
+    top: 0px;
+    left: 230px;
+    position: absolute;
+}
+
+#green {
+    border-color: green;
+}
+
+#red {
+    border-color: red;
+    position: absolute;
+    top: 0px;
+    left: 460px;
+}

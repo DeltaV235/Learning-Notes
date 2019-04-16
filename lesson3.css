@@ -1,0 +1,9 @@
+div {
+    font-style: normal;
+    color:#f40;
+    border: 1px solid black;
+    text-align: left;
+    height: 200px;
+    line-height: 22px;
+    font-size: 16px;
+}
