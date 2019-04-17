@@ -1,12 +1,12 @@
 .wrapper {
     position: fixed;
-    width: 1000px;
-    height: 500px;
+    width: 680px;
+    height: 330px;
     left: 50%;
     top:50%;
-    margin-left: -500px;
-    margin-top: -250px;
-    border: 1px solid black;
+    margin-left: -340px;
+    margin-top: -165px;
+    /* border: 1px solid black; */
 }
 
 .circle {
@@ -23,11 +23,15 @@
 #blue {
     border-color: blue;
     position: absolute;
+    z-index: 5;
 }
 
 #yellow {
     border-color: yellow;
     position: absolute;
+    left: 115px;
+    top: 110px;
+    z-index: 4;
 }
  
 #black {
@@ -35,10 +39,15 @@
     top: 0px;
     left: 230px;
     position: absolute;
+    z-index: 3;
 }
 
 #green {
     border-color: green;
+    position: absolute;
+    left: 345px;
+    top: 110px;
+    z-index: 2;
 }
 
 #red {
