@@ -1,0 +1,24 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.float-block {
+    height: 100px;
+    width: 100px;
+    background-color: black;
+    color: white;
+    float: left;
+}
+
+div {
+    border: 1px solid black;
+}
+
+.father {
+    /* overflow: hidden; */
+}
+
+p {
+    clear: both;
+}

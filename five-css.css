@@ -1,3 +1,8 @@
+* {
+    padding: 0px;
+    margin: 0px;
+}
+
 .wrapper {
     position: fixed;
     width: 680px;
@@ -55,4 +60,9 @@
     position: absolute;
     top: 0px;
     left: 460px;
+}
+
+#red:hover {
+    border-color: blueviolet;
+    cursor: pointer;
 }
