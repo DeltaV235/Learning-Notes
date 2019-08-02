@@ -33,6 +33,11 @@ git log branchname              # 查看指定分支的提交历史，与--all�
 git branch -v                   # 显示分支 -v:分支最后一次提交的message
 ```
 ---
+#### git的结构
+
+![git-operations](git-operations.png)
+
+---
 #### .git目录
 * HEAD : 当前的分支的引用(refs/heads/master)
 * config : local的配置文件(当前版本库)
@@ -46,7 +51,8 @@ git cat-file -p object  # 查看该对象的内容
 ```
 ---
 #### git的核心对象
-1. blob     文件
-2. commit   提交
-3. tree     树
-
+1. commit   提交/变更
+2. tree     树
+3. blob     文件
+##### 结构示意图:
+![commit-tree-blob](commit-tree-blob.png)
