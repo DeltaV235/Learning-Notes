@@ -56,3 +56,13 @@ git cat-file -p object  # 查看该对象的内容
 3. blob     文件
 ##### 结构示意图:
 ![commit-tree-blob](commit-tree-blob.png)
+
+一个tree可以包含多个blob和多个tree。一个tree对应一个目录，这个tree会包含这个目录下的所有blob和tree(目录的嵌套)。  
+git add 执行后会在.git/objects/中创建对应文件的blob，commit后创建commit和tree
+
+#### 分离HEAD
+```shell
+git checkout commitID
+```
+HEAD->commitID
+在次基础上能够继续commit，但若checkout至其他branch,则在头指针分离的情况下的commit会丢失。
