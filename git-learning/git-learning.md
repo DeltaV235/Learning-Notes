@@ -1,6 +1,6 @@
 # git笔记
 ## 1.git基础
-### git常用命令
+#### git常用命令
 
 * git 的配置
 ```shell
@@ -62,7 +62,15 @@ git add 执行后会在.git/objects/中创建对应文件的blob，commit后创�
 
 #### 分离HEAD
 ```shell
-git checkout commitID
+git checkout commitID           # 切换HEAD到某个commit，切换分支
 ```
 HEAD->commitID
 在次基础上能够继续commit，但若checkout至其他branch,则在头指针分离的情况下的commit会丢失。
+#### 分支的创建
+```shell
+git checkout -b branchname commitID(branch)         # 创建新的分支
+git diff HEAD HEAD^             # 比较HEAD和HEAD的父commit的差别
+HEAD^2  # 第2个父节点
+HEAD~2  # 父节点 的 父节点
+```
+可以基于某个分支创建新的分支，也能基于某个commit创建新分支。HEAD指向分支 == 指向那个分支最新的commit。
