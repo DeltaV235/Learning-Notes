@@ -1,8 +1,13 @@
 # git笔记
 ## 1.git基础
-#### git常用命令
-
-* git 的配置
+##### git 的配置
+---
+###### config的3个作用域
+local:只对仓库有效
+global:对登录用户所有仓库有效
+system:对系统的所有用户有效
+3个作用域的优先级：  
+<img src="git-priority.png" width=50% alt="git-config-priority">
 ```shell
 git config --list --local       # 查看版本库范围的所有设置(若不指定local，则显示所有范围的设置)
 git config --list --global      # 查看global范围的设置参数
@@ -13,6 +18,7 @@ git config --global user.email 'email@domain'   # 修改global范围的user.emai
 git config --unset varname      # 删除变量
 git config --local --edit       # 编辑各域的配置文件(默认为local)
 ```
+
 ---
 
 ```shell
@@ -65,7 +71,7 @@ git add 执行后会在.git/objects/中创建对应文件的blob，commit后创�
 git checkout commitID           # 切换HEAD到某个commit，切换分支
 ```
 HEAD->commitID
-在次基础上能够继续commit，但若checkout至其他branch,则在头指针分离的情况下的commit会丢失。
+在此基础上能够继续commit，但若checkout至其他branch,则在头指针分离的情况下的commit会丢失。
 #### 分支的创建
 ```shell
 git checkout -b branchname commitID(branch)         # 创建新的分支
@@ -74,3 +80,4 @@ HEAD^2  # 第2个父节点
 HEAD~2  # 父节点 的 父节点
 ```
 可以基于某个分支创建新的分支，也能基于某个commit创建新分支。HEAD指向分支 == 指向那个分支最新的commit。
+
