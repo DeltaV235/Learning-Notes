@@ -1,11 +1,12 @@
 # git笔记
-## 1.git基础
-##### git 的配置
+
+#### git 的配置
 ---
-###### config的3个作用域
-local:只对仓库有效
-global:对登录用户所有仓库有效
-system:对系统的所有用户有效
+##### config的3个作用域
+**local**:只对仓库有效
+**global**:对登录用户所有仓库有效
+**system**:对系统的所有用户有效
+
 3个作用域的优先级：  
 <img src="git-priority.png" width=50% alt="git-config-priority">
 ```shell
@@ -20,7 +21,7 @@ git config --local --edit       # 编辑各域的配置文件(默认为local)
 ```
 
 ---
-
+#### git常用命令
 ```shell
 git init                        # 初始化版本库
 git add filename                # 添加文件至暂存区
@@ -28,7 +29,7 @@ git add -u                      # 添加已tracked并修改的文件至暂存区
 git add -A                      # 将当前工作区的所有文件add至暂存区
 git commit -m 'commit message'  # 提交当前暂存区至历史版本库
 ```
----
+
 ```shell
 git status                      # 查看工作区的状态
 git log --all --oneline --gragh # 查看版本库的提交历史 
@@ -45,28 +46,28 @@ git branch -v                   # 显示分支 -v:分支最后一次提交的mes
 
 ---
 #### .git目录
-* HEAD : 当前的分支的引用(refs/heads/master)
-* config : local的配置文件(当前版本库)
-* refs : heads 和 tags 
-* /refs/heads/master : master指针指向的commit ID
-* objects ：git的对象  dirname + filename = object_ID
+* **HEAD** : 当前的分支的引用(refs/heads/master)
+* **config** : local的配置文件(当前版本库)
+* **refs** : heads 和 tags
+* **/refs/heads/master** : master指针指向的commit ID
+* **objects** ：git的对象  dirname + filename = object_ID
 
 ```shell
 git cat-file -t object  # 查看该对象的类型(type)    
 git cat-file -p object  # 查看该对象的内容
 ```
 ---
-#### git的核心对象
-1. commit   提交/变更
-2. tree     树
-3. blob     文件
+#### git的对象
+1. **commit**   提交/变更
+2. **tree**     树
+3. **blob**     文件
 ##### 结构示意图:
 ![commit-tree-blob](commit-tree-blob.png)
 
 一个tree可以包含多个blob和多个tree。一个tree对应一个目录，这个tree会包含这个目录下的所有blob和tree(目录的嵌套)。  
 git add 执行后会在.git/objects/中创建对应文件的blob，commit后创建commit和tree
 
-#### 分离HEAD
+#### 分离HEAD(头指针)
 ```shell
 git checkout commitID           # 切换HEAD到某个commit，切换分支
 ```
@@ -81,3 +82,55 @@ HEAD~2  # 父节点 的 父节点
 ```
 可以基于某个分支创建新的分支，也能基于某个commit创建新分支。HEAD指向分支 == 指向那个分支最新的commit。
 
+#### 分支的删除
+```shell
+git branch -d branch_name       # 删除指定的分支
+git branch -D branch_name       # 强制删除该分支
+```
+
+使用-d 在删除前Git会判断在该分支上开发的功能是否被merge的其它分支。如果没有，不能删除。如果merge到其它分支，但之后又在其上做了开发，使用-d还是不能删除。-D会强制删除。
+
+#### commit message的修改
+```shell
+git commit --amend          # 修改最近一次commit。若stage中有内容，则会将这些stage中的文件合并至上一次的commit中。
+#该commit在修改后commitID会发生变化，因为message作为commit的一个属性发生变化后,commit hash发生了变化
+git rebase -i parentCommitID    # 修改任意一次的commit parentCommitID为父commitID
+```
+进入rebase交互模式后，修改需要修改的commit前的pick为r,随后:wq,将分离HEAD至该commit，自动调用vim编辑该commit(.git/COMMIT_EDITMSG),:wq后会重建所有后续commit，commitID会发生变化
+
+#### 多个commit合并为一个commit
+```shell
+git rebase -i parentCommit
+squash commitID
+```
+git rebase -i 开始commit [结束commit], 在执行这个命令时，
+如果没有指定 结束commit,那么结束commit 默认为当前分支最新的 commit，那么rebase 结束后会自动更新当前分支指向的 commit,
+如果指定了结束 commit，而且结束 commit不是当前分支最新的 commit，那么rebase 后会有生成一个 游离的 HEAD,，而且当前分支指向的commit 不会更新
+
+#### 不连续的commit的合并
+在rebase -i中，调整commmit的顺序后再sqaush
+?文件的变更历史发生了变化，文件内容是否不完整，影响正常理解
+
+#### git diff
+```shell
+git diff --cached                       # 比较暂存区和HEAD(当前分支)之间的差异
+git diff --staged
+git diff [filename]                     # 比较工作区和暂存区之间的差异
+git diff HEAD [filename]                # 比较工作区与HEAD之间的差异
+git diff commitID_old commitID_new [filename]   # 后边的commit与前边的commit做对比，可以指定对比的文件
+```
+
+## git reset
+```shell
+git reset HEAD [filename]           # 将暂存区的内容恢复成HEAD的内容(HEAD-->stage)，有filename时恢复暂存区中该文件为HEAD中的内容(对暂存区操作)
+git checkout filename               # 将暂存区的内容覆盖到工作区(stage-->workspace)(对工作区操作)
+git checkout commitID               # 将历史库中的内容覆盖至工作区(切换分支)
+git reset --hard commitID           # 使暂存区和工作区的内容都恢复成commitID的内容，并将HEAD指向该commitID 
+                                    # == 删除了commitID后的所有commit，HEAD->commitID,并使暂存区和工作区都同步成HEAD
+```
+
+#### git rm
+```shell
+git rm filename                     # 将暂存区和工作区中的该文件删除
+git rm --cached filename            # 将暂存区中的该文件删除
+```
