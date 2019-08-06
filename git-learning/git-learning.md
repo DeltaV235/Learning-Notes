@@ -1,8 +1,8 @@
 # git笔记
 
-#### git 的配置
+### git 的配置
 ---
-##### config的3个作用域
+#### config的3个作用域
 **local**:只对仓库有效
 **global**:对登录用户所有仓库有效
 **system**:对系统的所有用户有效
@@ -18,6 +18,21 @@ git config --local user.name 'username'         # 修改local(版本库)范围�
 git config --global user.email 'email@domain'   # 修改global范围的user.email3
 git config --unset varname                      # 删除变量
 git config --local --edit                       # 编辑各域的配置文件(默认为local)
+```
+
+---
+#### git的别名
+[git的别名(git-scm)](https://git-scm.com/book/zh/v2/Git-%E5%9F%BA%E7%A1%80-Git-%E5%88%AB%E5%90%8D)
+```shell
+git config --local alias.amend commit -a --amend
+```
+一下两条命令等价:
+```shell
+git commit -a --amend
+git amend
+```
+```shell
+git config --global alias.visual '!gitk'        # 设置执行外部命令
 ```
 
 ---
