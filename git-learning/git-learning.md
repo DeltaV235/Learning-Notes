@@ -210,3 +210,12 @@ add后可以通过`git reset filename`来unstage,即将版本库中的该文件�
 ---
 ### git的备份
 ![git backup](git-backup.png)
+```shell
+git clone [--bare] url                        # 从远端clone一个仓库
+```
+--bare 指clone裸仓库，其中包含所有分支。否则只包含远端仓库的当前分支。
+
+```shell
+git remote add reponame url                 # 添加remote
+git push reponame branchname                # push 指定的分支
+```
