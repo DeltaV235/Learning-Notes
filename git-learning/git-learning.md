@@ -128,7 +128,7 @@ git diff HEAD [filename]                        # 比较工作区与HEAD之间�
 git diff commitID_old commitID_new [filename]   # 后边的commit与前边的commit做对比，可以指定对比的文件
 ```
 ---
-#### git reset
+#### git reset & git checkout
 ```shell
 git reset --soft commitID           # 将HEAD的引用(即当前分支)指向commit
 git reset [--mixed] commitID        # 将HEAD的引用(即当前分支)指向commit,并将暂存区的内容同步成commit的内容(commit-->stage)
@@ -177,3 +177,21 @@ git stash list              # 查看缓存中的内容
 git stash pop [stash@{0}]   # 将一个stash恢复，缺省值为最近一个(stash@{0}),并在list中删除该stash
 git stash apply [stash@{0}] # 将一个stash恢复，缺省值为最近一个(stash@{0}),list中不会删除该stash
 ```
+
+---
+#### .gitignore
+>The problem is that **.gitignore ignores just files that weren't tracked before (by git add)**. Run git reset name_of_file to unstage the file and keep it. In case you want to also remove given file from the repository (after pushing), use git rm --cached name_of_file.
+
+.gitignore只忽略未被跟踪(`git add filename`)的文件
+add后可以通过`git reset filename`来unstage,即将版本库中的该文件覆盖至index中，但因为HEAD中没有该文件，所以index中也没有该文件，等价于unstage。也能通过`git rm --cached filename`将index中的文件删除,来实现unstage
+如果已经将需要ignore的文件commit,可以通过git rm --cached filename将index中的该文件删除，然后再`git commit --amend`
+```
+.gitignore:
+*.class         # 忽略的文件
+.idea/          # 忽略目录下的所有文件
+!.git/*         # 不忽略该目录下的所有文件
+```
+
+---
+### git的备份
+![git backup](git-backup.png)
