@@ -8,16 +8,16 @@
 **system**:对系统的所有用户有效
 
 3个作用域的优先级：  
-<img src="git-priority.png" width=50% alt="git-config-priority">
+<img src="git-priority.png" width=20% alt="git-config-priority">
 ```shell
-git config --list --local       # 查看版本库范围的所有设置(若不指定local，则显示所有范围的设置)
-git config --list --global      # 查看global范围的设置参数
-git config --list --system      # 查看system范围的设置
-git config --list user.name     # 只显示user.name的值
-git config --local user.name 'username'     # 修改local(版本库)范围的user.name(若不加变量作用域，则默认为local)
+git config --list --local                       # 查看版本库范围的所有设置(若不指定local，则显示所有范围的设置)
+git config --list --global                      # 查看global范围的设置参数
+git config --list --system                      # 查看system范围的设置
+git config --list user.name                     # 只显示user.name的值
+git config --local user.name 'username'         # 修改local(版本库)范围的user.name(若不加变量作用域，则默认为local)
 git config --global user.email 'email@domain'   # 修改global范围的user.email3
-git config --unset varname      # 删除变量
-git config --local --edit       # 编辑各域的配置文件(默认为local)
+git config --unset varname                      # 删除变量
+git config --local --edit                       # 编辑各域的配置文件(默认为local)
 ```
 
 ---
@@ -33,9 +33,9 @@ git commit -m 'commit message'  # 提交当前暂存区至历史版本库
 ```shell
 git status                      # 查看工作区的状态
 git log --all --oneline --gragh # 查看版本库的提交历史 
-# --all:查看所有分支的提交历史，默认为当前分支 
-# --oneline:所有提交历史显示成一行 
-# --gragh:图像化的显示提交的历史，若有all选项，则会显示所有分支的演进过程
+                                # --all:查看所有分支的提交历史，默认为当前分支 
+                                # --oneline:所有提交历史显示成一行 
+                                # --gragh:图像化的显示提交的历史，若有all选项，则会显示所有分支的演进过程
 git log branchname              # 查看指定分支的提交历史，与--all一起使用则无效
 git branch -v                   # 显示分支 -v:分支最后一次提交的message
 ```
@@ -67,21 +67,25 @@ git cat-file -p object  # 查看该对象的内容
 一个tree可以包含多个blob和多个tree。一个tree对应一个目录，这个tree会包含这个目录下的所有blob和tree(目录的嵌套)。  
 git add 执行后会在.git/objects/中创建对应文件的blob，commit后创建commit和tree
 
+---
 #### 分离HEAD(头指针)
 ```shell
 git checkout commitID           # 切换HEAD到某个commit，切换分支
 ```
 HEAD->commitID
 在此基础上能够继续commit，但若checkout至其他branch,则在头指针分离的情况下的commit会丢失。
+
+---
 #### 分支的创建
 ```shell
 git checkout -b branchname commitID(branch)         # 创建新的分支
-git diff HEAD HEAD^             # 比较HEAD和HEAD的父commit的差别
-HEAD^2  # 第2个父节点
-HEAD~2  # 父节点 的 父节点
+git diff HEAD HEAD^                                 # 比较HEAD和HEAD的父commit的差别
+HEAD^2                                              # 第2个父节点
+HEAD~2                                              # 父节点 的 父节点
 ```
 可以基于某个分支创建新的分支，也能基于某个commit创建新分支。HEAD指向分支 == 指向那个分支最新的commit。
 
+---
 #### 分支的删除
 ```shell
 git branch -d branch_name       # 删除指定的分支
@@ -90,14 +94,16 @@ git branch -D branch_name       # 强制删除该分支
 
 使用-d 在删除前Git会判断在该分支上开发的功能是否被merge的其它分支。如果没有，不能删除。如果merge到其它分支，但之后又在其上做了开发，使用-d还是不能删除。-D会强制删除。
 
+---
 #### commit message的修改
 ```shell
-git commit --amend          # 修改最近一次commit。若stage中有内容，则会将这些stage中的文件合并至上一次的commit中。
-#该commit在修改后commitID会发生变化，因为message作为commit的一个属性发生变化后,commit hash发生了变化
+git commit --amend              # 修改最近一次commit。若stage中有内容，则会将这些stage中的文件合并至上一次的commit中。
+                                # 该commit在修改后commitID会发生变化，因为message作为commit的一个属性发生变化后,commit hash发生了变化
 git rebase -i parentCommitID    # 修改任意一次的commit parentCommitID为父commitID
 ```
-进入rebase交互模式后，修改需要修改的commit前的pick为r,随后:wq,将分离HEAD至该commit，自动调用vim编辑该commit(.git/COMMIT_EDITMSG),:wq后会重建所有后续commit，commitID会发生变化
+进入rebase交互模式后，修改需要修改的commit前的pick为r,随后:wq,将分离HEAD至该commit，自动调用vim编辑该`commit(.git/COMMIT_EDITMSG)`,:wq后会重建所有后续commit，commitID会发生变化
 
+---
 #### 多个commit合并为一个commit
 ```shell
 git rebase -i parentCommit
@@ -107,30 +113,54 @@ git rebase -i 开始commit [结束commit], 在执行这个命令时，
 如果没有指定 结束commit,那么结束commit 默认为当前分支最新的 commit，那么rebase 结束后会自动更新当前分支指向的 commit,
 如果指定了结束 commit，而且结束 commit不是当前分支最新的 commit，那么rebase 后会有生成一个 游离的 HEAD,，而且当前分支指向的commit 不会更新
 
+---
 #### 不连续的commit的合并
-在rebase -i中，调整commmit的顺序后再sqaush
+在`rebase -i`中，调整commit的顺序后再sqaush
 ?文件的变更历史发生了变化，文件内容是否不完整，影响正常理解
 
+---
 #### git diff
 ```shell
-git diff --cached                       # 比较暂存区和HEAD(当前分支)之间的差异
+git diff --cached                               # 比较暂存区和HEAD(当前分支)之间的差异
 git diff --staged
-git diff [filename]                     # 比较工作区和暂存区之间的差异
-git diff HEAD [filename]                # 比较工作区与HEAD之间的差异
+git diff [filename]                             # 比较工作区和暂存区之间的差异
+git diff HEAD [filename]                        # 比较工作区与HEAD之间的差异
 git diff commitID_old commitID_new [filename]   # 后边的commit与前边的commit做对比，可以指定对比的文件
 ```
-
-## git reset
+---
+#### git reset
 ```shell
-git reset HEAD [filename]           # 将暂存区的内容恢复成HEAD的内容(HEAD-->stage)，有filename时恢复暂存区中该文件为HEAD中的内容(对暂存区操作)
-git checkout filename               # 将暂存区的内容覆盖到工作区(stage-->workspace)(对工作区操作)
-git checkout commitID               # 将历史库中的内容覆盖至工作区(切换分支)
-git reset --hard commitID           # 使暂存区和工作区的内容都恢复成commitID的内容，并将HEAD指向该commitID 
-                                    # == 删除了commitID后的所有commit，HEAD->commitID,并使暂存区和工作区都同步成HEAD
-```
+git reset --soft commitID           # 将HEAD的引用(即当前分支)指向commit
+git reset [--mixed] commitID        # 将HEAD的引用(即当前分支)指向commit,并将暂存区的内容同步成commit的内容(commit-->stage)
+git reset --hard commitID           # 将HEAD的引用(即当前分支)指向commit,使暂存区和工作区的内容都恢复成commitID的内容，！“工作区危险”命令！，会丢失工作区中的内容！
+                                    # 等价于 删除了commitID后的所有commit，HEAD/ref->commitID,并使暂存区和工作区都同步成HEAD
+git reset [commitID] filename       # file level,有filename时恢复暂存区中该文件为commit中的内容(对暂存区操作)(commit缺省值为HEAD)
 
+git checkout commitID               # 将历史库中的内容覆盖至WD&index(切换分支)
+git checkout [commitID] filename    # file level,将commit的内容覆盖到index和workdir(commit-->index/workspace)(对工作区和暂存区操作)(commit缺省值为HEAD)
+```
+> 下面的速查表列出了命令对树的影响。 “HEAD” 一列中的 “REF” 表示该命令移动了 HEAD 指向的分支引用，而 “HEAD” 则表示只移动了 HEAD 自身。 特别注意 WD Safe? 一列——如果它标记为 NO，那么运行该命令之前请考虑一下。
+
+| |HEAD|Index|Workdir|WD Safe?|
+|-|----|:-----:|:-------:|:--------:|
+|__Commit Level__|
+||reset --soft [commit]|REF|NO|NO|YES|
+||reset [commit]|REF|YES|NO|YES|
+||reset --hard [commit]|REF|YES|YES|NO|
+||checkout [commit]|HEAD|YES|YES|YES|
+|__File Level__|
+||reset (commit) [file]|NO|YES|NO|YES|
+||checkout (commit) [file]|NO|YES|YES|NO|
+
+**[更详细的解释，关于reset和checkout](https://git-scm.com/book/zh/v2/Git-%E5%B7%A5%E5%85%B7-%E9%87%8D%E7%BD%AE%E6%8F%AD%E5%AF%86)**
+
+---
 #### git rm
 ```shell
 git rm filename                     # 将暂存区和工作区中的该文件删除
 git rm --cached filename            # 将暂存区中的该文件删除
+git ls-files                        # 查看暂存区中的文件
 ```
+commit之后文件会从版本库中删除
+
+---
