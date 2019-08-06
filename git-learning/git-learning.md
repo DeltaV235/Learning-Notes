@@ -164,3 +164,16 @@ git ls-files                        # 查看暂存区中的文件
 commit之后文件会从版本库中删除
 
 ---
+#### git stash
+`git stash`默认情况缓存以下文件：
+- git跟踪的但未添加到暂存区的修改
+- 添加到暂存区的修改
+不会缓存以下文件：
+- 在工作目录中的新文件
+- 被忽略的文件
+```shell
+git stash                   # 将 git跟踪的但未添加到暂存区的修改 添加到暂存区的修改 缓存至stash list 中
+git stash list              # 查看缓存中的内容
+git stash pop [stash@{0}]   # 将一个stash恢复，缺省值为最近一个(stash@{0}),并在list中删除该stash
+git stash apply [stash@{0}] # 将一个stash恢复，缺省值为最近一个(stash@{0}),list中不会删除该stash
+```
