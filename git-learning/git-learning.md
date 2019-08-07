@@ -218,9 +218,17 @@ git clone [--bare] url                        # 从远端clone一个仓库
 ```shell
 git remote add reponame url                 # 添加remote
 git push reponame branchname                # push 指定的分支
+git push reponame --all                     # push 所有分支
 ```
 
 ---
 ### github
 #### ssh key 生成
 [Generating a new SSH key and adding it to the ssh-agent](https://help.github.com/en/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
+
+#### git fetch
+将远端的仓库拉至本地，但**不执行merge**操作
+`git fetch reponame`
+
+#### git pull
+将远端的仓库拉至本地，并**执行merge**操作
