@@ -233,3 +233,5 @@ git push reponame --all                     # push 所有分支
 
 #### git pull
 将远端的仓库拉至本地，并**执行merge**操作
+
+rebase后导致HEAD和remote不是fast-forward,只能rebase remote后的commit?也不能使用amend(rebase实现)
