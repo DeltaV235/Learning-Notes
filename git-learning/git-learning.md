@@ -216,6 +216,7 @@ git clone [--bare] url                        # 从远端clone一个仓库
 --bare 指clone裸仓库，其中包含所有分支。否则只包含远端仓库的当前分支。
 
 ```shell
+git remote -v                               # 查看远程版本库信息
 git remote add reponame url                 # 添加remote
 git push reponame branchname                # push 指定的分支
 git push reponame --all                     # push 所有分支
