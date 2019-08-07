@@ -2,6 +2,10 @@
 corejava*
 *.pdf
 
+#ignore ide file
+.idea/
+*.iml
+
 # Compiled class file
 *.class
 
