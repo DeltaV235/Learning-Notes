@@ -235,3 +235,11 @@ git push reponame --all                     # push 所有分支
 将远端的仓库拉至本地，并**执行merge**操作
 
 rebase后导致HEAD和remote不是fast-forward,只能rebase remote后的commit?也不能使用amend(rebase实现)
+
+#### git 使用技巧(from PegasusWang)
+```shell
+alias gco='git checkout'
+alias ga='git add'
+alias gcm='git commit -m'
+```
+[av63256332](https://www.bilibili.com/video/av63256332)
