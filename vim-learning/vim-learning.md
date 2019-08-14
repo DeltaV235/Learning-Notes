@@ -178,6 +178,7 @@ yiw             # yank inner a word
 ```vim
 :e! 重新加载文件 ,且不保持
 set clipboard=unnamed       # 使系统剪贴板与无名寄存器共用
+set autoindent              # 自动缩进
 set paste
 set unpaste
 ```

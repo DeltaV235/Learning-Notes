@@ -1,5 +1,3 @@
-import java.math.*;
-import java.time.Year;
 
 public class ex5_5 {
     public static void main(String[] args) {
