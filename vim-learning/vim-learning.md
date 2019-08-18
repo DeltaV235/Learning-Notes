@@ -66,7 +66,7 @@ gg                 # 文件头
 G                  # 文件尾
 
 H/M/L              # Head/Middle/Lower
-zz                 # 中至当前行
+zz                 # 中置当前行
 ```
 
 ## 快速增删改查(normal mode)
@@ -182,3 +182,17 @@ set autoindent              # 自动缩进
 set paste
 set unpaste
 ```
+
+## 宏的录制和使用
+
+Vim使用q键来录制，q键结束录制
+使用 q{register} 选择要保存的寄存器，把录制的命令保存其中
+使用 @{register} 回放寄存器中的保存的所有命令
+
+## 代码补全
+
+![vim-code-completion](pic/code_completion/vim-code-completion.png)
+
+## 修改vim配色
+
+![vim-colorscheme](pic/colorscheme/color_scheme.jpg)
