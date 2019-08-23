@@ -308,3 +308,15 @@ alias gcm='git commit -m'
 ```
 
 [av63256332](https://www.bilibili.com/video/av63256332)
+
+### git 设置代理
+
+```shell
+git config --global http.proxy socks5://127.0.0.1:1080
+```
+
+### git的默认文本编辑器
+
+```shell
+git config --global core.editor "vim"
+```
