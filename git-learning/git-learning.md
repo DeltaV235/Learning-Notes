@@ -320,3 +320,9 @@ git config --global http.proxy socks5://127.0.0.1:1080
 ```shell
 git config --global core.editor "vim"
 ```
+
+## git提交信息规范
+
+[优雅的提交你的 Git Commit Message](https://juejin.im/post/5afc5242f265da0b7f44bee4)
+
+[Commit message 和 Change log 编写指南](http://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html)
