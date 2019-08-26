@@ -1,8 +1,6 @@
 # git笔记
 
-## git 的配置
-
----
+## git的基本操作
 
 ### config的3个作用域
 
@@ -24,8 +22,6 @@ git config --unset varname                      # 删除变量
 git config --local --edit                       # 编辑各域的配置文件(默认为local)
 ```
 
----
-
 ### git的别名
 
 [git的别名(git-scm)](https://git-scm.com/book/zh/v2/Git-%E5%9F%BA%E7%A1%80-Git-%E5%88%AB%E5%90%8D)
@@ -44,8 +40,6 @@ git amend
 ```shell
 git config --global alias.visual '!gitk'        # 设置执行外部命令
 ```
-
----
 
 ### git常用命令
 
@@ -67,13 +61,10 @@ git log branchname              # 查看指定分支的提交历史，与--all�
 git branch -v                   # 显示分支 -v:分支最后一次提交的message
 ```
 
----
-
 ### git的结构
 
+**下图中存在的问题: git reset \<file\> 只将repo中的文件恢复至staging 而不恢复workspace**
 ![git-operations](git-operations.png)
-
----
 
 ### .git目录
 
@@ -88,8 +79,6 @@ git cat-file -t object  # 查看该对象的类型(type)
 git cat-file -p object  # 查看该对象的内容
 ```
 
----
-
 ### git的对象
 
 1. **commit**   提交/变更
@@ -103,8 +92,6 @@ git cat-file -p object  # 查看该对象的内容
 一个tree可以包含多个blob和多个tree。一个tree对应一个目录，这个tree会包含这个目录下的所有blob和tree(目录的嵌套)。  
 git add 执行后会在.git/objects/中创建对应文件的blob，commit后创建commit和tree
 
----
-
 ### 分离HEAD(头指针)
 
 ```shell
@@ -113,8 +100,6 @@ git checkout commitID           # 切换HEAD到某个commit，切换分支
 
 HEAD->commitID
 在此基础上能够继续commit，但若checkout至其他branch,则在头指针分离的情况下的commit会丢失。
-
----
 
 ### 分支的创建
 
@@ -127,8 +112,6 @@ HEAD~2                                              # 父节点 的 父节点
 
 可以基于某个分支创建新的分支，也能基于某个commit创建新分支。HEAD指向分支 == 指向那个分支最新的commit。
 
----
-
 ### 分支的删除
 
 ```shell
@@ -137,8 +120,6 @@ git branch -D branch_name       # 强制删除该分支
 ```
 
 使用-d 在删除前Git会判断在该分支上开发的功能是否被merge的其它分支。如果没有，不能删除。如果merge到其它分支，但之后又在其上做了开发，使用-d还是不能删除。-D会强制删除。
-
----
 
 ### commit message的修改
 
@@ -149,8 +130,6 @@ git rebase -i parentCommitID    # 修改任意一次的commit parentCommitID为�
 ```
 
 进入rebase交互模式后，修改需要修改的commit前的pick为r,随后:wq,将分离HEAD至该commit，自动调用vim编辑该`commit(.git/COMMIT_EDITMSG)`,:wq后会重建所有后续commit，commitID会发生变化
-
----
 
 ### 多个commit合并为一个commit
 
@@ -163,14 +142,10 @@ git rebase -i 开始commit [结束commit], 在执行这个命令时，
 如果没有指定 结束commit,那么结束commit 默认为当前分支最新的 commit，那么rebase 结束后会自动更新当前分支指向的 commit,
 如果指定了结束 commit，而且结束 commit不是当前分支最新的 commit，那么rebase 后会有生成一个 游离的 HEAD,，而且当前分支指向的commit 不会更新
 
----
-
 ### 不连续的commit的合并
 
 在`rebase -i`中，调整commit的顺序后再sqaush
 ?文件的变更历史发生了变化，文件内容是否不完整，影响正常理解
-
----
 
 ### git diff
 
@@ -181,8 +156,6 @@ git diff [filename]                             # 比较工作区和暂存区之
 git diff HEAD [filename]                        # 比较工作区与HEAD之间的差异
 git diff commitID_old commitID_new [filename]   # 后边的commit与前边的commit做对比，可以指定对比的文件
 ```
-
----
 
 ### git reset & git checkout
 
@@ -212,8 +185,6 @@ git checkout [commitID] filename    # file level,将commit的内容覆盖到inde
 
 **[更详细的解释，关于reset和checkout](https://git-scm.com/book/zh/v2/Git-%E5%B7%A5%E5%85%B7-%E9%87%8D%E7%BD%AE%E6%8F%AD%E5%AF%86)**
 
----
-
 ### git rm
 
 ```shell
@@ -223,8 +194,6 @@ git ls-files                        # 查看暂存区中的文件
 ```
 
 commit之后文件会从版本库中删除
-
----
 
 ### git stash
 
@@ -244,8 +213,6 @@ git stash pop [stash@{0}]   # 将一个stash恢复，缺省值为最近一个(st
 git stash apply [stash@{0}] # 将一个stash恢复，缺省值为最近一个(stash@{0}),list中不会删除该stash
 ```
 
----
-
 ### .gitignore
 
 >The problem is that **.gitignore ignores just files that weren't tracked before (by git add)**. Run git reset name_of_file to unstage the file and keep it. In case you want to also remove given file from the repository (after pushing), use git rm --cached name_of_file.
@@ -260,8 +227,6 @@ add后可以通过`git reset filename`来unstage,即将版本库中的该文件�
 .idea/          # 忽略目录下的所有文件
 !.git/*         # 不忽略该目录下的所有文件
 ```
-
----
 
 ### git的备份
 
@@ -279,14 +244,6 @@ git remote add reponame url                 # 添加remote
 git push reponame branchname                # push 指定的分支
 git push reponame --all                     # push 所有分支
 ```
-
----
-
-### github
-
-### ssh key 生成
-
-[Generating a new SSH key and adding it to the ssh-agent](https://help.github.com/en/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
 
 ### git fetch
 
@@ -321,8 +278,68 @@ git config --global http.proxy socks5://127.0.0.1:1080
 git config --global core.editor "vim"
 ```
 
+---
+
+## 多人合作
+
+### 双方修改了不同的文件
+
+因为不存在冲突，所以能够auto-merge。
+`git fetch && git merge ; git pull`
+>如果在进行git push之前发现远程又有了更新，比较好的做法应该是，将本地的提交回退掉，避免掉无用的远程merge本地分支的提交记录，可以使用如下命令：
+1.git reset HEAD~
+2.git pull
+然后重新进行新的提交，这样就可以避免掉远程与本地分支的merge提交记录，让git的提交历史更加干净
+>>或者把本地的提交基于远端分支做 rebase ，在本地解决掉冲突并完成自测。
+
+### 双方修改了同一文件的不同区域
+
+因为不存在冲突，git也能够auto-merge,执行git pull && git push
+
+### 双方修改了同一文件的同一区域
+
+此时git无法决定保留哪个更改，所以无法auto-merge,需要手动解决冲突后，再
+`git add && git commit`
+或
+`git add && git merge --continue`
+
+### 同时修改了一个文件的文件名和内容
+
+git能够自动merge rename 和 内容变更
+
+### 同一文件改成了不同的文件名
+
+需要手动git rm 不需要的文件，解决冲突后再`git commit -am'message'`
+
+### 多人开发中应避免的操作
+
+#### 向集成分支执行push -f
+
+`git push -f remote_repo`
+>自己独自使用的分支，可以采用push -f 的方式。
+团队集成分支，通常做法不是去掉不想要的commit，而是把不想要的commit的内容采用revert的方式生成新的commit，以此去掉不想要的变更。然后push到远端
+
+#### 向集成分支执行变基操作
+
+`git rebase`
+
+---
+
+## Github
+
+### search
+
+`keywords in:readme start:>1000`
+`'code','code' filename:fileName`
+
+### ssh key 生成
+
+[Generating a new SSH key and adding it to the ssh-agent](https://help.github.com/en/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
+
 ## git提交信息规范
 
 [优雅的提交你的 Git Commit Message](https://juejin.im/post/5afc5242f265da0b7f44bee4)
 
 [Commit message 和 Change log 编写指南](http://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html)
+
+---
