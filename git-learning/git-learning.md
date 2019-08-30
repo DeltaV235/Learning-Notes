@@ -336,6 +336,27 @@ git能够自动merge rename 和 内容变更
 
 [Generating a new SSH key and adding it to the ssh-agent](https://help.github.com/en/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
 
+### merge
+
+feature->master
+
+#### merge commit
+
+如同`git commit`，无冲突则自动merge
+
+#### Squash and merge
+
+把需要merge的分支的所有commit进行squash，然后merge至master
+具体表现为：将feature分支所有commit squash为一个commit，然后将该commit rebase至master分支
+该操作不会移动feature的refs
+等价与`git merge --squash`
+
+#### Rebase and merge
+
+直接将feature的所有commit rebase 至 master
+
+---
+
 ## git提交信息规范
 
 [优雅的提交你的 Git Commit Message](https://juejin.im/post/5afc5242f265da0b7f44bee4)

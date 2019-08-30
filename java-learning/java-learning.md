@@ -20,7 +20,7 @@
 - [ ] 前端基础(html/javascript/css) jquery, ajax, jsp, cookie, session
 - [ ] http基础
 - [ ] servlet基础
-- [ ] git,svn代码管理工具
+- [x] git,svn代码管理工具
 
 ### 3.企业级应用框架
 
@@ -47,9 +47,11 @@
 
 ![idea-shortcut](source/idea-shortcut.png)
 
-### 算法
+---
 
-#### 冒泡排序
+## 算法
+
+### 冒泡排序
 
 ```java
 

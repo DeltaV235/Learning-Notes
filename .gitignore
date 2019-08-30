@@ -5,6 +5,7 @@ corejava*
 #ignore ide file
 .idea/
 *.iml
+out/
 
 # Compiled class file
 *.class
