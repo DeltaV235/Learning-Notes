@@ -137,3 +137,25 @@ DROP INDEX <索引名>;
 ```
 
 ### 数据查询
+
+#### 一般格式
+
+```sql
+SELECT [ALL|DISTINCT] <目标列表达式> [,<目标列表达式>] ···
+FROM <表名或视图名> [,<表名或视图名> ···] | (<SELECT语句>) [AS] <别名>
+[WHERE <条件表达式>]
+[GROUP BY <别名1> [HAVING <条件表达式>]]
+[ORDER BY <列名2> [ASC|DESC]];
+```
+
+### 数据插入
+
+### 视图
+
+#### 建立视图
+
+```sql
+CREATE VIEW <视图名> [(<列名> [,<列名>] ···)]
+AS <子查询>
+[WITH CHECK OPTION];
+```
