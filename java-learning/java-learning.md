@@ -122,3 +122,18 @@ float f = n;    // f is 1.2345679E8
 2. 按照在类声明中出现的次序，依次执行所有域初始化语句(`private int temp = 20;`)和初始化块(`{temp = 20;}`);
 3. 如果构造器第一行调用了第二个构造器，则执行第二个构造器主体(`this(···);`);
 4. 执行这个构造器的主体。
+
+## Java中用于控制可见性的4个访问修饰符
+
+1.仅对本类可见——`private`
+2.对所有类可见——`public`
+3.对本包和所有子类可见——`protected`
+4.对本包可见——default，不需要修饰符
+
+issue about array of object
+
+```java
+Employee[] employee = new Employee[10];
+Employee[] employee;
+object.equals  &&   ==  区别
+```

@@ -1,5 +1,7 @@
 package com.return404.Company;
 
+import java.util.ArrayList;
+
 public class Manager extends Employee {
     private double bonus;
 
@@ -20,9 +22,17 @@ public class Manager extends Employee {
         return super.getSalary() + this.getBonus();
     }
 
+    public String getDescription() {
+        return String.format("an manager with a salary of %.2f", this.getSalary());
+    }
+
     public static void main(String[] args) {
-        Manager manager = new Manager("wuyue", 5000);
-        manager.setBonus(2000);
-        System.out.println("Manager's bonus is " + manager.getBonus() + "\nAnd Salary is " + manager.getSalary());
+        ArrayList<Person> personArrayList = new ArrayList<>();
+        personArrayList.add(new Manager("wuyue", 5000));
+        personArrayList.add(new Manager("David", 3000));
+        personArrayList.trimToSize();
+        for (Person p: personArrayList) {
+            System.out.printf("Description: %s\n", p.getDescription());
+        }
     }
 }
