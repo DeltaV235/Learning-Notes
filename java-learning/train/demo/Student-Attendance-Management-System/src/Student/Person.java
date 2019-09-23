@@ -11,6 +11,18 @@ public abstract class Person {
         this.age = age;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
     public String getName() {
         return name;
     }
