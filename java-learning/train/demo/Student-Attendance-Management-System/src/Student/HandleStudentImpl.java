@@ -18,14 +18,23 @@ public class HandleStudentImpl implements HandleStudent {
         }
     }
 
-    private Object[] inputStudentInfo() {
+    public Object[] inputStudentInfo() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("\t请输入学生姓名: ");
         String name = scanner.nextLine();
+        if (name == "")
+            name = null;
         System.out.print("\t请输入学生性别(M/F): ");
         String sex = scanner.nextLine();
+        if (sex == "")
+            sex = null;
         System.out.print("\t请输入学生年龄: ");
-        int age = Integer.parseInt(scanner.nextLine());
+        int age;
+        try {
+            age = Integer.parseInt(scanner.nextLine());
+        }catch (NumberFormatException e) {
+            age=0;
+        }
         System.out.print("\t请输入学生班级号: ");
         int classNum = Integer.parseInt(scanner.nextLine());
         System.out.print("\t请输入学生专业: ");
@@ -35,7 +44,7 @@ public class HandleStudentImpl implements HandleStudent {
         return new Object[]{name, sex, age, classNum, dept, address};
     }
 
-    private void outputStudentInfo(ArrayList<Student> student) {
+    public void outputStudentInfo(ArrayList<Student> student) {
         if (student.size() == 0)
             System.out.println("\n\t无学生信息，请先创建\n");
         else {

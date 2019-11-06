@@ -1,0 +1,613 @@
+<!DOCTYPE html><html><head>
+      <title>git-learning</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="file:////home/deltav/.vscode-server/extensions/shd101wyy.markdown-preview-enhanced-0.4.3/node_modules/@shd101wyy/mume/dependencies/katex/katex.min.css">
+      
+      
+
+      
+      
+      
+      
+      
+      
+
+      <style>
+      /**
+ * prism.js Github theme based on GitHub's theme.
+ * @author Sam Clarke
+ */
+code[class*="language-"],
+pre[class*="language-"] {
+  color: #333;
+  background: none;
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.4;
+
+  -moz-tab-size: 8;
+  -o-tab-size: 8;
+  tab-size: 8;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+  padding: .8em;
+  overflow: auto;
+  /* border: 1px solid #ddd; */
+  border-radius: 3px;
+  /* background: #fff; */
+  background: #f5f5f5;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+  padding: .1em;
+  border-radius: .3em;
+  white-space: normal;
+  background: #f5f5f5;
+}
+
+.token.comment,
+.token.blockquote {
+  color: #969896;
+}
+
+.token.cdata {
+  color: #183691;
+}
+
+.token.doctype,
+.token.punctuation,
+.token.variable,
+.token.macro.property {
+  color: #333;
+}
+
+.token.operator,
+.token.important,
+.token.keyword,
+.token.rule,
+.token.builtin {
+  color: #a71d5d;
+}
+
+.token.string,
+.token.url,
+.token.regex,
+.token.attr-value {
+  color: #183691;
+}
+
+.token.property,
+.token.number,
+.token.boolean,
+.token.entity,
+.token.atrule,
+.token.constant,
+.token.symbol,
+.token.command,
+.token.code {
+  color: #0086b3;
+}
+
+.token.tag,
+.token.selector,
+.token.prolog {
+  color: #63a35c;
+}
+
+.token.function,
+.token.namespace,
+.token.pseudo-element,
+.token.class,
+.token.class-name,
+.token.pseudo-class,
+.token.id,
+.token.url-reference .token.variable,
+.token.attr-name {
+  color: #795da3;
+}
+
+.token.entity {
+  cursor: help;
+}
+
+.token.title,
+.token.title .token.punctuation {
+  font-weight: bold;
+  color: #1d3e81;
+}
+
+.token.list {
+  color: #ed6a43;
+}
+
+.token.inserted {
+  background-color: #eaffea;
+  color: #55a532;
+}
+
+.token.deleted {
+  background-color: #ffecec;
+  color: #bd2c00;
+}
+
+.token.bold {
+  font-weight: bold;
+}
+
+.token.italic {
+  font-style: italic;
+}
+
+
+/* JSON */
+.language-json .token.property {
+  color: #183691;
+}
+
+.language-markup .token.tag .token.punctuation {
+  color: #333;
+}
+
+/* CSS */
+code.language-css,
+.language-css .token.function {
+  color: #0086b3;
+}
+
+/* YAML */
+.language-yaml .token.atrule {
+  color: #63a35c;
+}
+
+code.language-yaml {
+  color: #183691;
+}
+
+/* Ruby */
+.language-ruby .token.function {
+  color: #333;
+}
+
+/* Markdown */
+.language-markdown .token.url {
+  color: #795da3;
+}
+
+/* Makefile */
+.language-makefile .token.symbol {
+  color: #795da3;
+}
+
+.language-makefile .token.variable {
+  color: #183691;
+}
+
+.language-makefile .token.builtin {
+  color: #0086b3;
+}
+
+/* Bash */
+.language-bash .token.keyword {
+  color: #0086b3;
+}
+
+/* highlight */
+pre[data-line] {
+  position: relative;
+  padding: 1em 0 1em 3em;
+}
+pre[data-line] .line-highlight-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: transparent;
+  display: block;
+  width: 100%;
+}
+
+pre[data-line] .line-highlight {
+  position: absolute;
+  left: 0;
+  right: 0;
+  padding: inherit 0;
+  margin-top: 1em;
+  background: hsla(24, 20%, 50%,.08);
+  background: linear-gradient(to right, hsla(24, 20%, 50%,.1) 70%, hsla(24, 20%, 50%,0));
+  pointer-events: none;
+  line-height: inherit;
+  white-space: pre;
+}
+
+pre[data-line] .line-highlight:before, 
+pre[data-line] .line-highlight[data-end]:after {
+  content: attr(data-start);
+  position: absolute;
+  top: .4em;
+  left: .6em;
+  min-width: 1em;
+  padding: 0 .5em;
+  background-color: hsla(24, 20%, 50%,.4);
+  color: hsl(24, 20%, 95%);
+  font: bold 65%/1.5 sans-serif;
+  text-align: center;
+  vertical-align: .3em;
+  border-radius: 999px;
+  text-shadow: none;
+  box-shadow: 0 1px white;
+}
+
+pre[data-line] .line-highlight[data-end]:after {
+  content: attr(data-end);
+  top: auto;
+  bottom: .4em;
+}html body{font-family:"Helvetica Neue",Helvetica,"Segoe UI",Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ul,html body>ol{margin-bottom:16px}html body ul,html body ol{padding-left:2em}html body ul.no-list,html body ol.no-list{padding:0;list-style-type:none}html body ul ul,html body ul ol,html body ol ol,html body ol ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:bold;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:bold}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em !important;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::before,html body code::after{letter-spacing:-0.2em;content:"\00a0"}html body pre>code{padding:0;margin:0;font-size:.85em !important;word-break:normal;white-space:pre;background:transparent;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;font-size:.85em !important;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:before,html body pre tt:before,html body pre code:after,html body pre tt:after{content:normal}html body p,html body blockquote,html body ul,html body ol,html body dl,html body pre{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body pre,html body code{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview .pagebreak,.markdown-preview .newpage{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center !important}.markdown-preview:not([for="preview"]) .code-chunk .btn-group{display:none}.markdown-preview:not([for="preview"]) .code-chunk .status{display:none}.markdown-preview:not([for="preview"]) .code-chunk .output-div{margin-bottom:16px}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,0.66);border:4px solid rgba(150,150,150,0.66);background-clip:content-box}html body[for="html-export"]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0}@media screen and (min-width:914px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{font-size:14px !important;padding:1em}}@media print{html body[for="html-export"]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for="html-export"]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,0.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,0.66);border:4px solid rgba(150,150,150,0.66);background-clip:content-box}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc ul{padding:0 1.6em;margin-top:.8em}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc li{margin-bottom:.8em}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc ul{list-style-type:none}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% -  300px);padding:2em calc(50% - 457px -  150px);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for="html-export"]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for="html-export"]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+      </style>
+    </head>
+    <body for="html-export">
+      <div class="mume markdown-preview  ">
+      <h1 class="mume-header" id="git%E7%AC%94%E8%AE%B0">git&#x7B14;&#x8BB0;</h1>
+
+<h2 class="mume-header" id="git%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C">git&#x7684;&#x57FA;&#x672C;&#x64CD;&#x4F5C;</h2>
+
+<h3 class="mume-header" id="config%E7%9A%843%E4%B8%AA%E4%BD%9C%E7%94%A8%E5%9F%9F">config&#x7684;3&#x4E2A;&#x4F5C;&#x7528;&#x57DF;</h3>
+
+<p><strong>local</strong>:&#x53EA;&#x5BF9;&#x5F53;&#x524D;&#x4ED3;&#x5E93;&#x6709;&#x6548;<br>
+<strong>global</strong>:&#x5BF9;&#x767B;&#x5F55;&#x7528;&#x6237;&#x6240;&#x6709;&#x4ED3;&#x5E93;&#x6709;&#x6548;<br>
+<strong>system</strong>:&#x5BF9;&#x7CFB;&#x7EDF;&#x7684;&#x6240;&#x6709;&#x7528;&#x6237;&#x6709;&#x6548;</p>
+<p>3&#x4E2A;&#x4F5C;&#x7528;&#x57DF;&#x7684;&#x4F18;&#x5148;&#x7EA7;&#xFF1A;<br>
+<img src="git-priority.png" alt="git-config-priority"></p>
+<pre data-role="codeBlock" data-info="shell" class="language-shell"><span class="token function">git</span> config --list --local                       <span class="token comment"># &#x67E5;&#x770B;&#x7248;&#x672C;&#x5E93;&#x8303;&#x56F4;&#x7684;&#x6240;&#x6709;&#x8BBE;&#x7F6E;(&#x82E5;&#x4E0D;&#x6307;&#x5B9A;local&#xFF0C;&#x5219;&#x663E;&#x793A;&#x6240;&#x6709;&#x8303;&#x56F4;&#x7684;&#x8BBE;&#x7F6E;)</span>
+<span class="token function">git</span> config --list --global                      <span class="token comment"># &#x67E5;&#x770B;global&#x8303;&#x56F4;&#x7684;&#x8BBE;&#x7F6E;&#x53C2;&#x6570;</span>
+<span class="token function">git</span> config --list --system                      <span class="token comment"># &#x67E5;&#x770B;system&#x8303;&#x56F4;&#x7684;&#x8BBE;&#x7F6E;</span>
+<span class="token function">git</span> config --list user.name                     <span class="token comment"># &#x53EA;&#x663E;&#x793A;user.name&#x7684;&#x503C;</span>
+<span class="token function">git</span> config --local user.name <span class="token string">&apos;username&apos;</span>         <span class="token comment"># &#x4FEE;&#x6539;local(&#x7248;&#x672C;&#x5E93;)&#x8303;&#x56F4;&#x7684;user.name(&#x82E5;&#x4E0D;&#x52A0;&#x53D8;&#x91CF;&#x4F5C;&#x7528;&#x57DF;&#xFF0C;&#x5219;&#x9ED8;&#x8BA4;&#x4E3A;local)</span>
+<span class="token function">git</span> config --global user.email <span class="token string">&apos;email@domain&apos;</span>   <span class="token comment"># &#x4FEE;&#x6539;global&#x8303;&#x56F4;&#x7684;user.email3</span>
+<span class="token function">git</span> config --unset varname                      <span class="token comment"># &#x5220;&#x9664;&#x53D8;&#x91CF;</span>
+<span class="token function">git</span> config --local --edit                       <span class="token comment"># &#x4F7F;&#x7528;&#x6587;&#x672C;&#x7F16;&#x8F91;&#x5668;&#x7F16;&#x8F91;&#x5404;&#x57DF;&#x7684;&#x914D;&#x7F6E;&#x6587;&#x4EF6;(&#x9ED8;&#x8BA4;&#x4E3A;local)</span>
+</pre><h3 class="mume-header" id="git%E7%9A%84%E5%88%AB%E5%90%8D">git&#x7684;&#x522B;&#x540D;</h3>
+
+<p><a href="https://git-scm.com/book/zh/v2/Git-%E5%9F%BA%E7%A1%80-Git-%E5%88%AB%E5%90%8D">git&#x7684;&#x522B;&#x540D;(git-scm)</a></p>
+<pre data-role="codeBlock" data-info="shell" class="language-shell"><span class="token function">git</span> config --local alias.amend commit -a --amend
+</pre><p>&#x4E00;&#x4E0B;&#x4E24;&#x6761;&#x547D;&#x4EE4;&#x7B49;&#x4EF7;:</p>
+<pre data-role="codeBlock" data-info="shell" class="language-shell"><span class="token function">git</span> commit -a --amend
+<span class="token function">git</span> amend
+</pre><pre data-role="codeBlock" data-info="shell" class="language-shell"><span class="token function">git</span> config --global alias.visual <span class="token string">&apos;!gitk&apos;</span>        <span class="token comment"># &#x8BBE;&#x7F6E;&#x6267;&#x884C;&#x5916;&#x90E8;&#x547D;&#x4EE4;</span>
+</pre><h3 class="mume-header" id="git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4">git&#x5E38;&#x7528;&#x547D;&#x4EE4;</h3>
+
+<pre data-role="codeBlock" data-info="shell" class="language-shell"><span class="token function">git</span> init                        <span class="token comment"># &#x521D;&#x59CB;&#x5316;&#x7248;&#x672C;&#x5E93;</span>
+<span class="token function">git</span> add filename                <span class="token comment"># &#x6DFB;&#x52A0;&#x6587;&#x4EF6;&#x81F3;&#x6682;&#x5B58;&#x533A;</span>
+<span class="token function">git</span> add -u                      <span class="token comment"># &#x6DFB;&#x52A0;&#x5DF2;tracked&#x5E76;&#x4FEE;&#x6539;&#x7684;&#x6587;&#x4EF6;&#x81F3;&#x6682;&#x5B58;&#x533A;</span>
+<span class="token function">git</span> add -A                      <span class="token comment"># &#x5C06;&#x5F53;&#x524D;&#x5DE5;&#x4F5C;&#x533A;&#x7684;&#x6240;&#x6709;&#x6587;&#x4EF6;add&#x81F3;&#x6682;&#x5B58;&#x533A;</span>
+<span class="token function">git</span> commit -m <span class="token string">&apos;commit message&apos;</span>  <span class="token comment"># &#x63D0;&#x4EA4;&#x5F53;&#x524D;&#x6682;&#x5B58;&#x533A;&#x81F3;&#x5386;&#x53F2;&#x7248;&#x672C;&#x5E93;</span>
+</pre><pre data-role="codeBlock" data-info="shell" class="language-shell"><span class="token function">git</span> status                      <span class="token comment"># &#x67E5;&#x770B;&#x5DE5;&#x4F5C;&#x533A;&#x7684;&#x72B6;&#x6001;</span>
+<span class="token function">git</span> log --all --oneline --gragh <span class="token comment"># &#x67E5;&#x770B;&#x7248;&#x672C;&#x5E93;&#x7684;&#x63D0;&#x4EA4;&#x5386;&#x53F2;</span>
+                                <span class="token comment"># --all:&#x67E5;&#x770B;&#x6240;&#x6709;&#x5206;&#x652F;&#x7684;&#x63D0;&#x4EA4;&#x5386;&#x53F2;&#xFF0C;&#x9ED8;&#x8BA4;&#x4E3A;&#x5F53;&#x524D;&#x5206;&#x652F;</span>
+                                <span class="token comment"># --oneline:&#x6240;&#x6709;&#x63D0;&#x4EA4;&#x5386;&#x53F2;&#x663E;&#x793A;&#x6210;&#x4E00;&#x884C;</span>
+                                <span class="token comment"># --gragh:&#x56FE;&#x50CF;&#x5316;&#x7684;&#x663E;&#x793A;&#x63D0;&#x4EA4;&#x7684;&#x5386;&#x53F2;&#xFF0C;&#x82E5;&#x6709;all&#x9009;&#x9879;&#xFF0C;&#x5219;&#x4F1A;&#x663E;&#x793A;&#x6240;&#x6709;&#x5206;&#x652F;&#x7684;&#x6F14;&#x8FDB;&#x8FC7;&#x7A0B;</span>
+<span class="token function">git</span> log branchname              <span class="token comment"># &#x67E5;&#x770B;&#x6307;&#x5B9A;&#x5206;&#x652F;&#x7684;&#x63D0;&#x4EA4;&#x5386;&#x53F2;&#xFF0C;&#x4E0E;--all&#x4E00;&#x8D77;&#x4F7F;&#x7528;&#x5219;&#x65E0;&#x6548;</span>
+<span class="token function">git</span> branch -v                   <span class="token comment"># &#x663E;&#x793A;&#x5206;&#x652F; -v:&#x5206;&#x652F;&#x6700;&#x540E;&#x4E00;&#x6B21;&#x63D0;&#x4EA4;&#x7684;message</span>
+</pre><h3 class="mume-header" id="git%E7%9A%84%E7%BB%93%E6%9E%84">git&#x7684;&#x7ED3;&#x6784;</h3>
+
+<p><strong>&#x4E0B;&#x56FE;&#x4E2D;&#x5B58;&#x5728;&#x7684;&#x95EE;&#x9898;: git reset &lt;file&gt; &#x53EA;&#x5C06;repo&#x4E2D;&#x7684;&#x6587;&#x4EF6;&#x6062;&#x590D;&#x81F3;staging &#x800C;&#x4E0D;&#x6062;&#x590D;workspace</strong><br>
+<img src="git-operations.png" alt="git-operations"></p>
+<h3 class="mume-header" id="git%E7%9B%AE%E5%BD%95">.git&#x76EE;&#x5F55;</h3>
+
+<ul>
+<li><strong>HEAD</strong> : &#x5F53;&#x524D;&#x7684;&#x5206;&#x652F;&#x7684;&#x5F15;&#x7528;(refs/heads/master)</li>
+<li><strong>config</strong> : local&#x7684;&#x914D;&#x7F6E;&#x6587;&#x4EF6;(&#x5F53;&#x524D;&#x7248;&#x672C;&#x5E93;)</li>
+<li><strong>refs</strong> : heads &#x548C; tags</li>
+<li><strong>/refs/heads/master</strong> : master&#x6307;&#x9488;&#x6307;&#x5411;&#x7684;commit ID</li>
+<li><strong>objects</strong> &#xFF1A;git&#x7684;&#x5BF9;&#x8C61;  dirname + filename = object_ID</li>
+</ul>
+<pre data-role="codeBlock" data-info="shell" class="language-shell"><span class="token function">git</span> cat-file -t object  <span class="token comment"># &#x67E5;&#x770B;&#x8BE5;&#x5BF9;&#x8C61;&#x7684;&#x7C7B;&#x578B;(type)</span>
+<span class="token function">git</span> cat-file -p object  <span class="token comment"># &#x67E5;&#x770B;&#x8BE5;&#x5BF9;&#x8C61;&#x7684;&#x5185;&#x5BB9;</span>
+</pre><h3 class="mume-header" id="git%E7%9A%84%E5%AF%B9%E8%B1%A1">git&#x7684;&#x5BF9;&#x8C61;</h3>
+
+<ol>
+<li><strong>commit</strong>   &#x63D0;&#x4EA4;/&#x53D8;&#x66F4;</li>
+<li><strong>tree</strong>     &#x6811;</li>
+<li><strong>blob</strong>     &#x6587;&#x4EF6;</li>
+</ol>
+<h4 class="mume-header" id="%E7%BB%93%E6%9E%84%E7%A4%BA%E6%84%8F%E5%9B%BE">&#x7ED3;&#x6784;&#x793A;&#x610F;&#x56FE;</h4>
+
+<p><img src="commit-tree-blob.png" alt="commit-tree-blob"></p>
+<p>&#x4E00;&#x4E2A;tree&#x53EF;&#x4EE5;&#x5305;&#x542B;&#x591A;&#x4E2A;blob&#x548C;&#x591A;&#x4E2A;tree&#x3002;&#x4E00;&#x4E2A;tree&#x5BF9;&#x5E94;&#x4E00;&#x4E2A;&#x76EE;&#x5F55;&#xFF0C;&#x8FD9;&#x4E2A;tree&#x4F1A;&#x5305;&#x542B;&#x8FD9;&#x4E2A;&#x76EE;&#x5F55;&#x4E0B;&#x7684;&#x6240;&#x6709;blob&#x548C;tree(&#x76EE;&#x5F55;&#x7684;&#x5D4C;&#x5957;)&#x3002;<br>
+git add &#x6267;&#x884C;&#x540E;&#x4F1A;&#x5728;.git/objects/&#x4E2D;&#x521B;&#x5EFA;&#x5BF9;&#x5E94;&#x6587;&#x4EF6;&#x7684;blob&#xFF0C;commit&#x540E;&#x521B;&#x5EFA;commit&#x548C;tree</p>
+<h3 class="mume-header" id="%E5%88%86%E7%A6%BBhead%E5%A4%B4%E6%8C%87%E9%92%88">&#x5206;&#x79BB;HEAD(&#x5934;&#x6307;&#x9488;)</h3>
+
+<pre data-role="codeBlock" data-info="shell" class="language-shell"><span class="token function">git</span> checkout commitID           <span class="token comment"># &#x5207;&#x6362;HEAD&#x5230;&#x67D0;&#x4E2A;commit&#xFF0C;&#x5207;&#x6362;&#x5206;&#x652F;</span>
+</pre><p>HEAD-&gt;commitID<br>
+&#x5728;&#x6B64;&#x57FA;&#x7840;&#x4E0A;&#x80FD;&#x591F;&#x7EE7;&#x7EED;commit&#xFF0C;&#x4F46;&#x82E5;checkout&#x81F3;&#x5176;&#x4ED6;branch,&#x5219;&#x5728;&#x5934;&#x6307;&#x9488;&#x5206;&#x79BB;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#x7684;commit&#x4F1A;&#x4E22;&#x5931;&#x3002;</p>
+<h3 class="mume-header" id="%E5%88%86%E6%94%AF%E7%9A%84%E5%88%9B%E5%BB%BA">&#x5206;&#x652F;&#x7684;&#x521B;&#x5EFA;</h3>
+
+<pre data-role="codeBlock" data-info="shell" class="language-shell"><span class="token function">git</span> checkout -b branchname commitID<span class="token punctuation">(</span>branch<span class="token punctuation">)</span>         <span class="token comment"># &#x521B;&#x5EFA;&#x65B0;&#x7684;&#x5206;&#x652F;</span>
+<span class="token function">git</span> <span class="token function">diff</span> HEAD HEAD^                                 <span class="token comment"># &#x6BD4;&#x8F83;HEAD&#x548C;HEAD&#x7684;&#x7236;commit&#x7684;&#x5DEE;&#x522B;</span>
+HEAD^2                                              <span class="token comment"># &#x7B2C;2&#x4E2A;&#x7236;&#x8282;&#x70B9;</span>
+HEAD~2                                              <span class="token comment"># &#x7236;&#x8282;&#x70B9; &#x7684; &#x7236;&#x8282;&#x70B9;</span>
+</pre><p>&#x53EF;&#x4EE5;&#x57FA;&#x4E8E;&#x67D0;&#x4E2A;&#x5206;&#x652F;&#x521B;&#x5EFA;&#x65B0;&#x7684;&#x5206;&#x652F;&#xFF0C;&#x4E5F;&#x80FD;&#x57FA;&#x4E8E;&#x67D0;&#x4E2A;commit&#x521B;&#x5EFA;&#x65B0;&#x5206;&#x652F;&#x3002;HEAD&#x6307;&#x5411;&#x5206;&#x652F; == &#x6307;&#x5411;&#x90A3;&#x4E2A;&#x5206;&#x652F;&#x6700;&#x65B0;&#x7684;commit&#x3002;</p>
+<h3 class="mume-header" id="%E5%88%86%E6%94%AF%E7%9A%84%E5%88%A0%E9%99%A4">&#x5206;&#x652F;&#x7684;&#x5220;&#x9664;</h3>
+
+<pre data-role="codeBlock" data-info="shell" class="language-shell"><span class="token function">git</span> branch -d branch_name       <span class="token comment"># &#x5220;&#x9664;&#x6307;&#x5B9A;&#x7684;&#x5206;&#x652F;</span>
+<span class="token function">git</span> branch -D branch_name       <span class="token comment"># &#x5F3A;&#x5236;&#x5220;&#x9664;&#x8BE5;&#x5206;&#x652F;</span>
+</pre><p>&#x4F7F;&#x7528;-d &#x5728;&#x5220;&#x9664;&#x524D;Git&#x4F1A;&#x5224;&#x65AD;&#x5728;&#x8BE5;&#x5206;&#x652F;&#x4E0A;&#x5F00;&#x53D1;&#x7684;&#x529F;&#x80FD;&#x662F;&#x5426;&#x88AB;merge&#x7684;&#x5176;&#x5B83;&#x5206;&#x652F;&#x3002;&#x5982;&#x679C;&#x6CA1;&#x6709;&#xFF0C;&#x4E0D;&#x80FD;&#x5220;&#x9664;&#x3002;&#x5982;&#x679C;merge&#x5230;&#x5176;&#x5B83;&#x5206;&#x652F;&#xFF0C;&#x4F46;&#x4E4B;&#x540E;&#x53C8;&#x5728;&#x5176;&#x4E0A;&#x505A;&#x4E86;&#x5F00;&#x53D1;&#xFF0C;&#x4F7F;&#x7528;-d&#x8FD8;&#x662F;&#x4E0D;&#x80FD;&#x5220;&#x9664;&#x3002;-D&#x4F1A;&#x5F3A;&#x5236;&#x5220;&#x9664;&#x3002;</p>
+<h3 class="mume-header" id="commit-message%E7%9A%84%E4%BF%AE%E6%94%B9">commit message&#x7684;&#x4FEE;&#x6539;</h3>
+
+<pre data-role="codeBlock" data-info="shell" class="language-shell"><span class="token function">git</span> commit --amend              <span class="token comment"># &#x4FEE;&#x6539;&#x6700;&#x8FD1;&#x4E00;&#x6B21;commit&#x3002;&#x82E5;stage&#x4E2D;&#x6709;&#x5185;&#x5BB9;&#xFF0C;&#x5219;&#x4F1A;&#x5C06;&#x8FD9;&#x4E9B;stage&#x4E2D;&#x7684;&#x6587;&#x4EF6;&#x5408;&#x5E76;&#x81F3;&#x4E0A;&#x4E00;&#x6B21;&#x7684;commit&#x4E2D;&#x3002;</span>
+                                <span class="token comment"># &#x8BE5;commit&#x5728;&#x4FEE;&#x6539;&#x540E;commitID&#x4F1A;&#x53D1;&#x751F;&#x53D8;&#x5316;&#xFF0C;&#x56E0;&#x4E3A;message&#x4F5C;&#x4E3A;commit&#x7684;&#x4E00;&#x4E2A;&#x5C5E;&#x6027;&#x53D1;&#x751F;&#x53D8;&#x5316;&#x540E;,commit hash&#x53D1;&#x751F;&#x4E86;&#x53D8;&#x5316;</span>
+<span class="token function">git</span> rebase -i parentCommitID    <span class="token comment"># &#x4FEE;&#x6539;&#x4EFB;&#x610F;&#x4E00;&#x6B21;&#x7684;commit parentCommitID&#x4E3A;&#x7236;commitID</span>
+</pre><p>&#x8FDB;&#x5165;rebase&#x4EA4;&#x4E92;&#x6A21;&#x5F0F;&#x540E;&#xFF0C;&#x4FEE;&#x6539;&#x9700;&#x8981;&#x4FEE;&#x6539;&#x7684;commit&#x524D;&#x7684;pick&#x4E3A;r,&#x968F;&#x540E;:wq,&#x5C06;&#x5206;&#x79BB;HEAD&#x81F3;&#x8BE5;commit&#xFF0C;&#x81EA;&#x52A8;&#x8C03;&#x7528;vim&#x7F16;&#x8F91;&#x8BE5;<code>commit(.git/COMMIT_EDITMSG)</code>,:wq&#x540E;&#x4F1A;&#x91CD;&#x5EFA;&#x6240;&#x6709;&#x540E;&#x7EED;commit&#xFF0C;commitID&#x4F1A;&#x53D1;&#x751F;&#x53D8;&#x5316;</p>
+<h3 class="mume-header" id="%E5%A4%9A%E4%B8%AAcommit%E5%90%88%E5%B9%B6%E4%B8%BA%E4%B8%80%E4%B8%AAcommit">&#x591A;&#x4E2A;commit&#x5408;&#x5E76;&#x4E3A;&#x4E00;&#x4E2A;commit</h3>
+
+<pre data-role="codeBlock" data-info="shell" class="language-shell"><span class="token function">git</span> rebase -i parentCommit
+squash commitID
+</pre><p>git rebase -i &#x5F00;&#x59CB;commit [&#x7ED3;&#x675F;commit], &#x5728;&#x6267;&#x884C;&#x8FD9;&#x4E2A;&#x547D;&#x4EE4;&#x65F6;&#xFF0C;<br>
+&#x5982;&#x679C;&#x6CA1;&#x6709;&#x6307;&#x5B9A; &#x7ED3;&#x675F;commit,&#x90A3;&#x4E48;&#x7ED3;&#x675F;commit &#x9ED8;&#x8BA4;&#x4E3A;&#x5F53;&#x524D;&#x5206;&#x652F;&#x6700;&#x65B0;&#x7684; commit&#xFF0C;&#x90A3;&#x4E48;rebase &#x7ED3;&#x675F;&#x540E;&#x4F1A;&#x81EA;&#x52A8;&#x66F4;&#x65B0;&#x5F53;&#x524D;&#x5206;&#x652F;&#x6307;&#x5411;&#x7684; commit,<br>
+&#x5982;&#x679C;&#x6307;&#x5B9A;&#x4E86;&#x7ED3;&#x675F; commit&#xFF0C;&#x800C;&#x4E14;&#x7ED3;&#x675F; commit&#x4E0D;&#x662F;&#x5F53;&#x524D;&#x5206;&#x652F;&#x6700;&#x65B0;&#x7684; commit&#xFF0C;&#x90A3;&#x4E48;rebase &#x540E;&#x4F1A;&#x6709;&#x751F;&#x6210;&#x4E00;&#x4E2A; &#x6E38;&#x79BB;&#x7684; HEAD&#xFF0C;&#x800C;&#x4E14;&#x5F53;&#x524D;&#x5206;&#x652F;&#x6307;&#x5411;&#x7684;commit &#x4E0D;&#x4F1A;&#x66F4;&#x65B0;</p>
+<h3 class="mume-header" id="%E4%B8%8D%E8%BF%9E%E7%BB%AD%E7%9A%84commit%E7%9A%84%E5%90%88%E5%B9%B6">&#x4E0D;&#x8FDE;&#x7EED;&#x7684;commit&#x7684;&#x5408;&#x5E76;</h3>
+
+<p>&#x5728;<code>rebase -i</code>&#x4E2D;&#xFF0C;&#x8C03;&#x6574;commit&#x7684;&#x987A;&#x5E8F;&#x540E;&#x518D;sqaush<br>
+?&#x6587;&#x4EF6;&#x7684;&#x53D8;&#x66F4;&#x5386;&#x53F2;&#x53D1;&#x751F;&#x4E86;&#x53D8;&#x5316;&#xFF0C;&#x6587;&#x4EF6;&#x5185;&#x5BB9;&#x662F;&#x5426;&#x4E0D;&#x5B8C;&#x6574;&#xFF0C;&#x5F71;&#x54CD;&#x6B63;&#x5E38;&#x7406;&#x89E3;</p>
+<h3 class="mume-header" id="git-diff">git diff</h3>
+
+<pre data-role="codeBlock" data-info="shell" class="language-shell"><span class="token function">git</span> <span class="token function">diff</span> --cached                               <span class="token comment"># &#x6BD4;&#x8F83;&#x6682;&#x5B58;&#x533A;&#x548C;HEAD(&#x5F53;&#x524D;&#x5206;&#x652F;)&#x4E4B;&#x95F4;&#x7684;&#x5DEE;&#x5F02;</span>
+<span class="token function">git</span> <span class="token function">diff</span> --staged
+<span class="token function">git</span> <span class="token function">diff</span> <span class="token punctuation">[</span>filename<span class="token punctuation">]</span>                             <span class="token comment"># &#x6BD4;&#x8F83;&#x5DE5;&#x4F5C;&#x533A;&#x548C;&#x6682;&#x5B58;&#x533A;&#x4E4B;&#x95F4;&#x7684;&#x5DEE;&#x5F02;</span>
+<span class="token function">git</span> <span class="token function">diff</span> HEAD <span class="token punctuation">[</span>filename<span class="token punctuation">]</span>                        <span class="token comment"># &#x6BD4;&#x8F83;&#x5DE5;&#x4F5C;&#x533A;&#x4E0E;HEAD&#x4E4B;&#x95F4;&#x7684;&#x5DEE;&#x5F02;</span>
+<span class="token function">git</span> <span class="token function">diff</span> commitID_old commitID_new <span class="token punctuation">[</span>filename<span class="token punctuation">]</span>   <span class="token comment"># &#x540E;&#x8FB9;&#x7684;commit&#x4E0E;&#x524D;&#x8FB9;&#x7684;commit&#x505A;&#x5BF9;&#x6BD4;&#xFF0C;&#x53EF;&#x4EE5;&#x6307;&#x5B9A;&#x5BF9;&#x6BD4;&#x7684;&#x6587;&#x4EF6;</span>
+</pre><h3 class="mume-header" id="git-reset-git-checkout">git reset &amp; git checkout</h3>
+
+<pre data-role="codeBlock" data-info="shell" class="language-shell"><span class="token function">git</span> reset --soft commitID           <span class="token comment"># &#x5C06;HEAD&#x7684;&#x5F15;&#x7528;(&#x5373;&#x5F53;&#x524D;&#x5206;&#x652F;)&#x6307;&#x5411;commit</span>
+<span class="token function">git</span> reset <span class="token punctuation">[</span>--mixed<span class="token punctuation">]</span> commitID        <span class="token comment"># &#x5C06;HEAD&#x7684;&#x5F15;&#x7528;(&#x5373;&#x5F53;&#x524D;&#x5206;&#x652F;)&#x6307;&#x5411;commit,&#x5E76;&#x5C06;&#x6682;&#x5B58;&#x533A;&#x7684;&#x5185;&#x5BB9;&#x540C;&#x6B65;&#x6210;commit&#x7684;&#x5185;&#x5BB9;(commit--&gt;stage)</span>
+<span class="token function">git</span> reset --hard commitID           <span class="token comment"># &#x5C06;HEAD&#x7684;&#x5F15;&#x7528;(&#x5373;&#x5F53;&#x524D;&#x5206;&#x652F;)&#x6307;&#x5411;commit,&#x4F7F;&#x6682;&#x5B58;&#x533A;&#x548C;&#x5DE5;&#x4F5C;&#x533A;&#x7684;&#x5185;&#x5BB9;&#x90FD;&#x6062;&#x590D;&#x6210;commitID&#x7684;&#x5185;&#x5BB9;&#xFF0C;&#xFF01;&#x201C;&#x5DE5;&#x4F5C;&#x533A;&#x5371;&#x9669;&#x201D;&#x547D;&#x4EE4;&#xFF01;&#xFF0C;&#x4F1A;&#x4E22;&#x5931;&#x5DE5;&#x4F5C;&#x533A;&#x4E2D;&#x7684;&#x5185;&#x5BB9;&#xFF01;</span>
+                                    <span class="token comment"># &#x7B49;&#x4EF7;&#x4E8E; &#x5220;&#x9664;&#x4E86;commitID&#x540E;&#x7684;&#x6240;&#x6709;commit&#xFF0C;HEAD/ref-&gt;commitID,&#x5E76;&#x4F7F;&#x6682;&#x5B58;&#x533A;&#x548C;&#x5DE5;&#x4F5C;&#x533A;&#x90FD;&#x540C;&#x6B65;&#x6210;HEAD</span>
+<span class="token function">git</span> reset <span class="token punctuation">[</span>commitID<span class="token punctuation">]</span> filename       <span class="token comment"># file level,&#x6709;filename&#x65F6;&#x6062;&#x590D;&#x6682;&#x5B58;&#x533A;&#x4E2D;&#x8BE5;&#x6587;&#x4EF6;&#x4E3A;commit&#x4E2D;&#x7684;&#x5185;&#x5BB9;(&#x5BF9;&#x6682;&#x5B58;&#x533A;&#x64CD;&#x4F5C;)(commit&#x7F3A;&#x7701;&#x503C;&#x4E3A;HEAD)</span>
+
+<span class="token function">git</span> checkout commitID               <span class="token comment"># &#x5C06;&#x5386;&#x53F2;&#x5E93;&#x4E2D;&#x7684;&#x5185;&#x5BB9;&#x8986;&#x76D6;&#x81F3;WD&amp;index(&#x5207;&#x6362;&#x5206;&#x652F;)</span>
+<span class="token function">git</span> checkout <span class="token punctuation">[</span>commitID<span class="token punctuation">]</span> filename    <span class="token comment"># file level,&#x5C06;commit&#x7684;&#x5185;&#x5BB9;&#x8986;&#x76D6;&#x5230;index&#x548C;workdir(commit--&gt;index/workspace)(&#x5BF9;&#x5DE5;&#x4F5C;&#x533A;&#x548C;&#x6682;&#x5B58;&#x533A;&#x64CD;&#x4F5C;)(commit&#x7F3A;&#x7701;&#x503C;&#x4E3A;HEAD)</span>
+</pre><blockquote>
+<p>&#x4E0B;&#x9762;&#x7684;&#x901F;&#x67E5;&#x8868;&#x5217;&#x51FA;&#x4E86;&#x547D;&#x4EE4;&#x5BF9;&#x6811;&#x7684;&#x5F71;&#x54CD;&#x3002; &#x201C;HEAD&#x201D; &#x4E00;&#x5217;&#x4E2D;&#x7684; &#x201C;REF&#x201D; &#x8868;&#x793A;&#x8BE5;&#x547D;&#x4EE4;&#x79FB;&#x52A8;&#x4E86; HEAD &#x6307;&#x5411;&#x7684;&#x5206;&#x652F;&#x5F15;&#x7528;&#xFF0C;&#x800C; &#x201C;HEAD&#x201D; &#x5219;&#x8868;&#x793A;&#x53EA;&#x79FB;&#x52A8;&#x4E86; HEAD &#x81EA;&#x8EAB;&#x3002; &#x7279;&#x522B;&#x6CE8;&#x610F; WD Safe? &#x4E00;&#x5217;&#x2014;&#x2014;&#x5982;&#x679C;&#x5B83;&#x6807;&#x8BB0;&#x4E3A; NO&#xFF0C;&#x90A3;&#x4E48;&#x8FD0;&#x884C;&#x8BE5;&#x547D;&#x4EE4;&#x4E4B;&#x524D;&#x8BF7;&#x8003;&#x8651;&#x4E00;&#x4E0B;&#x3002;</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>HEAD</th>
+<th style="text-align:center">Index</th>
+<th style="text-align:center">Workdir</th>
+<th style="text-align:center">WD Safe?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Commit Level</strong></td>
+<td></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>reset --soft [commit]</td>
+<td>REF</td>
+<td style="text-align:center">NO</td>
+<td style="text-align:center">NO</td>
+<td style="text-align:center">YES</td>
+</tr>
+<tr>
+<td>reset [commit]</td>
+<td>REF</td>
+<td style="text-align:center">YES</td>
+<td style="text-align:center">NO</td>
+<td style="text-align:center">YES</td>
+</tr>
+<tr>
+<td>reset --hard [commit]</td>
+<td>REF</td>
+<td style="text-align:center">YES</td>
+<td style="text-align:center">YES</td>
+<td style="text-align:center">NO</td>
+</tr>
+<tr>
+<td>checkout [commit]</td>
+<td>HEAD</td>
+<td style="text-align:center">YES</td>
+<td style="text-align:center">YES</td>
+<td style="text-align:center">YES</td>
+</tr>
+<tr>
+<td><strong>File Level</strong></td>
+<td></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>reset (commit) [file]</td>
+<td>NO</td>
+<td style="text-align:center">YES</td>
+<td style="text-align:center">NO</td>
+<td style="text-align:center">YES</td>
+</tr>
+<tr>
+<td>checkout (commit) [file]</td>
+<td>NO</td>
+<td style="text-align:center">YES</td>
+<td style="text-align:center">YES</td>
+<td style="text-align:center">NO</td>
+</tr>
+</tbody>
+</table>
+<p><strong><a href="https://git-scm.com/book/zh/v2/Git-%E5%B7%A5%E5%85%B7-%E9%87%8D%E7%BD%AE%E6%8F%AD%E5%AF%86">&#x66F4;&#x8BE6;&#x7EC6;&#x7684;&#x89E3;&#x91CA;&#xFF0C;&#x5173;&#x4E8E;reset&#x548C;checkout</a></strong></p>
+<h3 class="mume-header" id="git-rm">git rm</h3>
+
+<pre data-role="codeBlock" data-info="shell" class="language-shell"><span class="token function">git</span> <span class="token function">rm</span> filename                     <span class="token comment"># &#x5C06;&#x6682;&#x5B58;&#x533A;&#x548C;&#x5DE5;&#x4F5C;&#x533A;&#x4E2D;&#x7684;&#x8BE5;&#x6587;&#x4EF6;&#x5220;&#x9664;</span>
+<span class="token function">git</span> <span class="token function">rm</span> --cached filename            <span class="token comment"># &#x5C06;&#x6682;&#x5B58;&#x533A;&#x4E2D;&#x7684;&#x8BE5;&#x6587;&#x4EF6;&#x5220;&#x9664;</span>
+<span class="token function">git</span> ls-files                        <span class="token comment"># &#x67E5;&#x770B;&#x6682;&#x5B58;&#x533A;&#x4E2D;&#x7684;&#x6587;&#x4EF6;</span>
+</pre><p>commit&#x4E4B;&#x540E;&#x6587;&#x4EF6;&#x4F1A;&#x4ECE;&#x7248;&#x672C;&#x5E93;&#x4E2D;&#x5220;&#x9664;</p>
+<h3 class="mume-header" id="git-stash">git stash</h3>
+
+<dl>
+<dt><code>git stash</code>&#x9ED8;&#x8BA4;&#x60C5;&#x51B5;&#x7F13;&#x5B58;&#x4EE5;&#x4E0B;&#x6587;&#x4EF6;&#xFF1A;</dt>
+<dd>
+<p>git&#x8DDF;&#x8E2A;&#x7684;&#x4F46;&#x672A;&#x6DFB;&#x52A0;&#x5230;&#x6682;&#x5B58;&#x533A;&#x7684;&#x4FEE;&#x6539;</p>
+</dd>
+<dd>
+<p>&#x6DFB;&#x52A0;&#x5230;&#x6682;&#x5B58;&#x533A;&#x7684;&#x4FEE;&#x6539;<br>
+&#x4E0D;&#x4F1A;&#x7F13;&#x5B58;&#x4EE5;&#x4E0B;&#x6587;&#x4EF6;&#xFF1A;</p>
+</dd>
+<dd>
+<p>&#x5728;&#x5DE5;&#x4F5C;&#x76EE;&#x5F55;&#x4E2D;&#x7684;&#x65B0;&#x6587;&#x4EF6;</p>
+</dd>
+<dd>
+<p>&#x88AB;&#x5FFD;&#x7565;&#x7684;&#x6587;&#x4EF6;</p>
+</dd>
+</dl>
+<pre data-role="codeBlock" data-info="shell" class="language-shell"><span class="token function">git</span> stash                   <span class="token comment"># &#x5C06; git&#x8DDF;&#x8E2A;&#x7684;&#x4F46;&#x672A;&#x6DFB;&#x52A0;&#x5230;&#x6682;&#x5B58;&#x533A;&#x7684;&#x4FEE;&#x6539; &#x6DFB;&#x52A0;&#x5230;&#x6682;&#x5B58;&#x533A;&#x7684;&#x4FEE;&#x6539; &#x7F13;&#x5B58;&#x81F3;stash list &#x4E2D;</span>
+<span class="token function">git</span> stash list              <span class="token comment"># &#x67E5;&#x770B;&#x7F13;&#x5B58;&#x4E2D;&#x7684;&#x5185;&#x5BB9;</span>
+<span class="token function">git</span> stash pop <span class="token punctuation">[</span>stash@<span class="token punctuation">{</span>0<span class="token punctuation">}</span><span class="token punctuation">]</span>   <span class="token comment"># &#x5C06;&#x4E00;&#x4E2A;stash&#x6062;&#x590D;&#xFF0C;&#x7F3A;&#x7701;&#x503C;&#x4E3A;&#x6700;&#x8FD1;&#x4E00;&#x4E2A;(stash@{0}),&#x5E76;&#x5728;list&#x4E2D;&#x5220;&#x9664;&#x8BE5;stash</span>
+<span class="token function">git</span> stash apply <span class="token punctuation">[</span>stash@<span class="token punctuation">{</span>0<span class="token punctuation">}</span><span class="token punctuation">]</span> <span class="token comment"># &#x5C06;&#x4E00;&#x4E2A;stash&#x6062;&#x590D;&#xFF0C;&#x7F3A;&#x7701;&#x503C;&#x4E3A;&#x6700;&#x8FD1;&#x4E00;&#x4E2A;(stash@{0}),list&#x4E2D;&#x4E0D;&#x4F1A;&#x5220;&#x9664;&#x8BE5;stash</span>
+</pre><h3 class="mume-header" id="gitignore">.gitignore</h3>
+
+<blockquote>
+<p>The problem is that <strong>.gitignore ignores just files that weren&apos;t tracked before (by git add)</strong>. Run git reset name_of_file to unstage the file and keep it. In case you want to also remove given file from the repository (after pushing), use git rm --cached name_of_file.</p>
+</blockquote>
+<p>.gitignore&#x53EA;&#x5FFD;&#x7565;&#x672A;&#x88AB;&#x8DDF;&#x8E2A;(<code>git add filename</code>)&#x7684;&#x6587;&#x4EF6;<br>
+add&#x540E;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;<code>git reset filename</code>&#x6765;unstage,&#x5373;&#x5C06;&#x7248;&#x672C;&#x5E93;&#x4E2D;&#x7684;&#x8BE5;&#x6587;&#x4EF6;&#x8986;&#x76D6;&#x81F3;index&#x4E2D;&#xFF0C;&#x4F46;&#x56E0;&#x4E3A;HEAD&#x4E2D;&#x6CA1;&#x6709;&#x8BE5;&#x6587;&#x4EF6;&#xFF0C;&#x6240;&#x4EE5;index&#x4E2D;&#x4E5F;&#x6CA1;&#x6709;&#x8BE5;&#x6587;&#x4EF6;&#xFF0C;&#x7B49;&#x4EF7;&#x4E8E;unstage&#x3002;&#x4E5F;&#x80FD;&#x901A;&#x8FC7;<code>git rm --cached filename</code>&#x5C06;index&#x4E2D;&#x7684;&#x6587;&#x4EF6;&#x5220;&#x9664;,&#x6765;&#x5B9E;&#x73B0;unstage<br>
+&#x5982;&#x679C;&#x5DF2;&#x7ECF;&#x5C06;&#x9700;&#x8981;ignore&#x7684;&#x6587;&#x4EF6;commit,&#x53EF;&#x4EE5;&#x901A;&#x8FC7;git rm --cached filename&#x5C06;index&#x4E2D;&#x7684;&#x8BE5;&#x6587;&#x4EF6;&#x5220;&#x9664;&#xFF0C;&#x7136;&#x540E;&#x518D;<code>git commit --amend</code></p>
+<pre data-role="codeBlock" data-info="shell" class="language-shell">.gitignore:
+*.class         <span class="token comment"># &#x5FFD;&#x7565;&#x7684;&#x6587;&#x4EF6;</span>
+.idea/          <span class="token comment"># &#x5FFD;&#x7565;&#x76EE;&#x5F55;&#x4E0B;&#x7684;&#x6240;&#x6709;&#x6587;&#x4EF6;</span>
+<span class="token operator">!</span>.git/*         <span class="token comment"># &#x4E0D;&#x5FFD;&#x7565;&#x8BE5;&#x76EE;&#x5F55;&#x4E0B;&#x7684;&#x6240;&#x6709;&#x6587;&#x4EF6;</span>
+</pre><h3 class="mume-header" id="git%E7%9A%84%E5%A4%87%E4%BB%BD">git&#x7684;&#x5907;&#x4EFD;</h3>
+
+<p><img src="git-backup.png" alt="git backup"></p>
+<pre data-role="codeBlock" data-info="shell" class="language-shell"><span class="token function">git</span> clone <span class="token punctuation">[</span>--bare<span class="token punctuation">]</span> url                        <span class="token comment"># &#x4ECE;&#x8FDC;&#x7AEF;clone&#x4E00;&#x4E2A;&#x4ED3;&#x5E93;</span>
+</pre><p>--bare &#x6307;clone&#x88F8;&#x4ED3;&#x5E93;&#xFF0C;&#x5176;&#x4E2D;&#x5305;&#x542B;&#x6240;&#x6709;&#x5206;&#x652F;&#x3002;&#x5426;&#x5219;&#x53EA;&#x5305;&#x542B;&#x8FDC;&#x7AEF;&#x4ED3;&#x5E93;&#x7684;&#x5F53;&#x524D;&#x5206;&#x652F;&#x3002;</p>
+<pre data-role="codeBlock" data-info="shell" class="language-shell"><span class="token function">git</span> remote -v                               <span class="token comment"># &#x67E5;&#x770B;&#x8FDC;&#x7A0B;&#x7248;&#x672C;&#x5E93;&#x4FE1;&#x606F;</span>
+<span class="token function">git</span> remote add reponame url                 <span class="token comment"># &#x6DFB;&#x52A0;remote</span>
+<span class="token function">git</span> push reponame branchname                <span class="token comment"># push &#x6307;&#x5B9A;&#x7684;&#x5206;&#x652F;</span>
+<span class="token function">git</span> push reponame --all                     <span class="token comment"># push &#x6240;&#x6709;&#x5206;&#x652F;</span>
+</pre><h3 class="mume-header" id="git-fetch">git fetch</h3>
+
+<p>&#x5C06;&#x8FDC;&#x7AEF;&#x7684;&#x4ED3;&#x5E93;&#x62C9;&#x81F3;&#x672C;&#x5730;&#xFF0C;&#x4F46;<strong>&#x4E0D;&#x6267;&#x884C;merge</strong>&#x64CD;&#x4F5C;<br>
+<code>git fetch reponame</code></p>
+<h3 class="mume-header" id="git-pull">git pull</h3>
+
+<p>&#x5C06;&#x8FDC;&#x7AEF;&#x7684;&#x4ED3;&#x5E93;&#x62C9;&#x81F3;&#x672C;&#x5730;&#xFF0C;&#x5E76;<strong>&#x6267;&#x884C;merge</strong>&#x64CD;&#x4F5C;</p>
+<p>rebase&#x540E;&#x5BFC;&#x81F4;HEAD&#x548C;remote&#x4E0D;&#x662F;fast-forward,&#x53EA;&#x80FD;rebase remote&#x540E;&#x7684;commit?&#x4E5F;&#x4E0D;&#x80FD;&#x4F7F;&#x7528;amend(rebase&#x5B9E;&#x73B0;)</p>
+<h3 class="mume-header" id="git-%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7from-pegasuswang">git &#x4F7F;&#x7528;&#x6280;&#x5DE7;(from PegasusWang)</h3>
+
+<pre data-role="codeBlock" data-info="shell" class="language-shell"><span class="token function">alias</span> gco<span class="token operator">=</span><span class="token string">&apos;git checkout&apos;</span>
+<span class="token function">alias</span> ga<span class="token operator">=</span><span class="token string">&apos;git add&apos;</span>
+<span class="token function">alias</span> gcm<span class="token operator">=</span><span class="token string">&apos;git commit -m&apos;</span>
+</pre><p><a href="https://www.bilibili.com/video/av63256332">av63256332</a></p>
+<h3 class="mume-header" id="git-%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86">git &#x8BBE;&#x7F6E;&#x4EE3;&#x7406;</h3>
+
+<pre data-role="codeBlock" data-info="shell" class="language-shell"><span class="token function">git</span> config --global http.proxy socks5://127.0.0.1:1080
+</pre><h3 class="mume-header" id="git%E7%9A%84%E9%BB%98%E8%AE%A4%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8">git&#x7684;&#x9ED8;&#x8BA4;&#x6587;&#x672C;&#x7F16;&#x8F91;&#x5668;</h3>
+
+<pre data-role="codeBlock" data-info="shell" class="language-shell"><span class="token function">git</span> config --global core.editor <span class="token string">&quot;vim&quot;</span>
+</pre><hr>
+<h2 class="mume-header" id="%E5%A4%9A%E4%BA%BA%E5%90%88%E4%BD%9C">&#x591A;&#x4EBA;&#x5408;&#x4F5C;</h2>
+
+<h3 class="mume-header" id="%E5%8F%8C%E6%96%B9%E4%BF%AE%E6%94%B9%E4%BA%86%E4%B8%8D%E5%90%8C%E7%9A%84%E6%96%87%E4%BB%B6">&#x53CC;&#x65B9;&#x4FEE;&#x6539;&#x4E86;&#x4E0D;&#x540C;&#x7684;&#x6587;&#x4EF6;</h3>
+
+<p>&#x56E0;&#x4E3A;&#x4E0D;&#x5B58;&#x5728;&#x51B2;&#x7A81;&#xFF0C;&#x6240;&#x4EE5;&#x80FD;&#x591F;auto-merge&#x3002;<br>
+<code>git fetch &amp;&amp; git merge ; git pull</code></p>
+<blockquote>
+<p>&#x5982;&#x679C;&#x5728;&#x8FDB;&#x884C;git push&#x4E4B;&#x524D;&#x53D1;&#x73B0;&#x8FDC;&#x7A0B;&#x53C8;&#x6709;&#x4E86;&#x66F4;&#x65B0;&#xFF0C;&#x6BD4;&#x8F83;&#x597D;&#x7684;&#x505A;&#x6CD5;&#x5E94;&#x8BE5;&#x662F;&#xFF0C;&#x5C06;&#x672C;&#x5730;&#x7684;&#x63D0;&#x4EA4;&#x56DE;&#x9000;&#x6389;&#xFF0C;&#x907F;&#x514D;&#x6389;&#x65E0;&#x7528;&#x7684;&#x8FDC;&#x7A0B;merge&#x672C;&#x5730;&#x5206;&#x652F;&#x7684;&#x63D0;&#x4EA4;&#x8BB0;&#x5F55;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x5982;&#x4E0B;&#x547D;&#x4EE4;&#xFF1A;<br>
+1.git reset HEAD~<br>
+2.git pull<br>
+&#x7136;&#x540E;&#x91CD;&#x65B0;&#x8FDB;&#x884C;&#x65B0;&#x7684;&#x63D0;&#x4EA4;&#xFF0C;&#x8FD9;&#x6837;&#x5C31;&#x53EF;&#x4EE5;&#x907F;&#x514D;&#x6389;&#x8FDC;&#x7A0B;&#x4E0E;&#x672C;&#x5730;&#x5206;&#x652F;&#x7684;merge&#x63D0;&#x4EA4;&#x8BB0;&#x5F55;&#xFF0C;&#x8BA9;git&#x7684;&#x63D0;&#x4EA4;&#x5386;&#x53F2;&#x66F4;&#x52A0;&#x5E72;&#x51C0;</p>
+<blockquote>
+<p>&#x6216;&#x8005;&#x628A;&#x672C;&#x5730;&#x7684;&#x63D0;&#x4EA4;&#x57FA;&#x4E8E;&#x8FDC;&#x7AEF;&#x5206;&#x652F;&#x505A; rebase &#xFF0C;&#x5728;&#x672C;&#x5730;&#x89E3;&#x51B3;&#x6389;&#x51B2;&#x7A81;&#x5E76;&#x5B8C;&#x6210;&#x81EA;&#x6D4B;&#x3002;</p>
+</blockquote>
+</blockquote>
+<h3 class="mume-header" id="%E5%8F%8C%E6%96%B9%E4%BF%AE%E6%94%B9%E4%BA%86%E5%90%8C%E4%B8%80%E6%96%87%E4%BB%B6%E7%9A%84%E4%B8%8D%E5%90%8C%E5%8C%BA%E5%9F%9F">&#x53CC;&#x65B9;&#x4FEE;&#x6539;&#x4E86;&#x540C;&#x4E00;&#x6587;&#x4EF6;&#x7684;&#x4E0D;&#x540C;&#x533A;&#x57DF;</h3>
+
+<p>&#x56E0;&#x4E3A;&#x4E0D;&#x5B58;&#x5728;&#x51B2;&#x7A81;&#xFF0C;git&#x4E5F;&#x80FD;&#x591F;auto-merge,&#x6267;&#x884C;git pull &amp;&amp; git push</p>
+<h3 class="mume-header" id="%E5%8F%8C%E6%96%B9%E4%BF%AE%E6%94%B9%E4%BA%86%E5%90%8C%E4%B8%80%E6%96%87%E4%BB%B6%E7%9A%84%E5%90%8C%E4%B8%80%E5%8C%BA%E5%9F%9F">&#x53CC;&#x65B9;&#x4FEE;&#x6539;&#x4E86;&#x540C;&#x4E00;&#x6587;&#x4EF6;&#x7684;&#x540C;&#x4E00;&#x533A;&#x57DF;</h3>
+
+<p>&#x6B64;&#x65F6;git&#x65E0;&#x6CD5;&#x51B3;&#x5B9A;&#x4FDD;&#x7559;&#x54EA;&#x4E2A;&#x66F4;&#x6539;&#xFF0C;&#x6240;&#x4EE5;&#x65E0;&#x6CD5;auto-merge,&#x9700;&#x8981;&#x624B;&#x52A8;&#x89E3;&#x51B3;&#x51B2;&#x7A81;&#x540E;&#xFF0C;&#x518D;<br>
+<code>git add &amp;&amp; git commit</code><br>
+&#x6216;<br>
+<code>git add &amp;&amp; git merge --continue</code></p>
+<h3 class="mume-header" id="%E5%90%8C%E6%97%B6%E4%BF%AE%E6%94%B9%E4%BA%86%E4%B8%80%E4%B8%AA%E6%96%87%E4%BB%B6%E7%9A%84%E6%96%87%E4%BB%B6%E5%90%8D%E5%92%8C%E5%86%85%E5%AE%B9">&#x540C;&#x65F6;&#x4FEE;&#x6539;&#x4E86;&#x4E00;&#x4E2A;&#x6587;&#x4EF6;&#x7684;&#x6587;&#x4EF6;&#x540D;&#x548C;&#x5185;&#x5BB9;</h3>
+
+<p>git&#x80FD;&#x591F;&#x81EA;&#x52A8;merge rename &#x548C; &#x5185;&#x5BB9;&#x53D8;&#x66F4;</p>
+<h3 class="mume-header" id="%E5%90%8C%E4%B8%80%E6%96%87%E4%BB%B6%E6%94%B9%E6%88%90%E4%BA%86%E4%B8%8D%E5%90%8C%E7%9A%84%E6%96%87%E4%BB%B6%E5%90%8D">&#x540C;&#x4E00;&#x6587;&#x4EF6;&#x6539;&#x6210;&#x4E86;&#x4E0D;&#x540C;&#x7684;&#x6587;&#x4EF6;&#x540D;</h3>
+
+<p>&#x9700;&#x8981;&#x624B;&#x52A8;git rm &#x4E0D;&#x9700;&#x8981;&#x7684;&#x6587;&#x4EF6;&#xFF0C;&#x89E3;&#x51B3;&#x51B2;&#x7A81;&#x540E;&#x518D;<code>git commit -am&apos;message&apos;</code></p>
+<h3 class="mume-header" id="%E5%A4%9A%E4%BA%BA%E5%BC%80%E5%8F%91%E4%B8%AD%E5%BA%94%E9%81%BF%E5%85%8D%E7%9A%84%E6%93%8D%E4%BD%9C">&#x591A;&#x4EBA;&#x5F00;&#x53D1;&#x4E2D;&#x5E94;&#x907F;&#x514D;&#x7684;&#x64CD;&#x4F5C;</h3>
+
+<h4 class="mume-header" id="%E5%90%91%E9%9B%86%E6%88%90%E5%88%86%E6%94%AF%E6%89%A7%E8%A1%8Cpush-f">&#x5411;&#x96C6;&#x6210;&#x5206;&#x652F;&#x6267;&#x884C;push -f</h4>
+
+<p><code>git push -f remote_repo</code></p>
+<blockquote>
+<p>&#x81EA;&#x5DF1;&#x72EC;&#x81EA;&#x4F7F;&#x7528;&#x7684;&#x5206;&#x652F;&#xFF0C;&#x53EF;&#x4EE5;&#x91C7;&#x7528;push -f &#x7684;&#x65B9;&#x5F0F;&#x3002;<br>
+&#x56E2;&#x961F;&#x96C6;&#x6210;&#x5206;&#x652F;&#xFF0C;&#x901A;&#x5E38;&#x505A;&#x6CD5;&#x4E0D;&#x662F;&#x53BB;&#x6389;&#x4E0D;&#x60F3;&#x8981;&#x7684;commit&#xFF0C;&#x800C;&#x662F;&#x628A;&#x4E0D;&#x60F3;&#x8981;&#x7684;commit&#x7684;&#x5185;&#x5BB9;&#x91C7;&#x7528;revert&#x7684;&#x65B9;&#x5F0F;&#x751F;&#x6210;&#x65B0;&#x7684;commit&#xFF0C;&#x4EE5;&#x6B64;&#x53BB;&#x6389;&#x4E0D;&#x60F3;&#x8981;&#x7684;&#x53D8;&#x66F4;&#x3002;&#x7136;&#x540E;push&#x5230;&#x8FDC;&#x7AEF;</p>
+</blockquote>
+<h4 class="mume-header" id="%E5%90%91%E9%9B%86%E6%88%90%E5%88%86%E6%94%AF%E6%89%A7%E8%A1%8C%E5%8F%98%E5%9F%BA%E6%93%8D%E4%BD%9C">&#x5411;&#x96C6;&#x6210;&#x5206;&#x652F;&#x6267;&#x884C;&#x53D8;&#x57FA;&#x64CD;&#x4F5C;</h4>
+
+<p><code>git rebase</code></p>
+<hr>
+<h2 class="mume-header" id="github">Github</h2>
+
+<h3 class="mume-header" id="search">search</h3>
+
+<p><code>keywords in:readme stars:&gt;1000</code><br>
+<code>&apos;code&apos;,&apos;code&apos; filename:fileName</code></p>
+<h3 class="mume-header" id="ssh-key-%E7%94%9F%E6%88%90">ssh key &#x751F;&#x6210;</h3>
+
+<p><a href="https://help.github.com/en/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent">Generating a new SSH key and adding it to the ssh-agent</a></p>
+<h3 class="mume-header" id="merge">merge</h3>
+
+<p>feature-&gt;master</p>
+<h4 class="mume-header" id="merge-commit">merge commit</h4>
+
+<p>&#x5982;&#x540C;<code>git commit</code>&#xFF0C;&#x65E0;&#x51B2;&#x7A81;&#x5219;&#x81EA;&#x52A8;merge</p>
+<h4 class="mume-header" id="squash-and-merge">Squash and merge</h4>
+
+<p>&#x628A;&#x9700;&#x8981;merge&#x7684;&#x5206;&#x652F;&#x7684;&#x6240;&#x6709;commit&#x8FDB;&#x884C;squash&#xFF0C;&#x7136;&#x540E;merge&#x81F3;master<br>
+&#x5177;&#x4F53;&#x8868;&#x73B0;&#x4E3A;&#xFF1A;&#x5C06;feature&#x5206;&#x652F;&#x6240;&#x6709;commit squash&#x4E3A;&#x4E00;&#x4E2A;commit&#xFF0C;&#x7136;&#x540E;&#x5C06;&#x8BE5;commit rebase&#x81F3;master&#x5206;&#x652F;<br>
+&#x8BE5;&#x64CD;&#x4F5C;&#x4E0D;&#x4F1A;&#x79FB;&#x52A8;feature&#x7684;refs<br>
+&#x7B49;&#x4EF7;&#x4E0E;<code>git merge --squash</code></p>
+<h4 class="mume-header" id="rebase-and-merge">Rebase and merge</h4>
+
+<p>&#x76F4;&#x63A5;&#x5C06;feature&#x7684;&#x6240;&#x6709;commit rebase &#x81F3; master</p>
+<hr>
+<h2 class="mume-header" id="git%E6%8F%90%E4%BA%A4%E4%BF%A1%E6%81%AF%E8%A7%84%E8%8C%83">git&#x63D0;&#x4EA4;&#x4FE1;&#x606F;&#x89C4;&#x8303;</h2>
+
+<p><a href="https://juejin.im/post/5afc5242f265da0b7f44bee4">&#x4F18;&#x96C5;&#x7684;&#x63D0;&#x4EA4;&#x4F60;&#x7684; Git Commit Message</a></p>
+<p><a href="http://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html">Commit message &#x548C; Change log &#x7F16;&#x5199;&#x6307;&#x5357;</a></p>
+<hr>
+
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+    
+    
+  
+    </body></html>

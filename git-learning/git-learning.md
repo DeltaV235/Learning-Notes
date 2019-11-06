@@ -4,7 +4,7 @@
 
 ### config的3个作用域
 
-**local**:只对仓库有效
+**local**:只对当前仓库有效
 **global**:对登录用户所有仓库有效
 **system**:对系统的所有用户有效
 
@@ -19,7 +19,7 @@ git config --list user.name                     # 只显示user.name的值
 git config --local user.name 'username'         # 修改local(版本库)范围的user.name(若不加变量作用域，则默认为local)
 git config --global user.email 'email@domain'   # 修改global范围的user.email3
 git config --unset varname                      # 删除变量
-git config --local --edit                       # 编辑各域的配置文件(默认为local)
+git config --local --edit                       # 使用文本编辑器编辑各域的配置文件(默认为local)
 ```
 
 ### git的别名
@@ -140,7 +140,7 @@ squash commitID
 
 git rebase -i 开始commit [结束commit], 在执行这个命令时，
 如果没有指定 结束commit,那么结束commit 默认为当前分支最新的 commit，那么rebase 结束后会自动更新当前分支指向的 commit,
-如果指定了结束 commit，而且结束 commit不是当前分支最新的 commit，那么rebase 后会有生成一个 游离的 HEAD,，而且当前分支指向的commit 不会更新
+如果指定了结束 commit，而且结束 commit不是当前分支最新的 commit，那么rebase 后会有生成一个 游离的 HEAD，而且当前分支指向的commit 不会更新
 
 ### 不连续的commit的合并
 
@@ -329,7 +329,7 @@ git能够自动merge rename 和 内容变更
 
 ### search
 
-`keywords in:readme start:>1000`
+`keywords in:readme stars:>1000`
 `'code','code' filename:fileName`
 
 ### ssh key 生成

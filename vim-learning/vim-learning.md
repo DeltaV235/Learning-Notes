@@ -53,7 +53,7 @@ t                  # 移动到前一个字符
 F                  # 向前搜索
 ^                  # 移动第一个非空白字符
 0                  # 移动至行首
-$                  # 移动至行为
+$                  # 移动至行尾
 
 ^u                 # up(half page)
 ^d                 # down(half page)
@@ -99,7 +99,6 @@ R                   # Replace mode      进入insert模式并替换后续所有�
 S                   # Sunstitute        删除整行并进入插入模式
 c                   # change            配合文本对象进行快速替换
 caw                 #                   删除一个单词并进入插入模式
-c                   # change            配合文本对象进行快速替换
 C                   #                   删除整行，并进入插入模式
 ct"                 # change to "
 ctw                 # change to word
