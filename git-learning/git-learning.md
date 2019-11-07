@@ -30,7 +30,7 @@ git config --local --edit                       # 使用文本编辑器编辑各
 git config --local alias.amend commit -a --amend
 ```
 
-一下两条命令等价:
+以下两条命令等价:
 
 ```shell
 git commit -a --amend

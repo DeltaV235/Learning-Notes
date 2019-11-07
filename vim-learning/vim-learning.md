@@ -176,7 +176,7 @@ yiw             # yank inner a word
 ![vim-register-other](pic/register/vim-register-other.png)
 
 ```vim
-:e! 重新加载文件 ,且不保持
+:e! 重新加载文件 ,且不保存
 set clipboard=unnamed       # 使系统剪贴板与无名寄存器共用
 set autoindent              # 自动缩进
 set paste

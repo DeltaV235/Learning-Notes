@@ -56,7 +56,7 @@ CREATE TABLE <表名> (<列名> <数据类型> [列级完整性约束条件]
                      [<表级完整性约束条件>]);
 
 CREATE TABLE Student(
-                        Sno CHAR(9) PROMARY KEY,
+                        Sno CHAR(9) PRIMARY KEY,
                         Sname CHAR(20) UNIQUE,
                         Ssex CHAR(2),
                         Sage SMALLINT,
