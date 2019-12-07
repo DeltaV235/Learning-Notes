@@ -348,3 +348,10 @@ add `set updatetime=100` in ~/.vimrc
 ```shell
 sudo apt-get install tmux
 ```
+
+## uppercase or lowercase
+
+```shell
+gu{motion}  lowercase
+gU{motion}  uppercase
+```
