@@ -1,10 +1,8 @@
-package com.return404.ParamTest;
-
-import java.awt.Window;
+package archive.com.return404.ParamTest;
 
 public class ParamTest {
     public static void main(String[] args) {
-        Employee employee[] = new Employee[2];
+        Employee[] employee = new Employee[2];
         employee[0] = new Employee("DeltaV", 5000);
         employee[1] = new Employee("Brad", 3000);
         tripleSalary(employee[0]);

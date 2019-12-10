@@ -1,3 +1,5 @@
+package archive;
+
 import java.util.*;
 
 public class InputTest {

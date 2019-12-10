@@ -1,4 +1,4 @@
-package com.return404.Company;
+package archive.com.return404.Company;
 
 public abstract class Person {
     private String name;

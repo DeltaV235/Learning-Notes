@@ -1,3 +1,5 @@
+package archive;
+
 public class String_builder {
     public static void main(String[] args) {
         StringBuilder build = new StringBuilder();
