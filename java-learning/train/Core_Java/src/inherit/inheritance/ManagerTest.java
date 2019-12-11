@@ -19,6 +19,11 @@ public class ManagerTest {
         for(Employee e:staff) {
             System.out.println("name " + e.getName() + "\tsalary " + e.getSalary());
         }
+
+//        throw java.lang.ArrayStoreException
+//        Manager[] managers = new Manager[10];
+//        Employee[] employees = managers;
+//        employees[0] = new Employee("test", 200, 2000, 4,30);
     }
 }
 
