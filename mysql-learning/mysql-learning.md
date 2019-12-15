@@ -135,3 +135,36 @@ SHOW [FULL] COLUMNS FROM 数据库名.数据表名;
 DESCRIBE 数据表名;
 DESC 数据表名 列名;
 ```
+
+### 修改表结构
+
+```sql
+ALTER [IGNORE] TABLE <表名>
+    [ADD [COLUMN] <新列名> <数据类型> [完整性约束]]
+    [ADD <表级完整性约束>]
+    [DROP [COLUMN] <列名> [CASCADE|RESTRICT]]
+    [DROP CONSTRAINT <完整性约束名> [CASCADE|RESTRICT]]
+    [ALTER COLUMN <列名> <数据类型>];
+    [RENAME [AS] 新表名]
+    [CHANGE [COLUMN] 旧字段名 新字段定义]
+    [MODIFY [COLUMN] <定义>];
+```
+
+### 重命名表
+
+```sql
+RENAME TABLE <表名1> TO <表名2>;
+```
+
+### 复制表
+
+```sql
+CREATE TABLE [IF NOT EXISTS] <表名> LIKE <源表名>;                  只复制表结构
+CREATE TABLE [IF NOT EXISTS] <表名> AS SELECT * FROM <源表名>;      复制表结构和数据
+```
+
+### 删除表
+
+```sql
+DROP TABLE [IF EXISTS] <TABLE_NAME>;
+```
