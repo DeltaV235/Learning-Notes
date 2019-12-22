@@ -1,6 +1,7 @@
 package com.wuyue.normalClass;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class TraversalFileTree {
     private File file;
@@ -36,11 +37,10 @@ public class TraversalFileTree {
                 System.out.print("/\n");
                 if (currentDepth < this.depth || this.depth < 1)
                     returnCount += traversal(tempFile, currentDepth + 1);
-            }
-            else
+            } else
                 System.out.println();
         }
-        return fileTable.length + returnCount ;
+        return fileTable.length + returnCount;
     }
 
     private int middleIndexOfString(String s) {
@@ -50,5 +50,29 @@ public class TraversalFileTree {
     public static void main(String[] args) {
         TraversalFileTree traversalFileTree = new TraversalFileTree(args[0], Integer.parseInt(args[1]));
         System.out.println("共找到" + traversalFileTree.traversal() + "个文件");
+    }
+}
+
+class FileNode {
+    private String[] fileTable;
+    private String[] fileType;
+    private ArrayList<FileNode> fileSonNodes;
+
+    public FileNode(String[] fileTable, String[] fileType, ArrayList<FileNode> fileSonNodes) {
+        this.fileTable = fileTable;
+        this.fileType = fileType;
+        this.fileSonNodes = fileSonNodes;
+    }
+
+    public String[] getFileTable() {
+        return fileTable;
+    }
+
+    public String[] getFileType() {
+        return fileType;
+    }
+
+    public ArrayList<FileNode> getFileSonNodes() {
+        return fileSonNodes;
     }
 }
