@@ -275,3 +275,59 @@ public StringBuilder insert(int offset, char c);
 public StringBuilder reverse();
 public String toString();
 ```
+
+## 容器
+
+### List
+
+List是有序，元素内容可重复的容器
+**有序**:List中每个元素都有索引标记。可以根据元素的索引标记(在List中的位置)访问元素，从而精确控制这些元素。
+**可重复**:List允许加入重复的元素。更确切地讲，List通常允许满足 e1.equals(e2) 的元素重复加入容器。
+List接口常用的实现类有3个：`ArrayList`、`LinkedList`和`Vector`。
+
+![List接口中定义的方法](source/List-method.png)
+
+如何选用`ArrayList`、`LinkedList`、`Vector`?
+
+ 1. 需要线程安全时，用`Vector`。
+ 2. 不存在线程安全问题时，并且查找较多用`ArrayList`(一般使用它)。
+ 3. 不存在线程安全问题时，增加或删除元素较多用`LinkedList`。
+
+#### ArrayList
+
+ArrayList底层是用数组实现的存储。 特点：查询效率高，增删效率低，线程不安全。
+
+#### LinkedList
+
+LinkedList底层用双向链表实现的存储。特点：查询效率低，增删效率高，线程不安全。
+
+#### Vector
+
+Vector底层是用数组实现的List，相关的方法都加了同步检查，因此“线程安全,效率低”。
+
+### Map
+
+Map就是用来存储“键(key)-值(value) 对”的。 Map类中存储的“键值对”通过键来标识，所以“键对象”不能重复。
+Map 接口的实现类有`HashMap`、`TreeMap`、`HashTable`、`Properties`等。
+
+![Map接口中的常用方法](source/Map-method.png)
+
+#### HashMap
+
+HashMap采用哈希算法实现，是Map接口最常用的实现类。 由于底层采用了哈希表存储数据，我们要求键不能重复，如果发生重复，新的键值对会替换旧的键值对。 HashMap在查找、删除、修改方面都有非常高的效率。
+线程不安全，效率高。允许key或value为null。
+
+#### HashTable
+
+线程安全，效率低。不允许key或value为null。
+
+#### TreeMap
+
+TreeMap和HashMap实现了同样的接口Map，因此，用法对于调用者来说没有区别。HashMap效率高于TreeMap;在需要**排序**的Map时才选用TreeMap。
+
+Set容器特点：无序、不可重复。
+**无序**指Set中的元素没有索引，我们只能遍历查找;
+**不可重复**指不允许加入重复的元素。更确切地讲，新元素如果和Set中某个元素通过equals()方法对比为true，则不能加入;
+甚至，Set中也只能放入一个null元素，不能多个。**对自定义对象排序需要实现Compareable接口**
+
+Set常用的实现类有：`HashSet`、`TreeSet`等，我们一般使用`HashSet`。
