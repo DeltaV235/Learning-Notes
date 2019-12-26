@@ -1,6 +1,9 @@
 package com.wuyue.collection;
 
-
+/**
+ * 自定义的LinkedList，使用双链表实现
+ * @param <E>泛型
+ */
 public class MyLinkedList<E> {
     private static class Node<E> {
         E data;
