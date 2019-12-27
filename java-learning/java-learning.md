@@ -130,14 +130,6 @@ float f = n;    // f is 1.2345679E8
 3.对本包和所有子类可见——`protected`
 4.对本包可见——default，不需要修饰符
 
-issue about array of object
-
-```java
-Employee[] employee = new Employee[10];
-Employee[] employee;
-object.equals  &&   ==  区别
-```
-
 ## 类、超类和子类
 
 > 如果子类的构造器没有显式地调用超类的构造器，则将自动地调用超类默认(没有参数)的构造器。如果超类没有不带参数的构造器，并且在子类的构造器中又没有显式地调用超类的其他构造器，则Java编译器将报告错误。
@@ -147,23 +139,8 @@ Object.equals() 比较两个对象变量是否指向同一个引用，Object的e
 ==              比较是否为同一个引用
 ```
 
-## JVM内存模型
-
->栈的特点如下：
-　　1. 栈描述的是方法执行的内存模型。每个方法被调用都会创建一个栈帧(存储局部变量、操作数、方法出口等)
-　　2. JVM为每个线程创建一个栈，用于存放该线程执行方法的信息(实际参数、局部变量等)
-　　3. 栈属于线程私有，不能实现线程间的共享!
-　　4. 栈的存储特性是“先进后出，后进先出”
-　　5. 栈是由系统自动分配，速度快，栈是一个连续的内存空间!
-堆的特点如下：
-　　1. 堆用于存储创建好的对象和数组(数组也是对象)
-　　2. JVM只有一个堆，被所有线程共享
-　　3. 堆是一个不连续的内存空间，分配灵活，速度慢!
-方法区(又叫静态区)特点如下：
-　　1. JVM只有一个方法区，被所有线程共享!
-　　2. 方法区实际也是堆，只是用于存储类、常量相关的信息!
-　　3. 用来存放程序中永远是不变或唯一的内容。(类信息【Class对象】、静态变量、字符串常量等)
-equals()方法的意义在于比较两个对象是否相同(比较两个对象的主键)
+equals()方法的用途是比较两个对象之间的内容是否相等
+在两个对象相等(未必是同一个引用)的情况下，其hashCode也应该相等，hashCode应该反映该对象的所有域变量的状态
 
 ## 内部类
 
@@ -231,11 +208,39 @@ Java虚拟机的内存可以分为三个区域：栈stack、堆heap、方法区m
 
 ![memory-model](source/memory-model-2.png)
 
+### 数组的创建和初始化过程
+
+定义数组只是在栈内存中创建**局部变量**，该变量为指向任何内存空间，即null
+
+```java
+Object[] array;
+```
+
+![创建数组对象](source/create-array-variable.png)
+
+创建数组对象，并将数组变量指向堆中创建的数组对象
+
+```java
+Object[] array = new Object[7];
+```
+
+![创建数组对象](source/create-array-object.png)
+
+动态初始化数组
+
+```java
+array[0] = new Object();
+```
+
+![动态初始化对象数组](source/create-array-object-object.png)
+
 ## instanceof
 
 引用变量名 instanceof 类名 来判断该引用类型变量所“指向”的对象是否属于该类或该类的子类。
 
 ## 自动装箱和拆箱
+
+由编译器提供的功能，使Java原始类型能够自动的转变为对应的包装类对象。
 
 ### 自动装箱
 
@@ -325,9 +330,103 @@ HashMap采用哈希算法实现，是Map接口最常用的实现类。 由于底
 
 TreeMap和HashMap实现了同样的接口Map，因此，用法对于调用者来说没有区别。HashMap效率高于TreeMap;在需要**排序**的Map时才选用TreeMap。
 
+### Set
+
 Set容器特点：无序、不可重复。
 **无序**指Set中的元素没有索引，我们只能遍历查找;
 **不可重复**指不允许加入重复的元素。更确切地讲，新元素如果和Set中某个元素通过equals()方法对比为true，则不能加入;
 甚至，Set中也只能放入一个null元素，不能多个。**对自定义对象排序需要实现Compareable接口**
 
 Set常用的实现类有：`HashSet`、`TreeSet`等，我们一般使用`HashSet`。
+
+#### HashSet
+
+HashSet是采用哈希算法实现，底层实际是用HashMap实现的(HashSet本质就是一个简化版的HashMap)，因此，查询效率和增删效率都比较高。
+
+#### TreeSet
+
+TreeSet底层实际是用TreeMap实现的，内部维持了一个简化版的TreeMap，通过key来存储Set的元素。 TreeSet内部需要对存储的元素进行排序，因此，我们对应的类需要实现Comparable接口。这样，才能根据compareTo()方法比较对象之间的大小，才能进行内部排序。
+
+1. 由于使用排序二叉树实现排序，需要对元素做内部排序。 如果要放入TreeSet中的类没有实现Comparable接口，则会抛出异常：java.lang.ClassCastException。
+2. TreeSet中不能放入null元素。(null无法进行比较、排序)
+
+### 遍历结合的方法总结
+
+#### 遍历List
+
+1.普通`for`循环
+
+```java
+for(int i=0;i<list.size();i++){//list为集合的对象名
+    String temp = (String)list.get(i);
+    System.out.println(temp);
+}
+```
+
+2.增强for循环
+
+```java
+for (String temp : list) {
+    System.out.println(temp);
+}
+```
+
+3.Iterator迭代器(1)
+
+```java
+for(Iterator iter= list.iterator();iter.hasNext();){
+    String temp = (String)iter.next();
+    System.out.println(temp);
+}
+```
+
+4.Iterator迭代器(2)
+
+```java
+Iterator  iter =list.iterator();
+while(iter.hasNext()){
+    Object  obj =  iter.next();
+    iter.remove();//如果要遍历时，删除集合中的元素，建议使用这种方式！
+    System.out.println(obj);
+}
+```
+
+#### 遍历Set
+
+1.增强for循环
+
+```java
+for(String temp:set){
+    System.out.println(temp);
+}
+```
+
+2.Iterator迭代器
+
+```java
+for(Iterator iter = set.iterator();iter.hasNext();){
+    String temp = (String)iter.next();
+    System.out.println(temp);
+}
+```
+
+#### 遍历Map
+
+1.根据keySet获取value
+
+```java
+Map<Integer, Man> maps = new HashMap<Integer, Man>();
+Set<Integer>  keySet =  maps.keySet();
+for(Integer id : keySet){
+    System.out.println(maps.get(id).name);
+}
+```
+
+2.遍历entrySet
+
+```java
+Set<Entry<Integer, Man>>  ss = maps.entrySet();
+for (Iterator iterator = ss.iterator(); iterator.hasNext();) {
+    Entry e = (Entry) iterator.next();
+    System.out.println(e.getKey()+"--"+e.getValue());
+```
