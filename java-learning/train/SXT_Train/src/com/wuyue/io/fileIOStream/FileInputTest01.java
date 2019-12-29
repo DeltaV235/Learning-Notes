@@ -1,4 +1,4 @@
-package com.wuyue.io.ioStream;
+package com.wuyue.io.fileIOStream;
 
 import java.io.*;
 

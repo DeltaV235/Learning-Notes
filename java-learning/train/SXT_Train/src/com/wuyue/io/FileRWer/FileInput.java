@@ -1,9 +1,6 @@
-package com.wuyue.io.ioStream;
+package com.wuyue.io.FileRWer;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 
 /**
  * 测试字节流
@@ -11,18 +8,17 @@ import java.io.InputStream;
  *
  * @author DeltaV235
  */
-public class FileInputTest03 {
+public class FileInput {
     public static void main(String[] args) {
         File src = new File("LICENSE.test");
-        InputStream inputStream = null;
+        Reader inputStream = null;
         try {
-            inputStream = new FileInputStream(src);
-            byte[] flush = new byte[1024 * 50];
+            inputStream = new FileReader(src);
+            char[] flush = new char[1024];
             int length = -1;            // 返回字节的长度
-            int temp;
             while ((length = inputStream.read(flush)) != -1) {
                 String outString = new String(flush, 0, length);
-                System.out.println(outString);
+                System.out.print(outString);
             }
         } catch (IOException e) {
             e.printStackTrace();

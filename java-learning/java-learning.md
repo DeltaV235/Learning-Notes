@@ -505,18 +505,22 @@ String(byte bytes[], Charset charset)
 #### InputStream
 
 字节输入流的父类，数据单位为字节
+`FileInputStream`
 
 #### OutputStream
 
 字节输出流的父类，数据单位为字节
+`FileOutputStream`
 
 #### Reader
 
 字符输入流的父类，数据单位为字符
+`FileReader`
 
 #### Writer
 
 字符输出流的父类，数据单位为字符
+`FileWriter`
 
 ### IO标准步骤
 
@@ -526,3 +530,23 @@ String(byte bytes[], Charset charset)
 4. 释放系统资源
 
 `FileInputStream` 无法访问目录文件，会抛出 `FileNotFoundException`
+`FileOutputStream.write(byte[] flush,int offest,int length)` 方法需要指定写入byte数组的长度，来避免将byte数组末尾未读取到数据的元素写入目标文件(EOF的位置)，造成不可预知的问题
+`write(byte[] flush)` 可能会输出多余的数据
+`String(byte[] bytes)` 方法也应注意bytes长度的问题，默认解码长度为`bytes.length`
+
+### 字节数组流
+
+用于缓冲输入输出的字节
+缓冲器中的内容可以通过 `baos.toByteArray()` 获得
+使用字节数组流能够更加方便的在内存中保存字节流，使循环得到的byte[] 能够最终合并为一个完整的、包含整个文件的字节数组
+尽管使用`FileInputStream`也能够将文件的字节传输到栈内存中，但单次read的大小有限，不易将每个flush合并成一个完整的byte[]。使用`ByteArrayOutputStream`可以将通过`FileInputStream`获得的`字节数组`存入一块连续的内存中，然后通过`toByteArray()`方法返回完整的字节数组(类似`StringBuilder.toString()`返回完整的字符串)。然后在需要使用该数据的时候，再使用`ByteArrayInputStream`字节数组输入流 分批读取内存中的数据 到程序中 (虽然还是内存->内存，但内存大小、位置不同)。
+
+`ByteArrayInputStream` : 字节数组输入流
+`ByteArrayOutputStream` : 字节数组输出流
+
+### 节点流
+
+文件字节流 `FileInputStream` `FileOutputStream`
+文件字符流 `FileReader` `FileWriter`
+字节数组流 `ByteArrayInputStream` `ByteArrayOutStream`
+其中 `ByteArrayOutStream` 由于需要使用 `toByteArray()` 方法，父类中不存在，所以不能使用多态来调用该方法，需向下强制转型
