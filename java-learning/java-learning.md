@@ -7,7 +7,7 @@
 
 - [x] Java基础语法
 - [ ] OO编程思想
-- [ ] 集合
+- [x] 集合
 - [ ] IO
 - [x] 异常
 - [ ] 泛型
@@ -430,3 +430,99 @@ for (Iterator iterator = ss.iterator(); iterator.hasNext();) {
     Entry e = (Entry) iterator.next();
     System.out.println(e.getKey()+"--"+e.getValue());
 ```
+
+## IO
+
+### File类
+
+#### File类 常用方法
+
+##### 路径相关
+
+`File.seoarator` : 操作系统的文件分割符(如Linux的'/'、Windows的'\\')
+`getName()` : 获取文件(目录或文件)名
+`getPath()` : 获取路径名(即创建File对象时传入的实参)
+`getAbsolutePath()` : 永远返回File对象的绝对路径
+`getParent()` : 返回父级路径(以传入参数为准)
+`getParentFile()` : 返回父级File对象，不存在则为null
+
+---
+
+##### 文件相关
+
+`exists()` : 文件是否存在
+`isFile()` : 文件是否是文件
+`isDirectory()` : 文件是否是目录文件
+
+`length()` : 文件存储空间大小
+
+`createNewFile()` : 创建文件
+`delete()` : 删除文件
+
+---
+
+##### 目录相关
+
+若需要创建的目录已存在，则返回false
+`mkdir()` : 创建目录，需保证上一级目录存在，否则创建失败，返回false
+`mkdirs()` : 如果父目录不存在则一同创建
+
+`list()` : 列出下级文件名称
+`listFiles()` : 返回下级文件对应的File对象(使用绝对路径创建的File对象)
+`listRoots()` : 根路径
+
+### 字符集
+
+#### 常用字符集
+
+`utf-8` `utf-16` `utf-16 LE`(小端) `utf-16 BE`(大端) `ISO-8859-1` `GBK`
+
+utf-8中，中文占用3个字节，字母(A to Z 0 to 9)占用1个字节
+默认使用项目字符集
+
+#### 编码
+
+字符 --> 字节(二进制)
+`"test".getByes()` : 返回字符串对应的`Byte[]`
+
+#### 解码
+
+字节(二进制) --> 字符
+解码使用String的构造方法
+
+```java
+String(byte bytes[], int offset, int length, Charset charset)
+String(byte bytes[], Charset charset)
+```
+
+#### 乱码
+
+1. 字节数不够
+2. 字符集不统一
+
+### 四个抽象类
+
+#### InputStream
+
+字节输入流的父类，数据单位为字节
+
+#### OutputStream
+
+字节输出流的父类，数据单位为字节
+
+#### Reader
+
+字符输入流的父类，数据单位为字符
+
+#### Writer
+
+字符输出流的父类，数据单位为字符
+
+### IO标准步骤
+
+1. 创建源
+2. 选择流
+3. 操作
+4. 释放系统资源
+
+`FileInputStream` 无法访问目录文件，会抛出 `FileNotFoundException`
