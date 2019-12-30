@@ -8,7 +8,7 @@
 - [x] Java基础语法
 - [ ] OO编程思想
 - [x] 集合
-- [ ] IO
+- [x] IO
 - [x] 异常
 - [ ] 泛型
 - [x] 反射
@@ -534,7 +534,15 @@ String(byte bytes[], Charset charset)
 `write(byte[] flush)` 可能会输出多余的数据
 `String(byte[] bytes)` 方法也应注意bytes长度的问题，默认解码长度为`bytes.length`
 
-### 字节数组流
+### 节点流
+
+与数据源直接交互
+文件字节流 `FileInputStream` `FileOutputStream`
+文件字符流 `FileReader` `FileWriter`
+字节数组流 `ByteArrayInputStream` `ByteArrayOutStream`
+其中 `ByteArrayOutStream` 由于需要使用 `toByteArray()` 方法，父类中不存在，所以不能使用多态来调用该方法，需向下强制转型
+
+#### 字节数组流
 
 用于缓冲输入输出的字节
 缓冲器中的内容可以通过 `baos.toByteArray()` 获得
@@ -544,9 +552,73 @@ String(byte bytes[], Charset charset)
 `ByteArrayInputStream` : 字节数组输入流
 `ByteArrayOutputStream` : 字节数组输出流
 
-### 节点流
+### 处理流
 
-文件字节流 `FileInputStream` `FileOutputStream`
-文件字符流 `FileReader` `FileWriter`
-字节数组流 `ByteArrayInputStream` `ByteArrayOutStream`
-其中 `ByteArrayOutStream` 由于需要使用 `toByteArray()` 方法，父类中不存在，所以不能使用多态来调用该方法，需向下强制转型
+#### 缓冲流
+
+`BufferedInputStream` 缓冲字节输入流  
+`BufferedOutputStream` 缓冲字节输出流
+选择合适的单次读入字节数也能大幅提高流的速度
+
+`BufferedReader` 缓冲字符输入流 readLine()方法不返回换行符，需要结合使用`BufferedWrite.newLine()`方法来换行
+`BufferedWriter` 缓冲字符输出流
+
+#### 转换流
+
+`InputStreamReader` 将字节流转换为字符流，以字符流的形式操作字节流，并且能为字节流指定字符集
+`OutputStreamWriter`
+
+#### 数据流
+
+`DataInputStream`
+`DataOutputStream` 输出Java原始类型的变量到 字节数组 或 文件中
+
+#### 对象流
+
+`ObjectInputStream` 反序列化
+`ObjectOutputStream` 序列化
+只有继承`java.io.Serializable`接口的对象，才能够序列化。该接口为空接口，只用于JVM使用
+Java关键词: `transient` 不需要序列化的域
+该流为继承`closeable`接口，故无法使用`try...with`
+
+#### 随机读取写入流
+
+`RandomAccessFile` 通过 `seed()` 方法来指定读写的位置
+
+`SequenceInputStream` 将多个输入流合并为一个输入流，多个输入流压入Vector中，然后使用Vector创建序列流。
+
+### 总结
+
+1. 按流的方向分类：
+    输入流：数据源到程序(InputStream、Reader读进来)。
+    输出流：程序到目的地(OutPutStream、Writer写出去)。
+2. 按流的处理数据单元分类：
+    字节流：按照字节读取数据(InputStream、OutputStream)。
+    字符流：按照字符读取数据(Reader、Writer)。
+3. 按流的功能分类：
+    节点流：可以直接从数据源或目的地读写数据。
+    处理流：不直接连接到数据源或目的地，是处理流的流。通过对其他流的处理提高程序的性能。
+4. IO的四个基本抽象类：InputStream、OutputStream、Reader、Writer
+5. InputStream的实现类：
+    FileInputStream
+    ByteArrayInutStream
+    BufferedInputStream
+    DataInputStream
+    ObjectInputStream
+6. OutputStream的实现类：
+    FileOutputStream
+    ByteArrayOutputStream
+    BufferedOutputStream
+    DataOutputStream
+    ObjectOutputStream
+    PrintStream
+7. Reader的实现类
+    FileReader
+    BufferedReader
+    InputStreamReader
+8. Writer的实现类
+    FileWriter
+    BufferedWriter
+    OutputStreamWriter
+9. 把Java对象转换为字节序列的过程称为对象的序列化。
+10. 把字节序列恢复为Java对象的过程称为对象的反序列化。
