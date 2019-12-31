@@ -10,6 +10,7 @@ out/
 # Test File
 *.test
 Test
+*Test
 
 # Compiled class file
 *.class
