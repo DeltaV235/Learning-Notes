@@ -9,7 +9,7 @@ public class web12306 implements Runnable{
             if (ticket <= 0)
                 break;
             try {
-                Thread.sleep(2000);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
