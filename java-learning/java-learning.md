@@ -713,34 +713,36 @@ Java关键词: `transient` 不需要序列化的域
 
 ### Thread的常用方法
 
-#### Thread.sleep()
-
+**Thread.sleep()**
 使线程阻塞millis毫秒，进入TIMED_WATING状态，该线程阻塞
 
-#### Thread.yield()
-
+**Thread.yield()**
 使线程直接进入就绪状态，让出本次cpu调度
 
-#### start()
-
+**start()**
 使线程进入就绪状态，运行状态与就绪状态称为 RUNNABLE
 
-#### join()
-
+**join()**
 使当前线程需要等待另一个线程执行完毕后，在继续执行，当前线程进入BLOCKED状态
 IO操作也会导致线程进入BLOCKED状态
 
-#### Thread.currentThread()
+**Thread.currentThread()**
+返回调用start()方法的对象(Thread及其子类)
 
-#### Thread.activeCount()
+**Thread.activeCount()**
+返回当前执行的线程数
 
-#### setName()
+**setName()**
+设置该Thread对象的线程名
 
-#### getName()
+**getName()**
+获取该Thread对象的线程名
 
-#### isAlive()
+**isAlive()**
+判断该线程是否存活
 
-#### getState()
+**getState()**
+获取该线程的状态(`NEW` `RUNNABLE` `WAITING` `TIMED_WAITING` `BLOCKER` `TERMINATED`)
 
 ### 守护线程
 
@@ -751,5 +753,21 @@ IO操作也会导致线程进入BLOCKED状态
 1.已经调用了Runtime类的exit方法，并且安全管理器已经允许进行退出操作。
 2.所有不是守护进程线程的线程都已经死亡，无论是从调用返回到run方法还是抛出超出run方法的run 。
 
-**并发** 两个线程交替执行
-**并行** 两个线程同时执行
+### 并发与并行的区别
+
+**并发** 两个线程(任务)交替执行
+**并行** 两个线程(任务)同时执行
+**主线程** 即为main方法执行的线程
+
+### Thread和Runable的区别
+
+如果一个类继承Thread，则不适合资源共享。但是如果实现了Runable接口，则很容易的实现资源共享。
+**总结：**
+**实现Runable接口比继承Thread类具有的优势：**
+
+1. 适合多个相同的程序代码的线程去共享一个资源
+2. 可以避免Java中单继承的局限性
+3. 增加程序健壮性，实现解耦操作，代码可以被多个线程共享，代码和线程独立
+4. 线程池只能放入实现Runable或Callable类线程，不能直接放入继承Thread的类
+
+>在Java中，每次程序运行至少启动2个线程。一个是main线程，一个是垃圾回收线程。因为每当使用Java命令执行一个类的时候，实际上都会启动一个JVM，每一个JVM其实就是在操作系统中启动了一个进程。
