@@ -97,7 +97,8 @@ public class TaskAssignment {
     }
 
     public static void main(String[] args) {
-        TaskAssignment ta = new TaskAssignment(BigInteger.ONE, BigInteger.valueOf(1000000), 50000);
+        TaskAssignment ta = new TaskAssignment(BigInteger.valueOf(10000 * 1000), BigInteger.valueOf(10000 * 10000),
+                500);
         ta.start();
         try {
             ta.outputResult(new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("Test/PN"))));
