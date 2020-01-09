@@ -7,6 +7,8 @@ import java.util.concurrent.locks.ReentrantLock;
 public class ReentrantLockTest {
     private static Lock testLock = new ReentrantLock();
     private static Condition finish = testLock.newCondition();
+    private static Lock test = new ReentrantLock();
+    private static Condition testCondition = test.newCondition();
 
     public static void main(String[] args) {
         // 创建一个顾客线程(消费者)
@@ -21,6 +23,7 @@ public class ReentrantLockTest {
                     //调用wait方法,放弃cpu的执行,进入到WAITING状态(无限等待)
                     try {
                         finish.await();
+//                        testCondition.await();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
