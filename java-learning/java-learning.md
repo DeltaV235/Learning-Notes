@@ -804,6 +804,7 @@ condition.signal();
 **await()** 使该线程释放当前持有的锁，并进入*WAITING*状态，直至其他线程调用**signalAll()** 或 **signal()** 方法，该线程才会回到*RUNABLE*状态，并尝试获取锁。将该线程放到条件的等待集中。
 **signalAll()** 解除所有被该Condition阻塞的线程。解除该条件的等待集中的所有线程的阻塞状态。
 **signal()** 随机解除等待集中的某个线程的阻塞状态。(存疑，在吃包子例子中，多个顾客线程总是交替执行，可能存在等待线程队列，而不是随机执行)
+以上方法均需要在持有条件对应锁时才能够调用，否则抛出*IllegalMonitorStateException*异常。
 
 **锁(Lock) 和 条件(Condition) 的关键之处:**
 
@@ -814,5 +815,137 @@ condition.signal();
 
 #### 2.synchronized 关键字
 
-每个对象都存在一个内部锁和内部条件变量。可以在方法名返回值前进行修饰，该方法就称为同步方法，只有在获取当前对象的内部锁时才能执行方法。使用*Object*的*wait()*、*notify()*和*notifyAll()*方法实现线程的等待和解除。
-阻塞状态的线程产生中断，会抛出*InterruptException*。
+每个对象都存在一个内部锁和内部条件变量。可以在方法名返回值前进行修饰，该方法就称为同步方法，只有在获取当前对象的内部锁时才能执行方法。使用*Object*的**wait()** 、**notify()** 和 **notifyAll()** 方法实现线程的等待和解除。
+以上方法均需要在同步方法中才能够调用，否则抛出*IllegalMonitorStateException*异常。
+阻塞状态的线程产生中断，会抛出*InterruptedException*，因为该线程无法检查中断状态。
+
+```java
+public synchronized void methodName() {...}
+```
+
+**内部锁和条件存在一些局限:**
+
+- 不能中断一个正在试图获取锁的线程。
+- 试图获取锁时不能设定超时。
+- 每个锁仅有单一的条件，可能不够。
+- 如果特别需要使用Lock/Condition结构提供的独有特性时，才使用Lock/Condition。
+
+#### 3.同步阻塞(同步块)
+
+```java
+synchronized(obj) {...}
+```
+
+obj可以是任意对象的内部锁
+>一旦获得了Vector对象的内部锁，那么任何调用该对象同步方法的线程都将被阻塞。
+
+#### volatile域
+
+>“如果向一个变量写入值，而这个变量接下来可能会被另一个线程读取，或者，从一个变量读值，而这个变量可能是之前被另一个线程写入的，此时必须使用同步”
+
+`volatile`变量不能提供原子性。
+如果对共享变量出了赋值之外并不完成其他操作，呢么可以将这些共享变量声明为*volatile*。
+被*volatile*修饰的变量的值发生了更改后，便会立即写会到主内存中(堆内存?)。并且不会发生指令重排。保证了数据的同步、可见性。
+
+#### Read/Write Lock
+
+- Lock readLock()
+得到一个可以被多个读操作公用的读锁，但会排斥所有写操作。
+- Lock writeLock()
+得到一个写锁，排斥所有其他的读操作和写操作。
+
+#### 测试锁与超时
+
+- boolean tryLock()
+- boolean tryLock(long time, TimeUnit unit)
+- void lockInterruptibly()
+- boolean await(long time, TimeUnit unit)
+- void awaitUninterruptibly()
+
+#### Timer/TimerTask
+
+**java.util.Timer**
+在这种实现方式中，Timer类作用是类似闹钟的功能，也就是定时或者每隔一定时间触发一次线程。其实，Timer类本身实现的就是一个线程，只是这个线程是用来实现调用其它线程的。
+
+**java.util.TimerTask**
+TimerTask类是一个抽象类，该类实现了Runnable接口，所以该类具备多线程的能力。
+在这种实现方式中，通过继承TimerTask使该类获得多线程的能力，将需要多线程执行的代码书写在run方法内部，然后通过Timer类启动线程的执行。
+
+```java
+package com.wuyue.thread;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class TimerTest {
+    public static void main(String[] args) {
+        Timer timer = new Timer();
+//        timer.schedule(new MyTimer(), 2000, 5000);
+        // 5000ms后执行任务，循环执行周期为2000ms
+        timer.schedule(new MyTimer(), new Date(System.currentTimeMillis() + 5000), 2000);
+    }
+}
+
+class MyTimer extends TimerTask {
+    @Override
+    public void run() {
+        System.out.println(new SimpleDateFormat("HH:mm:ss").format(new Date()) + "\tHello world!");
+    }
+}
+```
+
+#### quartz任务定时调度框架
+
+#### 指令重排
+
+虚拟机和CPU硬件都有可能将不相互依赖的指令在执行顺序上进行重排。代码执行顺序与预期不一致。目的是为了提高性能。
+
+#### DCL单例模式
+
+Double Checked Lock + 单例模式
+
+```java
+package com.wuyue.thread;
+
+public class DoubleCheckTest {
+    private static volatile DoubleCheckTest instance;
+
+    private DoubleCheckTest() {
+        try {
+            Thread.sleep(9000); //增加出错概率
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static DoubleCheckTest getInstance() {
+        // 如果instance已存在则直接返回，减少线程等待锁的时间，但instance初始化时可能存在指令重排，并且存在Double Check，导致返回一个未初始化完成的实例，返回给另一个线程
+        // instance引用先得到内存地址，而初始化未完成，下方判断直接返回instance
+        // 使用volatile来及时更新个线程的副本
+        if (instance != null)
+            return instance;
+        synchronized (DoubleCheckTest.class) {
+            if (instance == null) {
+                instance = new DoubleCheckTest();
+            }
+        }
+        return instance;
+    }
+
+    public void testMethod() {
+        System.out.println(System.currentTimeMillis());
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        new Thread(() -> {
+            System.out.println(DoubleCheckTest.getInstance());
+        }).start();
+
+        Thread.sleep(5000);
+        System.out.println(DoubleCheckTest.getInstance());
+        DoubleCheckTest.getInstance().testMethod();
+    }
+}
+```
