@@ -788,7 +788,9 @@ lock.unlock();
 ```
 
 只有在线程获取到该锁时才能继续执行下方的代码，否则进入BLOCKED状态，直到获取到锁为止。
+**可重入锁**
 `lock`锁对象可以嵌套，被一个锁保护的代码可以调用另一个使用相同的锁的方法。线程每调用一次lock()方法，这个锁的 *持有计数* (*hold count*)加一，调用unlock() *hold count*减一，当锁的 *hold count* == 0 时，该锁即被释放。
+内部锁均为可重入锁
 
 ##### 条件对象
 
@@ -923,7 +925,7 @@ public class DoubleCheckTest {
     public static DoubleCheckTest getInstance() {
         // 如果instance已存在则直接返回，减少线程等待锁的时间，但instance初始化时可能存在指令重排，并且存在Double Check，导致返回一个未初始化完成的实例，返回给另一个线程
         // instance引用先得到内存地址，而初始化未完成，下方判断直接返回instance
-        // 使用volatile来及时更新个线程的副本
+        // 使用volatile来阻止实例化时的可能发生的指令重拍
         if (instance != null)
             return instance;
         synchronized (DoubleCheckTest.class) {
@@ -949,3 +951,13 @@ public class DoubleCheckTest {
     }
 }
 ```
+
+### ThreadLocal
+
+ThreadLocal类对象能够为每个线程提供独立的内存空间、局部的存储环境，不会影响其他线程。
+ThreadLocal对象建议定义为`private static`
+通过重写其`protected <E> initialValue()`来实现值的初始化。
+`threadLocal.set() threadLocal.get()`来设置和获取值。
+使用ThreadLocal需要注意上下文环境 对象构造器是哪个线程调用的 相关的ThreadLocal对象就属于 哪个线程
+run方法 中的 ThreadLocal对象 属于 线程自身
+`InheritableThreadLocal`:继承上下文，拷贝一份数据给子线程。
