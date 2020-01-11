@@ -1069,3 +1069,80 @@ class ReLockTest {
 ```
 
 可重入锁相较于不可重入锁，多了`LockedBy`变量用于检查调用`lock()`的线程是否已经持有该锁，如果已持有则直接`holdCount++`，否则该线程进入*WAITING*状态，并释放lock对象的内部锁。当调用`unlock()`时，先检查该线程是否持有该锁，若持有则`holdCount--`，如果`holdCount==0`，则表明该锁已被完全释放，将`isLocked = false;LockedBy = null;`并唤醒该对锁象内部Condition的等待队列的第一个线程(即此前调用`lock()`但锁已被占用，进入*WAITING*状态的第一个线程)。
+
+### 悲观锁/乐观锁
+
+- **悲观锁**：`synchronized`是独占锁即悲观锁，它会导致其他所有需要锁的线程挂起，等待持有锁的线程释放锁。
+- **乐观锁**：每次不加锁而是假设没有冲突而去完成某项操作，如果因为冲突失败就重试，直到成功为止。
+
+**CAS**(Compare And Swap) 比较并交换
+比较并交换(compare and swap, CAS)，是原子操作的一种，可用于在多线程编程中实现不被打断的数据交换操作，从而避免多线程同时改写某一数据时由于执行顺序不确定性以及中断的不可预知性产生的数据不一致问题。 该操作通过将内存中的值与指定数据进行比较，当数值一样时将内存中的数据替换为新的值。
+
+```c
+int cas(long *addr, long old, long new)
+{
+    /* Executes atomically. */
+    if(*addr != old)
+        return 0;
+    *addr = new;
+    return 1;
+}
+```
+
+在使用上，通常会记录下某块内存中的旧值，通过对旧值进行一系列的操作后得到新值，然后通过CAS操作将新值与旧值进行交换。如果这块内存的值在这期间内没被修改过，则旧值会与内存中的数据相同，这时CAS操作将会成功执行 使内存中的数据变为新值。如果内存中的值在这期间内被修改过，则一般来说旧值会与内存中的数据不同，这时CAS操作将会失败，新值将不会被写入内存。
+
+## 网络
+
+|层次|协议|
+|--|--|
+|应用层|HTTP、FTP|
+|传输层|TCP、UDP|
+|网络层|IP、ICMP|
+|物理层||
+
+端口号由两字节表示，范围为 0 ~ 2^16-1  (0 ~ 65535)，TCP/UDP的端口号独立，但同一协议的端口号不能重复占用。
+|端口号范围|作用|
+|--|--|
+0 ~ 1023|公认端口
+1024 ~ 49151|分配给用户进程或应用程序
+49152 ~ 65535|动态/私有端口
+
+### InetAddress
+
+**静态方法**:
+
+- getLocalHost() 返回本机的InetAddress对象
+- getByName() 根据域名|IP返回InetAddress对象
+
+**成员方法**:
+
+- getHostAddress() 返回IP地址
+- getHostName() 返回计算机名
+
+### InetSocketAddress
+
+常用方法
+
+|方法名|作用|
+|--|--|
+|InetSocketAddress​(String hostname, int port)| Creates a socket address from a hostname and a port number.
+|InetAddress getAddress()|Gets the InetAddress.
+|String getHostName()|Gets the hostname.
+|int getPort()|Gets the port number.
+
+### URL
+
+Universal Resource Locator : 统一资源定位符 包括 protocol host port path parameter anchor
+Universal Resource Identifier : 统一资源标志符
+Universal Resource Name : 统一资源名称
+
+|方法名|作用|
+|--|--|
+|URL​(String spec)|Creates a URL object from the String representation.
+|String getProtocol()|获取协议名
+|String getHost()|获取域名或IP
+|int getPort()|获取端口号
+|String getFile()|获取端口号与锚点之间的字符，即path + parameter
+|String getPath()|获取资源路径
+|String getQuery()|获取参数
+|String getRef()|获取锚点
