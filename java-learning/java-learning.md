@@ -961,3 +961,111 @@ ThreadLocal对象建议定义为`private static`
 使用ThreadLocal需要注意上下文环境 对象构造器是哪个线程调用的 相关的ThreadLocal对象就属于 哪个线程
 run方法 中的 ThreadLocal对象 属于 线程自身
 `InheritableThreadLocal`:继承上下文，拷贝一份数据给子线程。
+
+### 可重入锁/不可重入锁
+
+**可重入锁**：锁可以延续使用，已获得锁的线程不需要再次获得该锁便能执行需要该锁的代码块。
+**不可重入锁**：锁在线程中不能延续。
+
+```java
+package com.wuyue.thread.lock;
+
+/**
+ * 不可重入锁
+ */
+public class UnReentryLockTest {
+    private static ReLockTest lock = new ReLockTest();
+
+    public static void main(String[] args) {
+        new Thread(() -> {
+            try {
+                lock.lock();
+                System.out.println(Thread.currentThread().getName() + " I have lock now");
+                test();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            lock.unlock();
+        }).start();
+    }
+
+    public static void test() throws InterruptedException {
+        lock.lock();
+        System.out.println("Hello World!");
+        lock.unlock();
+    }
+}
+
+class LockTest {
+    private boolean isLocked = false;
+
+    public synchronized void lock() throws InterruptedException {
+        while (isLocked)
+            wait();
+        isLocked = true;
+    }
+
+    public synchronized void unlock() {
+        isLocked = false;
+        notify();
+    }
+}
+```
+
+```java
+package com.wuyue.thread.lock;
+
+/**
+ * 可重入锁
+ */
+public class ReentryLockTest {
+    private static ReLockTest lock = new ReLockTest();
+
+    public static void main(String[] args) {
+        new Thread(() -> {
+            try {
+                lock.lock();
+                System.out.println(Thread.currentThread().getName() + " I have lock now");
+                test();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            lock.unlock();
+        }).start();
+    }
+
+    public static void test() throws InterruptedException {
+        lock.lock();
+        System.out.println("Hello World!");
+        lock.unlock();
+    }
+}
+
+class ReLockTest {
+    private boolean isLocked = false;
+    private Thread LockedBy = null;
+    private int holdCount = 0;
+
+    public synchronized void lock() throws InterruptedException {
+        Thread thread = Thread.currentThread();
+        while (isLocked && thread != LockedBy)
+            wait();
+        LockedBy = thread;
+        holdCount++;
+        isLocked = true;
+    }
+
+    public synchronized void unlock() {
+        if (Thread.currentThread() == LockedBy) {
+            holdCount--;
+            if (holdCount == 0) {
+                isLocked = false;
+                notify();
+                LockedBy = null;
+            }
+        }
+    }
+}
+```
+
+可重入锁相较于不可重入锁，多了`LockedBy`变量用于检查调用`lock()`的线程是否已经持有该锁，如果已持有则直接`holdCount++`，否则该线程进入*WAITING*状态，并释放lock对象的内部锁。当调用`unlock()`时，先检查该线程是否持有该锁，若持有则`holdCount--`，如果`holdCount==0`，则表明该锁已被完全释放，将`isLocked = false;LockedBy = null;`并唤醒该对锁象内部Condition的等待队列的第一个线程(即此前调用`lock()`但锁已被占用，进入*WAITING*状态的第一个线程)。
