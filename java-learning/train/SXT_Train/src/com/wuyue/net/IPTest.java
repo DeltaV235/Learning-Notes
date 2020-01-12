@@ -12,6 +12,5 @@ public class IPTest {
         addr = InetAddress.getByName("www.baidu.com");
         System.out.println(addr.getHostAddress());
         System.out.println(addr.getHostName());
-
     }
 }

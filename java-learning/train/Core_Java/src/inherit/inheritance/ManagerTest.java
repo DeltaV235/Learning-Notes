@@ -16,9 +16,10 @@ public class ManagerTest {
 //        staff[0].setBonus(2000);
         staff[1] = new Employee("kkr", 3000, 2019, 12, 9);
         staff[2] = new Employee("ksm", 2500, 2019, 11, 5);
-        for(Employee e:staff) {
+        for (Employee e : staff) {
             System.out.println("name " + e.getName() + "\tsalary " + e.getSalary());
         }
+//        ((Manager)staff[1]).setBonus(500);
 
 //        throw java.lang.ArrayStoreException
 //        Manager[] managers = new Manager[10];
