@@ -1125,10 +1125,10 @@ int cas(long *addr, long old, long new)
 
 |方法名|作用|
 |--|--|
-|InetSocketAddress​(String hostname, int port)| Creates a socket address from a hostname and a port number.
-|InetAddress getAddress()|Gets the InetAddress.
-|String getHostName()|Gets the hostname.
-|int getPort()|Gets the port number.
+|InetSocketAddress(String hostname, int port)| Creates a socket address from a hostname and a port number.|
+|InetAddress getAddress()|Gets the InetAddress.|
+|String getHostName()|Gets the hostname.|
+|int getPort()|Gets the port number.|
 
 ### URL
 
@@ -1138,11 +1138,174 @@ Universal Resource Name : 统一资源名称
 
 |方法名|作用|
 |--|--|
-|URL​(String spec)|Creates a URL object from the String representation.
-|String getProtocol()|获取协议名
-|String getHost()|获取域名或IP
-|int getPort()|获取端口号
-|String getFile()|获取端口号与锚点之间的字符，即path + parameter
-|String getPath()|获取资源路径
-|String getQuery()|获取参数
-|String getRef()|获取锚点
+|URL(String spec)|Creates a URL object from the String representation.|
+|String getProtocol()|获取协议名|
+|String getHost()|获取域名或IP|
+|int getPort()|获取端口号|
+|String getFile()|获取端口号与锚点之间的字符，即path + parameter|
+|String getPath()|获取资源路径|
+|String getQuery()|获取参数|
+|String getRef()|获取锚点|
+
+### Socket
+
+套接字，传输层与应用层之间的接口
+
+#### UDP
+
+**DatagramSocket**:基于UDP协议，接收和发送用的Socket对象。
+
+|方法名|作用|
+|--|--|
+|DatagramSocket(int port, InetAddress laddr)|Creates a datagram socket, bound to the specified local address.|
+|void send(DatagramPacket p)|Sends a datagram packet from this socket.|
+|void receive(DatagramPacket p)|Receives a datagram packet from this socket.|
+
+其中*receive()* 方法会阻塞当前线程。
+
+**DatagramPacket**:用于接收或发送的数据包。
+
+| 方法名                                                       | 作用                                                         |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| `DatagramPacket(byte[] buf, int length)`                     | Constructs a `DatagramPacket` for receiving packets of length `length`. |
+| `DatagramPacket(byte[] buf, int offset, int length)`         | Constructs a `DatagramPacket` for receiving packets of length `length`, specifying an offset into the buffer. |
+| `DatagramPacket(byte[] buf, int offset, int length, InetAddress address, int port)` | Constructs a datagram packet for sending packets of length `length` with offset `offset` to the specified port number on the specified host. |
+| `DatagramPacket(byte[] buf, int offset, int length, SocketAddress address)` | Constructs a datagram packet for sending packets of length `length` with offset `offset` to the specified port number on the specified host. |
+| `DatagramPacket(byte[] buf, int length, InetAddress address, int port)` | Constructs a datagram packet for sending packets of length `length` to the specified port number on the specified host. |
+| `DatagramPacket(byte[] buf, int length, SocketAddress address)` | Constructs a datagram packet for sending packets of length `length` to the specified port number on the specified host. |
+
+- 接收端操作
+  1. 使用`DatagramSocket`指定端口，创建接收端
+  2. 装备容器，封装成`DatagramPacket`
+  3. 阻塞式接收包裹`receive(DatagramPacket p)`
+  4. 分析数据
+  5. 释放资源
+
+```java
+package com.wuyue.net.udp.transString;
+
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+
+/**
+ * udp的接收端
+ */
+public class UdpServer {
+    public static void main(String[] args) throws IOException {
+        DatagramSocket server = new DatagramSocket(10240);
+        byte[] container = new byte[1024 * 64];
+        DatagramPacket sendData = new DatagramPacket(container, 0, container.length);
+        server.receive(sendData);
+        byte[] receiveData = sendData.getData();        // 接收的字节数组长度即为先前创建的container的长度
+        int len = sendData.getLength();
+        System.out.println(new String(receiveData, 0, len));    // 所以在还原字节数组时，需要确定传输数据包的长度，来避免将多余的字节数组转换成字符串
+        server.close();
+    }
+}
+```
+
+- 发送端
+  1. 使用`DatagramSocket`指定端口，创建接收端
+  2. 准备数据并转换成字节数组
+  3. 封装成`DatagramPacket`，需要指定目的地
+  4. 发送包裹`send(DatagramPacket p)`
+  5. 释放资源
+
+```java
+package com.wuyue.net.udp.transString;
+
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.nio.charset.StandardCharsets;
+
+/**
+ * udp的发送端
+ */
+public class UdpCilent {
+    public static void main(String[] args) throws IOException {
+        DatagramSocket cilent = new DatagramSocket(20480);
+        byte[] sendMsg = "来打我啊".getBytes(StandardCharsets.UTF_8);
+        DatagramPacket datas = new DatagramPacket(sendMsg, 0, sendMsg.length, InetAddress.getLocalHost(), 10240);
+        cilent.send(datas);
+        cilent.close();
+    }
+}
+```
+
+配合IO中的`ByteArrayOutputStream` `BufferedOutputStream` `DataOutStream` `ObjectOutStream` `FileUtils.readFileToByteArray` 等IO流，可以将Java基本类型、引用类型变量、文件转换为字节数组，再通过UDP数据包发送。
+
+```java
+package com.wuyue.net.udp.transObj;
+
+import java.io.*;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetSocketAddress;
+import java.util.Date;
+
+/**
+ * udp的发送端
+ */
+public class UdpCilent {
+    public static void main(String[] args) throws IOException {
+        DatagramSocket cilent = new DatagramSocket(20480);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(byteArrayOutputStream));
+        oos.writeUTF("来打我啊");
+        oos.writeBoolean(true);
+        oos.writeDouble(3.1415926);
+        oos.writeObject(new Date());
+        oos.flush();
+        byte[] sendMsg = byteArrayOutputStream.toByteArray();
+        DatagramPacket datas = new DatagramPacket(sendMsg,
+                0,
+                sendMsg.length,
+                new InetSocketAddress("localhost", 10240));
+        cilent.send(datas);
+        oos.close();
+        cilent.close();
+        System.out.println("发送完成！");
+    }
+}
+```
+
+```java
+package com.wuyue.net.udp.transObj;
+
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.util.Date;
+
+/**
+ * udp的接收端
+ */
+public class UdpServer {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
+        DatagramSocket server = new DatagramSocket(10240);
+        byte[] container = new byte[1024 * 64];
+        DatagramPacket sendData = new DatagramPacket(container, 0, container.length);
+        server.receive(sendData);
+        byte[] receiveData = sendData.getData();
+        int len = sendData.getLength();
+        ObjectInputStream ois = new ObjectInputStream(new BufferedInputStream(new ByteArrayInputStream(receiveData)));
+        String msg = ois.readUTF();
+        boolean flag = ois.readBoolean();
+        double num = ois.readDouble();
+        Object obj = ois.readObject();
+        Date date = null;
+        if (obj instanceof Date)
+            date = (Date) obj;
+        System.out.println(msg + " " + flag + " " + num);
+        System.out.println(date);
+        ois.close();
+        server.close();
+    }
+}
+```
