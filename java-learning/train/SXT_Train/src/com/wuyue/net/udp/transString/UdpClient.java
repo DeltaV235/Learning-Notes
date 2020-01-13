@@ -9,12 +9,12 @@ package com.wuyue.net.udp.transString;
 /**
  * udp的发送端
  */
-public class UdpCilent {
+public class UdpClient {
     public static void main(String[] args) throws IOException {
-        DatagramSocket cilent = new DatagramSocket(20480);
+        DatagramSocket client = new DatagramSocket(20480);
         byte[] sendMsg = "来打我啊".getBytes(StandardCharsets.UTF_8);
         DatagramPacket datas = new DatagramPacket(sendMsg, 0, sendMsg.length, InetAddress.getLocalHost(), 10240);
-        cilent.send(datas);
-        cilent.close();
+        client.send(datas);
+        client.close();
     }
 }

@@ -1224,13 +1224,13 @@ import java.nio.charset.StandardCharsets;
 /**
  * udp的发送端
  */
-public class UdpCilent {
+public class UdpClient {
     public static void main(String[] args) throws IOException {
-        DatagramSocket cilent = new DatagramSocket(20480);
+        DatagramSocket client = new DatagramSocket(20480);
         byte[] sendMsg = "来打我啊".getBytes(StandardCharsets.UTF_8);
         DatagramPacket datas = new DatagramPacket(sendMsg, 0, sendMsg.length, InetAddress.getLocalHost(), 10240);
-        cilent.send(datas);
-        cilent.close();
+        client.send(datas);
+        client.close();
     }
 }
 ```
@@ -1249,9 +1249,9 @@ import java.util.Date;
 /**
  * udp的发送端
  */
-public class UdpCilent {
+public class UdpClient {
     public static void main(String[] args) throws IOException {
-        DatagramSocket cilent = new DatagramSocket(20480);
+        DatagramSocket client = new DatagramSocket(20480);
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(byteArrayOutputStream));
         oos.writeUTF("来打我啊");
@@ -1264,9 +1264,9 @@ public class UdpCilent {
                 0,
                 sendMsg.length,
                 new InetSocketAddress("localhost", 10240));
-        cilent.send(datas);
+        client.send(datas);
         oos.close();
-        cilent.close();
+        client.close();
         System.out.println("发送完成！");
     }
 }
@@ -1306,6 +1306,62 @@ public class UdpServer {
         System.out.println(date);
         ois.close();
         server.close();
+    }
+}
+```
+
+#### TCP编程
+
+- 创建服务器
+  1. 指定端口，使用`ServerSocket`创建服务器
+  2. 阻塞式等待连接`accept`
+  3. 操作：输入输出流操作
+  4. 释放资源
+
+```java
+package com.wuyue.net.tcp.tcpDemo;
+
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+/**
+ * TCP服务端
+ */
+public class Server {
+    public static void main(String[] args) throws IOException {
+        ServerSocket server = new ServerSocket(10240);
+        System.out.println("--------Server is Running--------");
+        Socket socket = server.accept();
+        System.out.println("--------One client has get Connection--------");
+        DataInputStream dis = new DataInputStream(socket.getInputStream());
+        System.out.println(dis.readUTF());
+        dis.close();
+        socket.close();
+    }
+}
+```
+
+- 创建客户端
+  1. 建立连接：使用Socket创建客户端，并指定服务端的地址和端口
+  2. 输入输出流的操作
+  3. 释放资源
+
+```java
+package com.wuyue.net.tcp.tcpDemo;
+
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
+
+public class Client {
+    public static void main(String[] args) throws IOException {
+        Socket socket = new Socket("localhost", 10240);
+        DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
+        dos.writeUTF("你好！");
+        dos.close();
+        socket.close();
     }
 }
 ```

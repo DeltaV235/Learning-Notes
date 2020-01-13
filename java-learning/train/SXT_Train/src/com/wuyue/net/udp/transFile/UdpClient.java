@@ -12,16 +12,16 @@ import java.net.InetSocketAddress;
 /**
  * udp的发送端
  */
-public class UdpCilent {
+public class UdpClient {
     public static void main(String[] args) throws IOException {
-        DatagramSocket cilent = new DatagramSocket(20480);
+        DatagramSocket client = new DatagramSocket(20480);
         byte[] sendMsg = FileUtils.readFileToByteArray(new File("Test/baidu.html"));
         DatagramPacket datas = new DatagramPacket(sendMsg,
                 0,
                 sendMsg.length,
                 new InetSocketAddress("localhost", 10240));
-        cilent.send(datas);
-        cilent.close();
+        client.send(datas);
+        client.close();
         System.out.println("发送完成！");
     }
 }

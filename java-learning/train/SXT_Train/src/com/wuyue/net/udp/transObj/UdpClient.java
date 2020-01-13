@@ -9,9 +9,9 @@ import java.util.Date;
 /**
  * udp的发送端
  */
-public class UdpCilent {
+public class UdpClient {
     public static void main(String[] args) throws IOException {
-        DatagramSocket cilent = new DatagramSocket(20480);
+        DatagramSocket client = new DatagramSocket(20480);
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(byteArrayOutputStream));
         oos.writeUTF("来打我啊");
@@ -24,9 +24,9 @@ public class UdpCilent {
                 0,
                 sendMsg.length,
                 new InetSocketAddress("localhost", 10240));
-        cilent.send(datas);
+        client.send(datas);
         oos.close();
-        cilent.close();
+        client.close();
         System.out.println("发送完成！");
     }
 }
