@@ -198,19 +198,19 @@ class Student implements Person, Named
 
 由于非静态内部类可以访问外部类的实例域，所以一定要在外部类已经实现的情况下才能实现非静态内部类。
 
->i. 非静态内部类必须寄存在一个外部类对象里。因此，如果有一个非静态内部类对象那么一定存在对应的外部类对象。非静态内部类对象单独属于外部类的某个对象。  
-ii. 非静态内部类可以直接访问外部类的成员，但是外部类不能直接访问非静态内部类成员。  
-iii. 非静态内部类不能有静态方法、静态属性和静态初始化块。  
-iv. 外部类的静态方法、静态代码块不能访问非静态内部类，包括不能使用非静态内部类定义变量、创建实例。  
-v. 成员变量访问要点：  
+>i. 非静态内部类必须寄存在一个外部类对象里。因此，如果有一个非静态内部类对象那么一定存在对应的外部类对象。非静态内部类对象单独属于外部类的某个对象。
+ii. 非静态内部类可以直接访问外部类的成员，但是外部类不能直接访问非静态内部类成员。
+iii. 非静态内部类不能有静态方法、静态属性和静态初始化块。
+iv. 外部类的静态方法、静态代码块不能访问非静态内部类，包括不能使用非静态内部类定义变量、创建实例。
+v. 成员变量访问要点：
     1.内部类里方法的局部变量：变量名。
-    2.内部类属性：this.变量名。  
+    2.内部类属性：this.变量名。
     3.外部类属性：外部类名.this.变量名。
 
 #### 静态内部类
 
->ii. 使用要点：  
-     1. 当一个静态内部类对象存在，并不一定存在对应的外部类对象。 因此，静态内部类的实例方法不能直接访问外部类的实例方法。  
+>ii. 使用要点：
+     1. 当一个静态内部类对象存在，并不一定存在对应的外部类对象。 因此，静态内部类的实例方法不能直接访问外部类的实例方法。
      2. 静态内部类看做外部类的一个静态成员。 因此，外部类的方法中可以通过：“静态内部类.名字”的方式访问静态内部类的静态成员，通过 new 静态内部类()访问静态内部类的实例。
 
 由于静态内部类不需要实例化，所以无法使用需要实例化的域和方法。
@@ -1362,6 +1362,182 @@ public class Client {
         dos.writeUTF("你好！");
         dos.close();
         socket.close();
+    }
+}
+```
+
+## 反射
+
+### 获取Class对象的三种方式
+
+1. obj.getClass();
+2. 类.class
+3. Class.forName("包名.类名");
+
+### 创建对象
+
+```java
+Class clz = Class.forName(com.wuyue.TestClass);
+TestClass tc = (TestClass)clz.getConstructor().newInstance();
+```
+
+## XML
+
+### SAX使用流程
+
+1. 获取解析工厂对象
+2. 从解析工厂获取解析器
+3. 编写处理器
+4. 加载文档Document注册处理器
+5. 解析
+
+## MISC
+
+### http
+
+#### http请求协议
+
+1. 请求行: 方法(GET/POST)、URI、协议/版本
+2. 请求头
+3. 请求正文
+
+#### http响应协议
+
+1. 状态行: 协议/版本、状态码、状态描述
+2. 响应头
+3. 响应正文
+
+格式化小数(double...)
+
+```java
+DecimalFormat formater = new DecimalFormat("#.##%");
+```
+
+对于只有一个抽象方法的接口，需要这种接口的对象时，就可以提供一个lambda表达式。这种接口称为*函数式接口*(functional interface)
+
+### 参数传递
+
+Java中没有指针，所以也没有引用传递了，仅仅有值传递不过可以通过对象的方式来实现引用传递 类似java没有多继承 但可以用多次implements 接口实现多继承的功能
+
+- 值传递：方法调用时，实际参数把它的值传递给对应的形式参数，方法执行中形式参数值的改变不影响实际参 数的值。
+- 引用传递：也称为传地址。方法调用时，实际参数的引用(地址，而不是参数的值)被传递给方法中相对应的形式参数，在方法执行中，对形式参数的操作实际上就是对实际参数的操作，方法执行中形式参数值的改变将会影响实际参数的值。
+
+ a.传递值的数据类型：八种基本数据类型和String(这样理解可以，但是事实上String也是传递的地址,只是string对象和其他对象是不同的，string对象是不能被改变的，内容改变就会产生新对象。那么StringBuffer就可以了，但只是改变其内容。不能改变外部变量所指向的内存地址)。
+ b.传递地址值的数据类型：除String以外的所有复合数据类型，包括数组、类和接口
+ 对于对象类型，也就是Object的子类，如果你在方法中修改了它的成员的值，那个修改是生效的，方法调用结束后，它的成员是新的值，但是如果你把它指向一个其它的对象，方法调用结束后，原来对它的引用并没用指向新的对象。
+
+Java参数，不管是原始类型还是引用类型，传递的都是副本(有另外一种说法是传值，但是说传副本更好理解吧，传值通常是相对传址而言)。
+如果参数类型是原始类型，那么传过来的就是这个参数的一个副本，也就是这个原始参数的值，这个跟之前所谈的传值是一样的。如果在函数中改变了副本的值不会改变原始的值。
+如果参数类型是引用类型，那么传过来的就是这个引用参数的副本，这个副本存放的是参数的地址。如果在函数中没有改变这个副本的地址，而是改变了地址中的值，那么在函数内的改变会影响到传入的参数。如果在函数中改变了副本的地址，如new一个，那么副本就指向了一个新的地址，此时传入的参数还是指向原来的地址，所以不会改变参数的值。
+
+### Integer.parseInt()
+
+Java包装类中的parse方法能够将字符串转换为对应的Java基础类型
+
+```java
+package com.wuyue.server.xml;
+
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class XmlParse02 {
+    public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
+        SAXParserFactory factory = SAXParserFactory.newInstance();
+        SAXParser parser = factory.newSAXParser();
+        PersonHandler personHandler = new PersonHandler();
+        parser.parse(Thread.currentThread().getContextClassLoader().getResourceAsStream("com/wuyue/server/xml/test.xml"), personHandler);
+    }
+}
+
+class Person {
+    private String name;
+    private int age;
+
+    public Person() {
+    }
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                '}';
+    }
+}
+
+class PersonHandler extends DefaultHandler {
+    private List<Person> persons;
+    private Person person;
+    private String tag; //存储当前操作的标签
+
+    @Override
+    public void startDocument() throws SAXException {
+        persons = new ArrayList<>();
+    }
+
+    @Override
+    public void endDocument() throws SAXException {
+        System.out.println("解析文档结束");
+        for (Person person : persons)
+            System.out.println(person);
+    }
+
+    @Override
+    public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+        if (null != qName)
+            tag = qName;
+        if (tag.equals("person")) {
+            person = new Person();
+        }
+    }
+
+    @Override
+    public void endElement(String uri, String localName, String qName) throws SAXException {
+        if (qName.equals("person")) {
+            persons.add(person);
+        }
+        tag = null;
+    }
+
+    @Override
+    public void characters(char[] ch, int start, int length) throws SAXException {
+        String string = new String(ch, start, length).trim();
+        if (null != tag) {
+            if (tag.equals("name"))
+                person.setName(string);
+            else if (tag.equals("age"))
+                if (string.length() > 0)
+                    person.setAge(Integer.parseInt(string));
+        }
     }
 }
 ```
