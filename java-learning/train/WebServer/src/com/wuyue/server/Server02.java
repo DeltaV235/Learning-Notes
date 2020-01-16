@@ -15,9 +15,9 @@ public class Server02 {
     private ServerSocket serverSocket;
 
     public static void main(String[] args) {
-        Server02 server01 = new Server02();
-        server01.start();
-        server01.receive();
+        Server02 server02 = new Server02();
+        server02.start();
+        server02.receive();
     }
 
     // 启动服务
