@@ -1368,6 +1368,10 @@ public class Client {
 
 ## 反射
 
+一个类被加载后，JVM会创建一个对应该类的Class对象，类的整个结构信息会放到对应的Class对象中。
+一个类只对应一个Class对象
+class,interface,annotation,primitive type,array,enum,void都有对应的Class对象
+
 ### 获取Class对象的三种方式
 
 1. obj.getClass();
@@ -1391,7 +1395,50 @@ TestClass tc = (TestClass)clz.getConstructor().newInstance();
 4. 加载文档Document注册处理器
 5. 解析
 
+## 注解
+
+### 内置注解(Annotation)
+
+- @Override
+检查该方法是否覆盖了超类中的方法，如果没有则编译器报错
+
+- Deprecated
+已废弃的方法
+
+- SuppressWarning(value = {"unchecked", "all"})
+抑制警告，需要提供String[]
+
+### 元注解
+
+负责注解其他注解，提供对其他annotation类型的说明
+
+- @Target 描述注解的使用范围
+
+  | 所修饰的范围                     | 取值 ElementType               |
+  | -------------------------------- | ------------------------------ |
+  | package 包                       | PACKAGE                        |
+  | 类、接口、枚举、Annotation类     | TYPE                           |
+  | 类成员(方法、构造方法、成员变量) | CONSTRUCTOR    FIELD    METHOD |
+  | 方法参数、本地变量               | LOCAL_VARIABLE    PARAMETER    |
+
+- @Retention 表示需要在什么级别保留该注解信息，用于描述注解的生命周期
+
+  | RetentionPolicy | 作用                                      |
+  | --------------- | ----------------------------------------- |
+  | SOURCE          | 在源文件中有效(即源文件保留)              |
+  | CLASS           | 在class文件中有效(即class保留)            |
+  | RUNTIME         | 在运行时有效，为Runtime可以被反射机制读取 |
+  
+- @Documented
+- @Inherited
+
+若注解只有一个参数，则传参时可以省略参数名
+
 ## MISC
+
+### 动态语言
+
+程序运行时，可以改变程序结构或变量类型。如**python** **javascript**等
 
 ### http
 
