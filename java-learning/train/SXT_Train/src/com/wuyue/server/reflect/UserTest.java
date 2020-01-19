@@ -25,8 +25,7 @@ public class UserTest {
 
             Method staticMethod = clz.getMethod("setId", int.class);
             staticMethod.invoke(null, 2000);
-            System.out.println(clz.getMethod("getId", null).invoke(null));
-
+//            System.out.println(clz.getMethod("getId", null).invoke(null));
         } catch (Exception e) {
             e.printStackTrace();
         }

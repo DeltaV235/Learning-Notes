@@ -136,6 +136,8 @@ float f = n;    // f is 1.2345679E8
 3. 如果构造器第一行调用了第二个构造器，则执行第二个构造器主体(`this(···);`);
 4. 执行这个构造器的主体。
 
+- 若子类的构造器中未显式的调用父类的构造器，则编译器会自动在该构造器首行调用父类的无参(默认)构造器。若父类无无参构造器，则编译器报错，或需要显式的调用父类指定的构造器。
+
 ## Java中用于控制可见性的4个访问修饰符
 
 1.仅对**本类**可见——`private`
@@ -1371,6 +1373,9 @@ public class Client {
 一个类被加载后，JVM会创建一个对应该类的Class对象，类的整个结构信息会放到对应的Class对象中。
 一个类只对应一个Class对象
 class,interface,annotation,primitive type,array,enum,void都有对应的Class对象
+通过反射来获取类的信息，类、构造器、方法、域、注解、泛型
+禁用访问权限安全检查能够提高反射的运行效率
+`methodObj.setAccessiable(true)`
 
 ### 获取Class对象的三种方式
 
@@ -1384,6 +1389,39 @@ class,interface,annotation,primitive type,array,enum,void都有对应的Class对
 Class clz = Class.forName(com.wuyue.TestClass);
 TestClass tc = (TestClass)clz.getConstructor().newInstance();
 ```
+
+## 字节码操作
+
+- **运行时操作字节码可以让我们实现如下功能:**
+
+  - 动态生成新的类
+  - 动态改变某个类的结构(添加/删除/修改 新的属性/方法)
+
+- **优势:**
+
+  - 比反射开销小，性能高
+  - Javassist性能高于反射，低于ASM
+
+## JVM
+
+### 类加载全过程
+
+![class-load](source/class-load.png)
+
+[详细说明](https://blog.csdn.net/justloveyou_/article/details/72466105)
+
+- 类的主动引用(一定会发生类的初始化)
+  - new一个类的对象。
+  - 调用类的静态成员(除了final常量)和静态方法。
+  - 使用java.lang.reflect包中的方法对类进行反射调用。
+  - 当虚拟机启动，java HelloWorld，则一定会初始化HelloWorld类。JVM必定加载main方法所在的类。
+  - 当初始化一个类，如果其父类没有被初始化，则会先初始化其父类。
+
+- 类的被动应用(不会发生类的初始化)
+  - 当访问一个静态域时，只有真正声明这个域的类才会被初始化。
+    - 通过子类引用父类的静态变量，不会导致子类初始化。
+  - 通过数组定义类的引用，不会触发此类的初始化。
+  - 引用常量不会触发此类的初始化(常量在编译阶段就长存入调用类的常量池中了)。
 
 ## XML
 
@@ -1463,6 +1501,8 @@ DecimalFormat formater = new DecimalFormat("#.##%");
 对于只有一个抽象方法的接口，需要这种接口的对象时，就可以提供一个lambda表达式。这种接口称为*函数式接口*(functional interface)
 
 ### 参数传递
+
+**传入数组** 若形参为可变参数，则实参列表中放入一个数组，编译器会自动将数组中的所有元素拆开，变成多个实际参数。可以在传递的数组前使用`(Object)`强制转型，来避免这个问题。
 
 Java中没有指针，所以也没有引用传递了，仅仅有值传递不过可以通过对象的方式来实现引用传递 类似java没有多继承 但可以用多次implements 接口实现多继承的功能
 
@@ -1588,3 +1628,8 @@ class PersonHandler extends DefaultHandler {
     }
 }
 ```
+
+### Cloneable
+
+尽管clone方法属于Object类，但类无法直接调用clone方法，需要实现空接口Cloneable，随后覆盖clone方法才能实现对象的克隆。
+浅克隆不克隆引用类型的对象。
