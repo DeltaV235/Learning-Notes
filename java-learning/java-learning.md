@@ -1414,7 +1414,7 @@ TestClass tc = (TestClass)clz.getConstructor().newInstance();
   - 通过数组定义类的引用，不会触发此类的初始化。
   - 引用常量不会触发此类的初始化(常量在编译阶段就长存入调用类的常量池中了)。
 
-## 初始化对象实例域的顺序
+### 初始化对象实例域的顺序
 
 [详细说明](https://blog.csdn.net/justloveyou_/article/details/72466416)
 
@@ -1429,6 +1429,59 @@ TestClass tc = (TestClass)clz.getConstructor().newInstance();
 - 若子类构造器中调用了本类的其他构造器(`this()`)，则`super()`将不会自动添加在构造器首行。
 
 - 实际上，如果我们对实例变量直接赋值或者使用实例代码块赋值，那么编译器会将其中的代码放到类的构造函数中去，并且这些代码会被放在对超类构造函数的调用语句之后(还记得吗？Java要求构造函数的第一条语句必须是超类构造函数的调用语句)，构造函数本身的代码之前。
+
+### 类加载器
+
+![Class-loader](source/class-loader-relationship.jpg)
+
+- **相同**的类加载器只会加载类**一次**，**不同**的类加载器加载**同一个类**，会在方法区生成两个**不同**的类信息以及Class对象。
+
+- 类加载时机
+  - 什么情况下虚拟机需要开始加载一个类呢？虚拟机规范中并没有对此进行强制约束，这点可以交给虚拟机的具体实现来自由把握。
+  - 可以使用反射(`Class.forName()`)和用户自定义类加载器动态的加载指定的类。
+
+**自定义文件系统类加载器**:
+
+```java
+package com.wuyue.classLoader;
+
+import org.apache.commons.io.FileUtils;
+
+import java.io.File;
+import java.io.IOException;
+
+public class FileSystemClassLoader extends ClassLoader {
+    private String rootPath;
+
+    public FileSystemClassLoader(String rootPath) {
+        this.rootPath = rootPath;
+    }
+
+    public Class<?> load(String className) {
+        String fullName = rootPath + (rootPath.indexOf(rootPath.length() - 1) == '/' ? "" : "/") +
+                className.replace('.', '/');
+        Class<?> clz = null;
+        try {
+            clz = this.getParent().loadClass(fullName);
+            if (clz != null)
+                return clz;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            byte[] classFileByteArray = FileUtils.readFileToByteArray(new File(fullName + ".class"));
+            clz = defineClass(className, classFileByteArray, 0, classFileByteArray.length);
+            if (clz != null)
+                return clz;
+            else throw new ClassNotFoundException();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+}
+```
 
 ## XML
 
@@ -1478,6 +1531,78 @@ TestClass tc = (TestClass)clz.getConstructor().newInstance();
 - @Inherited
 
 若注解只有一个参数，则传参时可以省略参数名
+
+## 设计模式
+
+- **创建型模式**
+  - 单例模式、工厂模式、抽象工厂模式、建造者模式、原型模式
+- **结构型模式**
+  - 适配器模式、桥接模式、装饰模式、组合模式、外观模式、享元模式、代理模式
+- **行为型模式**
+  - 模板方法模式、命令模式、迭代器模式、观察者模式、中介者模式、备忘录模式、解释器模式、状态模式、策略模式、职责链模式、访问者模式
+
+### 单例模式
+
+#### 饿汉式实现
+
+线程安全，调用效率高，但不能延时实例化。
+
+```java
+package com.wuyue.gof.singleton;
+
+/**
+ * 饿汉式单例模式
+ */
+public class HungrySingleton {
+    // 类初始化时，立刻实例化该对象，在类初始化时线程安全，所以getInstance()方法不用添加同步。
+    private final static HungrySingleton instance = new HungrySingleton();
+
+    private HungrySingleton() {
+    }
+
+    public static HungrySingleton getInstance() {
+        return instance;
+    }
+}
+```
+
+#### 懒汉式实现
+
+线程安全，调用效率不高，但可以延时加载。
+
+```java
+package com.wuyue.gof.singleton;
+
+/**
+ * 懒汉式单例
+ */
+public class LazySingleton {
+    // 类初始化时不实例化该对象，在使用的时候再实例化。
+    private static LazySingleton instance;
+
+    private LazySingleton() {
+    }
+
+    // 同步方法，调用效率低。
+    public static synchronized LazySingleton getInstance() {
+        if (instance == null)
+            instance = new LazySingleton();
+        return instance;
+    }
+}
+```
+
+#### 双重检测锁式
+
+由于JVM底层内部模型原因，偶尔会出问题。不建议使用
+
+#### 静态内部类式
+
+线程安全，调用效率高，且能够延时加载。
+
+#### 枚举单例
+
+线程安全，调用效率高，但不能延时加载。
 
 ## MISC
 
