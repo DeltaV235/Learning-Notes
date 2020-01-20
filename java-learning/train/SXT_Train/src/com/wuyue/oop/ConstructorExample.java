@@ -36,14 +36,18 @@ class Foo {
 
 //子类
 class Bar extends Foo {
-    int j = 1;
+    int j ;
 
     Bar() {
         j = 2;
     }
 
+    Bar(int i) {
+        this();
+    }
+
     {
-        j = 3;
+        System.out.println(getValue());
     }
 
     @Override
@@ -54,7 +58,7 @@ class Bar extends Foo {
 
 public class ConstructorExample {
     public static void main(String... args) {
-        Bar bar = new Bar();
+        Bar bar = new Bar(3);
         System.out.println(bar.getValue());
     }
 }
