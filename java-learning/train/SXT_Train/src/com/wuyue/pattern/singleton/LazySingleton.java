@@ -1,4 +1,4 @@
-package com.wuyue.gof.singleton;
+package com.wuyue.pattern.singleton;
 
 /**
  * 懒汉式单例

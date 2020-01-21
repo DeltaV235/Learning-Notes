@@ -20,9 +20,9 @@ Core Java
 - [ ] lambada   1D
 - [ ] 内部类    1D
 - [ ] 代理      1D
-- [ ] 异常      1D
+- [ ] **异常**      1D
 - [ ] 日志      1D
-- [ ] 泛型      2D
+- [ ] **泛型**      2D
 - [ ] 集合      3D
 - [ ] 部署      2D
 - [ ] 并发      4D
@@ -191,22 +191,25 @@ class Student implements Person, Named
 
 由于非静态内部类可以访问外部类的实例域，所以一定要在外部类已经实现的情况下才能实现非静态内部类。
 
->i. 非静态内部类必须寄存在一个外部类对象里。因此，如果有一个非静态内部类对象那么一定存在对应的外部类对象。非静态内部类对象单独属于外部类的某个对象。
-ii. 非静态内部类可以直接访问外部类的成员，但是外部类不能直接访问非静态内部类成员。
-iii. 非静态内部类不能有静态方法、静态属性和静态初始化块。
-iv. 外部类的静态方法、静态代码块不能访问非静态内部类，包括不能使用非静态内部类定义变量、创建实例。
-v. 成员变量访问要点：
-    1.内部类里方法的局部变量：变量名。
-    2.内部类属性：this.变量名。
-    3.外部类属性：外部类名.this.变量名。
+- **使用说明:**
+
+1. 非静态内部类必须寄存在一个**外部类对象**里。因此，如果有一个非静态内部类对象那么一定存在对应的外部类对象。非静态内部类对象单独属于外部类的某个对象。(所以非静态内部类可以访问外部类的实例域)
+2. 非静态内部类可以直接访问外部类的成员，但是外部类不能直接访问非静态内部类成员。(因为内部类可能还没有实例化)
+3. 非静态内部类不能有静态方法、静态属性和静态初始化块。
+4. 外部类的静态方法、静态代码块不能访问非静态内部类，包括不能使用非静态内部类定义变量、创建实例。(此时外部类还未实例化，所以内部类也不能实例化，不能使用内部类的变量和创建实例)
+5. 成员变量访问要点：
+  i. 内部类里方法的局部变量：变量名。
+  ii. 内部类属性：this.变量名。
+  iii. 外部类属性：外部类名.this.变量名。
 
 #### 静态内部类
 
->ii. 使用要点：
-     1. 当一个静态内部类对象存在，并不一定存在对应的外部类对象。 因此，静态内部类的实例方法不能直接访问外部类的实例方法。
-     2. 静态内部类看做外部类的一个静态成员。 因此，外部类的方法中可以通过：“静态内部类.名字”的方式访问静态内部类的静态成员，通过 new 静态内部类()访问静态内部类的实例。
+- **使用要点:**
 
-由于静态内部类不需要实例化，所以无法使用需要实例化的域和方法。
+1. 当一个静态内部类对象存在，并不一定存在对应的外部类对象。 因此，静态内部类的实例方法不能直接访问外部类的实例方法。
+2. 静态内部类看做外部类的一个静态成员。 因此，外部类的方法中可以通过：“静态内部类.名字”的方式访问静态内部类的静态成员，通过 new 静态内部类()访问静态内部类的实例。
+
+由于静态内部类不需要实例化，所以无法使用外部类中需要实例化的域和方法。
 
 #### 匿名内部类
 
@@ -1414,6 +1417,8 @@ TestClass tc = (TestClass)clz.getConstructor().newInstance();
   - 通过数组定义类的引用，不会触发此类的初始化。
   - 引用常量不会触发此类的初始化(常量在编译阶段就长存入调用类的常量池中了)。
 
+**注意:类的初始化的过程中可以实例化类对象**(如饿汉式单例模式、枚举类，它们都在static块中实例化了对象)(静态变量在准备阶段便已经分配了内存和设零值，所以实例化先于类初始化完成也是可以的)。
+
 ### 初始化对象实例域的顺序
 
 [详细说明](https://blog.csdn.net/justloveyou_/article/details/72466416)
@@ -1548,7 +1553,7 @@ public class FileSystemClassLoader extends ClassLoader {
 线程安全，调用效率高，但不能延时实例化。
 
 ```java
-package com.wuyue.gof.singleton;
+package com.wuyue.pattern.singleton;
 
 /**
  * 饿汉式单例模式
@@ -1571,7 +1576,7 @@ public class HungrySingleton {
 线程安全，调用效率不高，但可以延时加载。
 
 ```java
-package com.wuyue.gof.singleton;
+package com.wuyue.pattern.singleton;
 
 /**
  * 懒汉式单例
@@ -1594,17 +1599,157 @@ public class LazySingleton {
 
 #### 双重检测锁式
 
-由于JVM底层内部模型原因，偶尔会出问题。不建议使用
+由于JVM底层内部模型原因，偶尔会出问题。不建议使用。
+
+```java
+package com.wuyue.pattern.singleton;
+
+/**
+ * 双重检查锁单例模式
+ *
+ * @author DeltaV235
+ */
+public class DoubleCheckLockSingleton {
+    // volatile关键字禁用了指令重排序以及在该对象被修改时及时将工作内存中的副本同步至主内存，并更新所有线程的副本
+    private static volatile DoubleCheckLockSingleton instance;
+
+    private DoubleCheckLockSingleton() {
+    }
+
+    /**
+     * 减少了多线程中同步等待的时间
+     *
+     * @return 该对象实例
+     */
+    public static DoubleCheckLockSingleton getInstance() {
+        // 若instance不为null，则直接返回instance，省去了线程等待同步锁的时间
+        if (instance == null)
+            synchronized (DoubleCheckLockSingleton.class) {
+                // 防止多个线程重复实例化对象
+                if (instance == null)
+                    instance = new DoubleCheckLockSingleton();
+            }
+        return instance;
+    }
+}
+```
 
 #### 静态内部类式
 
 线程安全，调用效率高，且能够延时加载。
 
-#### 枚举单例
+```java
+package com.wuyue.pattern.singleton;
+
+/**
+ * 静态内部类单例模式
+ * 线程安全，调用效率高，支持延时加载
+ */
+public class StaticInnerClassSingleton {
+    // 类初始化时能够保证线程安全
+    private static class SingletonInnerClass {
+        private static final StaticInnerClassSingleton instance = new StaticInnerClassSingleton();
+    }
+
+    private StaticInnerClassSingleton() {
+    }
+
+    public static StaticInnerClassSingleton getInstance() {
+        return SingletonInnerClass.instance;
+    }
+}
+```
+
+#### 枚举单例式
 
 线程安全，调用效率高，但不能延时加载。
 
+```java
+package com.wuyue.pattern.singleton;
+
+/**
+ * 枚举式单例模式
+ * 不能延时加载
+ */
+public enum EnumSingleton {
+    // 枚举元素本身就是单例对象
+    INSTANCE;
+
+    // 添加需要的操作
+    public void singletonOperation() {
+    }
+}
+```
+
+- 在需要频繁获取对象且不需要延时加载的场景，使用**枚举类单例模式**
+- 在需要延时加载的场景，优先使用**静态内部类单例模式**
+
+**反射**和**反序列化**能够越过除了**枚举类**以外的单例模式
+通过反射获取私有构造器便能实例化多个对象。通过反序列化创建多个实例对象。
+
 ## MISC
+
+### Enum
+
+[好吃的](https://blog.csdn.net/javazejian/article/details/71333103)
+
+枚举类常量其实指向该枚举类的一个引用类型变量。
+
+```java
+//枚举类型，使用关键字enum
+enum Day {
+    MONDAY, TUESDAY, WEDNESDAY,
+    THURSDAY, FRIDAY, SATURDAY, SUNDAY
+}
+```
+
+```java
+//反编译Day.class
+final class Day extends Enum
+{
+    //编译器为我们添加的静态的values()方法
+    public static Day[] values()
+    {
+        return (Day[])$VALUES.clone();
+    }
+    //编译器为我们添加的静态的valueOf()方法，注意间接调用了Enum也类的valueOf方法
+    public static Day valueOf(String s)
+    {
+        return (Day)Enum.valueOf(com/zejian/enumdemo/Day, s);
+    }
+    //私有构造函数
+    private Day(String s, int i)
+    {
+        super(s, i);
+    }
+     //前面定义的7种枚举实例
+    public static final Day MONDAY;
+    public static final Day TUESDAY;
+    public static final Day WEDNESDAY;
+    public static final Day THURSDAY;
+    public static final Day FRIDAY;
+    public static final Day SATURDAY;
+    public static final Day SUNDAY;
+    private static final Day $VALUES[];
+
+    static
+    {
+        //实例化枚举实例
+        MONDAY = new Day("MONDAY", 0);
+        TUESDAY = new Day("TUESDAY", 1);
+        WEDNESDAY = new Day("WEDNESDAY", 2);
+        THURSDAY = new Day("THURSDAY", 3);
+        FRIDAY = new Day("FRIDAY", 4);
+        SATURDAY = new Day("SATURDAY", 5);
+        SUNDAY = new Day("SUNDAY", 6);
+        $VALUES = (new Day[] {
+            MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY
+        });
+    }
+}
+```
+
+上方两段代码等价
 
 ### 动态语言
 

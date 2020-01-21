@@ -1,4 +1,4 @@
-package com.wuyue.gof.singleton;
+package com.wuyue.pattern.singleton;
 
 /**
  * 饿汉式单例模式
