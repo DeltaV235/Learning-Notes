@@ -1,8 +1,23 @@
 # MySQL笔记
 
-## 1.数据库操作
+## MySQL服务器的登录方式
 
-### 创建数据库
+1. `mysql -u user -p`
+2. `mysql -hhost -uuser -ppassword`
+3. `mysql --host=ip --user=user --password=password`
+
+## SQL分类
+
+1. DDL(Data Definition Language) 数据定义语言。用来定义数据库对象:数据库、表、列等。关键字: create drop alter 等。
+2. DML(Data Manipulation Language) 数据操作语言。 用来对数据库中表的数据进行增删改。 关键字: insert delete update 等
+3. DQL(Data Query Language) 数据查询语言。 用来查询数据库中表的记录(数据)。 关键字: select where 等。
+4. DCL(Data Control Language) 数据控制语言。 用来定义数据库的访问权限和安全级别，及创建用户。 关键字: grant revoke 等。
+
+## DDL
+
+### 1.数据库操作
+
+#### 创建数据库
 
 ```sql
 CREATE {DATABASE|SCHEMA} [IF NOT EXISTS] 数据库名
@@ -12,20 +27,28 @@ CREATE {DATABASE|SCHEMA} [IF NOT EXISTS] 数据库名
 ];
 ```
 
-### 查看数据库
+#### 查看数据库
+
+- 查看数据库系统中，指定的数据库名
 
 ```sql
 SHOW {DATABASES|SCHEMA}
 [LIKE '模式' WHERE 条件];
 ```
 
-### 选择数据库
+- 查看某个数据库的创建语句
+
+```sql
+SHOW CREATE DATABASE DBNAME;
+```
+
+#### 选择数据库
 
 ```sql
 USE 数据库名;
 ```
 
-### 修改数据库
+#### 修改数据库
 
 ```sql
 ALTER {DATABASE|SCHEMA} [数据库名]
@@ -33,13 +56,88 @@ ALTER {DATABASE|SCHEMA} [数据库名]
 [DEFAULT] COLLATE [=] 校对规则名称
 ```
 
-### 删除数据库
+#### 删除数据库
 
 ```sql
 DROP {DATABASE|SCHEMA} [IF EXISTS] 数据库名;
 ```
 
-## 2.MySQL数据类型
+### 2.操作数据表
+
+#### 创建数据表
+
+```sql
+CREATE [TEMPORARY] TABLE [IF NOT EXISTS] 数据表名
+[(crete_definition,...)] [table_option] [select_statenent];
+```
+
+`create_definition`部分:
+
+```sql
+col_name type [NOT NULL | NULL] [DEFAULT default_value] [AUTO_INCREMENT] [PRIMARY KEY] [reference_definition]
+```
+
+#### 查看表结构
+
+```sql
+SHOW [FULL] COLUMNS FROM 数据表名 [FROM 数据库名];
+SHOW [FULL] COLUMNS FROM 数据库名.数据表名;
+DESCRIBE 数据表名;
+DESC 数据表名 列名;
+```
+
+- 查看表的构建语句
+
+```sql
+SHOW CREATE TABLE TABLENAME;
+```
+
+#### 修改表结构
+
+```sql
+ALTER [IGNORE] TABLE <表名>
+    [ADD [COLUMN] <新列名> <数据类型> [完整性约束]]
+    [ADD <表级完整性约束>]
+    [DROP [COLUMN] <列名> [CASCADE|RESTRICT]]
+    [DROP CONSTRAINT <完整性约束名> [CASCADE|RESTRICT]]
+    [ALTER COLUMN <列名> <数据类型>];
+    [RENAME [AS] 新表名]
+    [CHANGE [COLUMN] 旧字段名 新字段定义]
+    [MODIFY [COLUMN] <定义>];
+```
+
+其中`MODIFY`只修改字段数据类型，而`CHANGE`能够修改字段的名字和数据类型。
+
+#### 重命名表
+
+```sql
+RENAME TABLE <表名1> TO <表名2>;
+```
+
+#### 复制表
+
+```sql
+CREATE TABLE [IF NOT EXISTS] <表名> LIKE <源表名>;                  只复制表结构
+CREATE TABLE [IF NOT EXISTS] <表名> AS SELECT * FROM <源表名>;      复制表结构和数据
+```
+
+#### 删除表
+
+```sql
+DROP TABLE [IF EXISTS] <TABLE_NAME>;
+```
+
+## MISC
+
+MySQL表结构以及表数据默认存放于`/var/lib/mysql`下，一个Schema对应一个目录。
+MySQL数据库不区分SQL大小写，但建议使用大写。
+
+### 注释
+
+- 单行注释: `--` `#`
+- 多行注释: `/*` `*/`
+
+### MySQL数据类型
 
 - 数字类型
   - 整数: tinyint、smallint、mediumint、int、bigint
@@ -111,60 +209,3 @@ DROP {DATABASE|SCHEMA} [IF EXISTS] 数据库名;
 
 - TEXT在MySQL内部大多存储格式为溢出页，效率不如CHAR
 - Mysql默认为utf-8，那么在英文模式下1个字符=1个字节，在中文模式下1个字符=3个字节。
-
-## 3.操作数据表
-
-### 创建数据表
-
-```sql
-CREATE [TEMPORARY] TABLE [IF NOT EXISTS] 数据表名
-[(crete_definition,...)] [table_option] [select_statenent];
-```
-
-`create_definition`部分:
-
-```sql
-col_name type [NOT NULL | NULL] [DEFAULT default_value] [AUTO_INCREMENT] [PRIMARY KEY] [reference_definition]
-```
-
-### 查看表结构
-
-```sql
-SHOW [FULL] COLUMNS FROM 数据表名 [FROM 数据库名];
-SHOW [FULL] COLUMNS FROM 数据库名.数据表名;
-DESCRIBE 数据表名;
-DESC 数据表名 列名;
-```
-
-### 修改表结构
-
-```sql
-ALTER [IGNORE] TABLE <表名>
-    [ADD [COLUMN] <新列名> <数据类型> [完整性约束]]
-    [ADD <表级完整性约束>]
-    [DROP [COLUMN] <列名> [CASCADE|RESTRICT]]
-    [DROP CONSTRAINT <完整性约束名> [CASCADE|RESTRICT]]
-    [ALTER COLUMN <列名> <数据类型>];
-    [RENAME [AS] 新表名]
-    [CHANGE [COLUMN] 旧字段名 新字段定义]
-    [MODIFY [COLUMN] <定义>];
-```
-
-### 重命名表
-
-```sql
-RENAME TABLE <表名1> TO <表名2>;
-```
-
-### 复制表
-
-```sql
-CREATE TABLE [IF NOT EXISTS] <表名> LIKE <源表名>;                  只复制表结构
-CREATE TABLE [IF NOT EXISTS] <表名> AS SELECT * FROM <源表名>;      复制表结构和数据
-```
-
-### 删除表
-
-```sql
-DROP TABLE [IF EXISTS] <TABLE_NAME>;
-```

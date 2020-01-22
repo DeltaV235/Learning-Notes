@@ -1,5 +1,6 @@
-
 # Java学习笔记
+
+[TOC]
 
 ## 学习路线
 
@@ -1712,6 +1713,10 @@ public enum EnumSingleton {
 - 每个具体工厂类可以创建多个具体产品类的实例。
 
 ## MISC
+
+### CountDownLatch
+
+`CountDownLatch`类能够帮助我们调试多线程，可以阻塞一个线程，直到指定的线程都执行完，再唤醒被阻塞的线程。
 
 ### 面向对象设计的基本原则
 
