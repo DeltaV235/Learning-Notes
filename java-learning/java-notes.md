@@ -816,7 +816,7 @@ condition.signal();
 
 每个对象都存在一个内部锁和内部条件变量。可以在方法名返回值前进行修饰，该方法就称为同步方法，只有在获取当前对象的内部锁时才能执行方法。使用*Object*的**wait()** 、**notify()** 和 **notifyAll()** 方法实现线程的等待和解除。
 以上方法均需要在同步方法中才能够调用，否则抛出*IllegalMonitorStateException*异常。
-阻塞状态的线程产生中断，会抛出*InterruptedException*，因为该线程无法检查中断状态。
+阻塞状态的线程产生中断，会抛出*InterruptedException*，因为该线程此时无法检查中断状态。
 
 ```java
 public synchronized void methodName() {...}
@@ -1499,6 +1499,114 @@ public class FileSystemClassLoader extends ClassLoader {
 4. 加载文档Document注册处理器
 5. 解析
 
+```java
+package com.wuyue.server.xml;
+
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class XmlParse02 {
+    public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
+        SAXParserFactory factory = SAXParserFactory.newInstance();
+        SAXParser parser = factory.newSAXParser();
+        PersonHandler personHandler = new PersonHandler();
+        parser.parse(Thread.currentThread().getContextClassLoader().getResourceAsStream("com/wuyue/server/xml/test.xml"), personHandler);
+    }
+}
+
+class Person {
+    private String name;
+    private int age;
+
+    public Person() {
+    }
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                '}';
+    }
+}
+
+class PersonHandler extends DefaultHandler {
+    private List<Person> persons;
+    private Person person;
+    private String tag; //存储当前操作的标签
+
+    @Override
+    public void startDocument() throws SAXException {
+        persons = new ArrayList<>();
+    }
+
+    @Override
+    public void endDocument() throws SAXException {
+        System.out.println("解析文档结束");
+        for (Person person : persons)
+            System.out.println(person);
+    }
+
+    @Override
+    public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+        if (null != qName)
+            tag = qName;
+        if (tag.equals("person")) {
+            person = new Person();
+        }
+    }
+
+    @Override
+    public void endElement(String uri, String localName, String qName) throws SAXException {
+        if (qName.equals("person")) {
+            persons.add(person);
+        }
+        tag = null;
+    }
+
+    @Override
+    public void characters(char[] ch, int start, int length) throws SAXException {
+        String string = new String(ch, start, length).trim();
+        if (null != tag) {
+            if (tag.equals("name"))
+                person.setName(string);
+            else if (tag.equals("age"))
+                if (string.length() > 0)
+                    person.setAge(Integer.parseInt(string));
+        }
+    }
+}
+```
+
 ## 注解
 
 ### 内置注解(Annotation)
@@ -1832,114 +1940,6 @@ Java参数，不管是原始类型还是引用类型，传递的都是副本(有
 ### Integer.parseInt()
 
 Java包装类中的parse方法能够将字符串转换为对应的Java基础类型
-
-```java
-package com.wuyue.server.xml;
-
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-public class XmlParse02 {
-    public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
-        SAXParserFactory factory = SAXParserFactory.newInstance();
-        SAXParser parser = factory.newSAXParser();
-        PersonHandler personHandler = new PersonHandler();
-        parser.parse(Thread.currentThread().getContextClassLoader().getResourceAsStream("com/wuyue/server/xml/test.xml"), personHandler);
-    }
-}
-
-class Person {
-    private String name;
-    private int age;
-
-    public Person() {
-    }
-
-    public Person(String name, int age) {
-        this.name = name;
-        this.age = age;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    @Override
-    public String toString() {
-        return "Person{" +
-                "name='" + name + '\'' +
-                ", age=" + age +
-                '}';
-    }
-}
-
-class PersonHandler extends DefaultHandler {
-    private List<Person> persons;
-    private Person person;
-    private String tag; //存储当前操作的标签
-
-    @Override
-    public void startDocument() throws SAXException {
-        persons = new ArrayList<>();
-    }
-
-    @Override
-    public void endDocument() throws SAXException {
-        System.out.println("解析文档结束");
-        for (Person person : persons)
-            System.out.println(person);
-    }
-
-    @Override
-    public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-        if (null != qName)
-            tag = qName;
-        if (tag.equals("person")) {
-            person = new Person();
-        }
-    }
-
-    @Override
-    public void endElement(String uri, String localName, String qName) throws SAXException {
-        if (qName.equals("person")) {
-            persons.add(person);
-        }
-        tag = null;
-    }
-
-    @Override
-    public void characters(char[] ch, int start, int length) throws SAXException {
-        String string = new String(ch, start, length).trim();
-        if (null != tag) {
-            if (tag.equals("name"))
-                person.setName(string);
-            else if (tag.equals("age"))
-                if (string.length() > 0)
-                    person.setAge(Integer.parseInt(string));
-        }
-    }
-}
-```
 
 ### Cloneable
 
