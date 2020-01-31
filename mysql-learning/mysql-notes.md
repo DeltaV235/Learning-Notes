@@ -127,10 +127,36 @@ CREATE TABLE [IF NOT EXISTS] <表名> AS SELECT * FROM <源表名>;      复制�
 DROP TABLE [IF EXISTS] <TABLE_NAME>;
 ```
 
-## MISC
+## Chore
 
 MySQL表结构以及表数据默认存放于`/var/lib/mysql`下，一个Schema对应一个目录。
 MySQL数据库不区分SQL大小写，但建议使用大写。
+
+### 标准的 SQL 的解析顺序
+
+  1. from子句组装来自不同数据源的数据；
+  2. where子句基于指定的条件对记录行进行筛选；
+  3. group by子句将数据划分为多个分组；
+  4. 使用聚集函数进行计算；
+  5. 使用having子句筛选分组；
+  6. 计算所有的表达式；
+  7. 使用order by对结果集进行排序。
+
+- **执行过程**:
+
+  1. FROM：对FROM子句中前两个表执行笛卡尔积生成虚拟表vt1
+  2. ON: 对vt1表应用ON筛选器只有满足 join_condition 为真的行才被插入vt2
+  3. OUTER(join)：如果指定了 OUTER JOIN保留表(preserved table)中未找到的行将行作为外部行添加到vt2，生成t3，如果from包含两个以上表，则对上一个联结生成的结果表和下一个表重复执行步骤和步骤直接结束。
+  4. WHERE：对vt3应用 WHERE 筛选器只有使 where_condition 为true的行才被插入vt4
+  5. GROUP BY：按GROUP BY子句中的列列表对vt4中的行分组生成vt5
+  6. CUBE|ROLLUP：把超组(supergroups)插入vt6，生成vt6
+  7. HAVING：对vt6应用HAVING筛选器只有使 having_condition 为true的组才插入vt7
+  8. SELECT：处理select列表产生vt8
+  9. DISTINCT：将重复的行从vt8中去除产生vt9
+  10. ORDER BY：将vt9的行按order by子句中的列列表排序生成一个游标vc10
+  11. TOP：从vc10的开始处选择指定数量或比例的行生成vt11 并返回调用者
+
+注意：from后面的表关联，是自右向左解析的 ，而where条件的解析顺序是自下而上的。
 
 ### 注释
 
