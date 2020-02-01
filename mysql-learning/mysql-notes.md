@@ -132,6 +132,10 @@ DROP TABLE [IF EXISTS] <TABLE_NAME>;
 MySQL表结构以及表数据默认存放于`/var/lib/mysql`下，一个Schema对应一个目录。
 MySQL数据库不区分SQL大小写，但建议使用大写。
 
+### 对GROUP BY的理解
+
+[对GROUP BY的理解](https://blog.csdn.net/qq403580298/article/details/90756352)
+
 ### 标准的 SQL 的解析顺序
 
   1. from子句组装来自不同数据源的数据；
