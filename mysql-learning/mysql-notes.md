@@ -1,10 +1,41 @@
 # MySQL笔记
 
-## MySQL服务器的登录方式
+## MySQL相关命令行
 
-1. `mysql -u user -p`
-2. `mysql -hhost -uuser -ppassword`
-3. `mysql --host=ip --user=user --password=password`
+### 服务的停启
+
+#### Linux
+
+```bash
+sudo service mysql start
+sudo service mysql stop
+```
+
+#### Windows
+
+```bash
+net start mysql
+net stop mysql
+```
+
+### 数据库的备份
+
+**备份：** mysqldump -u用户名 -p密码 数据库名称 > 保存的路径
+
+**还原：**
+
+1. 登录数据库
+2. 创建数据库
+3. 使用数据库
+4. 执行文件。source 文件路径
+
+### MySQL服务器的登录方式
+
+```bash
+mysql -u user -p
+mysql -hhost -uuser -ppassword
+mysql --host=ip --user=user --password=password
+```
 
 ## SQL分类
 
@@ -15,9 +46,9 @@
 
 ## DDL
 
-### 1.数据库操作
+### 1.数据库操作(CRUD)
 
-#### 创建数据库
+#### 创建数据库(Create)
 
 ```sql
 CREATE {DATABASE|SCHEMA} [IF NOT EXISTS] 数据库名
@@ -27,7 +58,7 @@ CREATE {DATABASE|SCHEMA} [IF NOT EXISTS] 数据库名
 ];
 ```
 
-#### 查看数据库
+#### 查看数据库(Retrieve)
 
 - 查看数据库系统中，指定的数据库名
 
@@ -42,13 +73,7 @@ SHOW {DATABASES|SCHEMA}
 SHOW CREATE DATABASE DBNAME;
 ```
 
-#### 选择数据库
-
-```sql
-USE 数据库名;
-```
-
-#### 修改数据库
+#### 修改数据库(Update)
 
 ```sql
 ALTER {DATABASE|SCHEMA} [数据库名]
@@ -56,15 +81,27 @@ ALTER {DATABASE|SCHEMA} [数据库名]
 [DEFAULT] COLLATE [=] 校对规则名称
 ```
 
-#### 删除数据库
+#### 删除数据库(Delete)
 
 ```sql
 DROP {DATABASE|SCHEMA} [IF EXISTS] 数据库名;
 ```
 
+#### 选择数据库
+
+```sql
+USE 数据库名;
+```
+
+- 查询当前正在使用的数据库名称
+
+```sql
+SELECT DATABASE();
+```
+
 ### 2.操作数据表
 
-#### 创建数据表
+#### 创建数据表(C)
 
 ```sql
 CREATE [TEMPORARY] TABLE [IF NOT EXISTS] 数据表名
@@ -77,7 +114,14 @@ CREATE [TEMPORARY] TABLE [IF NOT EXISTS] 数据表名
 col_name type [NOT NULL | NULL] [DEFAULT default_value] [AUTO_INCREMENT] [PRIMARY KEY] [reference_definition]
 ```
 
-#### 查看表结构
+- **复制表**
+
+```sql
+CREATE TABLE [IF NOT EXISTS] <表名> LIKE <源表名>;                  只复制表结构
+CREATE TABLE [IF NOT EXISTS] <表名> AS SELECT * FROM <源表名>;      复制表结构和数据
+```
+
+#### 查看表结构(R)
 
 ```sql
 SHOW [FULL] COLUMNS FROM 数据表名 [FROM 数据库名];
@@ -92,7 +136,7 @@ DESC 数据表名 列名;
 SHOW CREATE TABLE TABLENAME;
 ```
 
-#### 修改表结构
+#### 修改表结构(U)
 
 ```sql
 ALTER [IGNORE] TABLE <表名>
@@ -103,10 +147,47 @@ ALTER [IGNORE] TABLE <表名>
     [ALTER COLUMN <列名> <数据类型>];
     [RENAME [AS] 新表名]
     [CHANGE [COLUMN] 旧字段名 新字段定义]
-    [MODIFY [COLUMN] <定义>];
+    [MODIFY [COLUMN] 列名 <定义>];
+```
+
+1.修改表名
+
+```sql
+alter table 表名 rename to 新的表名;
+```
+
+2.修改表的字符集
+
+```sql
+alter table 表名 character set 字符集名称;
+```
+
+3.添加一列
+
+```sql
+alter table 表名 add 列名 数据类型;
+```
+
+4.修改列名称 类型
+
+```sql
+alter table 表名 change 列名 新列名 新数据类型;
+alter table 表名 modify 列名 新数据类型;
+```
+
+5.删除列
+
+```sql
+alter table 表名 drop 列名;
 ```
 
 其中`MODIFY`只修改字段数据类型，而`CHANGE`能够修改字段的名字和数据类型。
+
+#### 删除表(D)
+
+```sql
+DROP TABLE [IF EXISTS] <TABLE_NAME>;
+```
 
 #### 重命名表
 
@@ -114,18 +195,51 @@ ALTER [IGNORE] TABLE <表名>
 RENAME TABLE <表名1> TO <表名2>;
 ```
 
-#### 复制表
+## DML
+
+### 1.添加数据
+
+**语法：**
 
 ```sql
-CREATE TABLE [IF NOT EXISTS] <表名> LIKE <源表名>;                  只复制表结构
-CREATE TABLE [IF NOT EXISTS] <表名> AS SELECT * FROM <源表名>;      复制表结构和数据
+insert into 表名(列名1,列名2,...列名n) values(值1,值2,...值n);
 ```
 
-#### 删除表
+- **注意：**
+
+1. 列名和值要一一对应。
+2. 如果表名后，不定义列名，则默认给所有列添加值
+`insert into 表名 values(值1,值2,...值n);`
+3. 除了数字类型，其他类型需要使用引号(单双都可以)引起来
+4. 可以使用如下方式，一条SQL添加多条数据
+`insert into 表名 values (值1,值2,...值n), (值1,值2,...值n), ....;`
+
+### 2.删除数据
+
+**语法：**
 
 ```sql
-DROP TABLE [IF EXISTS] <TABLE_NAME>;
+delete from 表名 [where 条件]
 ```
+
+- **注意：**
+
+1. 如果不加条件，则删除表中所有记录。
+2. 如果要删除所有记录
+    1. `DELETE FROM 表名;` -- 不推荐使用。有多少条记录就会执行多少次删除操作
+    2. `TRUNCATE TABLE 表名;` -- 推荐使用，效率更高 先删除表，然后再创建一张一样的表。
+
+### 3.修改数据
+
+- **语法：**
+
+```sql
+update 表名 set 列名1 = 值1, 列名2 = 值2,... [where 条件];
+```
+
+- **注意：**
+
+1. 如果不加任何条件，则会将表中所有记录全部修改。
 
 ## Chore
 
