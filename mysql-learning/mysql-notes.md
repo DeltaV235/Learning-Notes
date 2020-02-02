@@ -246,6 +246,51 @@ update 表名 set 列名1 = 值1, 列名2 = 值2,... [where 条件];
 MySQL表结构以及表数据默认存放于`/var/lib/mysql`下，一个Schema对应一个目录。
 MySQL数据库不区分SQL大小写，但建议使用大写。
 
+### 编解码字符集
+
+**charset** 和 **collation** 有多个级别的设置：**服务器级**、**数据库级**、**表级**、**列级和连接级**
+
+**1.服务器级**
+查看设置：`show global variables like 'character_set_server';` 和 `show global variables like 'collation_server';`
+修改设置：在OPTION FILE （/etc/mysql/my.cnf）里设置：
+
+```bash
+[mysqld]
+character_set_server=utf8
+collation_server=utf8_general_ci
+```
+
+**2.数据库级**
+查看设置：`select * from information_schema.schemata where schema_name = 'DataBase_Name';`
+`show create database database_name;`
+   设置：
+     1. 若没有显式设置，则自动使用服务器级的配置
+     2. 显式设置：在创建库时指定
+       `create database database_name DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;`
+
+**3.表级**
+   查看设置：`show create table course;`
+   设置：
+     1. 若没有显式设置，则自动使用数据库级的配置
+     2. 显式设置：在创建表时指定
+       `create table table_name ( id int ) default charset=utf8 default collate=utf8_bin;`
+
+**4.列级**
+   查看设置：`show create table course;`
+   设置：
+     1. 若没有显式设置，则自动使用表级的配置
+     2. 显式设置：
+     `CREATE TABLE Table1(column1 VARCHAR(5) CHARACTER SET latin1 COLLATE latin1_german1_ci);`
+
+5.连接级别
+  查看设置：
+
+```sql
+     show variables like 'character_set_client';  # 服务端使用这个编码来理解客户端发来的statements
+     show variables like 'character_set_connection' ; # 我还不知道什么意思，等看了mysql源码再说
+     show variables like 'character_set_results'; # 服务端使用这个编码回送结果集和错误信息
+```
+
 ### 对GROUP BY的理解
 
 [对GROUP BY的理解](https://blog.csdn.net/qq403580298/article/details/90756352)
