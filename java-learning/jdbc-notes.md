@@ -51,5 +51,5 @@ PreparedStatement ps = connection.prepareStatement(sql);
 ## ResultSet
 
 - 表示数据库结果集的数据表，通常通过执行查询数据库的语句生成。
-- ResultSet对象保持一个光标指向其当前的数据行。 最初，光标位于第一行之前。 next方法将光标移动到下一行，并且由于在ResultSet对象中没有更多行时返回false ，因此可以在while循环中使用循环来遍历结果集。
+- ResultSet对象保持一个光标指向其当前的数据行。 最初，光标位于第一行之前。 next方法将光标移动到下一行，并且由于在ResultSet对象中没有更多行时返回false ，因此可以在while循环中使用循环来遍历结果集。类似迭代器的使用。
 - 使用getter方法通过字段索引获，取游标所在行的对应字段的值。

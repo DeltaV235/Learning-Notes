@@ -1820,6 +1820,135 @@ public enum EnumSingleton {
 - 一个抽象工厂类，可以派生出多个具体工厂类。
 - 每个具体工厂类可以创建多个具体产品类的实例。
 
+## 日期API
+
+使用说明:
+[Java 中的时间日期 API](https://juejin.im/post/5adb06cdf265da0b7b3579fb)
+[Java 8 的时间日期 API](https://juejin.im/post/5addc7a66fb9a07aa43bd2a0)
+
+### Date
+
+用于描述日期和时间，内部存放的是时间戳(从1970.1.1 00:00:00 至 目标时间的 毫秒数)
+在实例化时若不提供参数，则表示当前时间
+
+### DateFormat
+
+DateFormat 就是用来处理格式化字符串和日期时间之间的转换操作的。
+
+**SimpleDateFormat**是**DateFormat**的具体子类，可以自定义输出或解析的格式内容。
+
+### Calender
+
+Calendar 用于表示年月日等日期信息，它是一个抽象类，所以一般通过以下四种工厂方法获取它的实例对象。
+
+### Instant
+
+Instant 和 Date 一样，表示一个时间戳，用于描述一个时刻，只不过它较 Date 而言，可以描述更加精确的时刻。并且 Instant 是时区无关的。
+Date 最多可以表示毫秒级别的时刻，而 Instant 可以表示纳秒级别的时刻。例如：
+
+public static Instant now()：根据系统当前时间创建一个 Instant 实例，表示当前时刻
+public static Instant ofEpochSecond(long epochSecond)：通过传入一个标准时间的偏移值来构建一个 Instant 实例
+public static Instant ofEpochMilli(long epochMilli)：通过毫秒数值直接构建一个 Instant 实例
+
+### LocalDate
+
+LocalDate 专注于处理日期相关信息。
+LocalDate 依然是一个不可变类，它关注时间中年月日部分，我们可以通过以下的方法构建和初始化一个 LocalDate 实例：
+
+public static LocalDate now()：截断当前系统时间的年月日信息并初始化一个实例对象
+public static LocalDate of(int year, int month, int dayOfMonth)：显式指定年月日信息
+public static LocalDate ofYearDay(int year, int dayOfYear)：根据 dayOfYear 可以推出 month 和 dayOfMonth
+public static LocalDate ofEpochDay(long epochDay)：相对于格林零时区时间的日偏移量
+
+### LocalTime
+
+类似于 LocalDate，LocalTime 专注于时间的处理，它提供小时，分钟，秒，毫微秒的各种处理，我们依然可以通过类似的方式创建一个 LocalTime 实例。
+
+public static LocalTime now()：根据系统当前时刻获取其中的时间部分内容
+public static LocalTime of(int hour, int minute)：显式传入小时和分钟来构建一个实例对象
+public static LocalTime of(int hour, int minute, int second)：通过传入时分秒构造实例
+public static LocalTime of(int hour, int minute, int second, int nanoOfSecond)：传入时分秒和毫微秒构建一个实例
+public static LocalTime ofSecondOfDay(long secondOfDay)：传入一个长整型数值代表当前日已经过去的秒数
+public static LocalTime ofNanoOfDay(long nanoOfDay)：传入一个长整型代表当前日已经过去的毫微秒数
+
+### LocalDateTime
+
+LocalDateTime 类则是集成了 LocalDate 和 LocalTime，它既能表示日期，又能表述时间信息。
+
+### ZonedDateTime
+
+ZonedDateTime 可以被理解为 LocalDateTime 的外层封装，它的内部存储了一个 LocalDateTime 的实例，专门用于普通的日期时间处理。此外，它还定义了 ZoneId 和 ZoneOffset 来描述时区的概念。
+
+- 构建一个 ZonedDateTime 实例有以下几种方式：
+public static ZonedDateTime now()：系统将以默认时区计算并存储日期时间信息
+public static ZonedDateTime now(ZoneId zone)：指定时区
+public static ZonedDateTime of(LocalDate date, LocalTime time, ZoneId zone)：指定日期时间和时区
+public static ZonedDateTime of(LocalDateTime localDateTime, ZoneId zone)
+public static ZonedDateTime ofInstant(Instant instant, ZoneId zone)：通过时刻和时区构建实例对象
+
+其中，通过Instant对象实例化时，具体输出的时间根据传入的时区来确定。因为Instant对象与时区无关，即永远是GMT，所以ZonedDateTime对象输出的时间是经过时区偏移后的时间。
+
+### DateTimeFormatter
+
+用于格式化日期，它与之前的 DateFormat 类最大的不同就在于它是线程安全的，其他的使用上的操作基本类似。
+
+```java
+public static void main(String[] a){
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy年MM月dd日 HH:mm:ss");
+    LocalDateTime localDateTime = LocalDateTime.now();
+    System.out.println(formatter.format(localDateTime));
+
+    String str = "2008年08月23日 23:59:59";
+    DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyy年MM月dd日 HH:mm:ss");
+    LocalDateTime localDateTime2 = LocalDateTime.parse(str,formatter2);
+    System.out.println(localDateTime2);
+}
+```
+
+**复制代码输出结果：**
+2018年04月23日 17:27:24
+2008-08-23T23:59:59
+
+复制代码格式化主要有两种情况，一种是将日期时间格式化成字符串，另一种则是将格式化的字符串装换成日期时间对象。
+DateTimeFormatter 提供将 format 方法将一个日期时间对象转换成格式化的字符串，但是反过来的操作却建议使用具体的日期时间类自己的 parse 方法，这样可以省去类型转换的步骤。
+
+### 时间差
+
+现实项目中，我们也经常会遇到计算两个时间点之间的差值的情况，最粗暴的办法是，全部幻化成毫秒数并进行减法运算，最后在转换回日期时间对象。
+但是 java.time 包中提供了两个日期时间之间的差值的计算方法。
+
+关于时间差的计算，主要涉及到两个类：
+Period：处理两个日期之间的差值
+Duration：处理两个时间之间的差值
+
+例如：
+
+```java
+public static void main(String[] args){
+    LocalDate date = LocalDate.of(2017,7,22);
+    LocalDate date1 = LocalDate.now();
+    Period period = Period.between(date,date1);
+    System.out.println(period.getYears() + "年" +
+            period.getMonths() + "月" +
+            period.getDays() + "天");
+
+    LocalTime time = LocalTime.of(20,30);
+    LocalTime time1 = LocalTime.of(23,59);
+    Duration duration = Duration.between(time,time1);
+    System.out.println(duration.toMinutes() + "分钟");
+}
+```
+
+**复制代码输出结果：**
+0年9月1天
+209分钟
+
+复制代码显然，年月日的日期间差值的计算使用 Period 类足以，而时分秒毫秒的时间的差值计算则需要使用 Duration 类。
+
+**上文关于Java时间API的笔记来自于:**
+作者：YangAM
+链接：[Java 8 的时间日期 API](https://juejin.im/post/5addc7a66fb9a07aa43bd2a0)
+
 ## MISC
 
 ### CountDownLatch
