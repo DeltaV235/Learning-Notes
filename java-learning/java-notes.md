@@ -484,7 +484,7 @@ for (Iterator iterator = ss.iterator(); iterator.hasNext();) {
 
 ##### 路径相关
 
-`File.seoarator` : 操作系统的文件分割符(如Linux的'/'、Windows的'\\')
+`File.separator` : 操作系统的文件分割符(如Linux的'/'、Windows的'\\')
 `getName()` : 获取文件(目录或文件)名
 `getPath()` : 获取路径名(即创建File对象时传入的实参)
 `getAbsolutePath()` : 永远返回File对象的绝对路径
@@ -624,7 +624,7 @@ String(byte bytes[], Charset charset)
 `ObjectOutputStream` 序列化
 只有继承`java.io.Serializable`接口的对象，才能够序列化。该接口为空接口，只用于JVM使用
 Java关键词: `transient` 不需要序列化的域
-该流为继承`closeable`接口，故无法使用`try...with`
+该流未继承`closeable`接口，故无法使用`try...with`
 
 #### 随机读取写入流
 

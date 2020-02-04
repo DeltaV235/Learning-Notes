@@ -53,3 +53,33 @@ PreparedStatement ps = connection.prepareStatement(sql);
 - 表示数据库结果集的数据表，通常通过执行查询数据库的语句生成。
 - ResultSet对象保持一个光标指向其当前的数据行。 最初，光标位于第一行之前。 next方法将光标移动到下一行，并且由于在ResultSet对象中没有更多行时返回false ，因此可以在while循环中使用循环来遍历结果集。类似迭代器的使用。
 - 使用getter方法通过字段索引获，取游标所在行的对应字段的值。
+
+## Transaction
+
+MySQL默认自动提交DML语句，使用`connection.setAutoCommit(false);`来禁用自动提交，需要提交时使用`connection.commit()`和`connection.rollback()`来回滚。
+
+## Clob & Blob
+
+*Character Large Object* and *Binary Large Object*
+数据库中用于存储大量的字符和二进制数据。
+
+JDBC中`setClob()``setBlob()`需要提供一个输入流，来向数据库写入数据。
+`getClob()``getBlob()`用来读取数据库中数据。这两个函数会返回一个Clob、Blob对象，再通过该对象来获取输入流。
+
+## Time & Date
+
+`PreparedStatement`中使用`setDate()` `setTimestamp()`等替换SQL中的占位符，这些方法需要`java.sql.Date``java.sql.Timestamp`类型的参数。
+
+## 数据的封装
+
+### 1. Object[]
+
+使用Object[]数组封装一条数据，再将Object数组添加至List中，实现多条数据的封装。
+
+### 2. Map
+
+一个Map对象封装一条记录，key为字段名，value为值，将Map添加至List或Map(key为主键)中，封装多条数据。
+
+### 3. javabean
+
+使用一个对象保存一条数据，数据库中的字段对应javabean中的私有属性，并提供setter和getter方法，及构造器。
