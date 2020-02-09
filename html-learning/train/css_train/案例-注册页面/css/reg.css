@@ -1,0 +1,115 @@
+body {
+    background: url("../img/register_bg.png") no-repeat center;
+}
+
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+#rg_layout {
+    width: 800px;
+    height: 500px;
+    border: 8px solid #eeeeee;
+    margin: auto;
+    margin-top: 60px;
+    background-color: white;
+}
+
+/* test
+
+#rg_layout>div {
+    border: 1px solid red;
+} */
+
+#rg_left {
+    float: left;
+    margin: 20px;
+    margin-top: 30px;
+}
+
+div>p:first-child {
+    color: #ffd026;
+    font-size: 20px;
+}
+
+div>p:last-child {
+    color: #a6a6a6;
+    font-size: 20px;
+}
+
+#rg_center {
+    float: left;
+    width: 380px;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+#rg_center td:first-child {
+    height: 45px;
+    text-align: right;
+    color: #7a7a7a;
+}
+
+#rg_center td:last-child {
+    padding-left: 30px;
+    height: 45px;
+}
+
+#rg_center td:last-child>input {
+    height: 35px;
+    width: 250px;
+    border-radius: 5px;
+    border: 1px solid #a6a6a6;
+    padding-left: 20px;
+}
+
+#td_check #text_check {
+    width: 100px;
+}
+
+#rg_center td>input[type="radio"] {
+    width: 50px;
+    height: 12px;
+}
+
+/* test */
+/* 
+td {
+    border: 1px solid;
+} */
+
+#rg_center img {
+    width: 100px;
+    vertical-align: middle;
+    margin-left: 10px;
+}
+
+#rg_center #btn_sub {
+    border-radius: 0px;
+    padding: 0px;
+    width: 100px;
+    background-color: #FFD026;
+    color: #7a7a7a;
+    border: 1px solid #FFD026;
+}
+
+#rg_center #td_sub {
+    text-align: center;
+}
+
+#rg_right {
+    float: right;
+    margin: 10px;
+    margin-top: 20px;
+}
+
+#rg_right>p {
+    font-size: 15px;
+}
+
+#rg_right>p>a {
+    text-decoration: none;
+    color: pink;
+}
