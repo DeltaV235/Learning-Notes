@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<div class="cls">div1</div>
+<div class="cls">div2</div>
+<div class="cls">div3</div>
+<div></div>
+<input type="radio" name="radio" value="t">
+<input type="radio" name="radio" value="f">
+
+<script>
+    var cls = document.getElementsByClassName("cls");
+    // alert(cls.length)
+    var tag = document.getElementsByTagName("div");
+    // alert(tag.length)
+    var names = document.getElementsByName("radio");
+    // alert(names.length)
+
+    var table = document.createElement("table");
+    alert(table);
+</script>
+</body>
+</html>

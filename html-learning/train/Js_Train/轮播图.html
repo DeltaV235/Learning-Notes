@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>轮播图</title>
+</head>
+<body>
+<img id="banner" alt="banner" src="img/banner_1.jpg">
+<br>
+<span>Time: </span>
+<span id="count">0</span>
+<span> s&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span id="currTime"></span>
+<br>
+<span>nextTime: </span>
+<span id="nextTime">3</span>
+<br>
+<input id="back" type="button" value="后退">
+<script>
+    var banner = document.getElementById("banner");
+    var nextTime = document.getElementById("nextTime");
+    var num = 2;
+
+    function changeImg() {
+        if (num>3){
+            num = 1;
+        }
+        banner.src = "img/banner_" + num + ".jpg";
+        num++;
+        nextTime.innerHTML = +countTime.innerHTML + 3;
+    }
+
+    var countTime = document.getElementById("count");
+    var currTime = document.getElementById("currTime");
+    function showCountTime() {
+        countTime.innerHTML = (0.1 + +(countTime.innerHTML)).toFixed(1);
+        currTime.innerHTML = new Date().toLocaleString();
+    }
+
+    setInterval(changeImg, 3000);
+    setInterval(showCountTime, 100);
+
+    var back = document.getElementById("back");
+    back.onclick = function () {
+        history.back();
+    }
+</script>
+</body>
+</html>

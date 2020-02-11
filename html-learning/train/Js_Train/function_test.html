@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>function_test</title>
+    <script>
+        function add() {
+            var sum = 0;
+            for (let i = 0; i < arguments.length; i++) {
+                sum += arguments[i];
+            }
+            return sum;
+        }
+
+        var sum = add(1, 2, 3, 4, 5);
+        // alert(sum);
+
+        var arr1 = new Array(5);
+        document.write(arr1 + "<br>");
+        var arr2 = new Array("test", 300, false, null);
+        document.write(arr2 + "<br>");
+        var arr3 = ["test", 300, false, null];
+        document.write(arr3 + "<br>");
+        arr3.push(undefined);
+        document.write(arr3 + "<br>");
+        document.write(arr3[5] + "<br>");
+        document.write(arr3.length + "<br>");
+        arr3[10] = "";
+        document.write(arr3.length + "<br>");
+    </script>
+</head>
+<body>
+
+</body>
+</html>

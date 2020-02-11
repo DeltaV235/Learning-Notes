@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Element</title>
+</head>
+<body>
+<a>哈哈</a>
+<input id="setBtn" type="button" value="set">
+<input id="rmBtn" type="button" value="remove">
+<script>
+    var a_tag = document.getElementsByTagName("a")[0];
+    document.getElementById("setBtn").onclick = function () {
+        a_tag.setAttribute("href", "https://www.baidu.com");
+    };
+    document.getElementById("rmBtn").onclick = function () {
+        a_tag.removeAttribute("href");
+    }
+
+</script>
+</body>
+</html>

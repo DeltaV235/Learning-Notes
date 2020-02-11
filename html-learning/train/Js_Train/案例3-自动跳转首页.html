@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>自动跳转首页</title>
+    <style>
+        #count {
+            color: red;
+        }
+
+        p {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<p>
+    <span id="count">5</span>
+    <span> 秒后，跳转到百度...</span>
+</p>
+
+<script>
+    var count = document.getElementById("count");
+
+    function countDown() {
+        if (+count.innerHTML === 1) {
+            count.innerHTML = (+count.innerHTML - 1) + "";
+            location.href = "https://www.baidu.com";
+        } else {
+            count.innerHTML = (+count.innerHTML - 1) + "";
+        }
+    }
+
+    setInterval(countDown, 1000);
+</script>
+</body>
+</html>

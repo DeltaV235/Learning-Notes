@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NodeTest</title>
+    <style>
+        div {
+            border: 1px solid red;
+        }
+
+        #div1 {
+            width: 200px;
+            height: 200px;
+        }
+
+        #div2 {
+            width: 100px;
+            height: 100px;
+        }
+
+        #div3 {
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+<div id="div1">
+    <div id="div2">
+        div2
+    </div>
+    div1
+</div>
+
+<a id="rm" href="javascript:void(0)">removeChild</a>
+<a id="add" href="javascript:void(0)">appendChild</a>
+
+<script>
+    document.getElementById("rm").onclick = function () {
+        var childDiv = document.getElementById("div2");
+        document.getElementById("div1").removeChild(childDiv);
+    };
+    document.getElementById("add").onclick = function () {
+        var newDiv = document.createElement("div");
+        newDiv.setAttribute("id", "div3");
+        document.getElementById("div1").appendChild(newDiv);
+    }
+</script>
+</body>
+</html>

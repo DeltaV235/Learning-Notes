@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HistoryTest</title>
+</head>
+<body>
+    <input id="btn" type="button" value="获取历史记录条数">
+    <input id="forward" type="button" value="前进">
+    <a href="轮播图.html">轮播图</a>
+<script>
+    var btn = document.getElementById("btn");
+    btn.onclick = function () {
+        alert(history.length);
+    };
+    var forward = document.getElementById("forward");
+    forward.onclick = function () {
+        history.forward();
+    }
+</script>
+</body>
+</html>

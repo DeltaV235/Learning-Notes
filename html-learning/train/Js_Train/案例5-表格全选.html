@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Table</title>
+    <style>
+        div {
+            text-align: center;
+            margin: 50px;
+        }
+
+        table {
+            border: 1px solid;
+            margin: auto;
+            width: 500px;
+        }
+
+        td, th {
+            text-align: center;
+            border: 1px solid;
+        }
+
+
+    </style>
+</head>
+<body>
+<div>
+    <input id="id" type="text" placeholder="请输入编号">
+    <input id="name" type="text" placeholder="请输入姓名">
+    <input id="sex" type="text" placeholder="请输入性别">
+    <input id="btn" type="button" value="添加">
+</div>
+<table id="table">
+    <caption>学生信息表</caption>
+    <tr onmouseover="changeColor(this)" onmouseout="recoverColor(this)">
+        <th>
+            <input type="checkbox" class="checkbox" onclick="selectAllToggle(this)">
+        </th>
+        <th>
+            编号
+        </th>
+        <th>
+            姓名
+        </th>
+        <th>
+            性别
+        </th>
+        <th>
+            操作
+        </th>
+    </tr>
+
+    <tr onmouseover="changeColor(this)" onmouseout="recoverColor(this)">
+        <td>
+            <input type="checkbox" class="checkbox">
+        </td>
+        <td>
+            1
+        </td>
+        <td>
+            令狐冲
+        </td>
+        <td>
+            男
+        </td>
+        <td>
+            <a href="javascript:void(0);" onclick="delData(this)">删除</a>
+        </td>
+    </tr>
+    <tr onmouseover="changeColor(this)" onmouseout="recoverColor(this)">
+        <td>
+            <input type="checkbox" class="checkbox">
+        </td>
+        <td>
+            2
+        </td>
+        <td>
+            任我行
+        </td>
+        <td>
+            男
+        </td>
+        <td>
+            <a href="javascript:void(0);" onclick="delData(this)">删除</a>
+        </td>
+    </tr>
+    <tr onmouseover="changeColor(this)" onmouseout="recoverColor(this)">
+        <td>
+            <input type="checkbox" class="checkbox">
+        </td>
+        <td>
+            3
+        </td>
+        <td>
+            岳不群
+        </td>
+        <td>
+            女
+        </td>
+        <td>
+            <a href="javascript:void(0);" onclick="delData(this)">删除</a>
+        </td>
+    </tr>
+</table>
+<div>
+    <input id="sel_all_btn" type="button" value="全选" onclick="selectAll()">
+    <input id="sel_none_btn" type="button" value="全不选" onclick="selectNone()">
+    <input id="sel_re_btn" type="button" value="反选" onclick="selectReverse()">
+</div>
+<script src="案例5-表格全选.js"></script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>window object</title>
+    <script>
+        // window.alert("滚");
+        // var isGun = confirm("是否要滚");
+        // alert(isGun);
+        // var input = prompt("滚前说些什么！");
+        // document.write(input);
+
+        // Timer
+        var timer = setTimeout(boom, 2000);
+
+        function boom() {
+            alert("boom!")
+        }
+
+        clearTimeout(timer);
+        var timer2 = setInterval(boom, 3000);
+        clearInterval(timer2);
+    </script>
+</head>
+<body>
+<input id="openBtn" type="button" value="打开窗口">
+<input id="closeBtn" type="button" value="关闭当前窗口">
+<input id="closeNewBtn" type="button" value="关闭新窗口">
+<script>
+    // open() & close()
+    var newWindow;
+    var openBtn = document.getElementById("openBtn");
+    openBtn.onclick = function () {
+        newWindow = open("https://www.baidu.com");
+    };
+    var closeBtn = document.getElementById("closeBtn");
+    closeBtn.onclick = function () {
+        close();
+    };
+    var closeNewBtn = document.getElementById("closeNewBtn");
+    closeNewBtn.onclick = function () {
+        newWindow.close();
+    }
+</script>
+</body>
+</html>

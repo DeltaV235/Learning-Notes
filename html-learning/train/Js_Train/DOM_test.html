@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DOM</title>
+</head>
+<body>
+<img src="img/off.gif" alt="light" id="light">
+<script>
+    var light = document.getElementById("light");
+    var isOn = false;
+    light.onclick = function () {
+        if (isOn) {
+            light.src = "img/off.gif";
+            isOn = false;
+        } else {
+            light.src = "img/on.gif";
+            isOn = true;
+        }
+    }
+</script>
+</body>
+</html>

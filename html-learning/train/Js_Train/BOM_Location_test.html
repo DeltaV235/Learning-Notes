@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LocationTest</title>
+</head>
+<body>
+<input id="reloadBtn" type="button" value="点我刷新">
+<input id="gotoBtn" type="button" value="滚">
+<script>
+    var reloadBtn = document.getElementById("reloadBtn");
+    reloadBtn.onclick = function () {
+        location.reload();
+    };
+    var gotoBtn = document.getElementById("gotoBtn");
+    gotoBtn.onclick = function () {
+        location.href = "https://www.baidu.com"
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>StyleTest</title>
+    <style>
+        .d2 {
+            border: 1px solid;
+            width: 200px;
+            height: 200px;
+        }
+        .d3 {
+            border: 1px solid;
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div id="div1">div1</div>
+
+    <div id="div2">div2</div>
+    <div id="div3">div3</div>
+<script>
+    var div1 = document.getElementById("div1");
+    div1.onclick = function() {
+        div1.style.border = "1px solid red";
+    };
+    document.getElementById("div2").onclick = function () {
+        this.className = "d2";
+    };
+    document.getElementById("div3").onclick = function () {
+        this.className = "d3";
+    }
+</script>
+</body>
+</html>

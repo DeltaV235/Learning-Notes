@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>99乘法表</title>
+    <script>
+        document.write("<table>");
+        var j;
+        for (var i = 1; i <= 9; i++) {
+            j = 1;
+            document.write("<tr>");
+            while (j <= i) {
+                document.write("<td style='border: 1px solid'>");
+                document.write(i + " * " + j + " = " + (i * j));
+                document.write("</td>");
+                j++;
+            }
+            document.write("</tr>");
+        }
+        document.write("</table>")
+    </script>
+</head>
+<body>
+
+</body>
+</html>
