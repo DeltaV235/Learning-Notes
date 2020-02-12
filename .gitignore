@@ -7,6 +7,11 @@ corejava*
 *.iml
 out/
 
+# ignore bootstrap file
+frontSide-learning/Bootstrap/train/css/
+frontSide-learning/Bootstrap/train/js/
+frontSide-learning/Bootstrap/train/fonts/
+
 # Test File
 *.test
 Test
