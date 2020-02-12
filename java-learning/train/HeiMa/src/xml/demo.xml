@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<users>
+    <user id="1">
+        <name>吴越</name>
+        <age>18</age>
+        <gender>male</gender>
+        <comment>
+            <![CDATA[<>!%&*%!?]]>
+        </comment>
+    </user>
+</users>
