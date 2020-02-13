@@ -17,7 +17,8 @@ import java.util.List;
  */
 public class JsoupDemo4 {
     public static void main(String[] args) throws IOException, XpathSyntaxErrorException {
-        Document document = Jsoup.parse(new File("src/xml/xsd/student.xml"), "utf-8");
+        System.out.println(System.getProperty("user.dir"));
+        Document document = Jsoup.parse(new File("JavaSE/src/xml/xsd/student.xml"), "utf-8");
         JXDocument jxDocument = new JXDocument(document);
         List<JXNode> jxNodes = jxDocument.selN("//name");
         for (JXNode jxNode : jxNodes) {

@@ -2074,3 +2074,8 @@ Java包装类中的parse方法能够将字符串转换为对应的Java基础类�
 
 尽管clone方法属于Object类，但类无法直接调用clone方法，需要实现空接口Cloneable，随后覆盖clone方法才能实现对象的克隆。
 浅克隆不克隆引用类型的对象。
+
+### 路径
+
+- 使用IO或File对象时，使用的相对路径是基于`System.getperporty("user.dir);`的，即项目的跟目录，不是module的根目录。
+- `String path = className.class.getClassLoader().getResource("相对于class的路径").getPath();`该方法获取的是相对于该.class文件的相对路径的文件的绝对路径
