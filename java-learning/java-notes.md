@@ -32,7 +32,7 @@ Core Java
 ### 2.Web基础和工具
 
 - [ ] 前端基础(html/javascript/css) jquery, ajax, jsp, cookie, session
-- [ ] http基础
+- [x] http基础
 - [ ] servlet基础
 - [x] git,svn代码管理工具
 
@@ -1614,10 +1614,10 @@ class PersonHandler extends DefaultHandler {
 - @Override
 检查该方法是否覆盖了超类中的方法，如果没有则编译器报错
 
-- Deprecated
+- @Deprecated
 已废弃的方法
 
-- SuppressWarning(value = {"unchecked", "all"})
+- @SuppressWarning(value = {"unchecked", "all"})
 抑制警告，需要提供String[]
 
 ### 元注解
@@ -2079,3 +2079,21 @@ Java包装类中的parse方法能够将字符串转换为对应的Java基础类�
 
 - 使用IO或File对象时，使用的相对路径是基于`System.getperporty("user.dir);`的，即项目的跟目录，不是module的根目录。
 - `String path = className.class.getClassLoader().getResource("相对于class的路径").getPath();`该方法获取的是相对于该.class文件的相对路径的文件的绝对路径
+
+### 解决Tomcat startup.bat 和 IDEA中控制台乱码的问题
+
+- %TOMCAT_HOME%/bin/startup.bat乱码:
+regedit中`HKEY_CURRENT_USER/Console`下创建Tomcat，新建DWORD键值对，`CodePage:65001` 65001为十进制
+
+- IDEA中Tomcat控制台乱码
+windows默认用gbk所以idea显示默认为gbk编码，【一定】在 Help-- custom vm options 添加`-Dfile.encoding=UTF-8`，强制为utf8编码显示，不要自己改.vmoptions可能位置不对，idea会在用户目录复制一个
+
+### 解决IDEA中Tomcat控制台中文乱码的问题
+
+- 控制台输出日志乱码
+IDEA -> Help -> Edit Custom VM Options
+增加: `-Dfile.encoding=UTF-8`
+
+- Servlet标准输出中文乱码
+IDEA -> Run/Debug Configurations -> Tomcat Server -> VM options
+增加: `-Dfile.encoding=UTF-8`
