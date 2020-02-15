@@ -1,4 +1,4 @@
-package com.wuyue.web.request;
+package com.wuyue.web.request.demo;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

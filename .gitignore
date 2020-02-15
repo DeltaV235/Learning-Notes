@@ -2,6 +2,10 @@
 corejava*
 *.pdf
 
+# lib folder
+lib/
+libs/
+
 #ignore ide file
 .idea/
 *.iml
