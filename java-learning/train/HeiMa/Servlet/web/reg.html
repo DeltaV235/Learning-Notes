@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/reg.css">
+    <title>reg</title>
+</head>
+
+<body>
+<div id="rg_layout">
+    <div id="rg_left">
+        <p>
+            新用户注册
+        </p>
+        <p>
+            USER REGISTER
+        </p>
+    </div>
+
+    <div id="rg_center">
+        <form action="#" method="get">
+            <table>
+                <tr>
+                    <td>
+                        <label for="username">
+                            用户名
+                        </label>
+                    </td>
+                    <td>
+                        <input type="text" name="username" id="username" placeholder="请输入账号">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="password">
+                            密码
+                        </label>
+                    </td>
+                    <td>
+                        <input type="password" name="password" id="password" placeholder="请输入密码">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Email
+                    </td>
+                    <td>
+                        <input type="email" name="email" placeholder="请输入Email">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        姓名
+                    </td>
+                    <td>
+                        <input type="text" name="name" placeholder="请输入真实姓名">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        手机号
+                    </td>
+                    <td>
+                        <input type="number" name="phone" placeholder="请输入您的手机号">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        性别
+                    </td>
+                    <td>
+                        <input type="radio" name="sex" value="male" checked>男
+                        <input type="radio" name="sex" value="female">女
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        出生日期
+                    </td>
+                    <td>
+                        <input type="date" name="birthday">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        验证码
+                    </td>
+                    <td id="td_check">
+                        <input type="text" name="check" id="text_check">
+                        <img id="check_code" src="/CheckCodeServlet" alt="verify_code">
+                        <a id="changeCode" href="javascript:void(0)" style="font-size: 15px">点击刷新</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td id="td_sub" colspan="2">
+                        <input type="submit" value="注册" id="btn_sub">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+    <div id="rg_right">
+        <p>
+            已有账号? <a href="#">立即登录</a>
+        </p>
+    </div>
+</div>
+
+<script>
+    window.onload = function () {
+        let img = document.getElementById("check_code");
+        img.onclick = function () {
+            let date = new Date().getDate();
+            img.src = "/CheckCodeServlet?" + date;
+        };
+
+        let a = document.getElementById("changeCode");
+        a.onclick = function () {
+            let date = new Date().getDate();
+            img.src = "/CheckCodeServlet?" + date;
+        }
+    }
+</script>
+</body>
+
+</html>

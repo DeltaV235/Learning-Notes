@@ -20,6 +20,7 @@ frontSide-learning/Bootstrap/train/fonts/
 *.test
 Test
 *Test
+*.mp4
 
 # Compiled class file
 *.class
