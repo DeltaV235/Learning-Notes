@@ -18,8 +18,7 @@ frontSide-learning/Bootstrap/train/fonts/
 
 # Test File
 *.test
-Test
-*Test
+java-learning/train/SXT_Train/Test/
 *.mp4
 
 # Compiled class file
