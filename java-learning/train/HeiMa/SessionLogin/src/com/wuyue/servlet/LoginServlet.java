@@ -1,5 +1,9 @@
 package com.wuyue.servlet;
 
+import com.wuyue.dao.UserDao;
+import com.wuyue.entities.User;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -45,6 +49,40 @@ public class LoginServlet extends HttpServlet {
                 }
             }
         }
+
+        // 判断验证码是否正确
+        String rightCheckCode = (String) request.getSession().getAttribute("checkCode");
+        if (rightCheckCode != null) {
+            // checkCode is right
+            if (checkCode.equalsIgnoreCase(rightCheckCode)) {
+                // 判断数据库中是否存在该用户
+                UserDao dao = new UserDao();
+                User loginUser = new User();
+                loginUser.setUsername(username);
+                loginUser.setPassword(password);
+                User user = dao.login(loginUser);
+                if (user != null) {
+                    // 用户名密码正确
+                    request.getSession().setAttribute("username", user.getUsername());
+                    response.sendRedirect("success.jsp");
+                } else {
+                    // 用户名或密码错误
+                    RequestDispatcher requestDispatcher = request.getRequestDispatcher("login.jsp");
+                    request.setAttribute("isSuccess", false);
+                    requestDispatcher.forward(request, response);
+                }
+
+            } else {
+                // 验证码不正确
+                RequestDispatcher requestDispatcher = request.getRequestDispatcher("/login.jsp");
+                request.setAttribute("checkCode", false);
+                requestDispatcher.forward(request, response);
+            }
+
+
+        }
+
+
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

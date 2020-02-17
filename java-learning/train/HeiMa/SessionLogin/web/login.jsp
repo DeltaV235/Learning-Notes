@@ -5,7 +5,7 @@
   Time: 22:39
   To change this template use File | Settings | File Templates.
 --%>
-<!doctype html>
+<%--<!doctype html>--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -16,13 +16,22 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
 
+    <script>
+        window.onload = function () {
+            let checkImg = document.getElementById("checkImg");
+            checkImg.onclick = function () {
+                let date = new Date();
+                checkImg.src += "?date" + date;
+            }
+        }
+    </script>
 </head>
 <body>
 
 <div class="container-fluid">
     <div class="col-md-3">
         <div class="row">
-            <form action="/session/LoginServlet">
+            <form action="/session/LoginServlet" method="post">
                 <div class="form-group">
                     <label for="username">用户名</label>
                     <input type="text" class="form-control" id="username" name="username">
@@ -36,10 +45,26 @@
                     <input type="text" class="form-control" id="checkCode" name="checkCode">
                 </div>
                 <div class="img-fluid">
-                    <img src="/session/CheckCodeServlet" alt="checkCode">
+                    <img src="CheckCodeServlet" alt="checkCode" id="checkImg">
                 </div>
                 <button type="submit" class="btn btn-primary">登录</button>
             </form>
+            <%
+                Object isSuccess = request.getAttribute("isSuccess");
+                if (isSuccess != null) {
+                    if (!(boolean) isSuccess) {
+                        out.write("用户名或密码错误");
+                    }
+                }
+                Object checkCode = request.getAttribute("checkCode");
+                if (checkCode != null) {
+                    if (!(boolean) checkCode) {
+                        out.write("验证码错误");
+                    }
+                }
+
+            %>
+
         </div>
     </div>
 </div>

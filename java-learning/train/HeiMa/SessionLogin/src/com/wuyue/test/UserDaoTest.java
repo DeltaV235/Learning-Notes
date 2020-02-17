@@ -3,7 +3,7 @@ package com.wuyue.test;
 import org.apache.commons.beanutils.BeanUtils;
 import org.junit.Test;
 import com.wuyue.entities.User;
-import com.wuyue.UserDao;
+import com.wuyue.dao.UserDao;
 
 import java.lang.reflect.InvocationTargetException;
 

@@ -1,9 +1,9 @@
-package com.wuyue;
+package com.wuyue.dao;
 
 import com.wuyue.entities.User;
+import com.wuyue.utils.JDBCUtils;
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
-import com.wuyue.utils.JDBCUtils;
 
 import java.util.Map;
 
@@ -34,7 +34,7 @@ public class UserDao {
             BeanUtils.populate(user, map);
             return user;
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("username or password error!");
             return null;
         }
     }

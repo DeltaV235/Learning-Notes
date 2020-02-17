@@ -2103,3 +2103,35 @@ IDEA -> Help -> Edit Custom VM Options
 - Servlet标准输出中文乱码
 IDEA -> Run/Debug Configurations -> Tomcat Server -> VM options
 增加: `-Dfile.encoding=UTF-8`
+
+### 关于Web项目中的绝对路径和相对路径
+
+**绝对路径**: 以`/`开头，基于某个根目录。如linux中基于`/`根目录
+**相对路径**: 当前目录的相对位置
+
+**服务端**:
+
+**绝对路径**基于web项目的根目录。
+例如: `/ == localhost/contextPath/`  `/login/index.jsp == localhost/contextPath/login/index.jsp`
+
+**相对路径**相对于当前文件所在目录的相对位置
+例如: `localhost/contextPath/login/index.jsp 中的路径 pay.jsp 表示 localhost/contextPath/login/pay.jsp`
+
+**浏览器端**:
+
+**绝对路径**基于访问的域名开始
+例如: `/index == domain/index` `/contextPath/login.jsp == domain/contextPath/login.jsp`
+
+**相对路径**相对于当前访问的资源的相对位置
+例如: `domain/index.html : next.jsp == domain/next.jsp` `domain/contextPath/index.html : ..next.jsp == domain/next.jsp`
+
+**总结**:
+
+**web项目从contextPath开始，contextPath只影响访问web项目的浏览器，不对web项目中目录结构发生影响**
+所以服务器内部的请求转发可以通过绝对路径或相对路径完成，不需要考虑contextPath。
+
+而响应的重定向是由浏览器来完成了，浏览器并不能区分哪个path是contextPath，哪些是web项目路径，所以浏览器端的根目录(绝对路径基准)是域名。通过浏览器发出的请求若使用绝对路径，则需要指定完整的contextPath和项目文件路径，才能正确地访问资源。若在浏览器端发出的资源请求使用相对路径，则基于浏览器当前所在目录开始进行相对。
+
+**注意**: Servlet在项目中的位置由`url-pattern`决定，例如`LoginServlet`的`url-pattern="/LoginServlet"`，则相当于该Servlet位于项目的根目录下。可以通过绝对路径或相对路径访问该资源。
+
+![servlet-path](source/servlet-path.png)
