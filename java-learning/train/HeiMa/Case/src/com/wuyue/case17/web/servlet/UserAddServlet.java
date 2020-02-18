@@ -4,6 +4,9 @@ import com.wuyue.case17.entities.User;
 import com.wuyue.case17.service.UserService;
 import com.wuyue.case17.service.impl.UserServiceImpl;
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.ConvertUtils;
+import org.apache.commons.beanutils.converters.IntegerConverter;
+import org.apache.commons.beanutils.converters.StringConverter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -28,6 +31,9 @@ public class UserAddServlet extends HttpServlet {
         Map<String, String[]> parameterMap = request.getParameterMap();
         User user = new User();
         try {
+            // 将Integer和String转换器的默认值设为null，防止原属性为null时，自动把目标属性转换为0或""
+            ConvertUtils.register(new IntegerConverter(null), Integer.class);
+            ConvertUtils.register(new StringConverter(null), String.class);
             BeanUtils.populate(user, parameterMap);
             UserService userService = new UserServiceImpl();
             boolean isSuccess = userService.addUser(user);
