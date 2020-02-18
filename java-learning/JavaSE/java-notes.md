@@ -59,7 +59,7 @@ Core Java
 
 ### IDEA常用快捷键
 
-![idea-shortcut](source/idea-shortcut.png)
+![idea-shortcut](img/idea-shortcut.png)
 
 ---
 
@@ -249,9 +249,9 @@ Java虚拟机的内存可以分为三个区域：栈stack、堆heap、方法区m
 2. 方法区实际也是堆，只是用于存储类、常量相关的信息!
 3. 用来存放程序中永远是不变或唯一的内容。(类信息【Class对象】、静态变量、字符串常量等)
 
-![memory-model](source/memory-model-1.png)
+![memory-model](img/memory-model-1.png)
 
-![memory-model](source/memory-model-2.png)
+![memory-model](img/memory-model-2.png)
 
 ### 数组的创建和初始化过程
 
@@ -261,7 +261,7 @@ Java虚拟机的内存可以分为三个区域：栈stack、堆heap、方法区m
 Object[] array;
 ```
 
-![创建数组对象](source/create-array-variable.png)
+![创建数组对象](img/create-array-variable.png)
 
 创建数组对象，并将数组变量指向堆中创建的数组对象
 
@@ -269,7 +269,7 @@ Object[] array;
 Object[] array = new Object[7];
 ```
 
-![创建数组对象](source/create-array-object.png)
+![创建数组对象](img/create-array-object.png)
 
 动态初始化数组
 
@@ -277,7 +277,7 @@ Object[] array = new Object[7];
 array[0] = new Object();
 ```
 
-![动态初始化对象数组](source/create-array-object-object.png)
+![动态初始化对象数组](img/create-array-object-object.png)
 
 ## instanceof
 
@@ -335,7 +335,7 @@ List是有序，元素内容可重复的容器
 **可重复**:List允许加入重复的元素。更确切地讲，List通常允许满足 e1.equals(e2) 的元素重复加入容器。
 List接口常用的实现类有3个：`ArrayList`、`LinkedList`和`Vector`。
 
-![List接口中定义的方法](source/List-method.png)
+![List接口中定义的方法](img/List-method.png)
 
 如何选用`ArrayList`、`LinkedList`、`Vector`?
 
@@ -360,7 +360,7 @@ Vector底层是用数组实现的List，相关的方法都加了同步检查，�
 Map就是用来存储“键(key)-值(value) 对”的。 Map类中存储的“键值对”通过键来标识，所以“键对象”不能重复。
 Map 接口的实现类有`HashMap`、`TreeMap`、`HashTable`、`Properties`等。
 
-![Map接口中的常用方法](source/Map-method.png)
+![Map接口中的常用方法](img/Map-method.png)
 
 #### HashMap
 
@@ -1401,7 +1401,7 @@ TestClass tc = (TestClass)clz.getConstructor().newInstance();
 
 ### 类加载全过程
 
-![class-load](source/class-load.png)
+![class-load](img/class-load.png)
 
 [详细说明](https://blog.csdn.net/justloveyou_/article/details/72466105)
 
@@ -1438,7 +1438,7 @@ TestClass tc = (TestClass)clz.getConstructor().newInstance();
 
 ### 类加载器
 
-![Class-loader](source/class-loader-relationship.jpg)
+![Class-loader](img/class-loader-relationship.jpg)
 
 - **相同**的类加载器只会加载类**一次**，**不同**的类加载器加载**同一个类**，会在方法区生成两个**不同**的类信息以及Class对象。
 
@@ -2134,7 +2134,7 @@ IDEA -> Run/Debug Configurations -> Tomcat Server -> VM options
 
 **注意**: Servlet在项目中的位置由`url-pattern`决定，例如`LoginServlet`的`url-pattern="/LoginServlet"`，则相当于该Servlet位于项目的根目录下。可以通过绝对路径或相对路径访问该资源。
 
-![servlet-path](source/servlet-path.png)
+![servlet-path](img/servlet-path.png)
 
 ### cookie & session
 
