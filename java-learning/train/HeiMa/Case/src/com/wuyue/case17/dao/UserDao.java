@@ -1,5 +1,7 @@
 package com.wuyue.case17.dao;
 
+import com.wuyue.case17.dao.entities.User;
+
 import java.util.List;
 
 /**
@@ -10,5 +12,5 @@ import java.util.List;
  * @date 2020/2/18 17:23
  */
 public interface UserDao {
-    List<User>
+    List<User> findAll();
 }
