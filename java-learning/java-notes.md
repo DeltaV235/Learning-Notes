@@ -2135,3 +2135,7 @@ IDEA -> Run/Debug Configurations -> Tomcat Server -> VM options
 **注意**: Servlet在项目中的位置由`url-pattern`决定，例如`LoginServlet`的`url-pattern="/LoginServlet"`，则相当于该Servlet位于项目的根目录下。可以通过绝对路径或相对路径访问该资源。
 
 ![servlet-path](source/servlet-path.png)
+
+### cookie & session
+
+session可以用于在不同的servlet之间共享数据，其本质是通过request来传递数据。同一个request中获取的session是同一个session(请求转发)。
