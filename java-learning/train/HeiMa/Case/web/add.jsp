@@ -1,3 +1,4 @@
+<%@page contentType="text/html;charset=utf-8" language="java" %>
 <!-- HTML5文档-->
 <!DOCTYPE html>
 <!-- 网页使用的语言 -->
@@ -22,9 +23,9 @@
     <script src="js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="container">
+<div class="container" style="width: 400px">
     <center><h3>添加联系人页面</h3></center>
-    <form action="" method="post">
+    <form action="${pageContext.request.contextPath}/UserAddServlet" method="post">
         <div class="form-group">
             <label for="name">姓名：</label>
             <input type="text" class="form-control" id="name" name="name" placeholder="请输入姓名">
@@ -32,8 +33,8 @@
 
         <div class="form-group">
             <label>性别：</label>
-            <input type="radio" name="sex" value="男" checked="checked"/>男
-            <input type="radio" name="sex" value="女"/>女
+            <input type="radio" name="gender" value="男" checked="checked"/>男
+            <input type="radio" name="gender" value="女"/>女
         </div>
 
         <div class="form-group">
@@ -43,7 +44,7 @@
 
         <div class="form-group">
             <label for="address">籍贯：</label>
-            <select name="address" class="form-control" id="jiguan">
+            <select name="address" class="form-control" id="address">
                 <option value="广东">广东</option>
                 <option value="广西">广西</option>
                 <option value="湖南">湖南</option>
@@ -52,18 +53,18 @@
 
         <div class="form-group">
             <label for="qq">QQ：</label>
-            <input type="text" class="form-control" name="qq" placeholder="请输入QQ号码"/>
+            <input type="text" class="form-control" name="qq" id="qq" placeholder="请输入QQ号码"/>
         </div>
 
         <div class="form-group">
             <label for="email">Email：</label>
-            <input type="text" class="form-control" name="email" placeholder="请输入邮箱地址"/>
+            <input type="text" class="form-control" name="email" id="email" placeholder="请输入邮箱地址"/>
         </div>
 
         <div class="form-group" style="text-align: center">
-            <input class="btn btn-primary" type="submit" value="提交" />
-            <input class="btn btn-default" type="reset" value="重置" />
-            <input class="btn btn-default" type="button" value="返回" />
+            <input class="btn btn-primary" type="submit" value="提交"/>
+            <input class="btn btn-default" type="reset" value="重置"/>
+            <input class="btn btn-default" type="button" value="返回"/>
         </div>
     </form>
 </div>

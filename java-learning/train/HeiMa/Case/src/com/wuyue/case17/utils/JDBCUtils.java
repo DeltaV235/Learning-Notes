@@ -1,4 +1,4 @@
-package com.wuyue.case17.dao.utils;
+package com.wuyue.case17.utils;
 
 import com.alibaba.druid.pool.DruidDataSourceFactory;
 

@@ -1,8 +1,8 @@
-package com.wuyue.case17.service.test;
+package com.wuyue.case17.test.service;
 
-import com.wuyue.case17.dao.entities.User;
+import com.wuyue.case17.entities.User;
 import com.wuyue.case17.service.UserService;
-import com.wuyue.case17.service.UserServiceImpl;
+import com.wuyue.case17.service.impl.UserServiceImpl;
 import org.junit.Test;
 
 import java.util.List;

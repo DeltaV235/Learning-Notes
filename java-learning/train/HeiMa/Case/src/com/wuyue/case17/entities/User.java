@@ -1,4 +1,4 @@
-package com.wuyue.case17.dao.entities;
+package com.wuyue.case17.entities;
 
 /**
  * @author DeltaV235

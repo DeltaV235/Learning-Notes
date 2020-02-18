@@ -1,8 +1,8 @@
-package com.wuyue.case17.web;
+package com.wuyue.case17.web.servlet;
 
-import com.wuyue.case17.dao.entities.User;
+import com.wuyue.case17.entities.User;
 import com.wuyue.case17.service.UserService;
-import com.wuyue.case17.service.UserServiceImpl;
+import com.wuyue.case17.service.impl.UserServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,7 +19,7 @@ import java.util.List;
  * @description 处理用户的查询请求，并将结果转发至list.jsp中显示
  * @date 2020/2/18 18:22
  */
-@WebServlet("/UserListServlet")
+@WebServlet(name = "UserListServlet", urlPatterns = "/UserListServlet")
 public class UserListServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         UserService userService = new UserServiceImpl();
