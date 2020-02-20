@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean updateUser(User user) {
-        return userDao.updateUser(user);
+        return checkUserData(user) && userDao.updateUser(user);
     }
 
     @Override
@@ -52,6 +52,49 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public boolean addUser(User user) {
-        return userDao.addUser(user);
+        return checkUserData(user) && userDao.addUser(user);
+    }
+
+    /**
+     * @author DeltaV235
+     * @date 2020/2/19 17:28
+     */
+    @Override
+    public boolean isLegal(User loginUser) {
+        String loginUserName = loginUser.getUsername();
+        String loginPassword = loginUser.getPassword();
+        User user = userDao.findUser("username", loginUserName);
+        return user != null && user.getPassword().equals(loginPassword);
+    }
+
+    @Override
+    public boolean isCheckCodeLegal(String checkCode, String inputCheckCode) {
+        if (checkCode != null) {
+            return checkCode.equalsIgnoreCase(inputCheckCode);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean checkUserData(User user) {
+        return user.getName().length() >= 1 && user.getGender().length() >= 1 && user.getQq().length() >= 1 && user.
+                getEmail().length() >= 1 && user.getAddress().length() >= 1;
+    }
+
+    /**
+     * @author DeltaV235
+     * @date 2020/2/19 23:56
+     */
+    @Override
+    public int batchDelUsers(String[] ids) {
+        int count = 0;
+        if (ids != null && ids.length > 0) {
+            for (String id : ids) {
+                boolean isDel = userDao.deleteUser(Integer.parseInt(id));
+                if (isDel)
+                    count++;
+            }
+        }
+        return count;
     }
 }

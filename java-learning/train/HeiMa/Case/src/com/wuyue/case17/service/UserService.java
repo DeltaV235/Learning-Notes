@@ -55,4 +55,41 @@ public interface UserService {
      * @description 通过id获取用户信息，并封装为User对象返回
      */
     User findUser(int id);
+
+    /**
+     * @param loginUser 登录用户用户名和密码封装成的User对象
+     * @return 若用户合法则返回true，否则返回false
+     * @author DeltaV235
+     * @date 2020/2/19 17:21
+     * @description 判断登录的用户是否合法
+     */
+    boolean isLegal(User loginUser);
+
+    /**
+     * @param checkCode      session中保存的验证码
+     * @param inputCheckCode 用户输入的验证码
+     * @return 若用户输入验证码与session中保存的验证码相同，则返回true，否则返回false
+     * @author DeltaV235
+     * @date 2020/2/19 17:29
+     * @description 判断用户输入的验证码是否正确
+     */
+    boolean isCheckCodeLegal(String checkCode, String inputCheckCode);
+
+    /**
+     * @param user 将要写入数据库的User对象
+     * @return 若合法数据则返回true，否则返回false
+     * @author DeltaV235
+     * @date 2020/2/19 22:04
+     * @description 检查User对象是否符合要求
+     */
+    boolean checkUserData(User user);
+
+    /**
+     * @param ids 存储id的String数组
+     * @return 返回删除记录的条数
+     * @author DeltaV235
+     * @date 2020/2/19 23:53
+     * @description 批量删除指定id的用户信息
+     */
+    int batchDelUsers(String[] ids);
 }

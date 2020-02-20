@@ -23,6 +23,7 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/reset-btn.js"></script>
     <script src="js/back-btn.js"></script>
+    <script src="js/checkForm.js"></script>
 </head>
 <body>
 <div class="container" style="width: 400px">
@@ -35,8 +36,8 @@
 
         <div class="form-group">
             <label>性别：</label>
-            <input type="radio" name="gender" value="男" checked="checked"/>男
-            <input type="radio" name="gender" value="女"/>女
+            <input type="radio" name="gender" value="男" class="gender" checked="checked"/>男
+            <input type="radio" name="gender" value="女" class="gender"/>女
         </div>
 
         <div class="form-group">
@@ -64,7 +65,7 @@
         </div>
 
         <div class="form-group" style="text-align: center">
-            <input class="btn btn-primary" type="submit" value="提交"/>
+            <input class="btn btn-primary" type="submit" id="submit" value="提交"/>
             <input class="btn btn-default" id="reset" type="reset" value="重置"/>
             <input class="btn btn-default" id="back" type="button" value="返回"/>
         </div>

@@ -35,6 +35,8 @@ public class UserAddServlet extends HttpServlet {
             ConvertUtils.register(new IntegerConverter(null), Integer.class);
             ConvertUtils.register(new StringConverter(null), String.class);
             BeanUtils.populate(user, parameterMap);
+            System.out.println(parameterMap);
+            System.out.println(user);
             UserService userService = new UserServiceImpl();
             boolean isSuccess = userService.addUser(user);
             if (isSuccess)

@@ -1,4 +1,5 @@
 window.onload = function () {
+    // 先获取原始的字段值，然后reset将的发生了onclick事件后，将所有字段的值替换为原来的值
     let name;
     let gender;
     let age;
@@ -41,7 +42,7 @@ window.onload = function () {
         for (let i = 0; i < parameters.length; i++) {
             let paramName = parameters[i].name;
             let paramValue = parameters[i].value;
-            // 获取原来的属性值
+            // 将所有属性赋为原来的属性值
             switch (paramName) {
                 case "name":
                     paramValue = name;

@@ -50,7 +50,7 @@ public interface UserDao {
     /**
      * @param field 查找的字段名
      * @param value 查找的值
-     * @return 符合要求的一条记录的User封装对象
+     * @return 符合要求的一条记录的User封装对象，若为找到指定的user记录，则返回null
      * @author DeltaV235
      * @date 2020/2/18 23:54
      * @description 根据一个指定的键值对，在数据库中查找第一个符合要求的一条记录，并封装为User对象返回

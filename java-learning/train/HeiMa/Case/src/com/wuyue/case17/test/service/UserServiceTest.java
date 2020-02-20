@@ -24,4 +24,15 @@ public class UserServiceTest {
             System.out.println(user);
         }
     }
+
+    /**
+     * @author DeltaV235
+     * @date 2020/2/19 17:39
+     * @description 测试正确地用户名和密码能否返回true
+     */
+    @Test
+    public void testIsLegal() {
+        boolean isLegal = userService.isLegal(new User("zhangsan", "123"));
+        assert isLegal;
+    }
 }
