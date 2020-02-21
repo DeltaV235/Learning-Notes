@@ -1,5 +1,6 @@
 package com.wuyue.case17.test.service;
 
+import com.wuyue.case17.entities.PageBean;
 import com.wuyue.case17.entities.User;
 import com.wuyue.case17.service.UserService;
 import com.wuyue.case17.service.impl.UserServiceImpl;
@@ -34,5 +35,11 @@ public class UserServiceTest {
     public void testIsLegal() {
         boolean isLegal = userService.isLegal(new User("zhangsan", "123"));
         assert isLegal;
+    }
+
+    @Test
+    public void testFindUserByPage() {
+        PageBean<User> userByPage = userService.findUserByPage("2", "4");
+        System.out.println(userByPage);
     }
 }

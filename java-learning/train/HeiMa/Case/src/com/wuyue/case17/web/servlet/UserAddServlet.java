@@ -40,7 +40,7 @@ public class UserAddServlet extends HttpServlet {
             UserService userService = new UserServiceImpl();
             boolean isSuccess = userService.addUser(user);
             if (isSuccess)
-                response.sendRedirect(request.getContextPath() + "/UserListServlet");
+                response.sendRedirect(request.getContextPath() + "/ListByPage?currentPage=1&rows=5");
             else {
                 request.getRequestDispatcher("/add.jsp").forward(request, response);
                 // TODO 提示错误信息

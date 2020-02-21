@@ -65,20 +65,25 @@
     <h3 style="text-align: center">用户信息列表</h3>
     <%--    查询框--%>
     <div style="float: left; margin: 10px;">
-        <form class="form-inline">
+        <form class="form-inline" method="post" action="${pageContext.request.contextPath}/ListByPage">
+            <input type="hidden" name="currentPage" value="1">
+            <input type="hidden" name="rows" value="5">
             <div class="form-group">
                 <label for="name">姓名</label>
-                <input type="text" class="form-control" id="name" name="name">
+                <input type="text" class="form-control" id="name" name="name"
+                       value="${requestScope.condition.name}">
             </div>
             <div class="form-group">
                 <label for="address">籍贯</label>
-                <input type="text" class="form-control" id="address" name="address">
+                <input type="text" class="form-control" id="address" name="address"
+                       value="${requestScope.condition.address}">
             </div>
             <div class="form-group">
                 <label for="email">邮箱</label>
-                <input type="email" class="form-control" id="email" name="email">
+                <input type="email" class="form-control" id="email" name="email"
+                       value="${requestScope.condition.email}">
             </div>
-            <button type="submit" class="btn btn-default">查新</button>
+            <button type="submit" class="btn btn-default">查询</button>
         </form>
     </div>
 
@@ -102,7 +107,7 @@
                 <th>邮箱</th>
                 <th>操作</th>
             </tr>
-            <c:forEach items="${requestScope.users}" var="user" varStatus="status">
+            <c:forEach items="${requestScope.userByPage.list}" var="user" varStatus="status">
                 <tr>
                     <td><input value="${user.id}" name="id" type="checkbox"></td>
                     <td>${status.count}</td>
@@ -124,24 +129,43 @@
     <div>
         <nav aria-label="Page navigation">
             <ul class="pagination">
-                <li class="disabled">
-                    <a href="#" aria-label="Previous">
+                <li
+                        <c:if test="${requestScope.userByPage.currentPage == 1}">
+                            class="disabled"
+                        </c:if>
+                >
+                    <a href=
+                               "${pageContext.request.contextPath}/ListByPage?currentPage=${requestScope.userByPage.currentPage - 1}&rows=5&name
+=${condition.name}&address=${condition.address}&email=${condition.email}"
+                       aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
-                <li class="active"><a href="#">1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li><a href="#">5</a></li>
-                <li>
-                    <a href="#" aria-label="Next">
+                <c:forEach begin="1" end="${requestScope.userByPage.totalPage}" var="i">
+                    <li
+                            <c:if test="${requestScope.userByPage.currentPage == i}">
+                                class="active"
+                            </c:if>
+                    >
+                        <a href="${pageContext.request.contextPath}/ListByPage?currentPage=${i}&rows=5&name
+=${condition.name}&address=${condition.address}&email=${condition.email}">${i}</a>
+                    </li>
+                </c:forEach>
+                <li
+                        <c:if test="${requestScope.userByPage.currentPage == requestScope.userByPage.totalPage}">
+                            class="disabled"
+                        </c:if>
+                >
+                    <a
+                            href="${pageContext.request.contextPath}/ListByPage?currentPage=${requestScope.userByPage.currentPage + 1}&rows=5&name
+=${condition.name}&address=${condition.address}&email=${condition.email}"
+                            aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                     </a>
                 </li>
                 <span style="font-size: 25px;margin-left: 10px">
-                    共16条记录，共4页
-                </span>
+    共${requestScope.userByPage.totalCount}条记录，共${requestScope.userByPage.totalPage}页
+    </span>
             </ul>
         </nav>
     </div>

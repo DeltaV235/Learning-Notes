@@ -5,6 +5,7 @@ import com.wuyue.case17.dao.impl.UserDaoImpl;
 import com.wuyue.case17.entities.User;
 import org.junit.Test;
 
+import java.sql.SQLSyntaxErrorException;
 import java.util.List;
 
 /**
@@ -16,7 +17,7 @@ import java.util.List;
  */
 public class UserDaoImplTest {
 
-    UserDao userDao = new UserDaoImpl();
+    UserDao userDao = UserDaoImpl.INSTANCE;
 
     /**
      * @author DeltaV235
@@ -70,5 +71,52 @@ public class UserDaoImplTest {
 //        User user = userDao.findUser("id", 1);
         User user = userDao.findUser("name", "呵呵");
         System.out.println(user);
+    }
+
+    /**
+     * @author DeltaV235
+     * @date 2020/2/21 14:13
+     * @description 测试findUserCount方法
+     */
+    @Test
+    public void testFindUserCount() {
+        System.out.println(userDao.findUserCount());
+    }
+
+    /**
+     * @author DeltaV235
+     * @date 2020/2/21 14:14
+     * @description 测试findUserByPage方法
+     */
+    @Test
+    public void testFindUserByPage() {
+        List<User> userByLimit = userDao.findUserByLimit(0, 5);
+        System.out.println(userByLimit);
+    }
+
+    /**
+     * @author DeltaV235
+     * @date 2020/2/21 16:58
+     * @description 测试条件查询
+     */
+    @Test
+    public void testFindUserCountByCondition() throws SQLSyntaxErrorException {
+        int count = userDao.findUserCountByCondition(new String[]{"name", "address"},
+                new String[]{"香橙", "上海"});
+        System.out.println("count = " + count);
+        assert count > 0;
+    }
+
+    /**
+     * @author DeltaV235
+     * @date 2020/2/21 16:58
+     * @description 测试条件查询
+     */
+    @Test
+    public void testFindUserByConditionAndLimit() throws SQLSyntaxErrorException {
+        String[] keys = {"name", "address"};
+        String[] values = {"香橙", "上海"};
+        List<User> list = userDao.findUserByConditionAndLimit(keys, values, 0, 5);
+        System.out.println(list);
     }
 }

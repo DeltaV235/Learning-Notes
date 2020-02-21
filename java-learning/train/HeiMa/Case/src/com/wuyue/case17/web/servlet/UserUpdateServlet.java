@@ -34,7 +34,7 @@ public class UserUpdateServlet extends HttpServlet {
         try {
             BeanUtils.populate(user, parameterMap);
             userService.updateUser(user);
-            response.sendRedirect(request.getContextPath() + "/UserListServlet");
+            response.sendRedirect(request.getContextPath() + "/ListByPage?currentPage=1&rows=5");
         } catch (IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         }

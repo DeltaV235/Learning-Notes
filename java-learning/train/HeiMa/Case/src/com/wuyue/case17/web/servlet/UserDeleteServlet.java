@@ -24,11 +24,11 @@ public class UserDeleteServlet extends HttpServlet {
         UserService userService = new UserServiceImpl();
         if (null != id) {
             userService.deleteUser(Integer.parseInt(id));
-            response.sendRedirect(request.getContextPath() + "/UserListServlet");
+            response.sendRedirect(request.getContextPath() + "/ListByPage?currentPage=1&rows=5");
         } else {
             // TODO 提示错误信息
             // request.setAttribute()
-            request.getRequestDispatcher("/UserListServlet").forward(request, response);
+            request.getRequestDispatcher("/ListByPage?currentPage=1&rows=5").forward(request, response);
         }
 
     }

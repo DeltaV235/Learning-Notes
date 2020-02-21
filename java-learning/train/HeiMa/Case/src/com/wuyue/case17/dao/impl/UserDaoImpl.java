@@ -7,6 +7,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.sql.SQLSyntaxErrorException;
 import java.util.List;
 import java.util.Map;
 
@@ -17,18 +18,12 @@ import java.util.Map;
  * @description 实现UserDao接口，完成对数据库的CRUD操作
  * @date 2020/2/18 17:30
  */
-public class UserDaoImpl implements UserDao {
-    private JdbcTemplate template;
+public enum UserDaoImpl implements UserDao {
+    // 使用枚举式单例模型
+    INSTANCE;
 
-    /**
-     * @author DeltaV235
-     * @date 2020/2/18 17:38
-     * @description 完成的template的实例化
-     */
-    public UserDaoImpl() {
-        // JDBCUtils在类初始化时将创建数据库连接池，将返回DataSource对象作为JdbcTemplate实例化的参数
-        template = new JdbcTemplate(JDBCUtils.getDataSource());
-    }
+    // JDBCUtils在类初始化时将创建数据库连接池，将返回DataSource对象作为JdbcTemplate实例化的参数
+    private JdbcTemplate template = new JdbcTemplate(JDBCUtils.getDataSource());
 
     /**
      * @param user 添加的user对象
@@ -111,5 +106,76 @@ public class UserDaoImpl implements UserDao {
     public boolean deleteUser(int id) {
         String dml = "delete from user where id = ?;";
         return template.update(dml, id) > 0;
+    }
+
+    /**
+     * @author DeltaV235
+     * @date 2020/2/21 13:58
+     */
+    @Override
+    public List<User> findUserByLimit(int startIdx, int rows) {
+        String dql = "select * from user limit ?,?";
+        try {
+            return template.query(dql, new BeanPropertyRowMapper<>(User.class), startIdx, rows);
+        } catch (
+                Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+    /**
+     * @author DeltaV235
+     * @date 2020/2/21 14:03
+     */
+    @Override
+    public int findUserCount() {
+        String dql = "select count(id) count from user";
+        return template.queryForObject(dql, int.class);
+    }
+
+    /**
+     * @author DeltaV235
+     * @date 2020/2/21 16:38
+     */
+    @Override
+    public List<User> findUserByConditionAndLimit(String[] condKeys, String[] condValues, int startIdx, int rows)
+            throws SQLSyntaxErrorException {
+        if (condKeys.length != condValues.length)
+            throw new SQLSyntaxErrorException("条件字段数量与条件值数量不匹配");
+        StringBuilder dql = new StringBuilder("select * from user where 1=1");
+        for (int i = 0; i < condKeys.length; i++) {
+            dql.append(" and ").append(condKeys[i]).append(" like ").append("'%").append(condValues[i])
+                    .append("%'");
+        }
+        dql.append(" limit ").append(startIdx).append(", ").append(rows);
+        try {
+            return template.query(dql.toString(), new BeanPropertyRowMapper<>(User.class));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * @author DeltaV235
+     * @date 2020/2/21 16:50
+     */
+    @Override
+    public int findUserCountByCondition(String[] condKeys, String[] condValues) throws SQLSyntaxErrorException {
+        if (condKeys.length != condValues.length)
+            throw new SQLSyntaxErrorException("条件字段数量与条件值数量不匹配");
+        StringBuilder dql = new StringBuilder("select count(*) from user where 1 = 1");
+        for (int i = 0; i < condKeys.length; i++) {
+            dql.append(" and ").append(condKeys[i]).append(" like ").append("'%").append(condValues[i])
+                    .append("%'");
+        }
+        try {
+            return template.queryForObject(dql.toString(), Integer.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 }

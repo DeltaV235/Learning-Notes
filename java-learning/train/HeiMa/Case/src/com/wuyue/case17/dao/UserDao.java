@@ -2,6 +2,7 @@ package com.wuyue.case17.dao;
 
 import com.wuyue.case17.entities.User;
 
+import java.sql.SQLSyntaxErrorException;
 import java.util.List;
 
 /**
@@ -56,4 +57,47 @@ public interface UserDao {
      * @description 根据一个指定的键值对，在数据库中查找第一个符合要求的一条记录，并封装为User对象返回
      */
     User findUser(String field, Object value);
+
+    /**
+     * @param startIdx 查找开始的索引
+     * @param rows     记录数
+     * @return 符合条件的记录集合
+     * @author DeltaV235
+     * @date 2020/2/21 13:50
+     * @description 根据分页信息(起始索引 查找多少条记录)来返回记录的集合
+     */
+    List<User> findUserByLimit(int startIdx, int rows);
+
+    /**
+     * @return 返回user表中的记录数
+     * @author DeltaV235
+     * @date 2020/2/21 13:59
+     * @description 查找user表中的记录数
+     */
+    int findUserCount();
+
+    /**
+     * @param condKeys   条件字段名
+     * @param condValues 条件值，condKeys.length需要等于condValues.length
+     * @param startIdx   分页查询开始索引值
+     * @param rows       分页查询每页显示记录数
+     * @return 符合条件的User对象List集合
+     * @throws SQLSyntaxErrorException 若传入的条件字段数组的长度与条件值数组的长度不一致，则抛出SQL语法错误异常
+     * @author DeltaV235
+     * @date 2020/2/21 16:33
+     * @description 根据指定的条件和分页查询用户数据
+     */
+    List<User> findUserByConditionAndLimit(String[] condKeys, String[] condValues, int startIdx, int rows)
+            throws SQLSyntaxErrorException;
+
+    /**
+     * @param condKeys   条件字段名
+     * @param condValues 条件值
+     * @return 符合条件的记录数量
+     * @throws SQLSyntaxErrorException 若传入的条件字段数组的长度与条件值数组的长度不一致，则抛出SQL语法错误异常
+     * @author DeltaV235
+     * @date 2020/2/21 16:36
+     * @description 查询符合条件的记录数
+     */
+    int findUserCountByCondition(String[] condKeys, String[] condValues) throws SQLSyntaxErrorException;
 }

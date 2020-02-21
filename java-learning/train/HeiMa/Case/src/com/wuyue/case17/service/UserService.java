@@ -1,8 +1,10 @@
 package com.wuyue.case17.service;
 
+import com.wuyue.case17.entities.PageBean;
 import com.wuyue.case17.entities.User;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author DeltaV235
@@ -92,4 +94,24 @@ public interface UserService {
      * @description 批量删除指定id的用户信息
      */
     int batchDelUsers(String[] ids);
+
+    /**
+     * @param currentPage 当前显示的页数
+     * @param rows        每页显示的行数
+     * @return PageBean对象，封装了List<User>集合，总页数，总记录数等信息
+     * @author DeltaV235
+     * @date 2020/2/21 14:38
+     * @description 通过http协议传回的currentPage和rows两个请求参数来封装一个PageBean对象
+     */
+    PageBean<User> findUserByPage(String currentPage, String rows);
+
+    /**
+     * @param paraMap     请求条件参数集合
+     * @return 若查询到相关结果，则返回PageBean对象，否则返回一个list=null total=0 currentPage=1
+     * rows=5 的PageBean对象
+     * @author DeltaV235
+     * @date 2020/2/21 17:08
+     * @description 根据传入的条件参数集合和分页信息，返回对应的PageBean对象
+     */
+    PageBean<User> findUserByConditionAndPage(Map<String, String> paraMap);
 }
