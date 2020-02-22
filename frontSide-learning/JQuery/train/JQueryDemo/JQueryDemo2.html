@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JS与JQ对象的转换</title>
+    <script src="js/jquery-3.4.1.min.js"></script>
+</head>
+<body>
+    <div id="div1">div1...</div>
+    <script>
+        let js = document.getElementById("div1");
+        alert($(js).get(0));
+        alert($(js)[0]);
+    </script>
+</body>
+</html>

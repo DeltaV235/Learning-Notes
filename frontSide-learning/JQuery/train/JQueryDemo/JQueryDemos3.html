@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JQ的事件绑定与入口函数、css样式控制</title>
+    <script src="js/jquery-3.4.1.min.js"></script>
+</head>
+<body>
+<input type="button" value="来电我啊"/>
+<script>
+    $(function () {
+        // 事件源    事件    监听器
+        $("input").click(function () {
+            alert("Fuck Me!")
+        })
+
+        $("input").css("backgroundColor", "red")
+    })
+
+</script>
+</body>
+</html>
