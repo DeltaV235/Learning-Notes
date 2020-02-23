@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AjaxDemo1</title>
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script>
+        $(function () {
+            $("input[type='button']").click(function () {
+                $.get("AjaxDemo1", {"username": "xxhh"}, function (data) {
+                    alert(data)
+                })
+            })
+        });
+    </script>
+</head>
+<body>
+<input type="button" value="提交请求">
+<input type="text">
+</body>
+</html>

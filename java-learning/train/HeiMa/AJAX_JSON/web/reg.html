@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>register</title>
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script>
+        $(function () {
+            $("#username").blur(function () {
+                let username = $(this).val();
+                $.get(
+                    "RegServlet",
+                    {"username": username},
+                    function (data) {
+                        if (data.userExist) {
+                            $("span").css("color", "red");
+                            $("span").html(data.msg)
+                        } else {
+                            $("span").css("color", "green");
+                            $("span").html(data.msg)
+                        }
+                    }
+                )
+            })
+        })
+    </script>
+</head>
+<body>
+<form>
+    <input type="text" id="username" name="username" placeholder="please enter username"
+           autocomplete="username"><span></span>
+    <br>
+    <input type="password" id="password" name="password" placeholder="please enter password"
+           autocomplete="current-password">
+    <br>
+    <input type="submit" value="register">
+</form>
+</body>
+</html>

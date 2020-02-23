@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JsonDemo1</title>
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script>
+        let persons =
+            [
+                {
+                    "name": "wuyue",
+                    "age": 23,
+                    "gender": "male"
+                },
+                {
+                    "name": "kwy",
+                    "age": 25,
+                    "gender": "male"
+                },
+                {
+                    "name": "kkr",
+                    "age": 18,
+                    "gender": "female"
+                }
+            ];
+
+        for (let i = 0; i < persons.length; i++) {
+            let person = persons[i];
+            for (var key in person) {
+                document.write(key + " : " + person[key] + "&nbsp;".repeat(5))
+            }
+            document.write("<br>")
+        }
+
+
+        let personss = {
+            'personss':
+                [
+                    {
+                        "name": "kkr",
+                        "age": 18,
+                        "gender": "female"
+                    },
+                    {
+                        "name": "kkr",
+                        "age": 18,
+                        "gender": "female"
+                    }
+                ]
+        };
+        for (var key in personss) {
+            document.write(key + " : " + personss[key] + "&nbsp;".repeat(5))
+        }
+        document.write("<br>")
+        
+    </script>
+
+</head>
+<body>
+
+</body>
+</html>
