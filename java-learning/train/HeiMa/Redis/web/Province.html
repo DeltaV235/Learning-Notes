@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Get Province</title>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script>
+        $(function () {
+            let selectElement = $("#province");
+            $.get("FindProvince", {}, function (data) {
+                $(data).each(function () {
+                    let option = "<option name='" + this.id + "'>" + this.name + "</option>"
+                    $(option).appendTo(selectElement)
+                })
+            })
+        })
+    </script>
+</head>
+<body>
+<select name="province" id="province">
+    <option value="">---请选择---</option>
+</select>
+</body>
+</html>
