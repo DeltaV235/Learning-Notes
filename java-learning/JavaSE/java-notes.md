@@ -31,17 +31,17 @@ Core Java
 
 ### 2.Web基础和工具
 
-- [ ] 前端基础(html/javascript/css) jquery, ajax, jsp, cookie, session
+- [x] 前端基础(html/javascript/css) jquery, ajax, jsp, cookie, session
 - [x] http基础
-- [ ] servlet基础
+- [x] servlet基础
 - [x] git,svn代码管理工具
 
 ### 3.企业级应用框架
 
-- [ ] maven/gradle项目管理工具
+- [x] maven/gradle项目管理工具
 - [ ] Spring全家桶(Spring, Spring MVC, Spring Boot)
 - [ ] 关系型数据库相关(MySQL, jdbc, MyBatis, Hibernate)
-- [ ] 非关系型数据库(Redis)
+- [x] 非关系型数据库(Redis)
 - [ ] 模板引擎(thymeleaf, freemarker)
 
 ### 4.高级应用框架
