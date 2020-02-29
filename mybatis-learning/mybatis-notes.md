@@ -159,3 +159,10 @@
 ```
 
 `property`属性为实体类中对应的字段，`column`为数据库中对应的字段，数据库主键使用`<id>`标签包裹，其余非主键字段使用`<result>`包裹
+
+## Mybatis中使用Dao实现类执行CRUD
+
+在Dao实现类中调用SqlSession的`selectList` `selectOne` `insert` `update` `delete`等方法执行crud操作，具体的SQL操作仍然位于mapper.xml文件中。在使用SQLSession的CRUD方法时，需要传入`Map<String, Mapper> mappers`中的key值，即全限定类名.方法名和需要的参数对象。
+SqlSession的CRUD方法中，`insert` `update` `delete`最终都调用SqlSession中的`update`方法，所以调用`insert`和`delete`方法与直接调用`update`方法等价。
+
+`SqlSession.getMapper()`将返回一个代理对象，该代理对象最终还是会使用SqlSession中的`insert` `update` `selectList`等方法。

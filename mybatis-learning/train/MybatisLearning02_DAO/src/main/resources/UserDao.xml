@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.UserDao">
+
+
+    <!-- 查询所有的用户记录，并封装至List中 -->
+    <select id="findAll" resultType="domain.User">
+        <!--        select id userId, username userName, birthday userBirthday, sex userSex, address userAddress-->
+        <!--        from user;-->
+        select * from user
+    </select>
+
+    <!-- 插入一条记录 -->
+    <insert id="saveUser" parameterType="domain.User">
+        <selectKey resultType="int" order="AFTER" keyProperty="id">
+            select last_insert_id()
+        </selectKey>
+        insert into user(username, birthday, sex, address)
+        values (#{username}, #{birthday}, #{sex}, #{address})
+    </insert>
+
+    <!-- 删除一条记录 -->
+    <delete id="deleteUser" parameterType="Integer">
+        delete
+        from user
+        where id = #{uid}
+    </delete>
+
+    <!-- 更改一条记录 -->
+    <update id="updateUser" parameterType="domain.User">
+        update user
+        set username=#{username},
+            birthday=#{birthday},
+            sex=#{sex},
+            address=#{address}
+        where id = #{id}
+    </update>
+
+    <!-- 通过id字段查找一条记录 -->
+    <select id="findById" parameterType="INT" resultType="domain.User">
+        select *
+        from user
+        where id = #{uid}
+    </select>
+
+    <!-- 通过用户姓名字段模糊查询多条记录 -->
+    <select id="findByName" resultType="domain.User" parameterType="String">
+        select *
+        from user
+        where username like #{name}
+        <!--select *-->
+        <!--from user-->
+        <!--where username like '%${value}%'-->
+    </select>
+
+    <!-- 使用聚合函数查询总记录数 -->
+    <select id="countTotal" resultType="int">
+        select count(id)
+        from user
+    </select>
+
+</mapper>
