@@ -1,6 +1,7 @@
 package com.wuyue.dao;
 
 import com.wuyue.domain.User;
+import com.wuyue.mybatis.annotations.Select;
 
 import java.util.List;
 
@@ -18,5 +19,6 @@ public interface UserDao {
      * @date 2020/2/25 22:01
      * @description 查询所有用户
      */
+    @Select("select * from user")
     List<User> findAll();
 }
