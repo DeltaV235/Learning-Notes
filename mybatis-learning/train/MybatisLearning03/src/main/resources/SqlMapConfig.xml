@@ -4,8 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 
 <configuration>
-
     <typeAliases>
+        <package name="dao"/>
         <package name="domain"/>
     </typeAliases>
 
@@ -24,5 +24,4 @@
     <mappers>
         <mapper resource="UserDao.xml"/>
     </mappers>
-
 </configuration>

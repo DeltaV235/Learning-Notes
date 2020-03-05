@@ -64,14 +64,26 @@
         where username like #{user.userName}
     </select>
 
-    <select id="findByIdAndName" resultMap="userMap">
-        select *
-        from user
-        where id = #{param1}
-          and username like #{param2}
+
+    <select id="findByCondition" parameterType="user" resultMap="userMap">
+        select * from user
+        <where>
+            <if test="userName!=null">
+                and username=#{userName}
+            </if>
+            <if test="userSex!=null">
+                and sex=#{userSex}
+            </if>
+        </where>
     </select>
 
-    <select id="findByIds" resultMap="userMap">
-        select * from user where id = #{param1[0]}
+    <select id="findByIds" parameterType="queryvo" resultMap="userMap">
+        select * from user
+        <where>
+            <foreach collection="ids" open="and id in (" close=")" item="id" separator=",">
+                #{id}
+            </foreach>
+        </where>
     </select>
+
 </mapper>

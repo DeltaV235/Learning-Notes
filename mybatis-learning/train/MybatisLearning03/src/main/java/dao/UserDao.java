@@ -22,22 +22,6 @@ public interface UserDao {
     List<User> findAll();
 
     /**
-     * @param user
-     * @author DeltaV235
-     * @date 2020/2/29 13:38
-     * @description 在数据库中插入一条记录
-     */
-    void saveUser(User user);
-
-    /**
-     * @param userId
-     * @author DeltaV235
-     * @date 2020/2/29 13:54
-     * @description 删除指定Id的用户
-     */
-    void deleteUser(Integer userId);
-
-    /**
      * @param uid
      * @author DeltaV235
      * @date 2020/2/29 14:00
@@ -55,14 +39,6 @@ public interface UserDao {
     List<User> findByName(String username);
 
     /**
-     * @return
-     * @author DeltaV235
-     * @date 2020/2/29 15:02
-     * @description 返回总记录数
-     */
-    int countTotal();
-
-    /**
      * @param vo
      * @return
      * @author DeltaV235
@@ -72,17 +48,22 @@ public interface UserDao {
     List<User> findByVo(QueryVo vo);
 
     /**
-     * @param id
-     * @param username
+     * @param user
      * @return
      * @author DeltaV235
-     * @date 2020/3/5 13:51
-     * @description 通过用户名和id查找一个用户
+     * @date 2020/3/1 17:47
+     * @description 通过条件查询记录
      */
-    User findByIdAndName(Integer id, String username);
+    List<User> findByCondition(User user);
 
-    List<User> findByIds(List<Integer> ids, List<Integer> ids2);
-
+    /**
+     * @param vo
+     * @return
+     * @author DeltaV235
+     * @date 2020/3/1 18:10
+     * @description 通过多个id查询多个用户记录
+     */
+    List<User> findByIds(QueryVo vo);
 }
 
 

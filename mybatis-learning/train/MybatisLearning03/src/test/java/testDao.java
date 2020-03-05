@@ -12,7 +12,6 @@ import org.junit.Test;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -44,17 +43,6 @@ public class testDao {
     }
 
     /**
-     * 测试插入一条数据
-     */
-    @Test
-    public void testInsert() {
-        User user = new User(null, "wuyue", new Date(), "男", "Shanghai");
-        System.out.println(user);
-        userDao.saveUser(user);
-        System.out.println(user);
-    }
-
-    /**
      * 测试查询所有
      */
     @Test
@@ -65,13 +53,6 @@ public class testDao {
         }
     }
 
-    /**
-     * 测试删除功能
-     */
-    @Test
-    public void testDelete() {
-        userDao.deleteUser(50);
-    }
 
     /**
      * 测试查询一个用户
@@ -94,15 +75,6 @@ public class testDao {
     }
 
     /**
-     * 查询总记录数
-     */
-    @Test
-    public void testCountTotal() {
-        int total = userDao.countTotal();
-        System.out.println(total);
-    }
-
-    /**
      * 通过查询条件对象查询记录
      */
     @Test
@@ -117,24 +89,26 @@ public class testDao {
         }
     }
 
-    /**
-     * 测试通过id和username查找指定的一个用户
-     */
     @Test
-    public void testFindByIdAndName() {
-        User user = userDao.findByIdAndName(41, "老王");
-        System.out.println(user);
+    public void testFindByCondition() {
+        User user = new User();
+        user.setUserName("老王");
+        user.setUserSex("女");
+        List<User> byCondition = userDao.findByCondition(user);
+        for (User u : byCondition) {
+            System.out.println(u);
+        }
     }
 
     @Test
     public void testFindByIds() {
+        QueryVo vo = new QueryVo();
         List<Integer> ids = new ArrayList<>();
-        List<Integer> ids2 = new ArrayList<>();
         ids.add(41);
-        ids.add(42);
-        ids2.add(43);
-        ids2.add(44);
-        List<User> users = userDao.findByIds(ids, ids2);
+        ids.add(45);
+        ids.add(46);
+        vo.setIds(ids);
+        List<User> users = userDao.findByIds(vo);
         for (User user : users) {
             System.out.println(user);
         }

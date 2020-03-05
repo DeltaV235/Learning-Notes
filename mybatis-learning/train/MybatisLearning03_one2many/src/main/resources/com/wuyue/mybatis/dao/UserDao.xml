@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wuyue.mybatis.dao.UserDao">
+
+    <!-- 查询所有的用户记录，并封装至List中 -->
+    <select id="findAll" resultType="user">
+        <!--        select id userId, username userName, birthday userBirthday, sex userSex, address userAddress-->
+        <!--        from user;-->
+        select * from user
+    </select>
+
+    <!-- 通过id字段查找一条记录 -->
+    <select id="findById" parameterType="INT" resultType="user">
+        select *
+        from user
+        where id = #{uid}
+    </select>
+
+    <!-- 通过用户姓名字段模糊查询多条记录 -->
+    <select id="findByName" resultType="user" parameterType="String">
+        select *
+        from user
+        where username like #{name}
+    </select>
+
+</mapper>

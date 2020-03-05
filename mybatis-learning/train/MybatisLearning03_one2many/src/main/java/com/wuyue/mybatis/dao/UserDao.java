@@ -1,7 +1,6 @@
-package dao;
+package com.wuyue.mybatis.dao;
 
-import domain.QueryVo;
-import domain.User;
+import com.wuyue.mybatis.domain.User;
 
 import java.util.List;
 
@@ -22,22 +21,6 @@ public interface UserDao {
     List<User> findAll();
 
     /**
-     * @param user
-     * @author DeltaV235
-     * @date 2020/2/29 13:38
-     * @description 在数据库中插入一条记录
-     */
-    void saveUser(User user);
-
-    /**
-     * @param userId
-     * @author DeltaV235
-     * @date 2020/2/29 13:54
-     * @description 删除指定Id的用户
-     */
-    void deleteUser(Integer userId);
-
-    /**
      * @param uid
      * @author DeltaV235
      * @date 2020/2/29 14:00
@@ -55,33 +38,12 @@ public interface UserDao {
     List<User> findByName(String username);
 
     /**
-     * @return
-     * @author DeltaV235
-     * @date 2020/2/29 15:02
-     * @description 返回总记录数
-     */
-    int countTotal();
-
-    /**
      * @param vo
      * @return
      * @author DeltaV235
      * @date 2020/2/29 15:41
      * @description 通过传入的QueryVo对象，查询符合的记录
      */
-    List<User> findByVo(QueryVo vo);
-
-    /**
-     * @param id
-     * @param username
-     * @return
-     * @author DeltaV235
-     * @date 2020/3/5 13:51
-     * @description 通过用户名和id查找一个用户
-     */
-    User findByIdAndName(Integer id, String username);
-
-    List<User> findByIds(List<Integer> ids, List<Integer> ids2);
 
 }
 

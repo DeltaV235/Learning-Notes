@@ -4,9 +4,9 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 
 <configuration>
-
     <typeAliases>
-        <package name="domain"/>
+        <package name="com.wuyue.mybatis.dao"/>
+        <package name="com.wuyue.mybatis.domain"/>
     </typeAliases>
 
     <environments default="mysql">
@@ -22,7 +22,6 @@
     </environments>
 
     <mappers>
-        <mapper resource="UserDao.xml"/>
+        <package name="com.wuyue.mybatis.dao"/>
     </mappers>
-
 </configuration>
