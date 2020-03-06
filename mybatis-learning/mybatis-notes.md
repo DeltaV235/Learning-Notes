@@ -206,7 +206,7 @@ MyBatis 可以根据不同的数据库厂商执行不同的语句，这种多厂
 </mapper>
 ```
 
-#### 增删改
+#### DML
 
 ##### Note
 
@@ -243,10 +243,26 @@ value值为实参的值，所以映射xml中的SQL可以使用map的key来获取
 key:collection[index] list[index] array[index]
 若存在多个集合，则使用param1[index] param2[index]来获取不同集合的指定索引处的值
 
-## Mybatis查询结果集的封装
+#### DQL
+
+##### 返回的类型为List
+
+mapper.xml中`<select>`中resultType属性为List中泛型的数据类型，如返回类型为`List<User>`，则resultType="User"
+
+##### 返回类型为Map
+
+###### Map<field, value>
+
+resultType="map"，Mybatis将直接将数据的字段名和值封装至一个Map中
+
+###### Map<key, javabean>
+
+resultType="javabean" 将返回值封装为JavaBean对象 在dao接口对应的方法上使用`@MapKey("JavaBeanProperty")`指定将哪个JavaBean属性作为Map的key
+
+###### JavaBean属性与数据库字段不同的解决方法
 
 若实体类中的属性名与数据库中的字段名相同，则直接指定`<select>`标签中的`resultType`属性为实体类的全限定名即可
-若实体类中的属性名与数据库中的字段名不同，则有以下两种解决方法:
+若实体类中的属性名与数据库中的字段名不同，则有以下几种解决方法:
 
 - 实体类的属性
 
@@ -279,12 +295,17 @@ key:collection[index] list[index] array[index]
 
     [...]
 
+    <!-- 其中resultMap标签中，`id`属性为唯一id，用于后续的引用，`type`属性为最后封装为的JavaBean类型 -->
     <resultMap id="userMap" type="domain.User">
+        <!-- id定义的主键底层会有优化 -->
+        <!-- property属性为JavaBean中对应的属性，column为数据库中对应的字段，数据库主键使用<id>标签包裹，其余非主键字段使用`<result>`包裹 -->
         <id property="userId" column="id"/>
         <result property="userName" column="username"/>
         <result property="userBirthday" column="birthday"/>
         <result property="userSex" column="sex"/>
         <result property="userAddress" column="address"/>
+        <!-- 其他不指定的列会自动按照数据库字段名和javabean属性名进行封装 -->
+        <!-- 一般我们只要写resultMap就把全部的映射规则都写上 -->
     </resultMap>
 
     [...]
@@ -292,7 +313,6 @@ key:collection[index] list[index] array[index]
 </mapper>
 ```
 
-`property`属性为实体类中对应的字段，`column`为数据库中对应的字段，数据库主键使用`<id>`标签包裹，其余非主键字段使用`<result>`包裹
 
 ## Mybatis中使用Dao实现类执行CRUD
 
