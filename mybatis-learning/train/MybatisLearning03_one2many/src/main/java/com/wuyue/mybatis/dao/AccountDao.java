@@ -28,4 +28,26 @@ public interface AccountDao {
      * @description 查找所有account记录和对应的user记录中的username和address
      */
     List<AccountUser> findAllAccountUser();
+
+
+    /**
+     * @param aid
+     * @return
+     * @author DeltaV235
+     * @date 2020/3/7 14:25
+     * @description 通过account的id查询account和user信息
+     */
+    Account findAccountAndUserByAid(Integer aid);
+
+    /**
+     * @param id
+     * @return
+     * @author DeltaV235
+     * @date 2020/3/7 14:43
+     * @description 通过id查找账户信息
+     */
+    Account findById(Integer id);
+
+
+
 }

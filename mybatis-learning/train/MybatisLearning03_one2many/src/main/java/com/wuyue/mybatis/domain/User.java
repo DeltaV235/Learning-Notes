@@ -1,6 +1,7 @@
 package com.wuyue.mybatis.domain;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author DeltaV235
@@ -15,6 +16,15 @@ public class User {
     private Date birthday;
     private String sex;
     private String address;
+    private List<Account> accountList;
+
+    public List<Account> getAccountList() {
+        return accountList;
+    }
+
+    public void setAccountList(List<Account> accountList) {
+        this.accountList = accountList;
+    }
 
     public User() {
     }

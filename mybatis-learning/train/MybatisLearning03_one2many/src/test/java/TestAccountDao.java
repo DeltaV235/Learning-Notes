@@ -56,4 +56,13 @@ public class TestAccountDao {
             System.out.println(accountUser);
         }
     }
+
+    @Test
+    public void testFindUserAndAccountByAid() {
+        Account acc = accountDao.findAccountAndUserByAid(1);
+//        System.out.println(acc);
+        System.out.println(acc.getId());
+        System.out.println(acc.getUser().getBirthday());
+        System.out.println(acc.getMoney());
+    }
 }

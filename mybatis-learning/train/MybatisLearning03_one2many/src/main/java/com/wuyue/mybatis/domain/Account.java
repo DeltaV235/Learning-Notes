@@ -11,6 +11,16 @@ public class Account {
     private Integer id;
     private Integer uid;
     private double money;
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
 
     public Account() {
     }
@@ -51,6 +61,7 @@ public class Account {
                 "id=" + id +
                 ", uid=" + uid +
                 ", money=" + money +
+                ", user=" + user +
                 '}';
     }
 }

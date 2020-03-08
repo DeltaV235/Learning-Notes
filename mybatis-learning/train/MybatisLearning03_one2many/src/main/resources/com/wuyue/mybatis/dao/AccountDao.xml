@@ -16,4 +16,53 @@
              account
         WHERE account.uid = user.id;
     </select>
+
+    <resultMap id="accountMap" type="account">
+        <id column="id" property="id"/>
+        <result column="money" property="money"/>
+        <association property="user" javaType="user">
+            <id column="uid" property="id"/>
+            <result column="username" property="username"/>
+            <result column="birthday" property="birthday"/>
+            <result column="sex" property="sex"/>
+            <result column="address" property="address"/>
+        </association>
+    </resultMap>
+
+    <resultMap id="accountMap2" type="account">
+        <id column="id" property="id"/>
+        <result column="money" property="money"/>
+        <result column="uid" property="user.id"/>
+        <result column="username" property="user.username"/>
+        <result column="birthday" property="user.birthday"/>
+        <result column="sex" property="user.sex"/>
+        <result column="address" property="user.address"/>
+    </resultMap>
+
+    <resultMap id="accountMap3" type="account">
+        <id property="id" column="id"/>
+        <result property="money" column="money"/>
+        <association property="user" select="com.wuyue.mybatis.dao.UserDao.findById" column="uid"/>
+    </resultMap>
+
+    <!--    <select id="findAccountAndUserByAid" resultMap="accountMap2">-->
+    <!--        select a.id, a.money, u.id uid, u.username, u.birthday, u.sex, u.address-->
+    <!--        from user u,-->
+    <!--             account a-->
+    <!--        where a.uid = u.id-->
+    <!--          and a.id = #{id}-->
+    <!--    </select>-->
+
+    <select id="findAccountAndUserByAid" resultMap="accountMap3">
+        select *
+        from account
+        where id = #{id}
+    </select>
+
+    <select id="findAccountById" resultType="account">
+        select *
+        from account
+        where id = #{id}
+    </select>
+
 </mapper>

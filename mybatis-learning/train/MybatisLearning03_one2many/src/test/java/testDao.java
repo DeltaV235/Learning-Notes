@@ -71,6 +71,13 @@ public class testDao {
         }
     }
 
+    @Test
+    public void testFindByIdReturnAccountList() {
+        User user = userDao.findByIdReturnAccountList(46);
+        System.out.println(user);
+        System.out.println(user.getAccountList());
+    }
+
 }
 
 

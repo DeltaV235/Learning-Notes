@@ -25,4 +25,31 @@
         where username like #{name}
     </select>
 
+
+    <resultMap id="accountList" type="user">
+        <id column="uid" property="id"/>
+        <result column="username" property="username"/>
+        <result column="birthday" property="birthday"/>
+        <result column="sex" property="sex"/>
+        <result column="address" property="address"/>
+        <collection property="accountList" ofType="account">
+            <id column="id" property="id"/>
+            <result column="money" property="money"/>
+            <result column="uid" property="uid"/>
+        </collection>
+    </resultMap>
+
+    <select id="findByIdReturnAccountList" resultMap="accountList">
+        SELECT account.ID,
+               user.username,
+               account.MONEY,
+               user.id uid,
+               user.birthday,
+               `user`.sex,
+               user.address
+        FROM account
+                 LEFT JOIN `user` ON account.UID = `user`.id
+        WHERE `user`.id = #{uid}
+    </select>
+
 </mapper>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Configuration xmlns="http://logging.apache.org/log4j/2.0/config">
+    <Appenders>
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Logger name="com.wuyue.dao.EmployeeMapperDynamicSql" level="debug" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+        <Logger name="test" level="debug" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+
+        <Root level="info">
+            <AppenderRef ref="console"/>
+        </Root>
+    </Loggers>
+</Configuration>

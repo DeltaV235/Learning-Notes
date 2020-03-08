@@ -313,6 +313,247 @@ resultType="javabean" 将返回值封装为JavaBean对象 在dao接口对应的�
 </mapper>
 ```
 
+- 3.在全局配置文件中启用驼峰命名法自动映射
+
+```xml
+<settings>
+    <setting name="mapUnderscoreToCamelCase" value="true" />
+</settings>
+```
+
+|column  |property|
+|--|--|
+|user_name   |userName|
+
+##### resultMap
+
+###### 联合查询封装结果集
+
+1. 使用级联属性封装结果集 #{property.property}
+2. 使用association标签指定联合的javabean对象封装规则 嵌套结果集
+3. 使用association分步查询封装
+
+###### association
+
+指定嵌套的查询或封装规则，封装为指定对象
+
+###### collection
+
+指定嵌套的封装规则，将多行结果封装为一个集合
+collection嵌套结果集的方式，定义关联的集合类型元素的封装
+使用collection标签定义关联的集合类型的属性封装规则
+
+colums属性若需要传递多个列，则可以使用map进行封装 {key1=column1, key2=column2} key为接口函数的形参名
+
+###### 懒加载
+
+在使用association进行分步查询的情况下，可以开启懒加载，在使用了相关属性时才会执行对应的SQL并封装
+
+配置方式:
+
+mybatis-conf.xml
+
+```xml
+<setttings>
+    <setting name="lazyLoadingEnabled" value="true">
+    <setting name="aggressiveLazyLoading" value="false">
+</settings>
+```
+
+|设置名|描述|有效值|默认值|
+|---|-----|-----|-----|
+|lazyLoadingEnabled |延迟加载的全局开关。当开启时，所有关联对象都会延迟加载。特定关联关系中可通过设置 fetchType 属性来覆盖该项的开关状态。|true \| false|false |
+|aggressiveLazyLoading|当开启时，任何方法的调用都会加载该对象的所有属性。否则，每个属性会按需加载（参考 lazyLoadTriggerMethods)。|true \| false|false （在 3.4.1 及之前的版本默认值为 true）|
+
+## DynamicSQL
+
+### if
+
+通过判断条件是否为true，来确定是否拼接text到SQL中
+对象导航图语言（Object Graph Navigation Language）
+
+```xml
+<if test="OGNL">
+    ...
+</if>
+```
+
+### where
+
+代替SQL中的where，通过判断条件数量来自动的去除条件表达式开头的and或者or
+
+```xml
+<where>
+    <if test="id!=null">
+        id=#{id}
+    </if>
+    <if test="name!=null">
+        and name=#{name}
+    </if>
+</where>
+```
+
+### trim
+
+自定义字符串截取
+
+```xml
+<!-- 
+    prefix: 给trim包裹的字符串添加前缀
+    suffix: 给trim包裹的字符串添加后缀
+    prefixoverride: 删除整个字符串的指定前缀
+    suffixoverride: 删除整个字符串的指定后缀
+-->
+<trim prefixoverride="and" prefix="where">
+    <!-- 等价于 -->
+<where>
+```
+
+若id为null，则mybatis不会将第二个条件语句的and拼接至SQL
+
+### choose/when
+
+分支选择，类似带break的switch-case语句
+
+```xml
+<select id="getEmpsByConditionChoose" resultType="employee">
+    select * from employee
+    <where>
+        <choose>
+            <when test="id!=null">
+                id=#{id}
+            </when>
+            <when test="name!=null">
+                and name like #{name}
+            </when>
+            <when test="email!=null">
+                and email like #{email}
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+    </where>
+</select>
+```
+
+### set
+
+用于更新SQL
+
+```xml
+<set>
+<!-- 等价于 -->
+<trim prefix="set" suffixoverride=",">
+<!-- 在包裹的字符串前添加前缀set，并删除','后缀如果存在',' -->
+```
+
+```xml
+<update id="updateEmp">
+    update employee
+    <set>
+        <if test="name!=null">
+            name = #{name},
+        </if>
+        <if test="email!=null">
+            email = #{email},
+        </if>
+        <if test="gender!=null">
+            gender = #{gender}
+        </if>
+    </set>
+    <where>
+        id = #{id}
+    </where>
+</update>
+```
+
+```xml
+<update id="updateEmp">
+    update employee
+        <trim prefix="set" suffixOverrides=",">
+            <if test="name!=null">
+                name = #{name},
+            </if>
+            <if test="email!=null">
+                email = #{email},
+            </if>
+            <if test="gender!=null">
+                gender = #{gender}
+            </if>
+        </trim>
+    <where>
+        id = #{id}
+    </where>
+</update>
+```
+
+### foreach
+
+```xml
+<!--
+    collection:指定要遍历的集合：
+        list类型的参数会特殊处理封装在map中，map的key就叫list
+    item:将当前遍历出的元素赋值给指定的变量
+    separator:每个元素之间的分隔符
+    open:遍历出所有结果拼接一个开始的字符
+    close:遍历出所有结果拼接一个结束的字符
+    index:索引。遍历list的时候是index就是索引，item就是当前值
+               遍历map的时候index表示的就是map的key，item就是map的值
+ 
+    #{变量名}就能取出变量的值也就是当前遍历出的元素
+-->
+<select id="getEmpsByIdForeach" resultType="employee">
+    select * from employee
+    where id in
+    <foreach collection="ids" separator="," item="id" open="(" close=")">
+        #{id}
+    </foreach>
+</select>
+```
+
+#### 批量插入数据
+
+- 使用`values (), (), ...`的插入方式(MySQL支持)
+
+```xml
+<insert id="addEmps">
+    insert into employee(name, email, gender) values
+    <foreach collection="list" item="emp" separator=",">
+        (#{emp.name}, #{emp.email}, #{emp.gender})
+    </foreach>
+</insert>
+```
+
+- 生成多条insert语句来实现批量插入
+
+设置数据库连接属性allowMultiQueries为true:
+
+```properties
+mysql.url=jdbc:mysql://localhost:3306/mybatis02?allowMultiQueries=true
+```
+
+```xml
+<insert id="addEmps">
+    <foreach collection="list" item="emp" separator=";">
+        insert into employee(name, email, gender) values
+        (#{emp.name}, #{emp.email}, #{emp.gender})
+    </foreach>
+</insert>
+```
+
+## Mybatis的内置参数
+
+### _databaseId
+
+数据库标识的别名
+
+### _parameter
+
+传入的参数，如果是单个参数则表示那个参数，如果是多个参数，则代表封装后的map
+
+## bind标签
+
+可以将OGNL表达式的值绑定到一个变量中，方便后来引用这个变量的值
 
 ## Mybatis中使用Dao实现类执行CRUD
 

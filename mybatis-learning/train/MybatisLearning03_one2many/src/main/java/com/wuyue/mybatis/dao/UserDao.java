@@ -38,13 +38,13 @@ public interface UserDao {
     List<User> findByName(String username);
 
     /**
-     * @param vo
+     * @param id
      * @return
      * @author DeltaV235
-     * @date 2020/2/29 15:41
-     * @description 通过传入的QueryVo对象，查询符合的记录
+     * @date 2020/3/7 16:27
+     * @description 通过id查找用户并将所有account封装至List中
      */
-
+    User findByIdReturnAccountList(Integer id);
 }
 
 
