@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wuyue.dao.EmployeeCacheMapper">
+    <cache eviction="FIFO" flushInterval="60000" readOnly="true" size="2048" />
+    <select id="findById" resultType="employee">
+        select *
+        from employee
+        where id = #{id}
+    </select>
+
+    <insert id="addEmp">
+        insert into employee(name, email, gender)
+        VALUES (#{name}, #{email}, #{gender})
+    </insert>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

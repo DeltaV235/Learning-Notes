@@ -561,3 +561,267 @@ mysql.url=jdbc:mysql://localhost:3306/mybatis02?allowMultiQueries=true
 SqlSession的CRUD方法中，`insert` `update` `delete`最终都调用SqlSession中的`update`方法，所以调用`insert`和`delete`方法与直接调用`update`方法等价。
 
 `SqlSession.getMapper()`将返回一个jdk代理对象，该代理对象最终还是会使用SqlSession中的`insert` `update` `selectList`等方法。
+
+## 缓存
+
+### 一级缓存
+
+一级缓存：（本地缓存）：sqlSession级别的缓存。一级缓存是一直开启的；SqlSession级别的一个Map
+与数据库同一次会话期间查询到的数据会放在本地缓存中。
+以后如果需要获取相同的数据，直接从缓存中拿，没必要再去查询数据库；
+
+**一级缓存失效情况**（没有使用到当前一级缓存的情况，效果就是，还需要再向数据库发出查询）：
+
+1. sqlSession不同。
+2. sqlSession相同，查询条件不同.(当前一级缓存中还没有这个数据)
+3. sqlSession相同，两次查询之间执行了增删改操作(这次增删改可能对当前数据有影响)
+4. sqlSession相同，手动清除了一级缓存（缓存清空）
+
+### 二级缓存
+
+二级缓存：（全局缓存）：基于namespace级别的缓存：一个namespace对应一个二级缓存：
+
+- 工作机制：
+
+1. 一个会话，查询一条数据，这个数据就会被放在当前会话的一级缓存中；
+2. 如果会话关闭；一级缓存中的数据会被保存到二级缓存中；新的会话查询信息，就可以参照二级缓存中的内容；
+3. 不同namespace查出的数据会放在自己对应的缓存中（map）
+
+```text
+sqlSession==>   EmployeeMapper==>Employee
+                DepartmentMapper==>Department
+```
+
+效果：数据会从二级缓存中获取
+查出的数据都会被默认先放在一级缓存中。只有会话提交或者关闭以后，一级缓存中的数据才会转移到二级缓存中
+
+**使用:**
+1、开启全局二级缓存配置，全局配置文件中设置:
+
+```xml
+<setting name="cacheEnabled" value="true"/>
+```
+
+2、去mapper.xml中配置使用二级缓存:
+
+```xml
+<cache></cache>
+```
+
+3、由于缓存的元素默认是非只读的，所以Mybatis会通过序列化/反序列化克隆一个缓存中的对象给用户，所以我们的POJO需要实现序列化接口
+
+```xml
+<cache eviction="FIFO" flushInterval="60000" readOnly="false" size="1024"></cache>
+```
+
+- eviction:缓存的回收策略：
+  - LRU – 最近最少使用的：移除最长时间不被使用的对象。
+  - FIFO – 先进先出：按对象进入缓存的顺序来移除它们。
+  - SOFT – 软引用：移除基于垃圾回收器状态和软引用规则的对象。
+  - WEAK – 弱引用：更积极地移除基于垃圾收集器状态和弱引用规则的对象。
+  - 默认的是 LRU。
+
+- flushInterval：缓存刷新间隔
+  - 缓存多长时间清空一次，默认不清空，设置一个毫秒值
+
+- readOnly:是否只读：
+  - true：只读；mybatis认为所有从缓存中获取数据的操作都是只读操作，不会修改数据。
+mybatis为了加快获取速度，直接就会将数据在缓存中的引用交给用户。不安全，速度快
+  - false：非只读：mybatis觉得获取的数据可能会被修改。
+mybatis会利用序列化&反序列的技术克隆一份新的数据给你。安全，速度慢
+- size：缓存存放多少元素；
+- type=""：指定自定义缓存的全类名；
+实现Cache接口即可；
+
+**Note**
+当readOnly设置为true时，通过二级缓存获取的查询结果为同一个真实对象，任何对这个真实对象的修改都将影响二级缓存中该对象的值；
+当readOnly为false时，两次通过二级缓存获取的对象不是同一个，并且JavaBean类需要实现Serializable接口
+
+**和缓存有关的设置/属性：**
+1、cacheEnabled=true：false：关闭缓存（二级缓存关闭）(一级缓存一直可用的)
+
+2、每个select标签都有useCache="true"：
+false：不使用缓存（一级缓存依然使用，二级缓存不使用）
+
+3、【每个增删改标签的：flushCache="true"：（一级二级都会清除）】
+
+增删改执行完成后就会清楚缓存；
+测试：flushCache="true"：一级缓存就清空了；二级也会被清除；
+
+查询标签：flushCache="false"：
+如果flushCache=true;每次查询之后都会清空缓存；缓存是没有被使用的；
+
+4、sqlSession.clearCache();只是清楚当前session的一级缓存；
+
+5、localCacheScope：本地缓存作用域：（一级缓存SESSION）；当前会话的所有数据保存在会话缓存中；
+STATEMENT：可以禁用一级缓存
+
+## Mybaits Generator
+
+基于xml配置文件，自动的生成基本的domain实体类、dao接口类和对应的SQL映射文件
+
+### generatorConfig.xml
+
+*src/main/resources/generatorConfig.xml:*
+
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+    <!-- 引入配置文件 -->
+    <properties resource="init.properties"/>
+
+    <!-- 指定数据连接驱动jar地址 -->
+    <classPathEntry location="${classPath}" />
+
+    <!-- 一个数据库一个context -->
+    <context id="infoGuardian">
+    <!-- 注释 -->
+    <commentGenerator >
+        <property name="suppressAllComments" value="false"/><!-- 是否取消注释 -->
+        <property name="suppressDate" value="true" /> <!-- 是否生成注释代时间戳-->
+    </commentGenerator>
+
+    <!-- jdbc连接 -->
+    <jdbcConnection driverClass="${jdbc_driver}"
+        connectionURL="${jdbc_url}" userId="${jdbc_user}"
+        password="${jdbc_password}" />
+
+    <!-- 类型转换 -->
+    <javaTypeResolver>
+        <!-- 是否使用bigDecimal， false可自动转化以下类型（Long, Integer, Short, etc.） -->
+        <property name="forceBigDecimals" value="false"/>
+    </javaTypeResolver>
+
+    <!-- 生成实体类地址 -->	
+    <javaModelGenerator targetPackage="com.oop.eksp.user.model"
+        targetProject="${project}" >
+        <!-- 是否在当前路径下新加一层schema,eg：fase路径com.oop.eksp.user.model， true:com.oop.eksp.user.model.[schemaName] -->
+        <property name="enableSubPackages" value="false"/>
+        <!-- 是否针对string类型的字段在set的时候进行trim调用 -->
+        <property name="trimStrings" value="true"/>
+    </javaModelGenerator>
+
+    <!-- 生成mapxml文件 -->
+    <sqlMapGenerator targetPackage="com.oop.eksp.user.data"
+        targetProject="${project}" >
+        <!-- 是否在当前路径下新加一层schema,eg：fase路径com.oop.eksp.user.model， true:com.oop.eksp.user.model.[schemaName] -->
+        <property name="enableSubPackages" value="false" />
+    </sqlMapGenerator>
+
+    <!-- 生成mapxml对应client，也就是接口dao -->	
+    <javaClientGenerator targetPackage="com.oop.eksp.user.data"
+        targetProject="${project}" type="XMLMAPPER" >
+        <!-- 是否在当前路径下新加一层schema,eg：fase路径com.oop.eksp.user.model， true:com.oop.eksp.user.model.[schemaName] -->
+        <property name="enableSubPackages" value="false" />
+    </javaClientGenerator>
+
+    <!-- 配置表信息 -->
+    <!-- tableName:要生成的表名
+        domainObjectName:生成后的实例名
+        enableCountByExample:Count语句中加入where条件查询，默认为true开启
+        enableUpdateByExample:Update语句中加入where条件查询，默认为true开启
+        enableDeleteByExample:Delete语句中加入where条件查询，默认为true开启
+        enableSelectByExample:Select多条语句中加入where条件查询，默认为true开启
+        selectByExampleQueryId:Select单个对象语句中加入where条件查询，默认为true开启
+
+        版权声明：本文为CSDN博主「唐大麦」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。
+        原文链接：https://blog.csdn.net/soonfly/article/details/64499423
+    -->
+    <table schema="${jdbc_user}" tableName="s_user"
+        domainObjectName="UserEntity" enableCountByExample="false"
+        enableDeleteByExample="false" enableSelectByExample="false"
+        enableUpdateByExample="false">
+        <!-- schema即为数据库名 tableName为对应的数据库表 domainObjectName是要生成的实体类 enable*ByExample 
+            是否生成 example类   -->
+
+        <!-- 忽略列，不生成bean 字段 -->
+        <ignoreColumn column="FRED" />
+        <!-- 指定列的java数据类型 -->
+        <columnOverride column="LONG_VARCHAR_FIELD" jdbcType="VARCHAR" />
+    </table>
+
+    </context>
+</generatorConfiguration>
+
+<!-- 版权声明：本文为CSDN博主「兮风」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。 -->
+<!-- 原文链接：https://blog.csdn.net/pk490525/article/details/16819307 -->
+```
+
+```properties
+
+# Mybatis Generator configuration
+project = EKSP
+classPath=E:/workplace/EKSP/WebContent/WEB-INF/lib/ojdbc14.jar
+jdbc_driver = oracle.jdbc.driver.OracleDriver
+jdbc_url=jdbc:oracle:thin:@127.0.0.1:1521:orcl
+jdbc_user=INFOGUARDIAN
+jdbc_password=info_idap132
+
+# 版权声明：本文为CSDN博主「兮风」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。
+# 原文链接：https://blog.csdn.net/pk490525/article/details/16819307
+```
+
+### 使用MySQL时，配置文件中指定schema失效的情况
+
+使用mybatis generator插件生产代码时，如果数据库是MySQL 8.x  自定义的表与系统表有同名时，会自动生产两张表的对应代码，而且会有很多冲突和错误，此时设置table的schema也没有效果，需要在连接节点里面添加 属性：
+
+```xml
+<jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                connectionURL="jdbc:mysql://localhost:3306/***" userId="root"
+                password="****" >
+    <property name="nullCatalogMeansCurrent" value="true" />
+</jdbcConnection>
+```
+
+原文链接：[https://blog.csdn.net/hello_jiangdong/article/details/81512468](https://blog.csdn.net/hello_jiangdong/article/details/81512468)
+
+>If you are using version 8.x of Connector/J you may notice that the generator attempts to generate code for tables in the MySql information schemas (sys, information_schema, performance_schema, etc.) This is probably not what you want! To disable this behavior, add the property "nullCatalogMeansCurrent=true" to your JDBC URL.
+
+For example:
+
+```xml
+<jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://localhost/my_schema"
+        userId="my_user" password="my_password">
+    <property name="nullCatalogMeansCurrent" value="true" />
+</jdbcConnection>
+```
+
+### 运行
+
+maven plugin:
+
+```xml
+<project>
+   <build>
+        <plugins>
+            <plugin>
+                <groupId>org.mybatis.generator</groupId>
+                <artifactId>mybatis-generator-maven-plugin</artifactId>
+                <version>1.4.0</version>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+```
+
+### 根据条件查询
+
+1. 创建实体类对应的Example对象
+2. 通过Example对象创建一个criteria对象，用于设置查询条件
+3. 调用criteria的`and*()`等方法添加条件
+4. 将Example对象作为参数，传递给dao接口代理对象mapper的`*ByExample()`方法
+
+```java
+@Test
+public void testMabtisGenerator() {
+    EmployeeExample example = new EmployeeExample();
+    EmployeeExample.Criteria criteria = example.createCriteria();
+    criteria.andNameLike("%e%");
+    criteria.andEmailLike("%g%");
+    List<Employee> employees = mapper.selectByExample(example);
+    for (Employee employee : employees) {
+        System.out.println(employee);
+    }
+}
+```
