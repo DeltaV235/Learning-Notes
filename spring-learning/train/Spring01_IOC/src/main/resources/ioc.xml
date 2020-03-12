@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd"
+       xmlns:p="http://www.springframework.org/schema/p">
+
+    <bean id="person01" class="com.wuyue.domain.Person">
+        <property name="name" value="wuyue"/>
+        <property name="age" value="18"/>
+        <property name="email" value="wuyue@wuyue.com"/>
+        <property name="gender" value="m"/>
+    </bean>
+    <bean id="person02" class="com.wuyue.domain.Person">
+        <property name="name" value="nini"/>
+    </bean>
+    <bean id="person03" class="com.wuyue.domain.Person">
+        <constructor-arg name="age" value="19"/>
+        <constructor-arg name="email" value="spring@test.com"/>
+        <constructor-arg name="gender" value="f"/>
+        <constructor-arg name="name" value="spring"/>
+    </bean>
+    <bean id="person04" class="com.wuyue.domain.Person">
+        <constructor-arg value="妮妮"/>
+        <constructor-arg value="24"/>
+        <constructor-arg value="nini@test.com" index="3"/>
+        <constructor-arg value="f"/>
+    </bean>
+    <bean id="person05" class="com.wuyue.domain.Person"
+          p:age="20"
+          p:email="nini@test.com"
+          p:gender="f"
+          p:name="小美"
+    />
+
+    <bean id="car01" class="com.wuyue.domain.Car"
+          p:carName="benz"
+          p:price="30000"
+    />
+
+    <bean id="personWithCar" class="com.wuyue.domain.Person">
+        <property name="name" value="小王"/>
+        <property name="car" ref="car01"/>
+    </bean>
+
+    <bean id="personWithInnerCar" class="com.wuyue.domain.Person">
+        <property name="name">
+            <null/>
+        </property>
+        <property name="car">
+            <bean class="com.wuyue.domain.Car">
+                <property name="carName" value="BMW"/>
+                <property name="price" value="50000"/>
+            </bean>
+        </property>
+    </bean>
+
+
+    <bean id="personWithList" class="com.wuyue.domain.Person">
+        <property name="name" value="wuyue"/>
+        <property name="books">
+            <list>
+                <bean class="com.wuyue.domain.Book">
+                    <property name="bookName" value="testBook01"/>
+                    <property name="author" value="author01"/>
+                </bean>
+                <bean class="com.wuyue.domain.Book">
+                    <property name="bookName" value="testBook02"/>
+                    <property name="author" value="author02"/>
+                </bean>
+            </list>
+        </property>
+        <property name="car">
+            <bean class="com.wuyue.domain.Car">
+                <property name="carName" value="BMW"/>
+            </bean>
+        </property>
+    </bean>
+
+
+    <bean class="com.wuyue.domain.Person" id="personWithMap">
+        <property name="name" value="wuyue"/>
+        <property name="maps">
+            <map>
+                <entry key="key01" value="value01"/>
+
+                <entry key="key02">
+                    <bean class="com.wuyue.domain.Book">
+                        <property name="bookName" value="maptest"/>
+                    </bean>
+                </entry>
+
+                <entry>
+                    <key>
+                        <bean class="com.wuyue.domain.Car" p:carName="BMW"/>
+                    </key>
+                    <bean class="com.wuyue.domain.Book" p:bookName="test02"/>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <util:map id="myMap">
+        <entry key="01">
+            <list/>
+        </entry>
+    </util:map>
+
+    <util:list id="myList">
+        <bean class="com.wuyue.domain.Person"/>
+        <array/>
+        <map/>
+        <value/>
+    </util:list>
+
+    <bean id="parent" class="com.wuyue.domain.Person">
+        <property name="name" value="nini"/>
+        <property name="car">
+            <bean class="com.wuyue.domain.Car">
+                <property name="carName" value="BMW"/>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="child" parent="parent">
+        <property name="gender" value="f"/>
+    </bean>
+</beans>

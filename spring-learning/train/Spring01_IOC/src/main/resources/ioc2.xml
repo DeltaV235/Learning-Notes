@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--    <bean id="person01" class="com.wuyue.domain.Person" abstract="true">-->
+    <!--        <property name="name" value="wuyue"/>-->
+    <!--        <property name="age" value="18"/>-->
+    <!--    </bean>-->
+
+    <!--    <bean id="person02" class="com.wuyue.domain.Person" parent="person01" depends-on="car, book" scope="prototype">-->
+    <!--        <property name="age" value="23"/>-->
+    <!--        <property name="email" value="wuyue@test.com"/>-->
+    <!--    </bean>-->
+
+    <!--    <bean class="com.wuyue.domain.Book" id="book"/>-->
+    <!--    <bean class="com.wuyue.domain.Car" id="car"/>-->
+
+
+    <bean class="com.wuyue.factory.CarStaticFactory" id="carStaticFactory" factory-method="getCar">
+        <constructor-arg value="5000"/>
+    </bean>
+
+    <bean class="com.wuyue.factory.CarInstanceFactory" id="carInstanceFactory"/>
+    <bean class="com.wuyue.domain.Car" id="car" factory-bean="carInstanceFactory" factory-method="getCar">
+        <constructor-arg value="800000"/>
+    </bean>
+
+    <bean class="com.wuyue.factory.CarFactoryWithBean" id="car2"/>
+
+</beans>
