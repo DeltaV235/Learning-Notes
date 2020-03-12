@@ -178,6 +178,78 @@ public class CarFactoryWithBean implements FactoryBean<Car> {
 }
 ```
 
-在配置文件中直接注册这个工厂类即可，能够直接从IOC容器获取实例
+在配置文件中直接注册这个工厂类即可，能够直接从IOC容器获取实例  
 **NOTE**: 使用FactoryBean实现类工厂创建实例，不论是否是单实例，该工厂都只在获取实例对象的时候才会创建对象。
 不同于普通的单例模式，在IOC容器初始化完成之前就创建实例
+
+#### 创建带有生命周期方法的bean
+
+生命周期:bean的创建到销毁；
+
+```xml
+<bean id="book01" class="com.atguigu.bean.Book"
+destroy-method="myDestory" init-method="myInit" >
+</bean>
+```
+
+- ioc容器中注册的bean的生命周期
+1.单例bean，容器启动的时候就会创建好，容器关闭也会销毁创建的bean
+2.多实例bean，获取的时候才创建
+
+我们可以为bean自定义一些生命周期方法: spring在创建或者销毁的时候就会调用指定的方法  
+这些初始化方法会在对象实例完成、property参数都设置完毕后执行。初始化和销毁方法不能带有参数，但可以抛出异常
+
+- 定义了初始化和销毁方法的bean生命周期
+  - 单例:
+容器启动---->构造器---->(执行property标签的赋值)---->(初始化方法)---->(销毁方法)---->(容器关闭)
+  - 多实例:
+获取bean对象---->构造器---->(执行property标签的赋值)---->(初始化方法)---->(容器关闭不会调用bean的销毁方法)
+
+- 后置处理器:
+  - 单例:
+容器启动---->构造器---->(执行property标签的赋值)---->(后置处理器before)---->(初始化方法)---->(后置处理器after)---->bean初始化完成---->(销毁方法)---->(容器关闭)
+  - 多实例:
+获取bean---->构造器---->(执行property标签的赋值)---->(后置处理器before)---->(初始化方法)---->(后置处理器after)---->bean初始化完成---->(销毁方法)
+
+无论bean是否有初始化方法；后置处理器都会默认其有，还会继续工作;后置处理器对任何从该IOC容器中获取的对象都执行
+
+#### IOC容器配置文件中引入外部的Properties文件
+
+实例化PropertySourcesPlaceholderConfigurer对象，指定location属性为properties文件的路径，相对路径默认从类路径开始
+
+```xml
+<bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+    <property name="location" value="dbconfig.properties"/>
+</bean>
+```
+
+通过${key}的方式，获取指定key的value值
+
+*Druid数据库连接池的单实例对象:*
+
+```xml
+<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+    <property name="url" value="${mysql.url}"/>
+    <property name="username" value="${mysql.username}"/>
+    <property name="password" value="${mysql.password}"/>
+
+    <property name="filters" value="stat"/>
+
+    <property name="maxActive" value="20"/>
+    <property name="initialSize" value="1"/>
+    <property name="maxWait" value="60000"/>
+    <property name="minIdle" value="1"/>
+
+    <property name="timeBetweenEvictionRunsMillis" value="60000"/>
+    <property name="minEvictableIdleTimeMillis" value="300000"/>
+
+    <property name="testWhileIdle" value="true"/>
+    <property name="testOnBorrow" value="false"/>
+    <property name="testOnReturn" value="false"/>
+
+    <property name="poolPreparedStatements" value="true"/>
+    <property name="maxOpenPreparedStatements" value="20"/>
+
+    <property name="asyncInit" value="true"/>
+</bean>
+```

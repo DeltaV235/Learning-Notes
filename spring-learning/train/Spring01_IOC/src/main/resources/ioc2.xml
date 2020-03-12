@@ -2,11 +2,13 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--  测试abstract修饰的模板bean  -->
     <!--    <bean id="person01" class="com.wuyue.domain.Person" abstract="true">-->
     <!--        <property name="name" value="wuyue"/>-->
     <!--        <property name="age" value="18"/>-->
     <!--    </bean>-->
 
+    <!--    测试单例和多实例-->
     <!--    <bean id="person02" class="com.wuyue.domain.Person" parent="person01" depends-on="car, book" scope="prototype">-->
     <!--        <property name="age" value="23"/>-->
     <!--        <property name="email" value="wuyue@test.com"/>-->
@@ -15,16 +17,23 @@
     <!--    <bean class="com.wuyue.domain.Book" id="book"/>-->
     <!--    <bean class="com.wuyue.domain.Car" id="car"/>-->
 
+    <!-- 测试工厂类实例化 -->
+    <!--    <bean class="com.wuyue.factory.CarStaticFactory" id="carStaticFactory" factory-method="getCar">-->
+    <!--        <constructor-arg value="5000"/>-->
+    <!--    </bean>-->
 
-    <bean class="com.wuyue.factory.CarStaticFactory" id="carStaticFactory" factory-method="getCar">
-        <constructor-arg value="5000"/>
+    <!--    <bean class="com.wuyue.factory.CarInstanceFactory" id="carInstanceFactory"/>-->
+    <!--    <bean class="com.wuyue.domain.Car" id="car" factory-bean="carInstanceFactory" factory-method="getCar">-->
+    <!--        <constructor-arg value="800000"/>-->
+    <!--    </bean>-->
+
+    <!--    <bean class="com.wuyue.factory.CarFactoryWithBean" id="car2"/>-->
+
+    <!--  测试初始化和销毁方法  -->
+    <bean class="com.wuyue.domain.Car" id="car" init-method="init" destroy-method="destory">
+        <property name="carName" value="BMW"/>
+        <property name="price" value="4596012"/>
     </bean>
-
-    <bean class="com.wuyue.factory.CarInstanceFactory" id="carInstanceFactory"/>
-    <bean class="com.wuyue.domain.Car" id="car" factory-bean="carInstanceFactory" factory-method="getCar">
-        <constructor-arg value="800000"/>
-    </bean>
-
-    <bean class="com.wuyue.factory.CarFactoryWithBean" id="car2"/>
+    <bean class="com.wuyue.domain.MyBeanPostProcessor"/>
 
 </beans>

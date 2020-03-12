@@ -4,6 +4,7 @@ import com.wuyue.domain.Person;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
@@ -44,6 +45,12 @@ public class IOCTest2 {
         Object car2 = ioc.getBean("car2");
         Object car3 = ioc.getBean("car2");
         System.out.println(car3 == car2);
+    }
+
+    @Test
+    public void test04(){
+        ConfigurableApplicationContext ioc = (ConfigurableApplicationContext) this.ioc;
+        ioc.close();
     }
 
 }

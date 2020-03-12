@@ -11,6 +11,14 @@ public class Car {
     private String carName;
     private Integer price;
 
+    public void init() {
+        System.out.println("Car的初始化方法\t" + this);
+    }
+
+    public void destory() {
+        System.out.println("Car的销毁方法");
+    }
+
     public Car() {
         System.out.println("默认构造器 " + super.toString());
     }
