@@ -86,7 +86,7 @@ public class EmployeeMapperDynamicSqlTest {
     public void testGetEmpsByIdForeach() {
         List<Employee> emps = mapper.getEmpsByIdForeach(Arrays.asList(1, 2));
         for (Employee emp : emps) {
-            logger.info(emp);
+            logger.fatal(emp);
         }
     }
 

@@ -1955,6 +1955,40 @@ public static void main(String[] args){
 
 **ResultSet**中的getInt() getDouble()当获取到null值时，将返回0。
 
+## JDK动态代理
+
+真实对象: 被代理的对象
+代理对象: 代理真实对象的对象
+
+使用Proxy.newProxyInstance()方法创建一个JDK动态代理对象,该方法需要三个参数: 真实对象的类加载器,真实对象的所有实现的接口,一个实现了InvocationHandler接口的类对象.
+
+这个InvocationHandler的实现类需要实现invoke方法:`public Object invoke(Object proxy, Method method, Object[] args)`
+该方法就是代理对象执行真实对象方法时调用的方法,其参数:
+**Object proxy**:代理对象；给jdk使用，任何时候都不要动这个对象
+**Method method**:当前将要执行的目标对象的方法
+**Object[] args**:这个方法调用时外界传入的参数值
+
+```java
+public class CalculatorProxy {
+    public static Calculator getProxy(Calculator calculator) {
+        return (Calculator) Proxy.newProxyInstance(calculator.getClass().getClassLoader(), new Class[]{Calculator.class},
+                (proxy, method, args) -> {
+                    try {
+                        LogUtils.methodStart(method, args);
+                        Object result = method.invoke(calculator, args);
+                        LogUtils.methodEnd(method, result);
+                        return result;
+                    } catch (Exception e) {
+                        LogUtils.methodException(method, e);
+                    }
+                    return null;
+                });
+    }
+}
+```
+
+若目标对象没有实现任何接口,则无法为其创建动态代理对象
+
 ## MISC
 
 ### CountDownLatch

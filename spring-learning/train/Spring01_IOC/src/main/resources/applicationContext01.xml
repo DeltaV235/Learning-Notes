@@ -6,7 +6,6 @@
     <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
         <property name="location" value="dbconfig.properties"/>
     </bean>
-    <bean class="PropertyPlace"
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
         <property name="url" value="${mysql.url}"/>
         <property name="username" value="${mysql.username}"/>

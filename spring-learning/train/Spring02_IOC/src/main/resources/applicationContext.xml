@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--    <context:component-scan base-package="com.wuyue">-->
+    <!--        &lt;!&ndash;<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>&ndash;&gt;-->
+    <!--        <context:exclude-filter type="assignable" expression="com.wuyue.service.BookService"/>-->
+    <!--    </context:component-scan>-->
+
+    <context:component-scan use-default-filters="true" base-package="com.wuyue">
+        <!--<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>-->
+        <!--        <context:exclude-filter type="assignable" expression="com.wuyue.service.BookService"/>-->
+<!--        <context:include-filter type="assignable" expression="com.wuyue.service.BookService"/>-->
+    </context:component-scan>
+
+<!--    <bean class="com.wuyue.bean.Person"/>-->
+</beans>
