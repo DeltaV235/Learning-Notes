@@ -452,3 +452,74 @@ Aspect Oriented Programming: 面向切面编程
 面向切面编程：基于OOP基础之上新的编程思想;指在程序运行期间，将某段代码动态的切入到指定方法的指定位置进行运行的这种编程方式，面向切面编程
 
 AOP不用对象实现接口就可以实现动态代理的功能
+
+![aop](imgs/aop.png)
+
+### HelloWorld
+
+#### 1.导包
+
+spring-aspects-4.0.0.RELEASE.jar : 基础版
+
+加强版的面向切面编程（即使目标对象没有实现任何接口也能创建动态代理）
+com.springsource.net.sf.cglib-2.2.0.jar
+com.springsource.org.aopalliance-1.0.0.jar
+com.springsource.org.aspectj.weaver-1.6.8.RELEASE.jar
+
+#### 2.将目标类和切面类(封装了通知方法(在目标方法执行前后执行的方法))加入到ioc容器中
+
+@Component
+@Repository
+@Service
+@Controller
+
+#### 3.告诉Spring哪个是切面类
+
+@Aspect: 标记切面类
+
+#### 4.添加注解,告诉Spring，切面类里面的每一个方法(通知方法)，都是何时何地运行(连接点)
+
+**5个通知注解**
+@Before：在目标方法之前运行 **前置通知**
+@After：在目标方法结束之后 **后置通知**
+@AfterReturning：在目标方法正常返回之后 **返回通知**
+@AfterThrowing：在目标方法抛出异常之后运行 **异常通知**
+@Around：环绕 **环绕通知**
+
+*各注解等效的运行阶段*:
+
+```java
+try{
+    @Before
+    method.invoke(obj,args);
+    @AfterReturning
+  }catch(e){
+    @AfterThrowing
+  }finally{
+    @After
+  }
+```
+
+#### 5.修改xml配置文件,开启基于注解的AOP模式
+
+增加如下配置
+
+```xml
+<!--  开启基于注解的AOP功能；aop名称空间-->
+<aop:aspectj-autoproxy/>
+```
+
+#### 6.测试
+
+```java
+Calculator bean = ioc.getBean(Calculator.class);
+bean.add(2, 1);
+```
+
+从ioc容器中拿到目标对象 注意:如果想要用类型，一定用 他的接口类型，不要用它本类
+
+### AOP细节
+
+#### IOC容器中保存的是组件的代理对象
+
+AOP的底层就是动态代理,容器中保存的组件是他的代理对象,不是本类的类型
