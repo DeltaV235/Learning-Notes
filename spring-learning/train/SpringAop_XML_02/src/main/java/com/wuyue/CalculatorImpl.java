@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
  * @date 2020/3/14 17:34
  */
 @Service
-public class CalculatorImpl/* implements calculator*/ {
+public class CalculatorImpl {
     public int add(int a, int b) {
         System.out.println("目标方法执行");
         return a + b;

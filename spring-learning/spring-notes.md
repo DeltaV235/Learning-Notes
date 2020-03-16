@@ -663,6 +663,8 @@ public void point() {
 public static void methodStart(JoinPoint joinPoint) {}
 ```
 
+在其他类中使用全限定类名.方法名也能够引用外部的切入点表达式
+
 #### 环绕通知
 
 @Around:环绕通知是Spring中强大的通知,相当于整个动态代理需要执行的自定义代码
@@ -734,14 +736,117 @@ public Object aroundAdvise(ProceedingJoinPoint proceedingJoinPoint) throws Throw
 环绕后置通知
 18:24:00 [main] INFO  com.wuyue.LogUtils - add 方法结束
 18:24:00 [main] INFO  com.wuyue.LogUtils - add 方法返回, 结果为 3
-3
-----------------------------------------
+---------------------------------------------------------------------------------------
 环绕前置通知: div
 18:24:00 [main] INFO  com.wuyue.LogUtils - div 方法被执行, 参数为 [3, 0]
 环绕异常通知: java.lang.ArithmeticException: / by zero
 环绕后置通知
 18:24:00 [main] INFO  com.wuyue.LogUtils - div 方法结束
 18:24:00 [main] WARN  com.wuyue.LogUtils - div 方法异常, 异常为 java.lang.ArithmeticException: / by zero
+```
+
+**NOTE**: 在环绕通知中捕获的异常需要向外抛出,这样普通异常通知才能捕获相应的异常,否则普通通知会认为目标方法正常结束并返回了.
+
+若只是想查看程序运行的细节,不改变目标方法的运行信息,可以使用普通通知.若需要修改目标方法的参数等信息,影响目标方法的,可以使用环绕通知.
+
+#### 多切面的执行顺序
+
+多个切面类默认按照类名的首字母排序从小到大开始执行,即A to Z.  
+可以通过注解@Order改变多个切面类的执行顺序,传入@Order的int值越小,优先级越高,@Order的默认值为Integer.MAX  
+切面类中的通知方法采用先进后出的顺序执行,完整执行顺序如下图所示  
+LogUtils切面类的优先级更高,所以最先执行.  
+LogUtils的前置通知 -> 执行VaAspect的前置通知 -> 执行目标方法 -> VaAspect的后置通知 -> VaAspect返回/异常通知 -> LogUtils后置通知 -> LogUtils返回/异常通知
+
+![multi-aspect-class](imgs/multi-aspect-class-circle.png)
+
+![multi-aspect-class](imgs/multi-aspect-class.svg)
+
+测试结果
+
+```java
+A 环绕前置通知: add
+A add 方法被执行, 参数为 [1, 2]
+B 环绕前置通知: add
+B add 方法被执行, 参数为 [1, 2]
+目标方法执行
+B 环绕返回通知: 3
+B 环绕后置通知
+B add 方法结束
+B add 方法返回, 结果为 3
+A 环绕返回通知: 3
+A 环绕后置通知
+A add 方法结束
+A add 方法返回, 结果为 3
+```
+
+![multi-aspect-circle](imgs/multi-aspect-circle.svg)
+
+#### AOP使用场景
+
+1. AOP加日志保存到数据库
+2. AOP做权限验证
+3. AOP做安全检查
+4. AOP做事务控制
+
+### 基于配置文件的AOP
+
+- 基于注解的AOP步骤；
+1、将目标类和切面类都加入到ioc容器中。@Component
+2、告诉Spring哪个是切面类。@Aspect
+3、在切面类中使用五个通知注解来配置切面中的这些通知方法都何时何地运行
+4、开启基于注解的AOP功能
+
+- 基于XML配置文件的AOP配置步骤 `<aop:config>`
+1.将目标类和切面类注册至IOC容器中 `<bean>`
+2.指定切面类 `<aop:aspect>`
+3.指定切面类中通知方法的切入点表达式及其参数 `<aop:before>` `<aop:after-returning>`...
+
+**NOTE**:
+
+1. `<aop:pointcut>`可以指定需要复用的切入点表达式,若该标签放于`<aop:config>`下,则aop配置全局可用,否则只能在一个切面类的配置中使用
+2. `<aop:aspect>`可以使用`order`属性指定该切面类的切入优先级,默认为写在前的切面类先执行切入
+3. 在符合通知方法执行顺序的情况下,写在前的通知方法先执行(对于 前置通知 环绕前置通知 而言)
+4. **\*** Spring是根据切入点表达式中的**类名**到IOC容器中查找这个组件,然后再创建它的代理对象.Spring通过**类名首字母小写**作为id查找容器中的组件,若组件注册时没用使用**类名首字母小写**,Spring将抛出异常
+
+```xml
+<!--  基于配置的AOP-->
+<!-- 1. 将目标类和切面类注册至IOC容器中 -->
+<bean id="myMathCalculator" class="com.atguigu.impl.MyMathCalculator"></bean>
+<bean id="BValidateApsect" class="com.atguigu.utils.BValidateApsect"></bean>
+<bean id="logUtils" class="com.atguigu.utils.LogUtils"></bean>
+
+<!-- 需要AOP名称空间 -->
+<aop:config>
+  <aop:pointcut expression="execution(* com.atguigu.impl.*.*(..))" id="globalPoint"/>
+
+
+  <!-- 普通前置  ===== 目标方法  =====(环绕执行后置/返回)====s普通后置====普通返回    -->
+  <!-- 2. 指定切面类：@Aspect -->
+  <!-- 当前切面能用的切入点表达式 -->
+  <aop:aspect ref="logUtils" order="1">
+    <!-- 配置哪个方法是前置通知；method指定方法名 
+    logStart@Before("切入点表达式")
+    -->
+    <!-- 3. 指定切面类中通知方法的切入点表达式及参数 -->
+    <aop:around method="myAround" pointcut-ref="mypoint"/>
+    <aop:pointcut expression="execution(* com.atguigu.impl.*.*(..))" id="mypoint"/>
+    <aop:before method="logStart" pointcut="execution(* com.atguigu.impl.*.*(..))"/>
+    <aop:after-returning method="logReturn" pointcut-ref="mypoint" returning="result"/>
+    <aop:after-throwing method="logException" pointcut-ref="mypoint" throwing="exception"/>
+    <aop:after method="logEnd" pointcut-ref="mypoint"/>
+  </aop:aspect>
+
+  <aop:aspect ref="BValidateApsect" order="3">
+    <aop:before method="logStart" pointcut-ref="globalPoint"/>
+    <aop:after-returning method="logReturn" pointcut-ref="globalPoint" returning="result"/>
+    <aop:after-throwing method="logException" pointcut-ref="globalPoint" throwing="exception"/>
+    <aop:after method="logEnd" pointcut-ref="globalPoint"/>
+  </aop:aspect>
+</aop:config>
+
+<!--注解：快速方便
+  配置：功能完善；重要的用配置，不重要的用注解；
+  -->
 ```
 
 ## 问题

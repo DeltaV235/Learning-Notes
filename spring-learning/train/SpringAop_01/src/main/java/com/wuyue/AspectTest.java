@@ -6,7 +6,6 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.*;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -19,10 +18,9 @@ import java.util.Arrays;
  * @date 2020/3/14 17:59
  */
 @Aspect
-@Order(0)
 @Component
-public class LogUtils {
-    private static Logger logger = LogManager.getLogger(LogUtils.class);
+public class AspectTest {
+    private static Logger logger = LogManager.getLogger(AspectTest.class);
 
     @Pointcut("execution(public int com.wuyue.CalculatorImpl.*(int,int))")
     public void point() {
@@ -33,25 +31,25 @@ public class LogUtils {
         Object[] args = joinPoint.getArgs();
         Signature signature = joinPoint.getSignature();
         String name = signature.getName();
-        System.out.println("A " + name + " 方法被执行, 参数为 " + Arrays.toString(args));
+        System.out.println("B " + name + " 方法被执行, 参数为 " + Arrays.toString(args));
 //        int i = 1/0;
     }
 
     @AfterReturning(value = "point()", returning = "result")
     public static void methodReturn(JoinPoint joinPoint, Object result) {
-        System.out.println("A " + joinPoint.getSignature().getName() + " 方法返回, 结果为 " + result);
+        System.out.println("B " + joinPoint.getSignature().getName() + " 方法返回, 结果为 " + result);
 //        int i = 1/0;
     }
 
     @AfterThrowing(value = "execution(public int com.wuyue.CalculatorImpl.*(int,int))", throwing = "e")
     public static void methodException(JoinPoint joinPoint, Exception e) {
-        System.out.println("A " + joinPoint.getSignature().getName() + " 方法异常, 异常为 " + e);
+        System.out.println("B " + joinPoint.getSignature().getName() + " 方法异常, 异常为 " + e);
 //        int i = 1/0;
     }
 
     @After("execution(public int com.wuyue.CalculatorImpl.*(int,int))")
     public static void methodEnd(JoinPoint joinPoint) {
-        System.out.println("A " + joinPoint.getSignature().getName() + " 方法结束");
+        System.out.println("B " + joinPoint.getSignature().getName() + " 方法结束");
 //        int i = 1/0;
     }
 
@@ -60,15 +58,15 @@ public class LogUtils {
     public Object aroundAdvise(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         Object retval = null;
         try {
-            System.out.println("A 环绕前置通知: " + proceedingJoinPoint.getSignature().getName());
+            System.out.println("B 环绕前置通知: " + proceedingJoinPoint.getSignature().getName());
             Object[] args = proceedingJoinPoint.getArgs();
             retval = proceedingJoinPoint.proceed(args);
-            System.out.println("A 环绕返回通知: " + retval);
+            System.out.println("B 环绕返回通知: " + retval);
         } catch (Exception e) {
-            System.out.println("A 环绕异常通知: " + e);
+            System.out.println("B 环绕异常通知: " + e);
             throw e;
         } finally {
-            System.out.println("A 环绕后置通知");
+            System.out.println("B 环绕后置通知");
         }
         if (retval == null)
             retval = (Object) 0;

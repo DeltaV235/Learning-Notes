@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <bean class="com.wuyue.LogUtils" id="logUtils"/>
+    <bean class="com.wuyue.AspectTest" id="aspectTest"/>
+    <bean class="com.wuyue.CalculatorImpl" id="calculatorImpl"/>
+
+    <aop:config>
+        <aop:pointcut id="mypoint" expression="execution(* com.wuyue.CalculatorImpl.*(..))"/>
+        <aop:aspect ref="logUtils" order="3">
+            <aop:before method="methodStart" pointcut-ref="mypoint"/>
+            <aop:after-returning method="methodReturn" pointcut-ref="mypoint" returning="result"/>
+            <aop:after-throwing method="methodException" pointcut-ref="mypoint" throwing="e"/>
+            <aop:after method="methodEnd" pointcut-ref="mypoint"/>
+            <aop:around method="aroundAdvise" pointcut-ref="mypoint"/>
+        </aop:aspect>
+        <aop:aspect ref="aspectTest" order="-20">
+            <aop:before method="methodStart" pointcut-ref="mypoint"/>
+            <aop:after-returning method="methodReturn" pointcut-ref="mypoint" returning="result"/>
+            <aop:after-throwing method="methodException" pointcut-ref="mypoint" throwing="e"/>
+            <aop:after method="methodEnd" pointcut-ref="mypoint"/>
+        </aop:aspect>
+    </aop:config>
+
+</beans>

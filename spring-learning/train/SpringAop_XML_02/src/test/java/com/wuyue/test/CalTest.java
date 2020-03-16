@@ -19,7 +19,6 @@ public class CalTest {
 
     @Before
     public void init() {
-//        System.setProperty(DebuggingClassWriter.DEBUG_LOCATION_PROPERTY, ".");
         ioc = new ClassPathXmlApplicationContext("applicationContext.xml");
     }
 
@@ -29,20 +28,6 @@ public class CalTest {
         Object calculatorImpl = ioc.getBean("calculatorImpl");
         System.out.println(bean.add(1, 2));
         System.out.println("-".repeat(40));
-//        bean.div(3, 0);
-//        System.out.println(bean);
-//        System.out.println(bean.getClass());
-//        System.out.println(calculatorImpl);
-//        System.out.println(calculatorImpl.getClass());
-    }
-
-    @Test
-    public void testObject() {
-        class TestInnerClass {
-        }
-        TestInnerClass testClass = new TestInnerClass();
-        System.out.println(testClass);
-        System.out.println(testClass.getClass());
     }
 }
 

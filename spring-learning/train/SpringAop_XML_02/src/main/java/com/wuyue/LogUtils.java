@@ -5,9 +5,6 @@ import org.apache.logging.log4j.Logger;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
-import org.aspectj.lang.annotation.*;
-import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
@@ -18,45 +15,28 @@ import java.util.Arrays;
  * @description 测试通知方法的切入
  * @date 2020/3/14 17:59
  */
-@Aspect
-@Order(0)
-@Component
+
 public class LogUtils {
-    private static Logger logger = LogManager.getLogger(LogUtils.class);
 
-    @Pointcut("execution(public int com.wuyue.CalculatorImpl.*(int,int))")
-    public void point() {
-    }
-
-    @Before("point()")
     public static void methodStart(JoinPoint joinPoint) {
         Object[] args = joinPoint.getArgs();
         Signature signature = joinPoint.getSignature();
         String name = signature.getName();
         System.out.println("A " + name + " 方法被执行, 参数为 " + Arrays.toString(args));
-//        int i = 1/0;
     }
 
-    @AfterReturning(value = "point()", returning = "result")
     public static void methodReturn(JoinPoint joinPoint, Object result) {
         System.out.println("A " + joinPoint.getSignature().getName() + " 方法返回, 结果为 " + result);
-//        int i = 1/0;
     }
 
-    @AfterThrowing(value = "execution(public int com.wuyue.CalculatorImpl.*(int,int))", throwing = "e")
     public static void methodException(JoinPoint joinPoint, Exception e) {
         System.out.println("A " + joinPoint.getSignature().getName() + " 方法异常, 异常为 " + e);
-//        int i = 1/0;
     }
 
-    @After("execution(public int com.wuyue.CalculatorImpl.*(int,int))")
     public static void methodEnd(JoinPoint joinPoint) {
         System.out.println("A " + joinPoint.getSignature().getName() + " 方法结束");
-//        int i = 1/0;
     }
 
-
-    @Around("point()")
     public Object aroundAdvise(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         Object retval = null;
         try {
