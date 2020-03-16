@@ -294,8 +294,17 @@ public final class $Proxy0 extends Proxy implements Calculator {
 }
 ```
 
+可以看到,这个代理对象继承了Calculator接口,也就是Proxy.newProxyInstance()时,传入的第二个参数interfaces[].这也解释了为什么在IOC容器中能够通过Calculator.class拿到这个代理对象.  
+在这个类初始化的时候分别为7个Method类型的静态变量进行了赋值,其中4个Method变量指向目标对象的4个自定义方法,其余3个指向了目标对象父类Object的equals() toString() 和 hashCode() 方法  
+当调用代理类的方法时,它将调用super.h.invoke(),其中super.h是创建代理对象时传入的InvocationHandler的实现类,也就是说代理类中的所有方法都将调用InvocationHandler实现类的invoke()方法.若invoke()方法中需要使用目标对象的方法,则最终依旧是目标对象执行这些方法.InvocationHandler只是在目标对象方法的前后以非侵入式的方法增加了新的代码.
+>h the invocation handler for this proxy instance
+
+代理对象创建的整个流程如下图所示,下图来自 [原图链接](https://www.zhihu.com/question/20794107)
+
+![proxy-object-create-track](imgs/proxy-object-create-track.jpg)
+
 ## 总结
 
-对代理对象所有的方法调用,最终都会调用被代理对象的同名方法,而对代理对象的toString方法的调用,实际上最终是由被代理对象去调用的,所以返回被代理对象的类型.
+对**代理对象**所有的方法调用,最终都会调用**被代理对象**的同名方法,而对代理对象的toString方法的调用,实际上最终是由被代理对象去调用的,所以返回被代理对象的类型.(bean.toString调用的是calculatorImpl.toString()方法,所以返回的是calculatorImpl的全限定类名)
 
-而代理对象.getClass()直接返回代理对象的Class对象,在返回这个对象的类名,自然便是代理对象的类名
+而代理对象.getClass()直接返回代理对象的Class对象,再返回这个对象的类名,自然便是代理对象的全限定类名

@@ -1991,6 +1991,12 @@ public class CalculatorProxy {
 
 ## MISC
 
+### native关键字
+
+>使用native关键字说明这个方法是原生函数，也就是这个方法是用C/C++语言实现的，并且被编译成了DLL，由java去调用。 这些函数的实现体在DLL中，JDK的源代码中并不包含，你应该是看不到的。对于不同的平台它们也是不同的。这也是java的底层机制，实际上java就是在不同的平台上调用不同的native方法实现对操作系统的访问的。
+版权声明：本文为CSDN博主「youjianbo_han_87」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。
+[原文链接](https://blog.csdn.net/youjianbo_han_87/article/details/2586375)
+
 ### CountDownLatch
 
 `CountDownLatch`类能够帮助我们调试多线程，可以阻塞一个线程，直到指定的线程都执行完，再唤醒被阻塞的线程。

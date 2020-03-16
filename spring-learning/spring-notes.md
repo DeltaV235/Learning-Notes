@@ -516,10 +516,234 @@ Calculator bean = ioc.getBean(Calculator.class);
 bean.add(2, 1);
 ```
 
-从ioc容器中拿到目标对象 注意:如果想要用类型，一定用 他的接口类型，不要用它本类
+从ioc容器中拿到目标对象 注意:如果想要用类型，一定用 他的**接口类型**，不要用它本类
 
 ### AOP细节
 
 #### IOC容器中保存的是组件的代理对象
 
-AOP的底层就是动态代理,容器中保存的组件是他的代理对象,不是本类的类型
+AOP的底层就是动态代理,容器中保存的组件是他的代理对象,不是本类的类型  
+接口不用加载到IOC容器中,即便加了spring也不会创建对象,相当于告诉spring,IOC容器中可能有这种类型的组件  
+在没有被切的情况下,IOC中创建的就是原生对象,若被切面了,则IOC中创建被切面对象的代理对象  
+通过id也能够获取IOC中的代理对象,id为原生对象类名首字母小写
+
+若被切面对象实现了接口,则spring使用jdk动态代理为目标对象创建代理对象.若被切面对象无接口实现,则spring使用CGLIB为目标对象创建一个子类用于代理目标对象.  
+目标类没有接口时,从IOC容器获取对象就直接使用**本类类型**获取,因为代理对象是一个子类
+
+反编译后的代理对象类声明:
+
+```java
+public class CalculatorImpl$$EnhancerBySpringCGLIB$$ea9e3ffd extends CalculatorImpl implements SpringProxy, Advised, Factory {...}
+```
+
+使用以下代码导出**CGLIB**字节码到指定的路径下,该属性要在IOC容器初始化前设置:
+
+```java
+System.setProperty(DebuggingClassWriter.DEBUG_LOCATION_PROPERTY, ".");
+```
+
+导出**JDK动态代理**字节码至指定目录:
+
+**高版本JDK**:
+
+```java
+System.getProperties().put("jdk.proxy.ProxyGenerator.saveGeneratedFiles", "true");
+```
+
+低版本JDK:
+
+```java
+System.getProperties().put("sun.misc.ProxyGenerator.saveGeneratedFiles", "true");
+```
+
+#### 切入点表达式的写法
+
+**固定格式**: execution(访问权限符 返回值类型 方法全类名(参数列表))
+  
+**通配符**:
+
+- **\*** 作用:
+1）**匹配零个或者任意个字符**: `execution(public int com.atguigu.impl.MyMath*r.*(int, int))`
+2）**匹配任意一个参数**: 第一个是int类型,第二个参数任意类型;（匹配两个参数） `execution(public int com.atguigu.impl.MyMath*.*(int, *))`
+3）**匹配一层路径** `execution(public com.*.*.methodName(paramList))`
+若写在全限定名的开头,则表示**匹配任意层路径** `execution(*.className.methodName(paramList))`
+若后边没有限定类名和方法名,则\*代表**任意路径的任意类的任意方法** `execution(public *(int, int))`
+4）**权限位置不能写\***,权限位置不写就表示**任意权限类型**.(只能切public类型的方法, 所以public是**可选的**)
+
+- **..** 作用:
+1）匹配**任意多个参数，任意类型参数**
+2）匹配**任意多层路径**
+`execution(public int com.atguigu..MyMath*.*(..));`
+
+记住两种；
+最精确的：execution(public int com.atguigu.impl.MyMathCalculator.add(int,int))
+最模糊的：execution(* *.*(..))：千万别写；
+
+"&&" "||" "!"
+
+&&：要切入的位置满足这两个表达式
+execution(public int com.atguigu..MyMath*.*(..))&&execution(* *.*(int,int)) && execution(*(..))
+
+||:满足任意一个表达式即可
+execution(public int com.atguigu..MyMath*.*(..))&&execution(* *.*(int,int)) || execution(*.*(..))
+
+!：只要不是这个位置都切入
+!execution(public int com.atguigu..MyMath*.*(..))
+
+#### 通知方法执行顺序
+
+```java
+try{
+  @Before
+  method.invoke(obj,args);
+  @AfterReturning
+}catch(){
+  @AfterThrowing
+}finally{
+  @After
+}
+```
+
+正常执行: @Before(前置通知) ====> @After(后置通知) ====> @AfterReturning(正常返回)
+异常执行: @Before(前置通知) ====> @After(后置通知) ====> @AfterThrowing(方法异常)
+
+若通知方法中抛出异常,则会造成执行顺序改变
+
+#### JoinPoint获取目标方法的信息
+
+我们可以在通知方法运行的时候，拿到目标方法的详细信息；
+
+只需要为通知方法的参数列表上写一个参数:
+JoinPoint joinPoint:封装了当前目标方法的详细信息
+
+```java
+public static void methodStart(JoinPoint joinPoint) {
+    Object[] args = joinPoint.getArgs();
+    Signature signature = joinPoint.getSignature();
+    String name = signature.getName();
+    logger.info(name + " 方法被执行, 参数为 " + Arrays.toString(args));
+}
+```
+
+#### throwing和returning指定接收异常和返回值的形参名
+
+告诉Spring哪个参数是用来接收异常,哪个参数是用来接收返回值的
+throwing="exception": 告诉Spring哪个参数是用来接收异常
+returning="result": result形参用于接收返回值
+
+```java
+@AfterReturning(value = "execution(public int com.wuyue.CalculatorImpl.*(int,int))", returning = "result")
+    public static void methodReturn(JoinPoint joinPoint, Object result) {{}
+
+@AfterThrowing(value = "execution(public int com.wuyue.CalculatorImpl.*(int,int))", throwing = "e")
+    public static void methodException(JoinPoint joinPoint, Exception e) {}
+```
+
+**NOTE**:
+Spring对通知方法的要求不严格,唯一要求的就是方法的参数列表一定不能乱写
+通知方法是Spring利用反射调用的,每次方法调用得确定这个方法的参数表的值,参数表上的每一个参数,Spring都得知道是什么
+JoinPoint:认识
+不知道的参数一定告诉Spring这是什么？
+
+`Exception exception`: 指定通知方法可以接收哪些异常
+`Object result`: 指定通知方法能够接收哪些返回类型
+
+#### 切入点表达式的重用
+
+抽取可重用的切入点表达式；
+1、随便声明一个没有实现的返回void的空方法
+2、给方法上标注@Pointcut注解,注解中写入要重用的切入点表达式
+
+```java
+@Pointcut("execution(public int com.wuyue.CalculatorImpl.*(int,int))")
+public void point() {
+}
+
+@Before("point()")
+public static void methodStart(JoinPoint joinPoint) {}
+```
+
+#### 环绕通知
+
+@Around:环绕通知是Spring中强大的通知,相当于整个动态代理需要执行的自定义代码
+
+```java
+try{
+  //前置通知
+  method.invoke(obj,args);
+  //返回通知
+}catch(e){
+  //异常通知
+}finally{
+  //后置通知
+}
+```
+
+环绕通知中有一个参数: ProceedingJoinPoint pjp, 可以通过该参数调用真实对象的方法,该参数同时继承了JoinPoint,可以获取目标方法的方法信息
+
+```java
+@Around("point()")
+public Object aroundAdvise(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+    Object retval = null;
+    try {
+        System.out.println("前置通知: " + proceedingJoinPoint.getSignature().getName());
+        Object[] args = proceedingJoinPoint.getArgs();
+        // 只有下方的方法才会帮我们执行目标方法
+        retval = proceedingJoinPoint.proceed(args);
+        System.out.println("返回通知: " + retval);
+    } catch (Exception e) {
+        System.out.println("异常通知: " + e);
+    } finally {
+        System.out.println("后置通知");
+    }
+    // 返回值就是代理对象的方法的返回值
+    return retval;
+}
+```
+
+#### 环绕通知与普通通知的执行顺序
+
+环绕通知：是优先于普通通知执行，执行顺序；
+
+```java
+[普通前置]
+{
+  try{
+    环绕前置
+    环绕执行：目标方法执行
+    环绕返回
+  }catch(){
+    环绕出现异常
+  }finally{
+    环绕后置
+  }
+}
+[普通后置]
+[普通方法返回/方法异常]
+```
+
+新的顺序：
+（环绕前置---普通前置）----目标方法执行----环绕正常返回/出现异常-----环绕后置----普通后置---普通返回或者异常
+
+执行结果
+
+```java
+环绕前置通知: add
+18:24:00 [main] INFO  com.wuyue.LogUtils - add 方法被执行, 参数为 [1, 2]
+环绕返回通知: 3
+环绕后置通知
+18:24:00 [main] INFO  com.wuyue.LogUtils - add 方法结束
+18:24:00 [main] INFO  com.wuyue.LogUtils - add 方法返回, 结果为 3
+3
+----------------------------------------
+环绕前置通知: div
+18:24:00 [main] INFO  com.wuyue.LogUtils - div 方法被执行, 参数为 [3, 0]
+环绕异常通知: java.lang.ArithmeticException: / by zero
+环绕后置通知
+18:24:00 [main] INFO  com.wuyue.LogUtils - div 方法结束
+18:24:00 [main] WARN  com.wuyue.LogUtils - div 方法异常, 异常为 java.lang.ArithmeticException: / by zero
+```
+
+## 问题
+
+aop虽然catch了异常但依旧将异常抛给了JVM,环绕方法没有将异常抛给JVM
