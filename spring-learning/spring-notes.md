@@ -1045,6 +1045,14 @@ checkout()和updatePrice()事务方法都使用REQUIRES_NEW的传播行为,即�
 </tx:advice>
 ```
 
+## Listener
+
+Spring有自己的监听器,在项目启动的时候创建IOC容器,在项目结束的时候清理容器
+
+## JavaWeb
+
+Servlet由于是web服务器自己创建的,所以无法通过IOC管理
+
 ## IOC容器源码
 
 创建好的对象最终会保存在一个map中
