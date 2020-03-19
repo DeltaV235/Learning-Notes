@@ -414,6 +414,8 @@ component-scan下可以拥有若干个include-filter和exclude-filter子节点
 
 在通过类型找到多个bean实例时,可以使用@Qualifier("idName")注解指定bean的名称,若仍未找到对应的bean则抛异常
 
+>先通过byType查找bean,如果存在类型的多个实例就尝试使用可以通过Primary和Priority注解来确定，如果也确定不了，最后通过byName。
+
 **默认情况**下，所有使用@Autowired注解的属性都需要被设置。当Spring找不到匹配的bean装配属性时，会抛出异常。  
 若某一属性允许不被设置(null)，可以设置@Autowired注解的required属性为 false,有对应的bean则装配,没有则不装配,不抛异常
 
@@ -465,6 +467,18 @@ spring-aspects-4.0.0.RELEASE.jar : 基础版
 com.springsource.net.sf.cglib-2.2.0.jar
 com.springsource.org.aopalliance-1.0.0.jar
 com.springsource.org.aspectj.weaver-1.6.8.RELEASE.jar
+
+**POM**:
+
+```xml
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-aspects</artifactId>
+    <version>5.2.4.RELEASE</version>
+</dependency>
+```
+
+若要使用基于xml的aop切面,则需要使用上述的依赖
 
 #### 2.将目标类和切面类(封装了通知方法(在目标方法执行前后执行的方法))加入到ioc容器中
 
@@ -849,6 +863,253 @@ A add 方法返回, 结果为 3
   -->
 ```
 
+## 基于Spring的事务控制
+
+由于AOP的各个切面通知符合事务控制的模式,所以Spring可以用于控制事务
+
+**声明式事务**:
+以前通过复杂的编程来编写一个事务，替换为只需要告诉Spring哪个方法是事务方法即可；Spring自动进行事务控制；
+
+**编程式事务**:
+
+```java
+TransactionFilter{
+  try{
+      //获取连接
+      //设置非自动 提交
+      chain.doFilter();
+      //提交
+  }catch(Exception e){
+      //回滚
+  }finllay{
+      //关闭连接释放资源
+  }
+}
+```
+
+AOP:环绕通知可以去做；
+  //获取连接
+  //设置非自动 提交
+  目标代码执行
+  //正常提交
+  //异常回滚
+  //最终关闭
+
+事务管理代码的固定模式作为一种横切关注点，可以通过AOP方法模块化，进而借助Spring AOP框架实现声明式事务管理。
+
+## 事务控制
+
+### 使用注解为某个方法添加事务控制
+
+1）、配置事务管理器
+2）、开启基于注解的事务
+3）、给事务方法加@Transactional注解
+
+```xml
+<!-- 注册数据源事务管理器,控制数据源 -->
+<bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+      id="dataSourceTransactionManager">
+    <property name="dataSource" ref="dataSource"/>
+</bean>
+<!-- 开启基于注解的事务控制模式,若事务管理器id为transactionManager,则transaction-manager属性可以省略 -->
+<tx:annotation-driven transaction-manager="dataSourceTransactionManager"/>
+```
+
+### @Transactional注解的属性
+
+**NOTE**: 被事务管理器管理的组件,在容器中是一个代理对象
+
+#### timeout
+
+`int timeout() default TransactionDefinition.TIMEOUT_DEFAULT;`
+
+事务超出指定的执行时长后自动终止并回滚,单位为秒
+
+#### readOnly
+
+`boolean readOnly() default false;`
+
+设置事务为只读事务,可以对事务进行优化,加快查询速度.事务中只能有DQL操作,若执行DML则会抛出异常
+
+#### noRollbackFor/noRollbackForClassName
+
+`Class<? extends Throwable>[] noRollbackFor() default {};`
+`String[] noRollbackForClassName() default {};`
+
+设置哪些异常发生后事务不回滚,使原来回滚的异常不回滚  
+`noRollbackFor = {RuntimeException.class, ...}` 需要提供一个异常类Class对象的数组  
+`noRollbackForClassName = {"java.lang.RuntimeException", "...", ...}` 需要提供异常类的全限定类名的String数组
+
+**NOTE**: Spring默认**只回滚RuntimException运行时异常**,而**不回滚CheckedException已检查异常**  
+异常只有抛出给Spring框架,事务管理器才能够根据这个异常执行相应的回滚,若在方法中就被try/catch捕获,则事务管理器不会进行回滚
+
+#### rollbackFor/rollbackForClassName
+
+`Class<? extends Throwable>[] rollbackFor() default {};`
+`String[] rollbackForClassName() default {};`
+
+设置哪些异常发生后事务需要回滚,使原来不回滚的异常发生回滚  
+`rollbackFor = {RuntimeException.class, ...}` 需要提供一个异常类Class对象的数组  
+`rollbackForClassName = {"java.lang.RuntimeException", "...", ...}` 需要提供异常类的全限定类名的String数组
+
+#### isolation
+
+设置事务的隔离级别
+
+`Isolation isolation() default Isolation.DEFAULT;`
+
+`isolation = Isolation.READ_UNCOMMITTED` **读未提交**
+`isolation = Isolation.READ_COMMITTED` **读已提交**
+`isolation = Isolation.REPEATABLE_READ` **可重复读**
+`isolation = Isolation.SERIALIZABLE` **串行化**
+
+#### propagation
+
+如果有多个事务进行嵌套运行，propagation属性决定子事务是否要和大事务共用一个事务
+
+`Propagation propagation() default Propagation.REQUIRED;`
+
+事务的传播行为,默认为`Propagation.REQUIRED`
+
+`propagation = Propagation.NEVER`
+
+**枚举类Propagation的枚举值及其描述**:
+![tx_propagation](imgs/tx-propagation.png)
+
+**REQUIRED**: 若存在父事务,则与父事务共享一个事务,若本事务方法出现异常,则整个事务回滚,并上抛异常.
+**REQUIRES_NEW**: 总是创建一个新的事务(连接),若存在父事务则将其挂起(暂停).若本事务方法抛出异常,则本事务回滚,并将异常上抛.若父事务方法中没有处理该异常,则父事务也回滚,并上抛异常.
+
+![tx_propagation_ppt](imgs/tx-propagation-ppt.png)
+
+如果事务方法是REQUIRED,则事务的属性都是继承于父事务(共享事务)的,且自行修改无效  
+而propagation=Propagation.REQUIRES_NEW的事务方法的属性可以自行调整
+
+##### 本类事务方法之间的调用
+
+具体调用方法如下所示:
+
+```java
+@Serivce
+public class BookService{
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void checkout(String userName, String isbn) {
+        // 库存 - 1
+        bookDao.updateStock(isbn);
+        // 获取书籍价格
+        Integer price = bookDao.getPrice(isbn);
+        // 扣除账号余额
+        bookDao.updateBalance(userName, price);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void updatePrice(String isbn, int price) {
+        bookDao.updatePrice(isbn, price);
+    }
+
+    @Transactional
+    public void mulTx() {
+        this.checkout("Tom", "ISBN-001");
+        this.updatePrice("ISBN-002", 2000);
+        int i = 10 / 0;
+    }
+}
+```
+
+checkout()和updatePrice()事务方法都使用REQUIRES_NEW的传播行为,即开启自己的事务.
+**现象**: 本类中存在一个mulTx的方法调用了上述的两个方法,并在mulTx()最后一行抛出一个算数除零异常,按正常理解,前两个事务方法应该已经将事务提交,不会受到这个异常的影响.但实际上mulTx中的所有事务都回滚了.
+**原因**: 通过IOC容器获得该类的代理对象,再调用mulTx()的情况下,调用的是代理对象的mulTx()方法,能够进行事务控制.而在mulTx()方法中调用的是目标真实对象的checkout()和updatePrice()方法,不是代理对象的方法,而在目标对象中的所有方法都没有被事务管理器控制(被切片 增强),所以这两个方法在本类中被调用时没有开启自己的事务,而是共享了mulTx()的事务,所以一旦mulTx()抛异常并回滚,checkout()和updatePrice()方法中的数据库操作也会回滚.
+
+### 使用XML进行事务控制
+
+1. 配置事务管理器`<tx:advice>`及其事务属性`<tx:attributes>`,指定事务方法和事务方法的属性`<tx:method>`
+2. 配置aop切面`<aop:config>`,引用事务事务管理器配置`<aop:advisor>`
+
+```xml
+<!-- 2. 配置aop切面<aop:config>,引用事务事务管理器配置<aop:advisor> -->
+<aop:config>
+    <!--         事务管理器配置                       切入点表达式-->
+    <aop:advisor advice-ref="transactionInterceptor" pointcut="execution(* com.wuyue.service.BookService.*(..))"/>
+</aop:config>
+
+<!-- 1. 配置事务管理器<tx:advice>及其事务属性<tx:attributes>,指定事务方法和事务方法的属性<tx:method> -->
+<tx:advice transaction-manager="dataSourceTransactionManager" id="transactionInterceptor">
+    <tx:attributes>
+        <!-- 指明哪些方法是事务方法；
+        切入点表达式只是说，事务管理器要切入这些方法，
+        哪些方法加事务使用tx:method指定的 -->
+        <tx:method name="*"/>
+        <tx:method name="checkout" propagation="REQUIRES_NEW"/>
+        <tx:method name="updatePrice" propagation="REQUIRED" timeout="20"/>
+        <tx:method name="get*" read-only="true"/>
+    </tx:attributes>
+</tx:advice>
+```
+
+## IOC容器源码
+
+创建好的对象最终会保存在一个map中
+ioc容器之一：保存单实例bean的地方
+ioc就是一个容器，单实例bean保存在一个map中
+
+## BeanFactory和ApplicationContext的区别
+
+ApplicationContext是BeanFactory的子接口
+BeanFactory：bean工厂接口；负责创建bean实例；容器里面保存的所有单例bean其实是一个map；Spring最底层的接口；
+ApplicationContext：是容器接口；更多的负责容器功能的实现；（可以基于beanFactory创建好的对象之上完成强大的容器）
+容器可以从map获取这个bean，并且aop。di。在ApplicationContext接口的下的这些类里面；
+
+BeanFactory最底层的接口，ApplicationContext留给程序员使用的ioc容器接口；ApplicationContext是BeanFactory的子接口；
+ApplicationContext
+
+Spring里面最大的模式就是工厂模式；
+`<bean class=""></bean>`
+BeanFactory：bean工厂；工厂模式；帮用户创建bean
+
 ## 问题
 
+### 1
+
 aop虽然catch了异常但依旧将异常抛给了JVM,环绕方法没有将异常抛给JVM
+
+### 2
+
+事务管理源码
+
+### 3
+
+```java
+@Serivce
+public class BookService {
+    private BookDao bookDao;
+
+    @Autowired
+    private BookService bookService;
+}
+```
+
+Spring没有循环创建BookService对象,而是正常运行
+
+## POM依赖
+
+```xml
+<!-- Spring的主依赖,包含spring-context/spring-aop/spring-beans/spring-core/spring-expression,提供了Spring的IOC容器/基于注解的bean aspect配置等功能 -->
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-context</artifactId>
+    <version>5.2.4.RELEASE</version>
+</dependency>
+
+<!-- Spring JdbcTemplate -->
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-jdbc</artifactId>
+    <version>5.2.4.RELEASE</version>
+</dependency>
+
+<!-- 基于xml的aspect配置 -->
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-aspects</artifactId>
+    <version>5.2.4.RELEASE</version>
+</dependency>
+```
