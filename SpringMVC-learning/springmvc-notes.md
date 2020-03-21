@@ -91,7 +91,7 @@ public String myfirstRequest(){
 
 (配置视图解析器用于页面地址的拼接)
 
-spring.xml
+**spring.xml**:
 
 ```xml
 <!-- 配置一个视图解析器 ；能帮我们拼接页面地址-->
@@ -109,6 +109,15 @@ spring.xml
 4. 为控制器添加注解(@Controller/@RequestMapping)
 
 **运行流程**:
+
+![running-process](imgs/running-process.png)
+
+1. 客户端请求提交到DispatcherServlet
+2. 由DispatcherServlet控制器查询一个或多个HandlerMapping，找到处理请求的Controller
+3. DispatcherServlet将请求提交到Controller（也称为Handler）
+4. Controller调用业务逻辑处理后，返回ModelAndView
+5. DispatcherServlet查询一个或多个ViewResoler视图解析器，找到ModelAndView指定的视图
+6. 视图负责将结果显示到客户端
 
 1）、客户端点击链接会发送 `http://localhost:8080/springmvc/hello` 请求
 2）、来到tomcat服务器；
@@ -362,3 +371,54 @@ jsp中的DELETE和PUT请求的提交方式:
 
 由于高版本Tomcat只能接收GET和POST请求方法,不接受DELETE和PUT,所以导致了405  
 可以将jsp页面设置为errorpage,这样tomcat的异常将不会抛出
+
+## @RequestParam
+
+SpringMVC默认方式获取请求参数: 直接给方法上写一个和请求参数同名的变量,这个变量来接收请求参数的值  
+如果请求存在这个参数则传入这个参数,如果没有这个参数,则传入null
+
+`@RequestParam`注解可以标注方法的形参,表示该形参传入的是`@RequestParam`指定的请求参数值,这个指定的请求参数在请求中必须携带,否则`HTTP Status 400 - Required String parameter 'RequestParameter' is not present`
+
+属性`required`可以指定这个请求参数是否是必须的,默认为true.该为false后,若请求参数不存在这传入null
+
+属性`defaultValue`指定没有指定请求参数时,传入的值
+
+```java
+public String handle01(@RequestParam(value = "username", required = false, defaultValue = "noParam") String user) {}
+```
+
+<==>
+
+```java
+String user = request.getParameter("username") != null ? request.getParameter("username") : "noParam";
+```
+
+### 和@PathVariable的区别
+
+@PathVariable是用于获取url路径上的值,而@RequestParam用于获取请求参数的值
+
+## @RequestHeader
+
+获取请求头中的值,同样也有required和defaultValue属性,可以设定该请求头参数是否必须以及默认值
+
+若请求头中没有带指定的键值对,则 **HTTP Status 400 - Missing request header 'User_Agent' for method parameter of type String**
+
+```java
+public String handle02(@RequestHeader(value = "Header-Agent", required = false, defaultValue = "noHeader") String header) {}
+```
+
+<==>
+
+```java
+String header = request.getHeader("Header-Agent") != null ? request.getHeader("Header-Agent") != null : "noHeader";
+```
+
+## @CookieValue
+
+获取某个cookie的值,也用required和defaultValue两个属性
+
+若浏览器没有指定cookie:**HTTP Status 400 - Missing cookie 'JSESSIONID' for method parameter of type String**
+
+```java
+    public String handle03(@CookieValue("JSESSIONID") String jid) {}
+```
