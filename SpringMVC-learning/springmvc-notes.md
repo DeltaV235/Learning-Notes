@@ -250,7 +250,9 @@ URL地址可以写模糊的通配符：
 `*` : 能替代任意多个字符，和一层路径
 `**` : 能替代多层路径
 
-## @PathVariable 路径上的占位符
+## 请求参数获取
+
+### @PathVariable 路径上的占位符
 
 `@RequestMapping`上的URL可以使用占位符,占位符的值能够作为参数传给控制器方法
 
@@ -265,7 +267,7 @@ public String handle03(@PathVariable("username") String username) {
 }
 ```
 
-## REST风格的URL地址约束
+### REST风格的URL地址约束
 
 使用简洁的URL提交请求，以请求方式区分对资源操作
 
@@ -367,12 +369,12 @@ jsp中的DELETE和PUT请求的提交方式:
 </form><br/>
 ```
 
-## 高版本的Tomcat的RestCURD不接收DELETE和PUT请求方法
+### 高版本的Tomcat的RestCURD不接收DELETE和PUT请求方法
 
 由于高版本Tomcat只能接收GET和POST请求方法,不接受DELETE和PUT,所以导致了405  
 可以将jsp页面设置为errorpage,这样tomcat的异常将不会抛出
 
-## @RequestParam
+### @RequestParam
 
 SpringMVC默认方式获取请求参数: 直接给方法上写一个和请求参数同名的变量,这个变量来接收请求参数的值  
 如果请求存在这个参数则传入这个参数,如果没有这个参数,则传入null
@@ -393,11 +395,11 @@ public String handle01(@RequestParam(value = "username", required = false, defau
 String user = request.getParameter("username") != null ? request.getParameter("username") : "noParam";
 ```
 
-### 和@PathVariable的区别
+#### 和@PathVariable的区别
 
 @PathVariable是用于获取url路径上的值,而@RequestParam用于获取请求参数的值
 
-## @RequestHeader
+### @RequestHeader
 
 获取请求头中的值,同样也有required和defaultValue属性,可以设定该请求头参数是否必须以及默认值
 
@@ -413,12 +415,227 @@ public String handle02(@RequestHeader(value = "Header-Agent", required = false, 
 String header = request.getHeader("Header-Agent") != null ? request.getHeader("Header-Agent") != null : "noHeader";
 ```
 
-## @CookieValue
+### @CookieValue
 
 获取某个cookie的值,也用required和defaultValue两个属性
 
 若浏览器没有指定cookie:**HTTP Status 400 - Missing cookie 'JSESSIONID' for method parameter of type String**
 
+拥有required和defaultValue属性
+
 ```java
     public String handle03(@CookieValue("JSESSIONID") String jid) {}
 ```
+
+### 自定义POJO的自动封装
+
+SpringMVC能够自动地将请求参数(GET/POST都可以)封装到一个pojo中
+
+1）、将POJO中的每一个属性，从request参数中尝试获取出来，并封装即可.若未找到pojo中属性对应的请求参数,则该属性封装为null(引用类型属性)或"null"(String类型属性)或0(Java原生数字类型)
+2）、还可以级联封装,属性的属性
+3）、请求参数的参数名和对象中的属性名一一对应就行
+
+```java
+ @RequestMapping("/book")
+public String handle04(Book book) {
+    System.out.println(book);
+    return "success";
+}
+```
+
+```html
+<form action="book" method="post">
+    书名: <input type="text" name="bookName"><br>
+    售价: <input type="text" name="price"><br>
+    作者: <input type="text" name="author"><br>
+    作者省: <input type="text" name="address.province"><br>
+    作者市: <input type="text" name="address.city"><br>
+    <input type="submit" value="提交">
+</form>
+```
+
+### 原生ServletAPI
+
+SpringMVC可以直接在参数上写原生API(javax.servlet包中)
+
+```java
+@RequestMapping("Servlet")
+public String handle05(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+    request.setAttribute("requestTest", "请求域参数");
+    session.setAttribute("sessionTest", "会话域中参数");
+    return "success";
+}
+```
+
+**HttpServletRequest**
+**HttpServletResponse**
+**HttpSession**
+
+**java.security.Principal**
+Locale：国际化有关的区域信息对象
+
+**InputStream**：
+ServletInputStream inputStream = request.getInputStream();
+**OutputStream**：
+ServletOutputStream outputStream = response.getOutputStream();
+
+**Reader**：
+BufferedReader reader = request.getReader();
+**Writer**：
+PrintWriter writer = response.getWriter();
+
+### 中文乱码的解决
+
+**请求乱码**:
+
+GET请求：改server.xml；在8080端口处URIEncoding="UTF-8" (高版本Tomcat以解决)
+
+POST请求：
+在第一次获取请求参数之前设置 `request.setCharacterEncoding("UTF-8");`
+自己写一个filter,SpringMVC已经实现了这个filter
+
+响应乱码：
+`response.setContentType("text/html;charset=utf-8")`
+
+**设置Spring提供的CharacterEncodingFilter**:
+
+/WEB-INF/web.xml
+
+```xml
+<!-- 配置一个字符编码的Filter；一定注意：字符编码filter一般都在其他Filter之前； -->
+<filter>
+    <filter-name>CharacterEncodingFilter</filter-name>
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+
+    <!-- encoding：指定解决POST请求乱码 -->
+    <init-param>
+        <param-name>encoding</param-name>
+        <param-value>UTF-8</param-value>
+    </init-param>
+
+    <!-- forceEncoding:强制刷新Request或Response的编码字符集,顺手解决响应乱码；response.setCharacterEncoding(this.encoding); -->
+    <init-param>
+        <param-name>forceRequestEncoding</param-name>
+        <param-value>true</param-value>
+    </init-param>
+    <init-param>
+        <param-name>forceResponseEncoding</param-name>
+        <param-value>true</param-value>
+    </init-param>
+
+</filter>
+<filter-mapping>
+    <filter-name>CharacterEncodingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+</filter-mapping>
+```
+
+**NOTE**: CharacterEncodingFilter要设置在HiddenHttpMethodFilter(用于转换PUT/DELETE请求)前面,否则前者不起作用  
+url-pattern都被匹配的情况下,filter的执行顺序按照web.xml中配置的顺序执行.由于HiddenHttpMethodFilter中已经获取的请求参数,所以CharacterEncodingFilter的修改编码字符集的设置没有起作用.
+
+SpringMVC前端控制器写完就直接写字符编码过滤器
+
+该过滤器源码中将传入的request的编码设定为了传入的encoding值
+
+## 数据输出
+
+### 1. Map Model ModelMap参数
+
+SpringMVC除过在方法上传入原生的request和session外还能怎么样把数据带给页面
+1）、可以在方法处传入Map、或者Model或者ModelMap。
+给这些参数里面保存的所有数据都会放在请求域中。可以在页面获取
+
+关系：
+Map，Model，ModelMap：最终都是BindingAwareModelMap在工作；
+给BindingAwareModelMap中保存的东西都会被放在请求域中；
+
+![ModelMap](imgs/ModelMap.svg)
+
+示例代码:
+
+```java
+@Controller
+public class OutputController {
+    @RequestMapping("/output01")
+    public String handle01(Map<String, Object> outputMap) {
+        outputMap.put("msg", "map");
+        System.out.println(outputMap.getClass());
+        return "success";
+    }
+
+    @RequestMapping("/output02")
+    public String handle02(Model model) {
+        model.addAttribute("msg", "model");
+        System.out.println(model.getClass());
+        return "success";
+    }
+
+    @RequestMapping("/output03")
+    public String handle03(ModelMap modelMap) {
+        modelMap.put("msg", "modelMap");
+        System.out.println(modelMap.getClass());
+        return "success";
+    }
+}
+```
+
+### 2. ModelAndView返回类型
+
+2）、方法的返回值可以变为ModelAndView类型；
+既包含视图信息（页面地址）也包含模型数据（给页面带的数据）；
+而且数据是放在请求域中；
+request、session、application中request最常用,所以Spring的数据返回放在了request中
+
+示例代码:
+
+```java
+@RequestMapping("/output04")
+public ModelAndView handle04() {
+    ModelAndView modelAndView = new ModelAndView("success");
+    modelAndView.addObject("msg", "modelAndView");
+    System.out.println(modelAndView.getClass());
+    return modelAndView;
+}
+```
+
+new ModelAndView时能够使用默认构造器,然后再设置视图名字
+
+```java
+@RequestMapping("/output04")
+public ModelAndView handle04() {
+    ModelAndView modelAndView = new ModelAndView();
+    modelAndView.setViewName("success");
+    modelAndView.addObject("msg", "modelAndView");
+    System.out.println(modelAndView.getClass());
+    return modelAndView;
+}
+```
+
+### 3. @SessionAttributes将数据写入HttpSesssion中
+
+SpringMVC提供了一种可以临时给Session域中保存数据的方式；
+使用一个注解`@SessionAttributes`(只能标在类上)
+
+`@SessionAttributes(value="msg")`
+给BindingAwareModelMap中保存的数据，或者ModelAndView中的数据，
+同时给session中放一份；
+value指定保存数据时要给session中放的数据的key；
+value={"msg", "..."}：只要BindingAwareModelMap/ModelAndView中保存的是这种key的数据，给Session中放一份
+types={String.class, ...}：只要保存的是这种类型的数据，给Session中也放一份
+
+后来推荐@SessionAttributes就别用了，可能会引发异常；
+给session中放数据请使用**原生API HttpSession**
+
+### @ModelAttribute
+
+用于解决全字段更新时,部分字段不允许更新从而导致该字段的数据没有从请求参数中传过来传给Controller,最后导致dao更新数据库时将null值覆盖了原本不允许更新/用户未更新的字段.
+
+在dao层可以使用mybatis的动态SQL解决该问题
+
+被`@ModelAttribute`修饰的方法将先于目标处理方法运行,将数据库中的数据封装至bean,然后存入BindingAwareModelMap中.  
+目标方法的bean参数用`@ModelAttribute`修饰,表示该参数从BindingAwareModelMap中获取,并根据请求参数更新其中对应的属性.而不是直接创建新的bean对象,导致未赋值的值为null的问题.
+
+工作原理
+![ModelAttribute](imgs/ModelAttribute.svg)
+
+## 源码分析

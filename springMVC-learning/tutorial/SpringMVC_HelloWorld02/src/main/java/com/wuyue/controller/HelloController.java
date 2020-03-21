@@ -1,10 +1,12 @@
 package com.wuyue.controller;
 
+import com.wuyue.domain.Book;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * @author DeltaV235
@@ -33,6 +35,27 @@ public class HelloController {
         System.out.println("handle03 has been invoked, cookie is " + jid);
         return "success";
     }
+
+    @RequestMapping("/book")
+    public String handle04(Book book) {
+        System.out.println(book);
+        return "success";
+    }
+
+    @RequestMapping("Servlet")
+    public String handle05(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        request.setAttribute("requestTest", "请求域参数");
+        session.setAttribute("sessionTest", "会话域中参数");
+        return "success";
+    }
+
+    @RequestMapping(value = "methodTest", method = RequestMethod.PUT)
+    public String handle06() {
+        System.out.println("PUT");
+        return "success";
+    }
+
+
 }
 
 
