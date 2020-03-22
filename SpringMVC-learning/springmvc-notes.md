@@ -639,3 +639,7 @@ types={String.class, ...}：只要保存的是这种类型的数据，给Session
 ![ModelAttribute](imgs/ModelAttribute.svg)
 
 ## 源码分析
+
+简单运行流程
+
+![SpringMVC-Source](imgs/SpringMVC-Source.svg)
