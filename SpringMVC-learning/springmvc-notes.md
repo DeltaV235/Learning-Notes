@@ -638,8 +638,148 @@ types={String.class, ...}：只要保存的是这种类型的数据，给Session
 工作原理
 ![ModelAttribute](imgs/ModelAttribute.svg)
 
+SpringMVC为自定义类型参数的赋值流程:
+
+1. 查找隐含模型中是否存在@ModelAttribute中设置的key(若没标注该注解,则key为该参数类名首字母小写)
+2. 查找@SessionAttribute中是否保存了这个目标对象,如果没有则抛出异常
+3. new 一个新的对象
+4. 请求参数封装
+
 ## 源码分析
 
 简单运行流程
 
 ![SpringMVC-Source](imgs/SpringMVC-Source.svg)
+
+## 视图/视图解析器
+
+### 请求的转发
+
+#### forward转发
+
+在返回值前添加`forward:`可以将请求转发到任意的路径,可以写绝对路径和相对路径,建议使用绝对路径  
+由`forward:`前缀指定的路径不会被视图解析器进行拼串,指定的路径就是请求转发的路径
+
+```java
+ @RequestMapping("handle02")
+public String handle02() {
+    System.out.println("handle02");
+    return "forward:/view.jsp";
+}
+```
+
+也可以使用多层`../`来将请求转发至上级目录中的资源
+
+#### redirect重定向
+
+将页面重定向,SpringMVC会自动的加上ContextPath项目名,不需要手动添加.  
+原生的Servlet重定向的路径要加上项目名才能正确访问.
+
+```java
+@RequestMapping("/handle03")
+public String handle03() {
+    System.out.println("handle03");
+    return "redirect:/view.jsp";
+}
+```
+
+**NOTE**: 有前缀的转发和重定向操作,配置的视图解析器不会进行拼串操作.  
+转发和重定向都可以进行多次跳转.
+
+**forward:**:
+
+```java
+@Controller
+public class ViewResolverHandler {
+    @RequestMapping("/handle01")
+    public String handle01() {
+        System.out.println("handle01");
+        return "success";
+    }
+
+    @RequestMapping("/handle02")
+    public String handle02() {
+        System.out.println("handle02");
+        return "forward:/handle01";
+    }
+}
+```
+
+**redirect:**:
+
+```java
+    @RequestMapping("/handle03")
+    public String handle03() {
+        System.out.println("handle03");
+        return "redirect:/view.jsp";
+    }
+
+    @RequestMapping("/handle04")
+    public String handle04() {
+        System.out.println("handle04");
+        return "redirect:/handle03";
+    }
+```
+
+### 视图解析流程
+
+1. 任何handler的方法的返回值,都将被包装成ModelAndView对象
+2. 使用指定或默认的视图解析器(InternalResourceViewResolver)解析ModelAndView Request 和Response,若其中的一个视图解析器能够解析则返回一个View(InternalResourceView/RedirectView)对象.
+3. View对象将ModelAndView中的map写入到请求域中,并使用原生servlet的forward将请求转发/sendRedirect重定向
+4. web容器执行请求的转发
+
+### Spring的jstlView支持国际化
+
+### view-controller请求映射
+
+直接将指定的请求映射到指定的视图对象,并渲染页面,不通过特定的handlerMethod处理
+
+applicationContext.xml:
+
+```xml
+<!-- 将哪个请求直接转发到视图对象中 -->
+<mvc:view-controller path="/view01" view-name="success"/>
+<!-- 开启mvc的注解驱动,否则所有用注解映射的url将不能使用 -->
+<mvc:annotation-driven/>
+```
+
+### 自定义视图解析器和视图对象
+
+**实现自定义视图解析器**:
+
+```java
+public class MyViewResolver implements ViewResolver, Ordered {
+    private Integer order;
+
+    @Override
+    public View resolveViewName(String viewName, Locale locale) throws Exception {
+        if (viewName.startsWith("wuyue:")) {
+            return new MyView();
+        }
+        return null;
+    }
+
+    public void setOrder(Integer order) {
+        this.order = order;
+    }
+
+    @Override
+    public int getOrder() {
+        return order;
+    }
+}
+```
+
+实现ViewResolver和Ordered接口,前者是视图解析器必须要继承的接口,后者是用于设置视图解析器优先级的接口  
+私有属性order的值越小,优先级越高.可以在IOC容器的配置文件中设置.默认的`InternalResourceViewResolver`的order为`Integer.MAX`,即优先级最低.  
+若视图解析器返回null,则表示该视图解析器不能处理这个视图名
+
+applicationContext.xml的配置:
+
+```xml
+<bean class="com.wuyue.view.MyViewResolver">
+    <property name="order" value="1"/>
+</bean>
+```
+
+将order设置为1,该视图解析器件优先于默认的`InternalResourceViewResolver`解析器,判断是否能够处理的这个视图

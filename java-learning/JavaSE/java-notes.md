@@ -40,7 +40,7 @@ Core Java
 
 - [x] maven/gradle项目管理工具
 - [ ] Spring全家桶(Spring, Spring MVC, Spring Boot)
-- [ ] 关系型数据库相关(MySQL, jdbc, MyBatis, Hibernate)
+- [x] 关系型数据库相关(MySQL, jdbc, MyBatis, Hibernate)
 - [x] 非关系型数据库(Redis)
 - [ ] 模板引擎(thymeleaf, freemarker)
 
