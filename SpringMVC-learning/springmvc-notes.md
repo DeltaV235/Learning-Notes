@@ -724,8 +724,8 @@ public class ViewResolverHandler {
 ### 视图解析流程
 
 1. 任何handler的方法的返回值,都将被包装成ModelAndView对象
-2. 使用指定或默认的视图解析器(InternalResourceViewResolver)解析ModelAndView Request 和Response,若其中的一个视图解析器能够解析则返回一个View(InternalResourceView/RedirectView)对象.
-3. View对象将ModelAndView中的map写入到请求域中,并使用原生servlet的forward将请求转发/sendRedirect重定向
+2. 使用指定或默认的视图解析器(InternalResourceViewResolver)解析ModelAndView Request 和Response,逐一尝试其中的视图解析器能够解析则返回一个View(InternalResourceView/RedirectView)对象,不能则返回null.
+3. View对象的render渲染方法将ModelAndView中的map写入到请求域中,并使用原生servlet的forward将请求转发/sendRedirect重定向
 4. web容器执行请求的转发
 
 ### Spring的jstlView支持国际化
@@ -744,6 +744,15 @@ applicationContext.xml:
 ```
 
 ### 自定义视图解析器和视图对象
+
+视图解析器根据方法的返回值得到视图对象；
+多个视图解析器都会尝试能否得到视图对象；
+视图对象不同就可以具有不同功能；
+
+**定义视图和视图解析器的步骤**:
+
+1. 编写自定义的视图解析器，和视图实现类
+2. 视图解析器必须放在ioc容器中，让其工作，能创建出我们的自定义视图对象
 
 **实现自定义视图解析器**:
 
@@ -782,4 +791,28 @@ applicationContext.xml的配置:
 </bean>
 ```
 
-将order设置为1,该视图解析器件优先于默认的`InternalResourceViewResolver`解析器,判断是否能够处理的这个视图
+将order设置为1,使该自定义视图解析器件优先于默认的`InternalResourceViewResolver`解析器,判断是否能够处理的这个视图
+
+**自定义视图类**:
+
+```java
+public class MyView implements View {
+    @Override
+    public String getContentType() {
+        return "text/html";
+    }
+
+    @Override
+    public void render(Map<String, ?> model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PrintWriter writer = response.getWriter();
+        for (Map.Entry<String, ?> stringEntry : model.entrySet()) {
+            if (stringEntry.getValue() instanceof String)
+                writer.write((String) stringEntry.getValue());
+            else
+                System.out.println(stringEntry.getValue());
+        }
+    }
+}
+```
+
+render()方法中编写自定义的页面渲染代码,getContentType()中返回响应的MIME类型,响应编码的问题已由`CharacterEncodingFilter`过滤器解决,所以只需要指定MIME类型即可

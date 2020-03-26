@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wuyue.mapper.intf.EmployeeMapper">
+    <insert id="save">
+        <selectKey order="BEFORE" keyProperty="id" resultType="int">
+            select id+1 from employee order by id DESC LIMIT 1;
+        </selectKey>
+        insert into employee
+        values (#{id}, #{lastName}, #{email}, #{gender}, #{department.id})
+    </insert>
+
+    <update id="update">
+        update employee
+        <set>
+            <if test="lastName!=null">
+                last_name = #{lastName},
+            </if>
+            <if test="email!=null">
+                email = #{email},
+            </if>
+            <if test="gender!=null">
+                gender = #{gender},
+            </if>
+            <if test="department!=null and department.id!=null">
+                department_id = #{department.id}
+            </if>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
+    <resultMap id="employeeMap" type="Employee">
+        <id property="id" column="id"/>
+        <result property="lastName" column="last_name"/>
+        <result property="gender" column="gender"/>
+        <result property="email" column="email"/>
+        <association property="department" select="com.wuyue.mapper.intf.DepartmentMapper.getDepartment"
+                     column="department_id"/>
+    </resultMap>
+    <select id="getAll" resultMap="employeeMap">
+        select *
+        from employee
+    </select>
+
+    <select id="get" resultMap="employeeMap">
+        select *
+        from employee
+        where id = #{id}
+    </select>
+
+    <delete id="delete">
+        delete
+        from employee
+        where id = #{id}
+    </delete>
+</mapper>

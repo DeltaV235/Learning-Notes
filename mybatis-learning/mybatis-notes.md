@@ -74,6 +74,30 @@
 </configuration>
 ```
 
+#### properties
+
+```xml
+<properties resource="dbconfig.properties" />
+```
+
+如果属性在不只一个地方进行了配置，那么MyBatis 将按照下面的顺序来加载：
+
+- 在properties 元素体内指定的属性首先被读取。
+- 然后根据properties 元素中的resource 属性读取类路径下属性文件或根据url 属性指定的路径读取属性文件，并覆盖已读取的同名属性。
+- 最后读取作为方法参数传递的属性，并覆盖已读取的同名属性。
+
+#### settings
+
+```xml
+<settings>
+    <!-- 开启数据库字下划线段名到bean属性名的驼峰名的映射 -->
+    <setting name="mapUndersourceToCamelCase" value="true">
+</settings>
+```
+
+这是MyBatis 中极为重要的调整设置，它们会改变MyBatis的运行时行为。  
+[https://mybatis.org/mybatis-3/zh/configuration.html#settings](https://mybatis.org/mybatis-3/zh/configuration.html#settings)
+
 #### 类型别名（typeAliases）
 
 类型别名是为 Java 类型设置一个短的名字。 它只和 XML 配置有关，存在的意义仅在于用来减少类完全限定名的冗余。例如：
@@ -108,13 +132,126 @@ public class Author {
 }
 ```
 
+MyBatis已经为许多常见的Java类型内建了相应的类型别名。它们都是大小写不敏感的,用户使用时应该避免别名发生重复
+
+| 别名       | 映射的类型 |
+| ---------- | ---------- |
+| _byte      | byte       |
+| _long      | long       |
+| _short     | short      |
+| _int       | int        |
+| _integer   | int        |
+| _double    | double     |
+| _float     | float      |
+| _boolean   | boolean    |
+| string     | String     |
+| byte       | Byte       |
+| long       | Long       |
+| short      | Short      |
+| int        | Integer    |
+| integer    | Integer    |
+| double     | Double     |
+| float      | Float      |
+| boolean    | Boolean    |
+| date       | Date       |
+| decimal    | BigDecimal |
+| bigdecimal | BigDecimal |
+| object     | Object     |
+| map        | Map        |
+| hashmap    | HashMap    |
+| list       | List       |
+| arraylist  | ArrayList  |
+| collection | Collection |
+| iterator   | Iterator   |
+
+#### typeHandlers类型处理器
+
+无论是MyBatis在预处理语句（PreparedStatement）中设置一个参数时，还是从结果集中取出一个值时，都会用类型处理器将获取的值以合适的方式转换成Java类型。
+
+| `BooleanTypeHandler`    | `java.lang.Boolean`, `boolean` | 数据库兼容的 `BOOLEAN`               |
+| ----------------------- | ------------------------------ | ------------------------------------ |
+| `ByteTypeHandler`       | `java.lang.Byte`, `byte`       | 数据库兼容的 `NUMERIC` 或 `BYTE`     |
+| `ShortTypeHandler`      | `java.lang.Short`, `short`     | 数据库兼容的 `NUMERIC` 或 `SMALLINT` |
+| `IntegerTypeHandler`    | `java.lang.Integer`, `int`     | 数据库兼容的 `NUMERIC` 或 `INTEGER`  |
+| `LongTypeHandler`       | `java.lang.Long`, `long`       | 数据库兼容的 `NUMERIC` 或 `BIGINT`   |
+| `FloatTypeHandler`      | `java.lang.Float`, `float`     | 数据库兼容的 `NUMERIC` 或 `FLOAT`    |
+| `DoubleTypeHandler`     | `java.lang.Double`, `double`   | 数据库兼容的 `NUMERIC` 或 `DOUBLE`   |
+| `BigDecimalTypeHandler` | `java.math.BigDecimal`         | 数据库兼容的 `NUMERIC` 或 `DECIMAL`  |
+| `StringTypeHandler`     | `java.lang.String`             | `CHAR`, `VARCHAR`                    |
+| `ClobReaderTypeHandler` | `java.io.Reader`               | -                                    |
+
+#### plugins插件
+
+插件是MyBatis提供的一个非常强大的机制，我们可以通过插件来修改MyBatis的一些核心行为。插件通过动态代理机制，可以介入四大对象的任何一个方法的执行。
+
+- Executor(update, query, flushStatements, commit, rollback, getTransaction, close, isClosed)
+- ParameterHandler(getParameterObject, setParameters)
+- ResultSetHandler(handleResultSets, handleOutputParameters)
+- StatementHandler(prepare, parameterize, batch, update, query)
+
+#### environments环境
+
+- MyBatis可以配置多种环境，比如开发、测试和生产环境需要有不同的配置。
+- 每种环境使用一个environment标签进行配置并指定唯一标识符
+- 可以通过environments标签中的default属性指定一个环境的标识符来快速的切换环境
+
+#### environment具体环境
+
+- id: 指定当前环境的唯一标识
+- transactionManager: 事务管理器
+- dataSource: 数据源,需要连接数据库相关的属性
+
+```xml
+<environment id="mysql">
+    <transactionManager type="JDBC"></transactionManager>
+    <dataSource type="POOLED">
+        <property name="driver" value="${mysql.driver}"/>
+        <property name="url" value="${mysql.url}"/>
+        <!-- Wrong Property -->
+        <!-- <property name="username" value="${username}"/> -->
+        <property name="username" value="${mysql.username}">
+        <property name="password" value="${mysql.password}"/>
+    </dataSource>
+</environment>
+```
+
+**NOTE**: 一般把数据库连接相关的配置放于外置的properties文件中,然后在Mybatis的主配置文件中引用.`${username}`的引用将返回当前计算机的用户名,而不是properties文件中的值
+
+##### transactionManager
+
+type：JDBC | MANAGED | 自定义
+
+- JDBC：使用了JDBC 的提交和回滚设置，依赖于从数据源得到的连接来管理事务范围。JdbcTransactionFactory
+- MANAGED：不提交或回滚一个连接、让容器来管理事务的整个生命周期（比如JEE 应用服务器的上下文）。ManagedTransactionFactory
+- 自定义：实现TransactionFactory接口，type=全类名/别名
+
+##### dataSource
+
+type：UNPOOLED | POOLED | JNDI | 自定义
+
+- UNPOOLED：不使用连接池，UnpooledDataSourceFactory
+- POOLED：使用连接池，PooledDataSourceFactory
+- JNDI：在EJB 或应用服务器这类容器中查找指定的数据源
+- 自定义：实现DataSourceFactory接口，定义数据源的获取方式。
+
+实际开发中我们使用Spring管理数据源，并进行事务控制的配置来覆盖上述配置
+
 #### 数据库厂商标识databaseIdProvider标签
 
 MyBatis 可以根据不同的数据库厂商执行不同的语句，这种多厂商的支持是基于映射语句中的 databaseId 属性。 MyBatis 会加载不带 databaseId 属性和带有匹配当前数据库 databaseId 属性的所有语句。 如果同时找到带有 databaseId 和不带 databaseId 的相同语句，则后者会被舍弃。 为支持多厂商特性只要像下面这样在 mybatis-config.xml 文件中加入 databaseIdProvider 即可：
 
 ```xml
-<databaseIdProvider type="DB_VENDOR" />
+<databaseIdProvider type="DB_VENDOR">
+    <property name="MySQL" value="mysql">
+    <property name="Oracle" value="oracle">
+    <property name="SQL Server" value="sqlserver">
+</databaseIdProvider>
 ```
+
+- Type：DB_VENDOR
+使用MyBatis提供的VendorDatabaseIdProvider解析数据库厂商标识。也可以实现DatabaseIdProvider接口来自定义。
+- Property-name：数据库厂商标识
+- Property-value：为标识起一个别名，方便SQL语句使用databaseId属性引用
 
 [数据库厂商标识（databaseIdProvider）](https://mybatis.org/mybatis-3/zh/configuration.html#databaseIdProvider)
 
@@ -337,13 +474,100 @@ resultType="javabean" 将返回值封装为JavaBean对象 在dao接口对应的�
 
 指定嵌套的查询或封装规则，封装为指定对象
 
+**entities:**
+Account:
+
+```java
+public class Account {
+    private Integer id;
+    private Integer uid;
+    private double money;
+    private User user;
+}
+```
+
+User:
+
+```java
+public class User {
+    private Integer id;
+    private String username;
+    private Date birthday;
+    private String sex;
+    private String address;
+    private List<Account> accountList;
+}
+```
+
+POJO中的属性可能会是一个对象,我们可以使用联合查询，并以级联属性的方式封装对象:
+
+```xml
+<resultMap id="accountMap2" type="account">
+    <id column="id" property="id"/>
+    <result column="money" property="money"/>
+    <result column="uid" property="user.id"/>
+    <result column="username" property="user.username"/>
+    <result column="birthday" property="user.birthday"/>
+    <result column="sex" property="user.sex"/>
+    <result column="address" property="user.address"/>
+</resultMap>
+```
+
+association-嵌套结果集:
+
+```xml
+<resultMap id="accountMap" type="account">
+    <id column="id" property="id"/>
+    <result column="money" property="money"/>
+    <association property="user" javaType="user">
+        <id column="uid" property="id"/>
+        <result column="username" property="username"/>
+        <result column="birthday" property="birthday"/>
+        <result column="sex" property="sex"/>
+        <result column="address" property="address"/>
+    </association>
+</resultMap>
+```
+
+association-分段查询:
+
+- select：调用目标的方法查询当前属性的值
+- column：将指定列的值传入目标方法
+
+```xml
+<resultMap id="accountMap3" type="account">
+    <id property="id" column="id"/>
+    <result property="money" column="money"/>
+    <association property="user" select="com.wuyue.mybatis.dao.UserDao.findById" column="uid"/>
+</resultMap>
+```
+
 ###### collection
 
 指定嵌套的封装规则，将多行结果封装为一个集合
 collection嵌套结果集的方式，定义关联的集合类型元素的封装
 使用collection标签定义关联的集合类型的属性封装规则
 
-colums属性若需要传递多个列，则可以使用map进行封装 {key1=column1, key2=column2} key为接口函数的形参名
+colums属性若需要传递多个列，则可以使用map进行封装 {key1=column1, key2=column2},key为接口函数的形参名
+
+```xml
+ <resultMap id="accountList" type="user">
+    <id column="uid" property="id"/>
+    <result column="username" property="username"/>
+    <result column="birthday" property="birthday"/>
+    <result column="sex" property="sex"/>
+    <result column="address" property="address"/>
+    <collection property="accountList" ofType="account">
+        <id column="id" property="id"/>
+        <result column="money" property="money"/>
+        <result column="uid" property="uid"/>
+    </collection>
+</resultMap>
+```
+
+collection标签也支持分步查询以及延迟加载
+
+**NOTE**: association或者collection标签的fetchType=eager/lazy可以覆盖全局的延迟加载策略，指定立即加载（eager）或者延迟加载（lazy）
 
 ###### 懒加载
 
@@ -693,7 +917,7 @@ STATEMENT：可以禁用一级缓存
         <property name="forceBigDecimals" value="false"/>
     </javaTypeResolver>
 
-    <!-- 生成实体类地址 -->	
+    <!-- 生成实体类地址 -->
     <javaModelGenerator targetPackage="com.oop.eksp.user.model"
         targetProject="${project}" >
         <!-- 是否在当前路径下新加一层schema,eg：fase路径com.oop.eksp.user.model， true:com.oop.eksp.user.model.[schemaName] -->
@@ -709,7 +933,7 @@ STATEMENT：可以禁用一级缓存
         <property name="enableSubPackages" value="false" />
     </sqlMapGenerator>
 
-    <!-- 生成mapxml对应client，也就是接口dao -->	
+    <!-- 生成mapxml对应client，也就是接口dao -->
     <javaClientGenerator targetPackage="com.oop.eksp.user.data"
         targetProject="${project}" type="XMLMAPPER" >
         <!-- 是否在当前路径下新加一层schema,eg：fase路径com.oop.eksp.user.model， true:com.oop.eksp.user.model.[schemaName] -->

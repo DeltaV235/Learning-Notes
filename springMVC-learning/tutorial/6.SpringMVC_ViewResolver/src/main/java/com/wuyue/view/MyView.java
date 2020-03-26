@@ -17,7 +17,7 @@ import java.util.Map;
 public class MyView implements View {
     @Override
     public String getContentType() {
-        return "text/html";
+        return "";
     }
 
     @Override
