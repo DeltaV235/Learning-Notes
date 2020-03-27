@@ -873,7 +873,89 @@ render()方法中编写自定义的页面渲染代码,getContentType()中返回�
 
 #### 自定义类型转换器
 
+实现步骤:
 
+1.实现`Converter`接口,实现自定义转换器的实现类
+
+```java
+public class StringToEmplyee implements Converter<String, Employee> {
+    // Converter<S, T> : <S>: Source , <T>: Target
+
+    @Autowired
+    private DepartmentMapper departmentMapper;
+
+    @Override
+    public Employee convert(String source) {
+        Employee employee = new Employee();
+        if (source.contains("-")) {
+            String[] properties = source.split("-");
+            employee.setLastName(properties[0]);
+            employee.setEmail(properties[1]);
+            employee.setGender(Integer.parseInt(properties[2]));
+            employee.setDepartment(departmentMapper.getDepartment(Integer.parseInt(properties[3])));
+        }
+        return employee;
+    }
+}
+```
+
+2.将这个`Converter`配置在`ConversionService`中
+
+SpringConfig.xml:
+
+```xml
+<!-- 在ConversionServiceFactoryBean工厂方法中,设置converters属性为自定义类型的Converter -->
+<!-- FactoryBean在实例化时直接返回目标对象(ConversionService) -->
+<bean class="org.springframework.context.support.ConversionServiceFactoryBean" id="conversionService">
+    <property name="converters">
+        <set>
+            <bean class="com.wuyue.converter.StringToEmplyee"/>
+        </set>
+    </property>
+</bean>
+```
+
+3.告诉SpringMVC使用这个自定义的`ConversionService`
+
+SpringConfig.xml:
+
+```xml
+<mvc:annotation-driven conversion-service="conversionService"/>
+```
+
+4.WebDataBinder的ConversionService属性就替换为了自定义的ConversionService
+
+**NOTE**: 自定义的Converter不会覆盖ConversionSerivce中原有的默认Converter
+
+## \<mvc:default-servlet-handler>标签
+
+使DispathcerServlet将无法映射的URI交给Tomcat的DefaultServlet处理,直接响应静态资源的字符信息
+若在Spring配置文件中加入了`<mvc:default-servlet-handler/>`,则会在`DispatcherServlet`中的`handlerMappings`中添加一个`SimpleUrlHandlerMapping`,如下图所示
+
+![default-servlet-handler](imgs/default-servlet-handler.png)
+
+同样`handlerAdapters`中也添加了`SimpleUrlHandlerAdapter`
+
+![default-servlet-handler-handler-adapters](imgs/default-servlet-handler-handler-adapters.png)
+
+这个handler可以处理任何资源的请求(`/**`).  
+**NOTE**: 一旦在配置文件中设置了该标签,则原本用于处理 注解设置映射URI(`@RequestMapping("/path/to")`) 的`handlerMapping`(`RequestMappingHandlerMapping`)将不再被初始化至`handlerMappings`中,从而导致所有使用注解映射的请求处理器将无法正确的被调用,最终导致web服务器404 NOT FOUND  
+所以`<mvc:default-servlet-handler>`和`<mvc:annotation-driven>`需要一起使用,来解决动态资源和静态资源不能同时访问的问题
+
+## \<mvc:annotation-driven>标签
+
+BeanDefinitionParser接口的实现类用于解析Spring配置文件中的各种标签,其中`AnnotationDrivenBeanDefinitionParser`用于解析`<mvc:annotation-driven>`标签
+
+在使用了`<mvc:default-servlet-handler>`标签后,`RequestMappingHandlerMapping`和`RequestMappingHandlerAdapter`会消失,而加了`<mvc:annotation-driven>`标签后,用于解析注解的`RequestMappingHandlerMapping`和`RequestMappingHandlerAdapter`将重新加入到`HandlerMappings`和`HandlerAdapters`中
+
+`<mvc:annotation-driven />` 会自动注册RequestMappingHandlerMapping 、RequestMappingHandlerAdapter 与 ExceptionHandlerExceptionResolver  三个bean。
+
+还将提供以下支持：
+
+- 支持使用 ConversionService 实例对表单参数进行类型转换
+- 支持使用 @NumberFormat annotation、@DateTimeFormat 注解完成数据类型的格式化
+- 支持使用 @Valid 注解对 JavaBean 实例进行 JSR 303 验证
+- 支持使用 @RequestBody 和 @ResponseBody 注解
 
 ## 与Mybatis的整合
 
