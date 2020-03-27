@@ -30,7 +30,7 @@
     </style>
 </head>
 <body>
-<table cellspacing="0">
+<table cellspacing="0" cellpadding="2px">
     <tr>
         <th>ID</th>
         <th>LastName</th>

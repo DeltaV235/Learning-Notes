@@ -6,6 +6,7 @@ import com.wuyue.model.entities.Department;
 import com.wuyue.model.entities.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -62,6 +63,7 @@ public class EmpController {
      * @param employee
      * @return
      */
+    @Transactional
     @RequestMapping(value = "/emp", method = RequestMethod.POST)
     public String add(Employee employee) {
         employeeMapper.save(employee);
@@ -82,6 +84,7 @@ public class EmpController {
     /**
      * 更新员工信息
      */
+    @Transactional
     @RequestMapping(value = "/emp/{id}", method = RequestMethod.PUT)
     public String update(@PathVariable("id") Integer id, Employee employee) {
         employee.setId(id);

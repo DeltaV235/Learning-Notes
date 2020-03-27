@@ -632,7 +632,7 @@ types={String.class, ...}：只要保存的是这种类型的数据，给Session
 
 在dao层可以使用mybatis的动态SQL解决该问题
 
-被`@ModelAttribute`修饰的方法将先于目标处理方法运行,将数据库中的数据封装至bean,然后存入BindingAwareModelMap中.  
+被`@ModelAttribute`修饰的方法将先于**任何**处理方法运行,将数据库中的数据封装至bean,然后存入BindingAwareModelMap中.  
 目标方法的bean参数用`@ModelAttribute`修饰,表示该参数从BindingAwareModelMap中获取,并根据请求参数更新其中对应的属性.而不是直接创建新的bean对象,导致未赋值的值为null的问题.
 
 工作原理
@@ -672,7 +672,7 @@ public String handle02() {
 
 #### redirect重定向
 
-将页面重定向,SpringMVC会自动的加上ContextPath项目名,不需要手动添加.  
+将页面重定向,SpringMVC会**自动**的加上**ContextPath项目名**,不需要手动添加.  
 原生的Servlet重定向的路径要加上项目名才能正确访问.
 
 ```java
@@ -705,7 +705,7 @@ public class ViewResolverHandler {
 }
 ```
 
-**redirect:**:
+**redirect**:
 
 ```java
     @RequestMapping("/handle03")
@@ -816,3 +816,125 @@ public class MyView implements View {
 ```
 
 render()方法中编写自定义的页面渲染代码,getContentType()中返回响应的MIME类型,响应编码的问题已由`CharacterEncodingFilter`过滤器解决,所以只需要指定MIME类型即可
+
+## 表单标签
+
+通过SpringMVC的表单标签可以实现将模型数据中的属性和HTML表单元素相绑定，以实现表单数据更便捷编辑和表单值的回显
+
+`<form:input>`标签中path属性是必须的,它代替了原生`<input>`标签中的name属性(提交的参数名),同时也表示需要回显的数据属性名
+
+```html
+<form:form action="${emp.id}" method="post" modelAttribute="emp">
+    <input type="hidden" name="_method" value="put"/>
+    Email: <form:input type="text" path="email"/>
+    <br>
+    Gender:
+    Male<form:radiobutton path="gender" value="0"/>
+    Female<form:radiobutton path="gender" value="1"/>
+    <br>
+    Department:
+    <form:select path="department.id" items="${depts}" itemLabel="departmentName" itemValue="id"/>
+    <br>
+    <input type="submit" value="Submit">
+</form:form>
+```
+
+**NOTE**: 表单标签中指定的path属性,在隐含模型(请求域)的key为`command`的对象中必须存在,否则报500错误
+可以使用`<form:form>`的`ModelAttribute`属性更改原来的key(`command`)为自定义值
+
+## DispatcherServlet静态资源的处理
+
+在web.xml中配置的`DispatcherServlet`的`url-pattern`为`/`,导致Spring的前端处理器先于Tomcat的`DefaultServlet`(用于处理静态资源请求)处理请求,而`DispatcherServlet`又无法找到静态资源路径的处理器映射,无法响应静态资源,最后导致返回404
+
+解决方法: 在Spring配置文件中添加下列两行配置
+
+```xml
+
+<!-- Spring的DispatcherServlet无法解析的URI映射就交给WEB容器的默认Servlet处理(直接返回请求的静态资源,如果存在) -->
+<mvc:default-servlet-handler/>
+
+<!-- 开启注解模式,解决使用默认资源Servlet后,通过注解@Requestmapping映射的URI失效导致404的问题 -->
+<mvc:annotation-driven/>
+```
+
+## 数据转换 & 数据格式化 & 数据校验
+
+将提交的的请求参数封装到自定义对象中的过程称为数据的绑定,需要以下几步:
+
+1. 数据绑定期间的数据类型转换,将请求参数的String转换POJO中属性对应的Java类型
+2. 数据绑定期间的数据格式化
+3. 数据校验
+
+### 数据转换
+
+在`ModelAttributeMethodProcessor`类中`resolveArgument()`方法处理数据的绑定.其中存在一个类型为WebDataBinder的对象,该对象的实例域中`conversionService`用于数据类型的转换和格式化,`validators`用于存放数据校验的规则,`bindingResult`用于存放数据绑定后的结果集及报错信息.
+
+![data-bind](imgs/data-bind.png)
+
+#### 自定义类型转换器
+
+
+
+## 与Mybatis的整合
+
+### maven依赖
+
+```xml
+<dependencies>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-webmvc</artifactId>
+        <version>5.2.4.RELEASE</version>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-tx</artifactId>
+        <version>5.2.4.RELEASE</version>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-jdbc</artifactId>
+        <version>5.2.4.RELEASE</version>
+    </dependency>
+
+    <dependency>
+        <groupId>org.mybatis</groupId>
+        <artifactId>mybatis</artifactId>
+        <version>3.5.4</version>
+    </dependency>
+    <dependency>
+        <groupId>org.mybatis</groupId>
+        <artifactId>mybatis-spring</artifactId>
+        <version>2.0.4</version>
+    </dependency>
+
+    <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-core</artifactId>
+        <version>2.13.1</version>
+        <scope>runtime</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-api</artifactId>
+        <version>2.13.1</version>
+        <scope>provided</scope>
+    </dependency>
+
+</dependencies>
+```
+
+### Spring配置文件
+
+```xml
+<!-- 配置SqlSessionFactory,可以在spring.xml中设置属性的值,也可以指定外部的Mybatis配置文件 -->
+<bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sqlSessionFactory">
+    <property name="configLocation" value="classpath:mybatis.xml"/>
+    <property name="dataSource" ref="dataSource"/>
+</bean>
+
+<!-- 扫描所有基本包下的mapper代理对象,并加入到IOC容器中 -->
+<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+    <property name="basePackage" value="com.wuyue.mapper.intf"/>
+</bean>
+```

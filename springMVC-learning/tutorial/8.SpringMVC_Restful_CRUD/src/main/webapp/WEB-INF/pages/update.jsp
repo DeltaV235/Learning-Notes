@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   Created by IntelliJ IDEA.
   User: DeltaV
@@ -18,30 +19,18 @@
 </head>
 <body>
 <h3>Update Employee</h3>
-<form action="${requestScope.emp.id}" method="post">
+<form:form action="${emp.id}" method="post" modelAttribute="emp">
     <input type="hidden" name="_method" value="put"/>
-    Email: <input type="text" name="email" value="${requestScope.emp.email}"/>
+    Email: <form:input type="text" path="email"/>
     <br>
     Gender:
-    <c:if test="${requestScope.emp.gender==0}">
-        Male<input type="radio" name="gender" value="0" checked>
-        Female<input type="radio" name="gender" value="1">
-    </c:if>
-    <c:if test="${requestScope.emp.gender==1}">
-        Male<input type="radio" name="gender" value="0">
-        Female<input type="radio" name="gender" value="1" checked>
-    </c:if>
+    Male<form:radiobutton path="gender" value="0"/>
+    Female<form:radiobutton path="gender" value="1"/>
     <br>
     Department:
-    <select name="department.id">
-        <c:forEach items="${requestScope.depts}" var="dept">
-            <option value="${dept.id}"
-                    <c:if test="${requestScope.emp.department.id == dept.id}">selected</c:if>>${dept.departmentName}
-            </option>
-        </c:forEach>
-    </select>
+    <form:select path="department.id" items="${depts}" itemLabel="departmentName" itemValue="id"/>
     <br>
     <input type="submit" value="Submit">
-</form>
+</form:form>
 </body>
 </html>
