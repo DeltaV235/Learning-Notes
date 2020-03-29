@@ -435,6 +435,8 @@ SpringMVC能够自动地将请求参数(GET/POST都可以)封装到一个pojo中
 2）、还可以级联封装,属性的属性
 3）、请求参数的参数名和对象中的属性名一一对应就行
 
+**NOTE**: 封装好的POJO将自动的放入请求域中(隐含模型中,隐含模型的中的数据最终将封装至请求域中)
+
 ```java
  @RequestMapping("/book")
 public String handle04(Book book) {
@@ -927,6 +929,184 @@ SpringConfig.xml:
 
 **NOTE**: 自定义的Converter不会覆盖ConversionSerivce中原有的默认Converter
 
+### 数据格式化
+
+在实体类属性上使用`@DateTimeFormat()`等注解能够指定该属性绑定的请求参数的格式
+
+```java
+@DateTimeFormat(pattern="yyyy-MM-dd")
+private Date birth = new Date();
+```
+
+并且自定义`ConversionService`的实现类要更换为`FormattingConversionService`才能支持数据格式化的功能,或使用默认的`ConversionService`
+
+```xml
+<!-- 以后写自定义类型转换器的时候，就使用FormattingConversionServiceFactoryBean来注册；
+既具有类型转换还有格式化功能 -->
+<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+    <!--converters转换器中添加我们自定义的类型转换器  -->
+    <property name="converters">
+        <set>
+            <bean class="com.atguigu.component.MyStringToEmployeeConverter"></bean>
+        </set>
+    </property>
+</bean>
+```
+
+### 数据校验
+
+1.添加Hibernate Validator第三方校验依赖
+
+```xml
+ <dependency>
+    <groupId>org.hibernate.validator</groupId>
+    <artifactId>hibernate-validator</artifactId>
+    <version>6.1.2.Final</version>
+</dependency>
+<dependency>
+    <groupId>org.hibernate.validator</groupId>
+    <artifactId>hibernate-validator-annotation-processor</artifactId>
+    <version>6.1.2.Final</version>
+</dependency>
+```
+
+2.给需要校验的JavaBean属性加上注解
+
+```java
+@NotEmpty
+@Length(min = 6, max = 18)
+private String lastName;
+
+@Email
+private String email;
+```
+
+3.在SpringMVC将请求参数封装为bean时,告诉SpringMVC这个JavaBean需要校验.使用`@Valid`注解标注形参
+
+```java
+public String addEmp(@Valid Employee employee) {...}
+```
+
+4.在被`@Valid`修饰的形参后紧跟一个类型为`BindingResult`的形参,则个参数会传入前一个bean的校验结果
+
+```java
+public String update(@Valid Employee employee, BindingResult result, @Valid Department dept, BindingResult detpResult) {
+    // 如果校验存在错误
+    if (result.hasError()) {
+        // doSomething
+        return "error";
+    }
+
+    // 否则
+    return "page";
+}
+```
+
+5.页面可是使用`<form:errors path="JavaBeanProperty">`取出错误信息
+
+**NOTE**: 若Tomcat版本低于7.0,还需要导入javax-el.jar. 即便校验不合法,数据也会被封装到Bean中!需要通过BindingResult参数判断数据是否合法
+
+可以将BindingResult中的FieldErrors中的字段名和错误信息放入请求域中,在页面中再通过EL取出错误信息
+
+```java
+HashMap<String, String> errors = new HashMap<>();
+List<FieldError> fieldErrors = result.getFieldErrors();
+for (FieldError fieldError : fieldErrors) {
+    errors.put(fieldError.getField(), fieldError.getDefaultMessage());
+}
+model.addAttribute("errors", errors);
+```
+
+**message属性**
+校验字段注解可以设置message属性来指定错误信息
+
+### 国际化
+
+1. 创建用于国际化的properties
+2. 在Spring配置文件中注册组件
+
+#### 坑
+
+Maven内置的Tomcat7没有el-api3.0.jar这个包,导致服务器启动时无法初始化IOC容器,而在Maven的POM直接导入该依赖则会与Tomcat中存在的el-api.jar冲突  
+最终通过降低`hibernate-validator`版本后解决
+
+pom.xml
+
+```xml
+<dependency>
+    <groupId>org.hibernate</groupId>
+    <artifactId>hibernate-validator</artifactId>
+    <version>5.4.3.Final</version>
+</dependency>
+<dependency>
+    <groupId>org.hibernate</groupId>
+    <artifactId>hibernate-validator-annotation-processor</artifactId>
+    <version>5.4.3.Final</version>
+</dependency>
+```
+
+---
+
+错误原因：
+
+在搭建 SSM 的时候用到校验功能，使用了性能比较好的 **hibernate-validator**
+
+使用的版本是 6.0+ ，然后运行报错：
+
+具体的错误信息已经记不清了，主要是：`java.lang.NoClassDefFoundError: javax/el/ELManager` 这一句，很明细是缺少这个 el 的依赖，然后找了个依赖加入：
+
+``` xml
+<dependency>
+    <groupId>javax.el</groupId>
+    <artifactId>javax.el-api</artifactId>
+    <version>3.0.0</version>
+</dependency>
+```
+
+后来在 Maven 的页面看到它需要 el-api 3.0+ 的依赖，好吧.....
+
+加入后刚开始测试还不错，后来发现只要访问页面就会报另一个错误，大体是：
+
+``` java
+java.lang.LinkageError: loader constraint violation: when resolving....
+javax.servlet.ServletException: java.lang.NoSuchMethodError.....
+```
+
+然后搜索后答案多数是因为 Tomcat 已经有相关依赖，el 这个包是多余的，我观察了下 Tomcat 的 lib 目录里确实有这个包
+
+然后我就把它的作用域改为了： `<scope>provided</scope>`
+
+但是这样就启动不起来了和最开始的错误一样，这样就等于回到了原点....
+
+**解决**
+原因还是因为版本的问题，版本太高了......
+
+起码在 `hibernate-validator5.4+` 开始就开始依赖 `el-api 3.0+` 的版本，但是我用的 Tomcat7.0 自带的 el-api 包是 2.2 的版本
+
+所以：
+
+1. 升级 Tomcat 为 8.0+ 这样默认的 el-api 是 3.0+ 的，就不会有冲突了
+2. 降级 hibernate-validator 版本
+
+我采用的是降级 hibernate-validator ，降级到依赖为 2.2 左右的版本，这样连 el-api 的依赖都不需要导了
+
+[参考](https://stackoverflow.com/questions/45841464/java-lang-noclassdeffounderror-javax-el-elmanager)
+
+上文转至: [原文链接](https://github.com/bfchengnuo/MyRecord/blob/master/FixException/NoClassDefFoundError-javax.el.ELManager%E9%94%99%E8%AF%AF.md)
+
+---
+
+看了网上所说，把tomcat/lib下的el-api.jar拷贝到D:\xxx\jdk1.8.0_121\jre\lib\ext发现还是一样的异常；
+
+反编译el-api的确没有ElManager，在el-api3.0才引入
+
+so ,下载el-api3.0.jar,放到jdk或者只放tomcat/lib都可；（直接使用tomcat8也可解决）
+
+版权声明：本文为CSDN博主「yeliping2011」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。
+[原文链接](https://blog.csdn.net/yeliping2011/java/article/details/79571597)
+
+---
+
 ## \<mvc:default-servlet-handler>标签
 
 使DispathcerServlet将无法映射的URI交给Tomcat的DefaultServlet处理,直接响应静态资源的字符信息
@@ -946,7 +1126,7 @@ SpringConfig.xml:
 
 BeanDefinitionParser接口的实现类用于解析Spring配置文件中的各种标签,其中`AnnotationDrivenBeanDefinitionParser`用于解析`<mvc:annotation-driven>`标签
 
-在使用了`<mvc:default-servlet-handler>`标签后,`RequestMappingHandlerMapping`和`RequestMappingHandlerAdapter`会消失,而加了`<mvc:annotation-driven>`标签后,用于解析注解的`RequestMappingHandlerMapping`和`RequestMappingHandlerAdapter`将重新加入到`HandlerMappings`和`HandlerAdapters`中
+在使用了`<mvc:default-servlet-handler>`标签后,`RequestMappingHandlerMapping`和`RequestMappingHandlerAdapter`会消失,而加了`<mvc:annotation-driven>`标签后,用于解析注解的`RequestMappingHandlerMapping`和`RequestMappingHandlerAdapter`将重新加入到`HandlerMappings`和`HandlerAdapters`中,并且先于`SimpleUrlHandlerAdapter`运行.也就是说先查找有没有请求路径映射的处理器,有就处理,没有就交给Tomcat处理.
 
 `<mvc:annotation-driven />` 会自动注册RequestMappingHandlerMapping 、RequestMappingHandlerAdapter 与 ExceptionHandlerExceptionResolver  三个bean。
 
@@ -956,6 +1136,10 @@ BeanDefinitionParser接口的实现类用于解析Spring配置文件中的各种
 - 支持使用 @NumberFormat annotation、@DateTimeFormat 注解完成数据类型的格式化
 - 支持使用 @Valid 注解对 JavaBean 实例进行 JSR 303 验证
 - 支持使用 @RequestBody 和 @ResponseBody 注解
+
+## SpringMVC处理ajax请求
+
+使用`@ResponseBody
 
 ## 与Mybatis的整合
 

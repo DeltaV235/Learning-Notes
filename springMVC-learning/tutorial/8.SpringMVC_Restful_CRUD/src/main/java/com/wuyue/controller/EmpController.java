@@ -9,13 +9,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * @author DeltaV235
@@ -67,6 +72,7 @@ public class EmpController {
     @Transactional
     @RequestMapping(value = "/emp", method = RequestMethod.POST)
     public String add(Employee employee) {
+        System.out.println(employee);
         employeeMapper.save(employee);
         return "redirect:/emps";
     }
@@ -78,7 +84,7 @@ public class EmpController {
     public String updatePage(@PathVariable("id") Integer id, Model model) {
         Employee employee = employeeMapper.get(id);
         Collection<Department> departments = departmentMapper.getDepartments();
-        model.addAttribute("emp", employee).addAttribute("depts", departments);
+        model.addAttribute("employee", employee).addAttribute("depts", departments);
         return "update";
     }
 
@@ -87,10 +93,21 @@ public class EmpController {
      */
     @Transactional
     @RequestMapping(value = "/emp/{id}", method = RequestMethod.PUT)
-    public String update(@PathVariable("id") Integer id, Employee employee) {
-        employee.setId(id);
-        employeeMapper.update(employee);
-        return "redirect:/emps";
+    public String update(Model model, @Valid Employee employee, BindingResult result, @PathVariable("id") Integer id) {
+        System.out.println(employee);
+        if (!result.hasErrors()) {
+            employee.setId(id);
+            employeeMapper.update(employee);
+            return "redirect:/emps";
+        }
+        HashMap<String, String> errors = new HashMap<>();
+        List<FieldError> fieldErrors = result.getFieldErrors();
+        for (FieldError fieldError : fieldErrors) {
+            errors.put(fieldError.getField(), fieldError.getDefaultMessage());
+        }
+        model.addAttribute("errors", errors);
+        model.addAttribute("depts", departmentMapper.getDepartments());
+        return "update";
     }
 
     /**

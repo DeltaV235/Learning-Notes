@@ -1,10 +1,16 @@
 package com.wuyue.model.entities;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
+
 public class Employee {
 
     private Integer id;
+
     private String lastName;
 
+    @Email
+    @Length(min = 10)
     private String email;
     //0 male, 1 female
     private Integer gender;

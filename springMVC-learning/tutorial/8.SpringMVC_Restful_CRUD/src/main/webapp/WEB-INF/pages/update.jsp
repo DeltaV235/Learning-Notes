@@ -19,9 +19,9 @@
 </head>
 <body>
 <h3>Update Employee</h3>
-<form:form action="${emp.id}" method="post" modelAttribute="emp">
+<form:form action="${employee.id}" method="post" modelAttribute="employee">
     <input type="hidden" name="_method" value="put"/>
-    Email: <form:input type="text" path="email"/>
+    Email: <form:input type="text" path="email"/><form:errors path="email"/>&nbsp;${requestScope.errors.email}
     <br>
     Gender:
     Male<form:radiobutton path="gender" value="0"/>
