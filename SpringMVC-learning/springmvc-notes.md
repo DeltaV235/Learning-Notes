@@ -1178,7 +1178,8 @@ private Department department;
 ```
 
 **NOTE**  
-通过这种方式发送的响应,ContentType自动变为`application/json`所以不需要用户手动设置response的ContentType,或者在`$.ajax`的`data`中设置响应数据MIME类型
+通过这种方式发送的响应,ContentType自动变为`application/json`所以不需要用户手动设置response的ContentType,或者在`$.ajax`的`data`中设置响应数据MIME类型.  
+**视图解析器不再工作**
 
 ![response-content-type](imgs/response-content-type.png)
 
@@ -1266,6 +1267,9 @@ public ResponseEntity<String> test02() {
 }
 ```
 
+**NOTE**
+**视图解析器不再工作**
+
 #### 文件下载
 
 由于浏览器会自动解析能够解析的数据,所以需要在响应头中指定`Content-Disposition:attachment;filename=filename`才能使浏览器直接下载所有类型的文件.  
@@ -1288,6 +1292,81 @@ public ResponseEntity<byte[]> downloadFile(HttpServletRequest request) throws IO
     headers.add("Content-Disposition", "attachment;filename=" + file.getName());
     // 返回响应实体
     return new ResponseEntity<>(fileBytes, headers, HttpStatus.OK);
+}
+```
+
+## HttpMessageConverter\<T\>
+
+一个用于转换封装请求/响应数据的接口,用于处理Spring无法处理的参数或返回类型,如`byte[]` `HttpEntity` `ResponseEntity`等
+
+## 文件上传
+
+0.文件上传表单的准备
+
+```html
+<html>
+<head>
+    <title>File Upload</title>
+    <%
+        pageContext.setAttribute("ctp", request.getContextPath());
+    %>
+</head>
+<body>
+${requestScope.msg}
+<form action="${ctp}/upload" method="post" enctype="multipart/form-data">
+    用户名: <input type="text" name="username"><br>
+    文件上传: <input type="file" name="userFile"><br>
+    <input type="submit" value="上传">
+</form>
+</body>
+</html>
+```
+
+1.导入依赖包
+
+```xml
+<!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
+<dependency>
+    <groupId>commons-fileupload</groupId>
+    <artifactId>commons-fileupload</artifactId>
+    <version>1.4</version>
+</dependency>
+```
+
+2.在Spring配置文件中配置`MultipartResolver`文件上传解析器.  
+由于`MultipartResolver`组件在初始化的时候会从IOC容器中获取一个id为"multipartResolver"的bean,若没有则`MultipartResolver`为null.所以用户注册的`MultipartResolver`实现类的id应该为"multipartResolver",这样在`DispatcherServlet`初始化的时候文件上传解析器才能够初始化用户配置的解析器.  
+在这里`MultipartResolver`的实现类为`CommonsMultipartResolver`
+
+```xml
+<bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver">
+    <!-- 设置表单中其他字段(非文件上传的Input)值的编码字符集 -->
+    <property name="defaultEncoding" value="utf-8"/>
+    <!-- 文件的最大大小为 50MB -->
+    <property name="maxUploadSize" value="#{1024 * 1024 * 50}"/>
+</bean>
+```
+
+3.在HandlerMethod中参数列表中,加入一个类型为MultipartFile的形参,该参数会保存文件信息
+
+```java
+@RequestMapping("/upload")
+public String upload(String username,
+                        @RequestParam(value = "userFile", required = false) MultipartFile file,
+                        Model model) {
+    // 表单中input的name
+    System.out.println(file.getName());
+    // 文件的名字
+    System.out.println(file.getOriginalFilename());
+    try {
+        // 保存文件到指定位置
+        file.transferTo(new File("file/" + file.getOriginalFilename()));
+        model.addAttribute("msg", "文件上传成功");
+    } catch (IOException e) {
+        e.printStackTrace();
+        model.addAttribute("msg", "文件上传失败");
+    } finally {
+        return "forward:/index.jsp";
+    }
 }
 ```
 
