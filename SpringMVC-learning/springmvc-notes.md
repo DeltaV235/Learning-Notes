@@ -1139,7 +1139,157 @@ BeanDefinitionParser接口的实现类用于解析Spring配置文件中的各种
 
 ## SpringMVC处理ajax请求
 
-使用`@ResponseBody
+### @ResponseBody
+
+使用`@ResponseBody`修饰的方法的对象类型返回值会自动的转换为json格式的响应,发送给客户端,而不再是交给View处理响应内容  
+将自定义类转换成json格式数据需要使用Jackson  
+`@ResponseBody`也能够直接指定响应体的内容,若返回值为String,则直接设置响应体为返回的String对象
+
+1.依赖包 jackson-databind
+
+pom.xml
+
+```xml
+<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.10.3</version>
+</dependency>
+```
+
+2.在响应ajax的hanler方法上标注`@ResponseBody`注解
+
+```java
+@ResponseBody
+@RequestMapping("/ajax")
+public Collection<Employee> ajaxGetAll() {
+    Collection<Employee> employees = employeeMapper.getAll();
+    return employees;
+}
+```
+
+3.在实体类的属性中可以使用`@JsonIgnore` `@JsonFormat`等注解控制各属性转换Json时的行为
+
+```java
+// 该对象转为Json时,忽略该属性值
+@JsonIgnore
+private Department department;
+```
+
+**NOTE**  
+通过这种方式发送的响应,ContentType自动变为`application/json`所以不需要用户手动设置response的ContentType,或者在`$.ajax`的`data`中设置响应数据MIME类型
+
+![response-content-type](imgs/response-content-type.png)
+
+### @RequestBody
+
+将请求体中的内容作为参数传入处理方法中
+
+```java
+@RequestMapping("/req")
+public String reqBodyTest(@RequestBody String body){
+    System.out.println(body);
+    return "success";
+}
+```
+
+**NOTE**: 只有**POST**请求有方法体参数.
+
+`@RequestBody`也能够将Json格式的请求体自动封装到Bean中  
+**NOTE**: 客户端应该发送**Json字符串**作为请求体到服务端,而不是直接将JS对象发送,并且指定**ContentType**为`application/json`,这样服务端才能正确将请求体中的Json字符串封装至参数中,否则Status Code = 415 Unsupported Media Type
+
+```javascript
+// JavaScript对象,typeof = Object
+let jsonInfo = {lastName: "wuyue", gender: "0", email: "wuyue@gmail.com"};
+
+// 有JS对象转成的JSON字符串
+let jsonStringInfo = JSON.stringify(jsonInfo);
+
+// 发送AJAX请求
+$.ajax(
+    {
+        // ${ctp} = ContextPath 项目路径
+        url: "${ctp}/reqEmp",
+
+        // 只有POST请求才能将请求参数放入请求体中,才能将JSON自动封装至Bean中
+        type: "POST",
+
+        // 发送JSON字符串
+        data: jsonStringInfo,
+
+        success: function (data) {
+            console.log(typeof data);
+            console.log(data)
+        },
+
+        // 并指定请求数据的MIME类型,告诉服务器发送的数据是JSON,这样才能正确的封装数据
+        contentType:"application/json"
+    }
+)
+```
+
+### HttpEntity<>
+
+作为Handler的形参传入方法,相比于`@RequestBody`,HttpEntity不仅能拿到请求体,并且可以拿到请求头信息
+
+```java
+@RequestMapping("/test01")
+public String test01(HttpEntity<String> entity) {
+    System.out.println(entity);
+    return "forward:/emps";
+}
+```
+
+**output**:
+
+```shell
+name=wuyue&age=18,[user-agent:"PostmanRuntime/7.22.0", accept:"*/*", cache-control:"no-cache", postman-token:"dd80ebb8-b39f-4ce1-983f-4f3762e081f0", host:"localhost", accept-encoding:"gzip, deflate, br", content-length:"17", cookie:"JSESSIONID=E1C28CB2A64C4DDE1C3C4002C75B1589", connection:"keep-alive", Content-Type:"application/x-www-form-urlencoded;charset=UTF-8"]>
+```
+
+### ResponseEntity<>
+
+作为Handler方法返回类型,能够直接设置响应体和响应头的内容,其中的泛型为响应体的数据类型
+
+```java
+@RequestMapping("/test02")
+public ResponseEntity<String> test02() {
+    // 响应体
+    String body = "<h1>HelloWorld</h1>";
+    // 响应头
+    MultiValueMap<String, String> header = new HttpHeaders();
+    header.add("Set-Cookie", "test=teardrop");
+    // 响应状态码
+    HttpStatus status = HttpStatus.OK;
+    // 返回ResponseEntity
+    return new ResponseEntity<String>(body, header, status);
+}
+```
+
+#### 文件下载
+
+由于浏览器会自动解析能够解析的数据,所以需要在响应头中指定`Content-Disposition:attachment;filename=filename`才能使浏览器直接下载所有类型的文件.  
+由于需要设置响应头中的字段,所以需要使用`ResponseEntity<byte[]>`来实现
+
+Spring的实现,使用了Servlet的原生对象,用于获取项目目录下文件的服务器真实路径:
+
+```java
+@RequestMapping("/download")
+public ResponseEntity<byte[]> downloadFile(HttpServletRequest request) throws IOException {
+    String location = request.getServletContext().getRealPath("/scripts/jquery-1.9.1.min.js");
+    File file = new File(location);
+    // 获取文件输入流
+    FileInputStream fis = new FileInputStream(file);
+    // 将文件全部写入字节数组中
+    byte[] fileBytes = new byte[fis.available()];
+    fis.read(fileBytes);
+    // 设置响应头
+    HttpHeaders headers = new HttpHeaders();
+    headers.add("Content-Disposition", "attachment;filename=" + file.getName());
+    // 返回响应实体
+    return new ResponseEntity<>(fileBytes, headers, HttpStatus.OK);
+}
+```
 
 ## 与Mybatis的整合
 

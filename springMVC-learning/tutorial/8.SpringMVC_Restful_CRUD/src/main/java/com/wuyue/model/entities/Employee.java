@@ -1,5 +1,7 @@
 package com.wuyue.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 
@@ -15,6 +17,7 @@ public class Employee {
     //0 male, 1 female
     private Integer gender;
 
+    @JsonIgnore
     private Department department;
 
     public Integer getId() {
