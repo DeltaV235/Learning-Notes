@@ -24,4 +24,12 @@
         <property name="maxUploadSize" value="#{1024 * 1024 * 50}"/>
     </bean>
 
+    <mvc:interceptors>
+        <bean class="com.wuyue.interceptor.MyInterceptor"/>
+        <mvc:interceptor>
+            <mvc:mapping path="/test01"/>
+            <bean class="com.wuyue.interceptor.SecondInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
 </beans>

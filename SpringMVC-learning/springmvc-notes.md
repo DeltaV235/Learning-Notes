@@ -1360,6 +1360,7 @@ public String upload(String username,
     try {
         // 保存文件到指定位置
         file.transferTo(new File("file/" + file.getOriginalFilename()));
+        // 将成功信息保存到请求域中
         model.addAttribute("msg", "文件上传成功");
     } catch (IOException e) {
         e.printStackTrace();
@@ -1369,6 +1370,337 @@ public String upload(String username,
     }
 }
 ```
+
+### 多文件上传
+
+参数位置使用MultipartFile[]替代,若name不同,则设置多个MultipartFile参数
+
+```java
+@RequestMapping("/upload")
+public String upload(String username,
+                        @RequestParam(value = "userFile", required = false) MultipartFile[] file,
+                        Model model) {
+    try {
+        for (MultipartFile multipartFile : file) {
+            // 判断在表单中的input标签中,是否上传了文件,如果有则保存文件
+            if (!multipartFile.isEmpty()) {
+                multipartFile.transferTo(new File("/file/" + multipartFile.getOriginalFilename()));
+                System.out.println(new File("/file/" + multipartFile.getOriginalFilename()).getAbsolutePath());
+            }
+        }
+        model.addAttribute("msg", "文件上传成功");
+    } catch (IOException e) {
+        model.addAttribute("msg", "文件上传失败" + e.getMessage());
+    } finally {
+        return "forward:/index.jsp";
+    }
+}
+```
+
+## 拦截器
+
+SpringMVC提供了拦截器机制,允许运行目标方法之前进行一些拦截工作,或者目标方法运行之后进行一些其他处理  
+类似于JavaWeb的Filter
+
+1.拦截器是一个接口  
+需要实现以下3个方法:
+
+- preHandle: 在目标方法运行之前调用;返回boolean,return true:(chain.doFilter())放行; return false:不放行
+- postHandle: 在目标方法运行之后调用,目标方法调用之后
+- afterCompletion: 在请求整个完成之后,来到目标页面之后,chain.doFilter()放行,资源响应之后；
+
+2.实现HandlerInterceptor接口
+
+```java
+public class MyInterceptor implements HandlerInterceptor {
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        System.out.println("perHandler");
+        return true;
+    }
+
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+
+        System.out.println("postHandler");
+    }
+
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        System.out.println("afterCompletion");
+    }
+}
+```
+
+3.配置拦截器
+
+Spring.xml:
+
+```xml
+<mvc:interceptors>
+    <!-- 配置某个拦截器,默认是拦截所有请求的 -->
+    <bean class="com.wuyue.controller.MyInterceptor"></bean>
+
+    <!-- 配置某个拦截器更详细的信息 -->
+    <mvc:interceptor>
+        <!-- 只来拦截test01请求 -->
+        <mvc:mapping path="/test01"/>
+        <bean class="com.wuyue.controller.MySecondInterceptor"></bean>
+    </mvc:interceptor>
+</mvc:interceptors>
+```
+
+**拦截器的运行流程**
+**正常运行流程**
+拦截器的preHandle------>目标方法------>拦截器postHandle------>页面------->拦截器的afterCompletion;
+
+```html
+perHandler
+handlerMethod
+postHandler
+view render completed
+afterCompletion
+```
+
+**其他流程**
+1、只要preHandle不放行就没有以后的流程
+2、只要放行了,无论调用链中发生什么异常,afterCompletion都会执行
+
+### 多个拦截器
+
+**正常流程**:
+
+```html
+perHandler
+2..preHandle
+
+handlerMethod
+
+2..postHandler
+postHandler
+
+view render completed
+
+2..afterCompletion
+afterCompletion
+```
+
+- 多个拦截器的运行顺序为其配置的顺序
+- 拦截器的preHandle：是按照顺序执行
+- 拦截器的postHandle：是按照逆序执行
+- 拦截器的afterCompletion：是按照逆序执行
+- 已经放行了的拦截器的afterCompletion**总会执行**
+
+**异常流程**:
+1、不放行
+哪一块不放行从此以后都没有；
+MySecondInterceptor不放行；但是他前面已经放行了的拦截器的afterCompletion总会执行；
+
+```html
+MyFirstInterceptor...preHandle...
+MySecondInterceptor...preHandle...
+MyFirstInterceptor...afterCompletion
+```
+
+### 源码
+
+在`DispatcherServlet`的`doDispatch()`中
+
+**DispatcherServlet.doDispatch()**:
+
+```java
+mappedHandler = getHandler(processedRequest);
+```
+
+获取的mappedHandler中封装了处理请求的方法以及所有匹配到的拦截器,下图中包含了自定义的两个拦截器.`interceptorIndex`初始化为-1
+
+![mapperHandler-interceptors](imgs/mappedHandler-interceptors.png)
+
+---
+
+在`HandlerAdapter`真正执行目标方法之前,执行`mappedHandler`中所有的`interceptor`的`preHandle()`方法.只要其中一个拦截器返回`false`,则后续的代码都不执行,直接进入finally块中.
+
+**DispatcherServlet.doDispatch()**:
+
+```java
+if (!mappedHandler.applyPreHandle(processedRequest, response)) {
+    return;
+}
+
+// Actually invoke the handler.
+mv = ha.handle(processedRequest, response, mappedHandler.getHandler());
+```
+
+---
+
+**HandlerExecutionChain**:
+
+```java
+boolean applyPreHandle(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    HandlerInterceptor[] interceptors = getInterceptors();
+    if (!ObjectUtils.isEmpty(interceptors)) {
+        for (int i = 0; i < interceptors.length; i++) {
+            HandlerInterceptor interceptor = interceptors[i];
+            // 若该拦截器preHandle()返回false
+            if (!interceptor.preHandle(request, response, this.handler)) {
+                // 则执行正常运行的拦截器的afterCompletion()方法
+                triggerAfterCompletion(request, response, null);
+                return false;
+            }
+            // 记录已经执行了preHandle()方法的拦截器索引
+            this.interceptorIndex = i;
+        }
+    }
+    return true;
+}
+```
+
+在`mappedHandler.applyPreHandle()`方法中可以看到,如果其中一个拦截器的preHandle()方法返回false,则执行已经执行了preHandle的拦截器的afterCompletion()方法
+
+---
+
+**HandlerExecutionChain**:
+
+```java
+void triggerAfterCompletion(HttpServletRequest request, HttpServletResponse response, @Nullable Exception ex)
+        throws Exception {
+
+    HandlerInterceptor[] interceptors = getInterceptors();
+    if (!ObjectUtils.isEmpty(interceptors)) {
+        for (int i = this.interceptorIndex; i >= 0; i--) {
+            HandlerInterceptor interceptor = interceptors[i];
+            try {
+                interceptor.afterCompletion(request, response, this.handler, ex);
+            }
+            catch (Throwable ex2) {
+                logger.error("HandlerInterceptor.afterCompletion threw exception", ex2);
+            }
+        }
+    }
+}
+```
+
+从记录的拦截器索引开始,逆序执行拦截器的`afterCompletion()`方法
+
+---
+
+**DispatcherServlet**:
+
+```java
+// Actually invoke the handler.
+mv = ha.handle(processedRequest, response, mappedHandler.getHandler());
+
+if (asyncManager.isConcurrentHandlingStarted()) {
+return;
+}
+
+applyDefaultViewName(processedRequest, mv);
+mappedHandler.applyPostHandle(processedRequest, response, mv);
+```
+
+目标处理器方法执行完成之后,执行拦截器的postHandle()方法
+
+---
+
+```java
+void applyPostHandle(HttpServletRequest request, HttpServletResponse response, @Nullable ModelAndView mv)
+        throws Exception {
+
+    HandlerInterceptor[] interceptors = getInterceptors();
+    if (!ObjectUtils.isEmpty(interceptors)) {
+        for (int i = interceptors.length - 1; i >= 0; i--) {
+            HandlerInterceptor interceptor = interceptors[i];
+            interceptor.postHandle(request, response, this.handler, mv);
+        }
+    }
+}
+```
+
+同样逆序执行
+
+---
+
+**DispatcherServlet**:
+
+```java
+// 视图渲染
+    processDispatchResult(processedRequest, response, mappedHandler, mv, dispatchException);
+}
+catch (Exception ex) {
+    triggerAfterCompletion(processedRequest, response, mappedHandler, ex);
+}
+catch (Throwable err) {
+    triggerAfterCompletion(processedRequest, response, mappedHandler,
+            new NestedServletException("Handler processing failed", err));
+```
+
+可以看出,从拦截器`preHandle()`执行完之后,目标方法和页面渲染时发生的任何异常,都将被捕获,从而导致拦截器的`afterCompletion()`方法运行
+
+```java
+private void processDispatchResult(HttpServletRequest request, HttpServletResponse response,
+        @Nullable HandlerExecutionChain mappedHandler, @Nullable ModelAndView mv,
+        @Nullable Exception exception) throws Exception {
+
+    boolean errorView = false;
+
+    if (exception != null) {
+        if (exception instanceof ModelAndViewDefiningException) {
+            logger.debug("ModelAndViewDefiningException encountered", exception);
+            mv = ((ModelAndViewDefiningException) exception).getModelAndView();
+        }
+        else {
+            Object handler = (mappedHandler != null ? mappedHandler.getHandler() : null);
+            mv = processHandlerException(request, response, handler, exception);
+            errorView = (mv != null);
+        }
+    }
+
+    // Did the handler return a view to render?
+    if (mv != null && !mv.wasCleared()) {
+        // 视图渲染页面
+        render(mv, request, response);
+        if (errorView) {
+            WebUtils.clearErrorRequestAttributes(request);
+        }
+    }
+    else {
+        if (logger.isTraceEnabled()) {
+            logger.trace("No view rendering, null ModelAndView returned.");
+        }
+    }
+
+    if (WebAsyncUtils.getAsyncManager(request).isConcurrentHandlingStarted()) {
+        // Concurrent handling started during a forward
+        return;
+    }
+
+    if (mappedHandler != null) {
+        // Exception (if any) is already handled..
+        // 最后执行拦截器的afterCompletion()方法
+        mappedHandler.triggerAfterCompletion(request, response, null);
+    }
+}
+```
+
+---
+
+**总结**: 任何执行链上的异常都将导致执行中止,而已经执行了`preHandle()`方法的拦截器,最终都将执行其`afterHandle()`方法  
+当存在多个拦截器时,`preHandle()`正序索引执行,`postHandle()`和`afterCompletion()`逆序执行
+
+### 拦截器执行流程图
+
+**单个拦截器正常执行流程**
+![single-interceptor-normal](imgs/single-interceptor-normal.png)
+
+---
+
+**多拦截器正常执行流程**
+![multi-interceptor-normal](imgs/multi-interceptor-normal.png)
+
+---
+
+**多拦截器异常流程**
+![multi-interceptor-error](imgs/multi-interceptor-error.png)
 
 ## 与Mybatis的整合
 
