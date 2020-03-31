@@ -1702,6 +1702,235 @@ private void processDispatchResult(HttpServletRequest request, HttpServletRespon
 **多拦截器异常流程**
 ![multi-interceptor-error](imgs/multi-interceptor-error.png)
 
+### 拦截器和Filter的使用场景
+
+如果某些功能,需要其他组件配合完成,我们就使用拦截器  
+其他情况可以写filter,filter能够脱离Spring框架独立运行
+
+### NOTE
+
+<!-- 服务器内部的请求转发也会触发相应的拦截器工作 -->
+
+## 异常处理
+
+### 运行流程
+
+若在目标处理方法执行过程中发生异常,则异常捕获后,执行`processDispatchResult(processedRequest, response, mappedHandler, mv, dispatchException)`方法.  
+该方法在渲染页面前会试图调用异常解析器(HandlerExceptionResolver)处理异常
+
+```java
+mv = processHandlerException(request, response, handler, exception);
+```
+
+```java
+for (HandlerExceptionResolver resolver : this.handlerExceptionResolvers) {
+    exMv = resolver.resolveException(request, response, handler, ex);
+    if (exMv != null) {
+        break;
+    }
+}
+```
+
+若没有异常解析器能够处理,则将异常抛出
+
+```java
+catch (Exception ex) {
+    triggerAfterCompletion(processedRequest, response, mappedHandler, ex);
+}
+catch (Throwable err) {
+    triggerAfterCompletion(processedRequest, response, mappedHandler,
+            new NestedServletException("Handler processing failed", err));
+}
+```
+
+而`triggerAfterCompletion()`方法也仅仅是将异常继续外抛,最后web服务器接收到异常,返回500页面
+
+### @ExceptionHandler
+
+标注在方法上,表示该方法用于处理**本类**的异常
+
+- 该方法的形参位置只能传入一个异常类型参数,这个参数中保存了异常信息
+- 若需要先请求域中添加参数,则可以设置方法返回值类型为`ModelAndView`,并且可以指定返回的视图
+- 注解中的value值可以指定处理的异常类型
+
+```java
+// 该方法用于异常处理,且仅处理数学异常
+@ExceptionHandler(ArithmeticException.class)
+// 形参ex在该方法被调用使将传入真实的异常对象
+public ModelAndView exHandler(Exception ex) {
+    System.out.println("exHandler.." + ex);
+    // 将请求转发到/WEB-INF/pages/error.jsp页面
+    ModelAndView mv = new ModelAndView("error");
+    // 请求域中放入异常对象
+    mv.addObject("ex", ex);
+    return mv;
+}
+```
+
+**NOTE**: 若存在多个ExceptionHandler,则发生目标方法发生异常时,优先使用异常类型指定更精确的Handler.若存在两个处理同一异常类型的Handler则抛异常,导致直接向WEB服务器抛出异常
+
+#### 全局异常处理
+
+将异常处理方法写在一个类中,在这个类上标注`@ControllerAdvice`,则这个类中的异常处理方法将能够处理所有Controller抛出的异常,所有Controller的异常将在这个类中集中处理
+
+```java
+@ControllerAdvice
+public class ExHandler {
+    @ExceptionHandler(Exception.class)
+    public ModelAndView exHandler2(Exception ex) {
+        System.out.println("exHandler2.." + ex);
+        ModelAndView mv = new ModelAndView("error");
+        mv.addObject("ex", ex);
+        return mv;
+    }
+
+    @ExceptionHandler(ArithmeticException.class)
+    public ModelAndView exHandler(Exception ex) {
+        System.out.println("exHandler.." + ex);
+        ModelAndView mv = new ModelAndView("error");
+        mv.addObject("ex", ex);
+        return mv;
+    }
+}
+```
+
+**NOTE**: 全局异常处理与本类异常处理同时存在时,本类异常处理器优先执行,全局不执行
+
+### @ResponseStatus
+
+标注在自定义异常类上,当没有异常处理器能够处理这个自定义异常时,web服务器将显示注解中指定的错误信息和响应状态信息
+
+```java
+// 指定该异常抛出的原因,以及响应的状态码
+@ResponseStatus(reason = "NoUserFound", code = HttpStatus.FORBIDDEN)
+public class NoUserFoundException extends RuntimeException { }
+```
+
+![403-page](imgs/403-page.png)
+
+### DefaultHandlerExceptionResolver
+
+处理Spring的默认异常
+
+### SimpleMappingException
+
+配置在Spring配置文件中的异常解析器,若发生指定的异常,则直接渲染指定的页面
+
+**NOTE**: SimpleMappingException的优先级是最低的,只有前3个异常解析器无法处理时,才能执行
+
+Spring.xml:
+
+```xml
+<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+    <property name="exceptionMappings">
+        <!-- 该属性类型为properties -->
+        <props>
+            <!-- key为异常的全限定类名,value为返回给视图解析器的值 -->
+            <prop key="NullPointerException">error</prop>
+        </props>
+    </property>
+    <!-- 指定异常对象在请求域中的名字 -->
+    <property name="exceptionAttribute" value="ex"/>
+</bean>
+```
+
+## SpringMVC运行流程
+
+1. **所有请求，前端控制器（DispatcherServlet）收到请求，调用doDispatch进行处理**
+2. **根据HandlerMapping中保存的请求映射信息找到，处理当前请求的，处理器执行链（包含拦截器）**
+3. **根据当前处理器找到他的HandlerAdapter（适配器）**
+4. **拦截器的preHandle先执行**
+5. **适配器执行目标方法，并返回ModelAndView**
+    1. ModelAttribute注解标注的方法提前运行
+    2. 执行目标方法的时候（确定目标方法用的参数）
+        1. 有注解
+        2. 没注解
+            1. 看是否Model、Map以及其他的
+            2. 如果是自定义类型
+                - 从隐含模型中看有没有，如果有就从隐含模型中拿
+                - 如果没有，再看是否SessionAttributes标注的属性，如果是从Session中拿，如果拿不到会抛异常
+                - 都不是，就利用反射创建对象
+6. **拦截器的postHandle执行**
+7. **处理结果（页面渲染流程）**
+    1. 如果有异常使用异常解析器处理异常；处理完后还会返回ModelAndView
+    2. 调用render进行页面渲染
+        - 视图解析器根据视图名得到视图对象
+        - 视图对象调用render方法
+    3. 执行拦截器的afterCompletion
+
+**主要操作流程图**:
+
+![SpringMVC-Process](imgs/SpringMVC-Process.svg)
+
+## SpringMVC与Spring的整合
+
+SpringMVC和Spring整合的目的:分工明确
+SpringMVC的配置文件就来配置和网站转发逻辑以及网站功能有关的(视图解析器，文件上传解析器，支持ajax，xxx)
+Spring的配置文件来配置和业务有关的(事务控制，数据源，xxx)
+
+1.将Spring的配置文件导入到SpringMVC的配置文件中
+
+```xml
+<!-- 可以合并配置文件 -->
+<import resource="spring.xml"/>
+```
+
+2.SpringMVC和Spring分容器
+
+Spring管理业务逻辑组件:
+
+```xml
+<context:component-scan base-package="com.atguigu">
+    <!-- 将SpringMVC的组件排除掉,不注册到Spring的IOC容器中 -->
+    <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    <context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+</context:component-scan>
+```
+
+SpringMVC管理控制器组件
+
+```xml
+<!-- 禁用默认的包过滤器,不再扫描基包下的文件 -->
+<context:component-scan base-package="com.atguigu" use-default-filters="false">
+    <!-- 手动将需要Controller和ControllerAdice注解标识的类,注册到IOC容器中 -->
+    <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    <context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+</context:component-scan>
+```
+
+web.xml中添加ContextLoaderListener,在web容器启动时,先初始化Spring容器,并作为父容器,然后再初始化DispatherServlet的IOC容器
+
+```xml
+<listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+</listener>
+<context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>classpath:spring.xml</param-value>
+</context-param>
+```
+
+Spring是一个父容器,SpringMVC是一个子容器
+子容器可以引用父容器的组件
+父容器**不能**引用子容器的组件,类似Java的类继承机制
+
+Spring 的IoC容器可以建立父子层级关联的容器体系，子容器可以访问父容器中的Bean,但父容器不能访问子容器中的Bean。  
+在容器内，Bean的id必须是唯一的，但子容器可以拥有一个和父容器id相同的Bean。父子容器体系增强了Spring容器架构的扩展性和灵活性，第三方可以通过HierarchicalBeanFactory接口，为一个已经存在的容器添加一个或多个特殊用途的子容器，以提供一些额外的功能。
+
+在SpringMVC中，展现层Bean位于一个子容器中，而业务层和持久层的Bean位于父容器中，这样，展现层Bean就可以引用业务层和持久层的Bean，而业务层和持久层Bean则看不到展现层Bean。
+
+Spring父容器是通过在web.xml中配置ContextLoaderListener监听器，加载applicationContext.xml启动的。
+SpringMVC子容器是通过配置DispatcherServlet，加载springmvc.xml启动的。
+
+**注意事项**
+子容器可以访问父容器中的Bean，父容器不可以访问子容器中的Bean。
+SpringMVC Controller层有一个自己的容器，并且是Spring的子容器。
+
+子容器的初始化在父容器的后面。  
+在配置文件设置扫描包的层级时，Controller层与Service,Dao层必须严格限制在自己的配置文件扫描。  
+如果SpringMVC的配置文件扫包时包含了业务层和数据访问层的包，则在使用时，不能调用业务层和数据访问层的Bean；即使Spring配置文件包含了业务层和数据访问层包的扫描，也会被SpringMVC子容器的初始化覆盖。  
+SpringMVC与Spring使用的参数配置文件要分别独立，各自加载自己的参数配置文件。
+
 ## 与Mybatis的整合
 
 ### maven依赖

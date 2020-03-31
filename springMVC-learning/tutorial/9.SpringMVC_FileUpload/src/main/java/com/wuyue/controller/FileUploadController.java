@@ -1,5 +1,7 @@
 package com.wuyue.controller;
 
+import com.wuyue.service.MergeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +20,12 @@ import java.io.IOException;
  */
 @Controller
 public class FileUploadController {
+//    @Autowired
+    private MergeService service;
+
+    public FileUploadController() {
+        System.out.println("Controller...");
+    }
     //    @RequestMapping("/upload")
 //    public String upload(String username,
 //                         @RequestParam(value = "userFile", required = false) MultipartFile file,
@@ -36,6 +44,20 @@ public class FileUploadController {
 //            return "forward:/index.jsp";
 //        }
 //    }
+
+    @RequestMapping("/null")
+    public String simple() {
+        String str = null;
+        str.length();
+        return "success";
+    }
+
+    @RequestMapping("/login")
+    public String login(String username) {
+        if ("admin".equals(username))
+            return "success";
+        throw new NoUserFoundException();
+    }
 
     @RequestMapping("/test01")
     public String test01() {
