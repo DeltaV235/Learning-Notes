@@ -1937,6 +1937,7 @@ SpringMVC与Spring使用的参数配置文件要分别独立，各自加载自�
 
 ```xml
 <dependencies>
+    <!-- Spring和Spring实现的事务控制 -->
     <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-webmvc</artifactId>
@@ -1944,15 +1945,16 @@ SpringMVC与Spring使用的参数配置文件要分别独立，各自加载自�
     </dependency>
     <dependency>
         <groupId>org.springframework</groupId>
-        <artifactId>spring-tx</artifactId>
+        <artifactId>spring-jdbc</artifactId>
         <version>5.2.4.RELEASE</version>
     </dependency>
     <dependency>
         <groupId>org.springframework</groupId>
-        <artifactId>spring-jdbc</artifactId>
+        <artifactId>spring-aspects</artifactId>
         <version>5.2.4.RELEASE</version>
     </dependency>
 
+    <!-- Mybatis和Mybatis与Spring的整合包 -->
     <dependency>
         <groupId>org.mybatis</groupId>
         <artifactId>mybatis</artifactId>
@@ -1964,6 +1966,21 @@ SpringMVC与Spring使用的参数配置文件要分别独立，各自加载自�
         <version>2.0.4</version>
     </dependency>
 
+    <!-- 数据库驱动 -->
+    <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+        <version>8.0.19</version>
+    </dependency>
+
+    <!-- 数据库连接池 -->
+    <dependency>
+        <groupId>com.alibaba</groupId>
+        <artifactId>druid</artifactId>
+        <version>1.1.18</version>
+    </dependency>
+
+    <!-- 日志 -->
     <dependency>
         <groupId>org.apache.logging.log4j</groupId>
         <artifactId>log4j-core</artifactId>
@@ -1976,7 +1993,6 @@ SpringMVC与Spring使用的参数配置文件要分别独立，各自加载自�
         <version>2.13.1</version>
         <scope>provided</scope>
     </dependency>
-
 </dependencies>
 ```
 
@@ -1993,4 +2009,116 @@ SpringMVC与Spring使用的参数配置文件要分别独立，各自加载自�
 <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
     <property name="basePackage" value="com.wuyue.mapper.intf"/>
 </bean>
+```
+
+完成配置文件
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!-- 排斥了所有被SpringMVC容器管理的包 -->
+    <context:component-scan base-package="com.wuyue">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+        <context:exclude-filter type="annotation"
+                                expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+    </context:component-scan>
+
+    <!-- 引入外部properties文件 -->
+    <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+        <property name="location" value="classpath:databaseConfig.properties"/>
+    </bean>
+
+    <!-- 配置数据源 -->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <property name="url" value="${mysql.url}"/>
+        <property name="username" value="${mysql.username}"/>
+        <property name="password" value="${mysql.password}"/>
+
+        <property name="filters" value="stat"/>
+
+        <property name="maxActive" value="20"/>
+        <property name="initialSize" value="1"/>
+        <property name="maxWait" value="60000"/>
+        <property name="minIdle" value="1"/>
+
+        <property name="timeBetweenEvictionRunsMillis" value="60000"/>
+        <property name="minEvictableIdleTimeMillis" value="300000"/>
+
+        <property name="testWhileIdle" value="true"/>
+        <property name="testOnBorrow" value="false"/>
+        <property name="testOnReturn" value="false"/>
+
+        <property name="poolPreparedStatements" value="true"/>
+        <property name="maxOpenPreparedStatements" value="20"/>
+
+        <property name="asyncInit" value="true"/>
+    </bean>
+
+    <!-- 配置事务管理器,指定数据源 -->
+    <bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager" id="transactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!-- 配置事务通知,指定哪些方法被事务管理 -->
+    <tx:advice id="transactionInterceptor" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="*" rollback-for="java.lang.Exception"/>
+            <tx:method name="get*" read-only="true"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <!-- 配置事务通知的切入点表达式,指定哪些类要被事务管理器切面 -->
+    <aop:config>
+        <aop:advisor advice-ref="transactionInterceptor" pointcut="execution(* com.wuyue.service.*.*(..))"/>
+    </aop:config>
+
+    <!-- 配置Mybatis的SqlSessionFactory,所有Mybatis配置文件中的配置都能够在Spring容器中设置 -->
+    <bean class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!-- 配置数据源 -->
+        <property name="dataSource" ref="dataSource"/>
+        <!-- mapper文件的位置 -->
+        <property name="mapperLocations" value="classpath:mybatis/mapper/*"/>
+        <!-- 给包下的类取别名 -->
+        <property name="typeAliasesPackage" value="com.wuyue.entities"/>
+    </bean>
+    <!-- 将这个基本包下的所有实现的代理类加入到Spring的IOC容器中 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.wuyue.mapper"/>
+    </bean>
+</beans>
+```
+
+### SpringMVC配置文件
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!-- 只扫描基本包下包含@Controller和@ControllerAdvice注解标注的类 -->
+    <context:component-scan base-package="com.wuyue" use-default-filters="false">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+        <context:include-filter type="annotation"
+                                expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+    </context:component-scan>
+
+    <!-- DispathcerServlet无法处理的请求,交给WEB容器的DefaultServlet处理 -->
+    <mvc:default-servlet-handler/>
+    <!-- 注解驱动,保证由注解确定的映射能够正常运行 -->
+    <mvc:annotation-driven/>
+
+    <!-- 视图解析器,设置了Handler返回值的前后缀 -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/pages/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+</beans>
 ```

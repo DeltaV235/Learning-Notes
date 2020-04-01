@@ -5,15 +5,19 @@
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
+    <!-- 只扫描基本包下包含@Controller和@ControllerAdvice注解标注的类 -->
     <context:component-scan base-package="com.wuyue" use-default-filters="false">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
         <context:include-filter type="annotation"
                                 expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
     </context:component-scan>
 
+    <!-- DispathcerServlet无法处理的请求,交给WEB容器的DefaultServlet处理 -->
     <mvc:default-servlet-handler/>
+    <!-- 注解驱动,保证由注解确定的映射能够正常运行 -->
     <mvc:annotation-driven/>
 
+    <!-- 视图解析器,设置了Handler返回值的前后缀 -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/pages/"/>
         <property name="suffix" value=".jsp"/>

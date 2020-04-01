@@ -123,7 +123,6 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
-    <!-- 字符编码过滤器 -->
     <filter>
         <filter-name>encodingFilter</filter-name>
         <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>

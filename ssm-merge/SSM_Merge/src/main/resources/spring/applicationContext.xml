@@ -5,16 +5,19 @@
        xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
 
+    <!-- 排斥了所有被SpringMVC容器管理的包 -->
     <context:component-scan base-package="com.wuyue">
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
         <context:exclude-filter type="annotation"
                                 expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
     </context:component-scan>
 
+    <!-- 引入外部properties文件 -->
     <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
         <property name="location" value="classpath:databaseConfig.properties"/>
     </bean>
 
+    <!-- 配置数据源 -->
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
         <property name="url" value="${mysql.url}"/>
         <property name="username" value="${mysql.username}"/>
@@ -40,10 +43,12 @@
         <property name="asyncInit" value="true"/>
     </bean>
 
+    <!-- 配置事务管理器,指定数据源 -->
     <bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager" id="transactionManager">
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
+    <!-- 配置事务通知,指定哪些方法被事务管理 -->
     <tx:advice id="transactionInterceptor" transaction-manager="transactionManager">
         <tx:attributes>
             <tx:method name="*" rollback-for="java.lang.Exception"/>
@@ -51,15 +56,21 @@
         </tx:attributes>
     </tx:advice>
 
+    <!-- 配置事务通知的切入点表达式,指定哪些类要被事务管理器切面 -->
     <aop:config>
         <aop:advisor advice-ref="transactionInterceptor" pointcut="execution(* com.wuyue.service.*.*(..))"/>
     </aop:config>
 
+    <!-- 配置Mybatis的SqlSessionFactory,所有Mybatis配置文件中的配置都能够在Spring容器中设置 -->
     <bean class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!-- 配置数据源 -->
         <property name="dataSource" ref="dataSource"/>
+        <!-- mapper文件的位置 -->
         <property name="mapperLocations" value="classpath:mybatis/mapper/*"/>
+        <!-- 给包下的类取别名 -->
         <property name="typeAliasesPackage" value="com.wuyue.entities"/>
     </bean>
+    <!-- 将这个基本包下的所有实现的代理类加入到Spring的IOC容器中 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.wuyue.mapper"/>
     </bean>

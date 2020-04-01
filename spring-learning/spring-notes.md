@@ -834,7 +834,7 @@ A add 方法返回, 结果为 3
   <aop:pointcut expression="execution(* com.atguigu.impl.*.*(..))" id="globalPoint"/>
 
 
-  <!-- 普通前置  ===== 目标方法  =====(环绕执行后置/返回)====s普通后置====普通返回    -->
+  <!-- 普通前置  ===== 目标方法  =====(环绕执行后置/返回)====普通后置====普通返回    -->
   <!-- 2. 指定切面类：@Aspect -->
   <!-- 当前切面能用的切入点表达式 -->
   <aop:aspect ref="logUtils" order="1">
