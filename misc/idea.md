@@ -28,3 +28,20 @@
 22. color themes 有各种好看的主题，推荐sublime 3主题
 
 23. ANSI Highlighter 在IntelliJ编辑器下渲染ANSI转义序列
+
+## Shortcut
+
+`alt + insert`: 自动创建方法或文件解决错误等功能
+`ctrl + e`: 最近打开的文件
+`ctrl + shift + up/down`: 上移/下移语句或方法
+`ctrl + shift + F12`: 隐藏所有窗口,除了编辑器
+`shift + F12`: 恢复默认窗口布局
+`alt + 1`: 将焦点移至project窗口
+
+## Default Live Template
+
+`.var`: 声明一个变量
+`.if`: 将前面的对象用if进行包裹
+`iter`: 遍历最近的可遍历对象
+`sout`: System.out.println()
+`main/psvm`: public static void main(String[] args) {}
