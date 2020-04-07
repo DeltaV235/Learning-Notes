@@ -19,6 +19,8 @@ public class TestController {
     public String success(Model model) {
         model.addAttribute("msg", "<h1>SpringBoot</h1>");
         model.addAttribute("users", Arrays.asList("zhangsan", "lisi", "wangwu"));
+        if (true)
+            throw new RuntimeException();
         return "success";
     }
 }

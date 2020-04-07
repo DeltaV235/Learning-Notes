@@ -37,7 +37,7 @@ public class MyMvcConfig implements WebMvcConfigurer {
             @Override
             public void addInterceptors(InterceptorRegistry registry) {
                 registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**").excludePathPatterns("/",
-                        "/index.html", "/user/login", "/asserts/**", "/webjars/**");
+                        "/index.html", "/success", "/user/login", "/asserts/**", "/webjars/**","/error");
             }
         };
         return webMvcConfigurer;
