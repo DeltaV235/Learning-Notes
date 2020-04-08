@@ -2,6 +2,8 @@ server:
   servlet:
     context-path: /crud
   port: 80
+  tomcat:
+    uri-encoding: utf-8
 spring:
   messages:
     basename: i18n/login

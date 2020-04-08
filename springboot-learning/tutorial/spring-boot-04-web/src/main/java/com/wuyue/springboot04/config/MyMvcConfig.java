@@ -1,13 +1,23 @@
 package com.wuyue.springboot04.config;
 
+import com.wuyue.springboot04.filter.myFilter;
 import com.wuyue.springboot04.interceptor.LoginInterceptor;
+import com.wuyue.springboot04.listener.myListener;
 import com.wuyue.springboot04.message.MyMessageResolver;
+import com.wuyue.springboot04.servlet.MyServlet;
+import org.springframework.boot.web.server.ConfigurableWebServerFactory;
+import org.springframework.boot.web.server.WebServerFactoryCustomizer;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
+import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.Arrays;
 
 /**
  * @author DeltaV235
@@ -19,6 +29,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 //@EnableWebMvc
 @Configuration
 public class MyMvcConfig implements WebMvcConfigurer {
+
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/view").setViewName("success");
@@ -37,7 +48,7 @@ public class MyMvcConfig implements WebMvcConfigurer {
             @Override
             public void addInterceptors(InterceptorRegistry registry) {
                 registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**").excludePathPatterns("/",
-                        "/index.html", "/success", "/user/login", "/asserts/**", "/webjars/**","/error");
+                        "/index.html", "/success", "/user/login", "/asserts/**", "/webjars/**", "/error");
             }
         };
         return webMvcConfigurer;
@@ -46,5 +57,33 @@ public class MyMvcConfig implements WebMvcConfigurer {
     @Bean
     public LocaleResolver localeResolver() {
         return new MyMessageResolver();
+    }
+
+    @Bean
+    public WebServerFactoryCustomizer<ConfigurableWebServerFactory> webServerFactoryCustomizer() {
+        return new WebServerFactoryCustomizer<ConfigurableWebServerFactory>() {
+            @Override
+            public void customize(ConfigurableWebServerFactory factory) {
+                factory.setPort(19090);
+            }
+        };
+    }
+
+    @Bean
+    public ServletListenerRegistrationBean<myListener> myListener() {
+        return new ServletListenerRegistrationBean<>(new myListener());
+    }
+
+    @Bean
+    public FilterRegistrationBean<myFilter> myFilter() {
+        FilterRegistrationBean<myFilter> myFilter = new FilterRegistrationBean<>();
+        myFilter.setFilter(new myFilter());
+        myFilter.setUrlPatterns(Arrays.asList("/myServlet", "/hello"));
+        return myFilter;
+    }
+
+    @Bean
+    public ServletRegistrationBean<MyServlet> myServlet() {
+        return new ServletRegistrationBean<>(new MyServlet(), "/myServlet");
     }
 }

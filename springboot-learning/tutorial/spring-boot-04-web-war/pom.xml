@@ -9,9 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.wuyue</groupId>
-    <artifactId>spring-boot-04-web</artifactId>
+    <artifactId>spring-boot-04-web-war</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>spring-boot-04-web</name>
+    <packaging>war</packaging>
+    <name>spring-boot-04-web-war</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
@@ -22,24 +23,13 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-<!--            <exclusions>-->
-<!--                <exclusion>-->
-<!--                    <artifactId>spring-boot-starter-tomcat</artifactId>-->
-<!--                    <groupId>org.springframework.boot</groupId>-->
-<!--                </exclusion>-->
-<!--            </exclusions>-->
         </dependency>
-
-<!--        <dependency>-->
-<!--            <artifactId>spring-boot-starter-undertow</artifactId>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--        </dependency>-->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -50,17 +40,6 @@
                     <artifactId>junit-vintage-engine</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>jquery</artifactId>
-            <version>3.4.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>bootstrap</artifactId>
-            <version>4.4.1-1</version>
         </dependency>
     </dependencies>
 
