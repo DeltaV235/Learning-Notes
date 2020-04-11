@@ -39,10 +39,10 @@ Core Java
 ### 3.企业级应用框架
 
 - [x] maven/gradle项目管理工具
-- [ ] Spring全家桶(Spring, Spring MVC, Spring Boot)
+- [x] Spring全家桶(Spring, Spring MVC, Spring Boot)
 - [x] 关系型数据库相关(MySQL, jdbc, MyBatis, Hibernate)
 - [x] 非关系型数据库(Redis)
-- [ ] 模板引擎(thymeleaf, freemarker)
+- [x] 模板引擎(thymeleaf, freemarker)
 
 ### 4.高级应用框架
 
