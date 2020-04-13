@@ -1,24 +1,22 @@
 # MySQL笔记
 
-## MySQL相关命令行
+## 服务的停启
 
-### 服务的停启
-
-#### Linux
+### Linux
 
 ```bash
 sudo service mysql start
 sudo service mysql stop
 ```
 
-#### Windows
+### Windows
 
 ```bash
 net start mysql
 net stop mysql
 ```
 
-### 数据库的备份
+## 数据库的备份
 
 **备份：** mysqldump -u用户名 -p密码 数据库名称 > 保存的路径
 
@@ -29,7 +27,7 @@ net stop mysql
 3. 使用数据库
 4. 执行文件。source 文件路径
 
-### MySQL服务器的登录方式
+## MySQL服务器的登录方式
 
 ```bash
 mysql -u user -p
@@ -37,12 +35,49 @@ mysql -hhost -uuser -ppassword
 mysql --host=ip --user=user --password=password
 ```
 
+## MySQL的语法规范
+
+1. 不区分大小写,但建议关键字大写，表名、列名小写
+2. 每条命令最好用分号结尾
+3. 每条命令根据需要，可以进行缩进 或换行
+4. 注释
+单行注释：#注释文字
+单行注释：-- 注释文字
+多行注释：/* 注释文字  */
+
 ## SQL分类
 
 1. DDL(Data Definition Language) 数据定义语言。用来定义数据库对象:数据库、表、列等。关键字: create drop alter 等。
 2. DML(Data Manipulation Language) 数据操作语言。 用来对数据库中表的数据进行增删改。 关键字: insert delete update 等
 3. DQL(Data Query Language) 数据查询语言。 用来查询数据库中表的记录(数据)。 关键字: select where 等。
 4. DCL(Data Control Language) 数据控制语言。 用来定义数据库的访问权限和安全级别，及创建用户。 关键字: grant revoke 等。
+
+## 常用命令
+
+```sql
+1.查看当前所有的数据库
+  show databases;
+2.打开指定的库
+  use 库名
+3.查看当前库的所有表
+  show tables;
+4.查看其它库的所有表
+  show tables from 库名;
+5.创建表
+  create table 表名(
+    列名 列类型,
+    列名 列类型，
+  );
+6.查看表结构
+  desc 表名;
+7.查看服务器的版本
+方式一：登录到mysql服务端
+  select version();
+方式二：没有登录到mysql服务端
+  mysql --version
+  或
+  mysql --V
+```
 
 ## DDL
 
@@ -241,6 +276,226 @@ update 表名 set 列名1 = 值1, 列名2 = 值2,... [where 条件];
 
 1. 如果不加任何条件，则会将表中所有记录全部修改。
 
+## DQL
+
+### 基础查询
+
+​语法：
+​SELECT 要查询的东西
+​【FROM 表名】;
+
+特点：
+①通过select查询完的结果，是一个虚拟的表格，不是真实存在
+②要查询的东西 可以是常量值、可以是表达式、可以是字段、可以是函数
+
+### 条件查询
+
+条件查询：根据条件过滤原始表的数据，查询到想要的数据
+语法：
+
+```sql
+select
+要查询的字段|表达式|常量值|函数
+from
+表
+where
+条件 ;
+```
+
+分类：
+一、条件表达式
+示例：salary>10000
+条件运算符：
+
+```sql
+> < >= <= = != <>
+```
+
+二、逻辑表达式
+示例：salary>10000 && salary<20000
+
+逻辑运算符：
+
+`and（&&）`:两个条件如果同时成立，结果为true，否则为false
+`or(||)`:两个条件只要有一个成立，结果为true，否则为false
+`not(!)`:如果条件成立，则not后为false，否则为true
+
+三、模糊查询
+示例：
+
+```sql
+last_name like 'a%'
+```
+
+### 排序查询
+
+语法：
+
+```sql
+select
+要查询的东西
+from
+表
+where
+条件
+order by 排序的字段|表达式|函数|别名 【asc|desc】 ;
+```
+
+### 常见函数
+
+#### 单行函数
+
+每一行都将通过函数输出一个值
+
+##### 字符函数
+
+```sql
+concat(str1, str2, ...)                             # 拼接
+substr(str, index) / substr(str, index, length)     # 截取子串
+upper(str)                                          # 转换成大写
+lower(str)                                          # 转换成小写
+trim(str)                                           # 去前后指定的空格和字符
+ltrim(str)                                          # 去左边空格
+rtrim(str)                                          # 去右边空格
+replace(str, oldStr, newStr)                        # 替换
+lpad(str, 填充字符, 总字符数)                         # 左填充
+rpad                                                # 右填充
+instr(str, objStr)                                  # 返回子串第一次出现的索引
+length(str)                                         # 获取字节个数
+```
+
+##### 数学函数
+
+```sql
+round         四舍五入
+rand          随机数
+floor         向下取整
+ceil          向上取整
+mod           取余
+truncate      截断
+```
+
+##### 日期函数
+
+```sql
+now             当前系统日期+时间
+curdate         当前系统日期
+curtime         当前系统时间
+str_to_date     将字符转换成日期
+date_format     将日期转换成字符
+datediff        计算两个日期之间相差的天数
+```
+
+##### 流程控制函数
+
+if 处理双分支
+case语句 处理多分支
+情况1：处理等值判断
+情况2：处理条件判断
+
+##### 其他函数
+
+version版本
+database当前库
+user当前连接用户
+
+#### 分组函数
+
+```sql
+sum 求和
+max 最大值
+min 最小值
+avg 平均值
+count 计数
+```
+
+**特点**：
+1、以上五个分组函数都忽略null值，除了count(*)
+2、sum和avg一般用于处理数值型
+max、min、count可以处理任何数据类型
+3、都可以搭配distinct使用，用于统计去重后的结果
+4、count的参数可以支持：
+字段、*、常量值，一般放1
+
+建议使用 count(*)
+
+### 分组查询
+
+语法：
+
+```sql
+select 查询的字段，分组函数
+from 表
+group by 分组的字段
+```
+
+特点：
+1、可以按单个字段分组
+2、和分组函数一同查询的字段最好是分组后的字段
+3、分组筛选
+针对的表 位置 关键字
+分组前筛选： 原始表 group by的前面 where
+分组后筛选： 分组后的结果集 group by的后面 having
+
+4、可以按多个字段分组，字段之间用逗号隔开
+5、可以支持排序
+6、having后可以支持别名
+
+### 多表连接查询
+
+笛卡尔乘积：如果连接条件省略或无效则会出现
+解决办法：添加上连接条件
+
+一、传统模式下的连接 ：等值连接——非等值连接
+
+1.等值连接的结果 = 多个表的交集
+2.n表连接，至少需要n-1个连接条件
+3.多个表不分主次，没有顺序要求
+4.一般为表起别名，提高阅读性和性能
+
+二、sql99语法：通过join关键字实现连接
+
+含义：1999年推出的sql语法
+支持：
+等值连接、非等值连接 （内连接）
+外连接
+交叉连接
+
+语法：
+
+```sql
+select 字段，...
+from 表1
+【inner|left outer|right outer|cross】join 表2 on  连接条件
+【inner|left outer|right outer|cross】join 表3 on  连接条件
+【where 筛选条件】
+【group by 分组字段】
+【having 分组后的筛选条件】
+【order by 排序的字段或表达式】
+```
+
+好处：语句上，连接条件和筛选条件实现了分离，简洁明了！
+
+三、自连接
+
+案例：查询员工名和直接上级的名称
+
+sql99
+
+```sql
+SELECT e.last_name,m.last_name
+FROM employees e
+JOIN employees m ON e.`manager_id`=m.`employee_id`;
+```
+
+sql92
+
+```sql
+SELECT e.last_name,m.last_name
+FROM employees e,employees m
+WHERE e.`manager_id`=m.`employee_id`;
+```
+
 ## Chore
 
 MySQL表结构以及表数据默认存放于`/var/lib/mysql`下，一个Schema对应一个目录。
@@ -286,9 +541,9 @@ collation_server=utf8_general_ci
   查看设置：
 
 ```sql
-     show variables like 'character_set_client';  # 服务端使用这个编码来理解客户端发来的statements
-     show variables like 'character_set_connection' ; # 我还不知道什么意思，等看了mysql源码再说
-     show variables like 'character_set_results'; # 服务端使用这个编码回送结果集和错误信息
+show variables like 'character_set_client';       # 服务端使用这个编码来理解客户端发来的statements
+show variables like 'character_set_connection' ;  # 我还不知道什么意思，等看了mysql源码再说
+show variables like 'character_set_results';      # 服务端使用这个编码回送结果集和错误信息
 ```
 
 ### 对GROUP BY的理解
