@@ -111,9 +111,13 @@ SHOW CREATE DATABASE DBNAME;
 #### 修改数据库(Update)
 
 ```sql
+-- 修改数据库字符集
 ALTER {DATABASE|SCHEMA} [数据库名]
 [DEFAULT] CHARACTER SET [=] 字符集
 [DEFAULT] COLLATE [=] 校对规则名称
+
+-- 重命名数据库
+RENAME DATABASE books TO 新库名;
 ```
 
 #### 删除数据库(Delete)
@@ -230,6 +234,39 @@ DROP TABLE [IF EXISTS] <TABLE_NAME>;
 RENAME TABLE <表名1> TO <表名2>;
 ```
 
+#### 表的复制
+
+##### 1.仅仅复制表的结构
+
+```sql
+CREATE TABLE copy LIKE author;
+```
+
+##### 2.复制表的结构+数据
+
+```sql
+CREATE TABLE copy2
+SELECT * FROM author;
+```
+
+##### 3.只复制部分数据
+
+```sql
+CREATE TABLE copy3
+SELECT id,au_name
+FROM author
+WHERE nation='中国';
+```
+
+##### 4.仅仅复制某些字段
+
+```sql
+CREATE TABLE copy4
+SELECT id,au_name
+FROM author
+WHERE ...;
+```
+
 ## DML
 
 ### 1.添加数据
@@ -238,6 +275,7 @@ RENAME TABLE <表名1> TO <表名2>;
 
 ```sql
 insert into 表名(列名1,列名2,...列名n) values(值1,值2,...值n);
+insert into table_name set column1 = value1, column2 = value2 , ...;
 ```
 
 - **注意：**
@@ -248,6 +286,8 @@ insert into 表名(列名1,列名2,...列名n) values(值1,值2,...值n);
 3. 除了数字类型，其他类型需要使用引号(单双都可以)引起来
 4. 可以使用如下方式，一条SQL添加多条数据
 `insert into 表名 values (值1,值2,...值n), (值1,值2,...值n), ....;`
+5. values可以使用子查询代替
+`insert into 表名 select * from other_table;`
 
 ### 2.删除数据
 
@@ -255,6 +295,16 @@ insert into 表名(列名1,列名2,...列名n) values(值1,值2,...值n);
 
 ```sql
 delete from 表名 [where 条件]
+
+-- 多表删除
+delete table_name/alias
+from table1, table2
+where condition = value...;
+
+delete table_name/alias
+from table1 [[inner]/[[outer] left/right]] join
+table2 on contitions
+where conditions;
 ```
 
 - **注意：**
@@ -264,12 +314,25 @@ delete from 表名 [where 条件]
     1. `DELETE FROM 表名;` -- 不推荐使用。有多少条记录就会执行多少次删除操作
     2. `TRUNCATE TABLE 表名;` -- 推荐使用，效率更高 先删除表，然后再创建一张一样的表。
 
+1.truncate不能加where条件，而delete可以加where条件
+2.truncate的效率高
+3.truncate 删除带自增长的列的表后，如果再插入数据，数据从1开始
+delete 删除带自增长列的表后，如果再插入数据，数据从上一次的断点处开始
+4.truncate删除不能回滚，delete删除可以回滚
+
 ### 3.修改数据
 
 - **语法：**
 
 ```sql
 update 表名 set 列名1 = 值1, 列名2 = 值2,... [where 条件];
+
+-- 多表修改
+update 表1 别名
+inner|left|right join 表2 别名
+on 连接条件
+set 列=值,...
+where 筛选条件;
 ```
 
 - **注意：**
@@ -662,7 +725,7 @@ HAVING MIN(salary)>(
 );
 ```
 
-##### 2.列子查询（多行子查询）★
+##### 2.列子查询（多行子查询）
 
 案例1：返回location_id是1400或1700的部门中的所有员工姓名
 
@@ -821,6 +884,28 @@ WHERE EXISTS(
   WHERE d.`department_id`=e.`department_id`
 );
 ```
+
+### 联合查询
+
+union 联合 合并：将多条查询语句的结果合并成一个结果
+
+语法：
+
+```sql
+查询语句1
+union
+查询语句2
+union
+...
+```
+
+应用场景：
+要查询的结果来自于多个表，且多个表没有直接的连接关系，但查询的信息一致时
+
+特点：
+1、要求多条查询语句的查询列数是一致的
+2、要求多条查询语句的查询的每一列的类型和顺序最好一致
+3、union关键字默认去重，如果使用union all 可以包含重复项
 
 ## Chore
 
