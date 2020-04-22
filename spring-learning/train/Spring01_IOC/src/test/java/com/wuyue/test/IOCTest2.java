@@ -38,8 +38,8 @@ public class IOCTest2 {
 
     @Test
     public void test03() {
-//        Object carStaticFactory = ioc.getBean("carStaticFactory");
-//        System.out.println(carStaticFactory);
+        Object carStaticFactory = ioc.getBean("carStaticFactory");
+        System.out.println(carStaticFactory);
 //        Object car = ioc.getBean("car");
 //        System.out.println(car);
         Object car2 = ioc.getBean("car2");

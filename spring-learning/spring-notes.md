@@ -283,7 +283,7 @@ destroy-method="myDestory" init-method="myInit" >
 NoUniqueBeanDefinitionException:
 No qualifying bean of type [com.atguigu.bean.Car] is defined:
 expected single matching bean but found 2: car01,car02
-2.若为找到这个类型的组件,则装配null
+2.若未找到这个类型的组件,则装配null
 <==> car = ioc.getBean(Car.class);
 - autowire="constructor":
 按照构造器进行赋值；
@@ -647,10 +647,10 @@ returning="result": result形参用于接收返回值
 
 ```java
 @AfterReturning(value = "execution(public int com.wuyue.CalculatorImpl.*(int,int))", returning = "result")
-    public static void methodReturn(JoinPoint joinPoint, Object result) {{}
+public static void methodReturn(JoinPoint joinPoint, Object result) {{}
 
 @AfterThrowing(value = "execution(public int com.wuyue.CalculatorImpl.*(int,int))", throwing = "e")
-    public static void methodException(JoinPoint joinPoint, Exception e) {}
+public static void methodException(JoinPoint joinPoint, Exception e) {}
 ```
 
 **NOTE**:
