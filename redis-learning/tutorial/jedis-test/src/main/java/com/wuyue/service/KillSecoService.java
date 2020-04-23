@@ -58,7 +58,6 @@ public class KillSecoService {
                 return true;
             }
         }
-
-
+        return true;
     }
 }
