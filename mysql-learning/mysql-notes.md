@@ -1,5 +1,11 @@
 # MySQL笔记
 
+## MySQL-Server的安装
+
+```shell
+sudo yum install mysql-server
+```
+
 ## 服务的停启
 
 ### Linux
@@ -7,6 +13,14 @@
 ```bash
 sudo service mysql start
 sudo service mysql stop
+```
+
+```shell
+sudo systemctl start mysql.service
+sudo systemctl stop mysql.service
+sudo systemctl restart mysql.service
+sudo systemctl enable mysql.service
+sudo systemctl status mysql.service
 ```
 
 ### Windows
@@ -18,9 +32,13 @@ net stop mysql
 
 ## 数据库的备份
 
-**备份：** mysqldump -u用户名 -p密码 数据库名称 > 保存的路径
+### 备份
 
-**还原：**
+```shell
+mysqldump -u用户名 -p密码 数据库名称 > 保存的路径
+```
+
+### 还原
 
 1. 登录数据库
 2. 创建数据库
@@ -39,11 +57,11 @@ mysql --host=ip --user=user --password=password
 
 1. 不区分大小写,但建议关键字大写，表名、列名小写
 2. 每条命令最好用分号结尾
-3. 每条命令根据需要，可以进行缩进 或换行
+3. 每条命令根据需要，可以进行缩进或换行
 4. 注释
-单行注释：#注释文字
-单行注释：-- 注释文字
-多行注释：/* 注释文字  */
+单行注释：`# 注释文字`
+单行注释：`-- 注释文字`
+多行注释：`/*注释文字*/`
 
 ## SQL分类
 
@@ -73,7 +91,7 @@ mysql --host=ip --user=user --password=password
 7.查看服务器的版本
 方式一：登录到mysql服务端
   select version();
-方式二：没有登录到mysql服务端
+方式二：没有登录到mysql服务端(Linux命令行)
   mysql --version
   或
   mysql --V
@@ -117,7 +135,7 @@ ALTER {DATABASE|SCHEMA} [数据库名]
 [DEFAULT] COLLATE [=] 校对规则名称
 
 -- 重命名数据库
-RENAME DATABASE books TO 新库名;
+RENAME DATABASE 旧库名 TO 新库名;
 ```
 
 #### 删除数据库(Delete)
@@ -153,13 +171,6 @@ CREATE [TEMPORARY] TABLE [IF NOT EXISTS] 数据表名
 col_name type [NOT NULL | NULL] [DEFAULT default_value] [AUTO_INCREMENT] [PRIMARY KEY] [reference_definition]
 ```
 
-- **复制表**
-
-```sql
-CREATE TABLE [IF NOT EXISTS] <表名> LIKE <源表名>;                  只复制表结构
-CREATE TABLE [IF NOT EXISTS] <表名> AS SELECT * FROM <源表名>;      复制表结构和数据
-```
-
 #### 查看表结构(R)
 
 ```sql
@@ -185,7 +196,7 @@ ALTER [IGNORE] TABLE <表名>
     [DROP CONSTRAINT <完整性约束名> [CASCADE|RESTRICT]]
     [ALTER COLUMN <列名> <数据类型>];
     [RENAME [AS] 新表名]
-    [CHANGE [COLUMN] 旧字段名 新字段定义]
+    [CHANGE [COLUMN] 旧字段名 新字段名 定义]
     [MODIFY [COLUMN] 列名 <定义>];
 ```
 
@@ -239,12 +250,15 @@ RENAME TABLE <表名1> TO <表名2>;
 ##### 1.仅仅复制表的结构
 
 ```sql
+CREATE TABLE [IF NOT EXISTS] <表名> LIKE <源表名>;                  -- 只复制表结构
 CREATE TABLE copy LIKE author;
 ```
 
 ##### 2.复制表的结构+数据
 
 ```sql
+CREATE TABLE [IF NOT EXISTS] <表名> AS SELECT * FROM <源表名>;      -- 复制表结构和数据
+
 CREATE TABLE copy2
 SELECT * FROM author;
 ```
@@ -267,6 +281,275 @@ FROM author
 WHERE ...;
 ```
 
+### 3.约束
+
+一种限制，用于限制表中的数据，为了保证表中的数据的准确和可靠性
+
+#### 常用约束
+
+##### NOT NULL
+
+字段非空,字段不能插入null
+
+##### DEFAULT
+
+指定字段的默认值,字段的默认值为null,即非空字段没有插入值时,自动设置为null
+
+##### UNIQUE
+
+字段唯一,一个字段中的值不能重复,但可以存在多个null值
+该约束的本质是一个唯一索引
+
+##### PRIMARY KEY
+
+主键约束,字段的值不能为空,且需要唯一,即 not null + unique
+一张表只能有一个单列主键或一个复合表级主键
+
+##### FOREIGN KEY
+
+外键,用于限制两个表的关系，用于保证该字段的值必须来自于主表的关联列的值
+在从表添加外键约束，用于引用主表中某列的值
+
+**NOTE**:
+外键字段与引用字段的字段类型需要相同
+若往外键字段添加非主表引用字段中的值,则无法添加,但可以添加null
+要求在从表设置外键关系
+主表的关联列必须是一个key（一般是主键或唯一）
+插入数据时，先插入主表，再插入从表
+删除数据时，先删除从表，再删除主表
+
+#### 约束的分类
+
+##### 列级约束
+
+六大约束语法上都支持，但外键约束没有效果
+
+##### 表级约束
+
+除了`NOT NULL`,`DEFAULT`其他的都支持
+
+#### PRIMARY KEY 与 UNIQUE的区别
+
+|UNIQUE|NOT NULL|一个表中可以有多少个|是否允许组合|
+|-----|--------|-----------------|-------------|
+|Y|Y|最多1个|Y|
+|Y|N|可以存在多个|Y|
+
+#### 约束的创建
+
+CREATE TABLE 表名(
+  字段名 字段类型 列级约束,
+  字段名 字段类型,
+  表级约束
+)
+
+##### 一、创建表时添加约束
+
+###### 1.添加列级约束
+
+语法：
+
+直接在字段名和类型后面追加 约束类型即可。
+只支持：默认、非空、主键、唯一
+
+```sql
+CREATE TABLE stuinfo(
+  id INT PRIMARY KEY,                                   #主键
+  stuName VARCHAR(20) NOT NULL UNIQUE,                  #非空 唯一
+  gender CHAR(1) CHECK(gender ='男' OR gender = '女'),   #检查
+  seat INT UNIQUE,                                      #唯一
+  age INT DEFAULT 18,                                   #默认
+  majorId INT REFERENCES major(id)                      #外键,无效果
+);
+```
+
+查看stuinfo中的所有索引，包括主键、外键、唯一
+
+```sql
+SHOW INDEX FROM stuinfo;
+```
+
+###### 2.添加表级约束
+
+语法：在各个字段的最下面
+
+【constraint 约束名】 约束类型(字段名)
+
+```sql
+DROP TABLE IF EXISTS stuinfo;
+CREATE TABLE stuinfo(
+  id INT,
+  stuname VARCHAR(20),
+  gender CHAR(1),
+  seat INT,
+  age INT,
+  majorid INT,
+
+  CONSTRAINT pk PRIMARY KEY(id),                                          #主键
+  CONSTRAINT uq UNIQUE(seat),                                             #唯一键
+  CONSTRAINT ck CHECK(gender ='男' OR gender  = '女'),                    #检查
+  CONSTRAINT fk_stuinfo_major FOREIGN KEY(majorid) REFERENCES major(id)   #外键
+  #           约束名                      外键字段             引用表(引用字段)
+);
+```
+
+通用的写法
+除了外键,其余的都使用列级约束
+
+```sql
+CREATE TABLE IF NOT EXISTS stuinfo(
+  id INT PRIMARY KEY,
+  stuname VARCHAR(20),
+  sex CHAR(1),
+  age INT DEFAULT 18,
+  seat INT UNIQUE,
+  majorid INT,
+  CONSTRAINT fk_stuinfo_major FOREIGN KEY(majorid) REFERENCES major(id)
+);
+```
+
+##### 二、修改表时添加约束
+
+###### 1、添加列级约束
+
+```sql
+alter table 表名 modify column 字段名 字段类型 新约束;
+```
+
+###### 2、添加表级约束
+
+```sql
+alter table 表名 add 【constraint 约束名】 约束类型(字段名) 【外键的引用】;
+```
+
+```sql
+DROP TABLE IF EXISTS stuinfo;
+CREATE TABLE stuinfo(
+  id INT,
+  stuname VARCHAR(20),
+  gender CHAR(1),
+  seat INT,
+  age INT,
+  majorid INT
+)
+DESC stuinfo;
+```
+
+1.添加非空约束
+
+```sql
+ALTER TABLE stuinfo MODIFY COLUMN stuname VARCHAR(20) NOT NULL;
+```
+
+2.添加默认约束
+
+```sql
+ALTER TABLE stuinfo MODIFY COLUMN age INT DEFAULT 18;
+```
+
+3.添加主键
+
+①列级约束
+
+```sql
+ALTER TABLE stuinfo MODIFY COLUMN id INT PRIMARY KEY;
+```
+
+②表级约束
+
+```sql
+ALTER TABLE stuinfo ADD PRIMARY KEY(id);
+```
+
+4.添加唯一
+
+①列级约束
+
+```sql
+ALTER TABLE stuinfo MODIFY COLUMN seat INT UNIQUE;
+```
+
+②表级约束
+
+```sql
+ALTER TABLE stuinfo ADD UNIQUE(seat);
+```
+
+5.添加外键
+
+```sql
+ALTER TABLE stuinfo ADD CONSTRAINT fk_stuinfo_major FOREIGN KEY(majorid) REFERENCES major(id);
+```
+
+##### 三、修改表时删除约束
+
+1.删除非空约束
+
+```sql
+ALTER TABLE stuinfo MODIFY COLUMN stuname VARCHAR(20) NULL;
+```
+
+2.删除默认约束
+
+```sql
+ALTER TABLE stuinfo MODIFY COLUMN age INT;
+```
+
+3.删除主键
+
+```sql
+ALTER TABLE stuinfo DROP PRIMARY KEY;
+```
+
+4.删除唯一
+
+```sql
+ALTER TABLE stuinfo DROP INDEX seat;
+```
+
+5.删除外键
+
+```sql
+ALTER TABLE stuinfo DROP FOREIGN KEY fk_stuinfo_major;
+```
+
+##### 标识列
+
+又称为自增长列
+含义：可以不用手动的插入值，系统提供默认的序列值
+
+特点：
+1、标识列可以作用在任意字段上
+2、一个表可以有至多一个标识列
+3、标识列的类型只能是数值型
+4、标识列可以通过 `SET auto_increment_increment=3;`设置步长
+5、可以通过手动插入值，设置起始值
+6、自增字段插入时可以省略为null
+
+创建表时设置标识列
+
+```sql
+DROP TABLE IF EXISTS tab_identity;
+CREATE TABLE tab_identity(
+  id INT,
+  NAME FLOAT UNIQUE AUTO_INCREMENT,
+  seat INT
+);
+```
+
+TRUNCATE将清除表中的内容,同时重置自增值
+
+```sql
+TRUNCATE TABLE tab_identity;
+```
+
+查看/设置自增步长
+
+```sql
+SHOW VARIABLES LIKE '%auto_increment%';
+SET auto_increment_increment=3;
+```
+
 ## DML
 
 ### 1.添加数据
@@ -280,14 +563,25 @@ insert into table_name set column1 = value1, column2 = value2 , ...;
 
 - **注意：**
 
-1. 列名和值要一一对应。
-2. 如果表名后，不定义列名，则默认给所有列添加值
-`insert into 表名 values(值1,值2,...值n);`
-3. 除了数字类型，其他类型需要使用引号(单双都可以)引起来
-4. 可以使用如下方式，一条SQL添加多条数据
-`insert into 表名 values (值1,值2,...值n), (值1,值2,...值n), ....;`
-5. values可以使用子查询代替
-`insert into 表名 select * from other_table;`
+1.列名和值要一一对应。
+2.如果表名后，不定义列名，则默认给所有列添加值
+
+```sql
+insert into 表名 values(值1,值2,...值n);
+```
+
+3.除了数字类型，其他类型需要使用引号(单双都可以)引起来
+4.可以使用如下方式，一条SQL添加多条数据
+
+```sql
+insert into 表名 values (值1,值2,...值n), (值1,值2,...值n), ....;
+```
+
+5.values可以使用子查询代替
+
+```sql
+insert into 表名 select * from other_table;
+```
 
 ### 2.删除数据
 
@@ -494,7 +788,7 @@ group by 分组的字段
 
 特点：
 1、可以按单个字段分组
-2、和分组函数一同查询的字段最好是分组后的字段
+2、和分组函数一同查询的字段最好是分组后的字段或者分组函数
 3、分组筛选
 针对的表 位置 关键字
 分组前筛选： 原始表 group by的前面 where
@@ -885,6 +1179,28 @@ WHERE EXISTS(
 );
 ```
 
+### 分页查询
+
+```sql
+select 字段|表达式,...
+from 表
+【where 条件】
+【group by 分组字段】
+【having 条件】
+【order by 排序的字段】
+limit 【起始的条目索引，】条目数;
+```
+
+**NOTE**:
+
+1.起始条目索引从0开始
+2.limit子句放在查询语句的最后
+3.分页计算公式：
+
+```sql
+select * from table_name limit（page-1）*sizePerPage,sizePerPage;
+```
+
 ### 联合查询
 
 union 联合 合并：将多条查询语句的结果合并成一个结果
@@ -907,6 +1223,244 @@ union
 2、要求多条查询语句的查询的每一列的类型和顺序最好一致
 3、union关键字默认去重，如果使用union all 可以包含重复项
 
+## 事务
+
+通过一组逻辑操作单元（一组DML——sql语句），将数据从一种状态切换到另外一种状态
+
+### ACID
+
+（ACID）
+Atomicity(原子性): 要么都执行，要么都回滚
+Consistency(一致性): 保证数据的状态操作前和操作后保持一致
+Isolation(隔离性): 多个事务同时操作相同数据库的同一个数据时，一个事务的执行不受另外一个事务的干扰
+Durability(持久性): 一个事务一旦提交，则数据将持久化到本地，除非其他事务对其进行修改
+
+### 事务的分类
+
+#### 隐式事务
+
+没有明显的开启和结束事务的标志
+insert、update、delete语句本身就是一个事务,SQL在执行完成后自动提交事务
+
+#### 显式事务
+
+具有明显的开启和结束事务的标志
+
+1、开启事务
+取消自动提交事务的功能,或手动开启一个事务
+
+```sql
+SET autocommit=0;
+```
+
+```sql
+START TRANSACTION;
+```
+
+2、编写事务的一组逻辑操作单元（多条sql语句）
+insert
+update
+delete
+
+3、提交事务或回滚事务
+
+```sql
+commit;
+```
+
+```sql
+rollback;
+```
+
+在事务中可以设置保存点,在回滚时会回滚到保存点前的事务状态,而不是将整个事务回滚
+
+```sql
+savepoint  断点
+commit to 断点
+rollback to 断点
+```
+
+### 事务隔离级别
+
+- read uncommitted 读未提交(一般不使用)
+- read committed 读已提交
+- repeatable read 可重复读
+- serializable 串行化(一般不使用)
+
+隔离级别用于解决多个事务中读写并发执行时的问题,多个事务同时读取或同时写入的情况与隔离级别无关
+
+- 脏读
+读取到其他事务未提交的数据.**无论如何都不应该发生**
+- 不可重复读
+同一事务中,两次读取的数据不一致.**可以发生**
+- 幻读
+同一事务中,两次按同一条件读取的数据不一致.**可以发生**
+
+**NOTE**: 在事务隔离级别为 repeatable-read 的情况下,事务每读取一个数据,就会为这行数据创建一个快照,在事务内后续对该数据的读取都将从快照中获取. 若在读取数据前,数据就发生了变化,则第一次读取的数据就是真实的、其他事务已提交的数据.
+
+#### 设置隔离级别
+
+```sql
+set session|global  transaction isolation level 隔离级别名;
+```
+
+#### 查看隔离级别
+
+```sql
+select @@tx_isolation;
+```
+
+## 视图
+
+一张虚拟的表,但不占用存储空间,仅仅保存的是sql逻辑
+
+视图的好处：
+1、sql语句提高重用性，效率高
+2、和表实现了分离，提高了安全性
+
+### 视图的创建
+
+```sql
+  ​CREATE VIEW  视图名
+  ​AS
+  ​查询语句;
+```
+
+```sql
+CREATE VIEW v1
+AS
+SELECT stuname,majorname
+FROM stuinfo s
+INNER JOIN major m ON s.`majorid`= m.`id`;
+```
+
+### 视图逻辑的更新
+
+方式一
+
+```sql
+CREATE OR REPLACE VIEW test_v7
+AS
+SELECT last_name FROM employees
+WHERE employee_id>100;
+```
+
+方式二
+
+```sql
+ALTER VIEW test_v7
+AS
+SELECT employee_id FROM employees;
+```
+
+### 视图逻辑的删除
+
+```sql
+DROP VIEW test_v1,test_v2,test_v3;
+```
+
+### 视图结构的查看
+
+```sql
+​DESC test_v7;
+​SHOW CREATE VIEW test_v7;
+```
+
+### 视图中数据的增删改查(视图的更新)
+
+#### 1.查询
+
+```sql
+SELECT * FROM my_v4;
+SELECT * FROM my_v1 WHERE last_name='Partners';
+```
+
+#### 2.插入视图的数据
+
+```sql
+INSERT INTO my_v4(last_name,department_id) VALUES('虚竹',90);
+```
+
+#### 3.修改视图的数据
+
+```sql
+UPDATE my_v4 SET last_name ='梦姑' WHERE last_name='虚竹';
+```
+
+#### 4.删除视图的数据
+
+```sql
+DELETE FROM my_v4;
+```
+
+### 某些视图不能更新
+
+#### 1.包含以下关键字的sql语句
+
+分组函数、distinct、group  by、having、union或者union all
+
+```sql
+CREATE OR REPLACE VIEW myv1
+AS
+SELECT MAX(salary) m,department_id
+FROM employees
+GROUP BY department_id;
+```
+
+#### 2.常量视图
+
+```sql
+CREATE OR REPLACE VIEW myv2
+AS
+SELECT 'john' NAME;
+```
+
+#### 3.Select中包含子查询
+
+```sql
+CREATE OR REPLACE VIEW myv3
+AS
+SELECT department_id,(SELECT MAX(salary) FROM employees) 最高工资
+FROM departments;
+```
+
+#### 4.join
+
+```sql
+CREATE OR REPLACE VIEW myv4
+AS
+SELECT last_name,department_name
+FROM employees e
+JOIN departments d
+ON e.department_id  = d.department_id;
+```
+
+#### 5.from一个不能更新的视图
+
+```sql
+CREATE OR REPLACE VIEW myv5
+AS
+SELECT * FROM myv3;
+```
+
+#### 5.where子句的子查询引用了from子句中的表
+
+```sql
+CREATE OR REPLACE VIEW myv6
+AS
+SELECT last_name,email,salary
+FROM employees
+WHERE employee_id IN(
+  SELECT  manager_id
+  FROM employees
+  WHERE manager_id IS NOT NULL
+);
+```
+
+#### 总结
+
+视图能更新的前提是,视图中的字段与真实数据表中的字段一一对应,才有可能能够更新
+
 ## Chore
 
 MySQL表结构以及表数据默认存放于`/var/lib/mysql`下，一个Schema对应一个目录。
@@ -927,8 +1481,13 @@ collation_server=utf8_general_ci
 ```
 
 **2.数据库级**
-查看设置：`select * from information_schema.schemata where schema_name = 'DataBase_Name';`
-`show create database database_name;`
+查看设置：
+
+```sql
+select * from information_schema.schemata where schema_name = 'DataBase_Name';`
+show create database database_name;`
+```
+
    设置：
      1. 若没有显式设置，则自动使用服务器级的配置
      2. 显式设置：在创建库时指定
@@ -1064,24 +1623,6 @@ show variables like 'character_set_results';      # 服务端使用这个编码�
 
 - TEXT在MySQL内部大多存储格式为溢出页，效率不如CHAR
 - Mysql默认为utf-8，那么在英文模式下1个字符=1个字节，在中文模式下1个字符=3个字节。
-
-## 事务隔离级别
-
-- read uncommitted 读未提交(一般不使用)
-- read committed 读已提交
-- repeatable read 可重复读
-- serializable 串行化(一般不使用)
-
-隔离级别用于解决多个事务中读写并发执行时的问题,多个事务同时读取或同时写入的情况与隔离级别无关
-
-- 脏读
-读取到其他事务未提交的数据.**无论如何都不应该发生**
-- 不可重复读
-同一事务中,两次读取的数据不一致.**可以发生**
-- 幻读
-同一事务中,两次按同一条件读取的数据不一致.**可以发生**
-
-**NOTE**: 在事务隔离级别为 repeatable-read 的情况下,事务每读取一个数据,就会为这行数据创建一个快照,在事务内后续对该数据的读取都将从快照中获取. 若在读取数据前,数据就发生了变化,则第一次读取的数据就是真实的数据.
 
 ## 并行写入
 
