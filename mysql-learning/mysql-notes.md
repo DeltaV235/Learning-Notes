@@ -1459,7 +1459,507 @@ WHERE employee_id IN(
 
 #### 总结
 
-视图能更新的前提是,视图中的字段与真实数据表中的字段一一对应,才有可能能够更新
+视图能更新的前提是,视图中的字段与真实数据表中的字段一一对应,不存在函数的转换,多表的关联等
+
+## 存储过程
+
+一组经过预先编译的sql语句的集合
+
+好处：
+1、提高了sql语句的重用性，减少了开发程序员的压力
+2、提高了效率
+3、减少了传输次数
+
+分类：
+
+1、无返回无参
+2、仅仅带in类型，无返回有参
+3、仅仅带out类型，有返回无参
+4、既带in又带out，有返回有参
+5、带inout，有返回有参
+注意：in、out、inout都可以在一个存储过程中带多个
+
+### 创建存储过程
+
+语法：
+
+```sql
+create procedure 存储过程名(in|out|inout 参数名 参数类型,...)
+begin
+  存储过程体
+end
+```
+
+**NOTE**:
+
+1、需要设置新的结束标记
+
+使用默认默认换行符`;`会导致存储过程体中的语句提前结束
+delimiter 新的结束标记
+示例：
+
+```sql
+delimiter $$
+```
+
+```sql
+CREATE PROCEDURE 存储过程名(IN|OUT|INOUT 参数名  参数类型,...)
+BEGIN
+  sql语句1;
+  sql语句2;
+END $$
+```
+
+2、存储过程体中可以有多条sql语句，如果仅仅一条sql语句，则可以省略begin end
+
+3、参数前面的符号的意思
+in:该参数只能作为输入（该参数不能做返回值）
+out:该参数只能作为输出（该参数只能做返回值）
+inout:既能做输入又能做输出
+
+```sql
+CREATE PROCEDURE myp7(IN beautyName VARCHAR(20),OUT boyName VARCHAR(20),OUT usercp INT)
+BEGIN
+  SELECT boys.boyname ,boys.usercp INTO boyname,usercp
+  FROM boys
+  RIGHT JOIN
+  beauty b ON b.boyfriend_id = boys.id
+  WHERE b.name=beautyName ;
+END;
+```
+
+### 调用存储过程
+
+```sql
+​call 存储过程名(实参列表)
+```
+
+## 函数
+
+### 创建函数
+
+语法：
+
+```sql
+CREATE FUNCTION 函数名(参数名 参数类型,...) RETURNS 返回类型
+BEGIN
+  函数体
+END
+```
+
+函数体中肯定会有return语句，如果没有会报错
+如果return语句没有放在函数体的最后也不报错，但不建议
+
+```sql
+CREATE FUNCTION myf2(empName VARCHAR(20)) RETURNS DOUBLE
+BEGIN
+  SET @sal=0;               #定义用户变量
+  SELECT salary INTO @sal   #赋值
+    FROM employees
+    WHERE last_name = empName;
+  RETURN @sal;
+END;
+```
+
+### 调用函数
+
+```sql
+​SELECT 函数名（实参列表）
+```
+
+### 函数和存储过程的区别
+
+|关键字|调用语法|返回值|应用场景
+|-------|-------|------|------|
+|函数FUNCTION| SELECT 函数()|有且仅有一个|一般用于查询结果为一个值并返回时，有且仅有一个返回值|
+|存储过程PROCEDURE|CALL 存储过程()|可以有0个或多个|一般用于数据的批量更新|
+
+## 流程控制结构
+
+### 系统变量
+
+#### 1.全局变量
+
+作用域：针对于所有会话（连接）有效，但不能跨重启
+若需要全局变量永久生效,需要在配置文件中配置
+
+查看所有全局变量
+
+```sql
+SHOW GLOBAL VARIABLES;
+```
+
+查看满足条件的部分系统变量
+
+```sql
+SHOW GLOBAL VARIABLES LIKE '%char%';
+```
+
+查看指定的系统变量的值
+
+```sql
+SELECT @@global.autocommit;
+```
+
+为某个系统变量赋值
+
+```sql
+SET @@global.autocommit=0;
+SET GLOBAL autocommit=0;
+```
+
+#### 2.会话变量
+
+作用域：针对于当前会话（连接）有效
+
+查看所有会话变量
+
+```sql
+SHOW [SESSION] VARIABLES;
+```
+
+查看满足条件的部分会话变量
+
+```sql
+SHOW [SESSION] VARIABLES LIKE '%char%';
+```
+
+查看指定的会话变量的值
+
+```sql
+SELECT @@autocommit;
+SELECT @@session.tx_isolation;
+```
+
+为某个会话变量赋值
+
+```sql
+SET @@session.tx_isolation='read-uncommitted';
+SET [SESSION] tx_isolation='read-committed';
+```
+
+### 自定义变量
+
+#### 1.用户变量
+
+声明并初始化：
+
+```sql
+SET @变量名=值;
+SET @变量名:=值;
+SELECT @变量名:=值;
+```
+
+赋值：
+
+方式一：一般用于赋简单的值
+
+```sql
+SET 变量名=值;
+SET 变量名:=值;
+SELECT 变量名:=值;
+```
+
+方式二：一般用于赋表 中的字段值
+
+```sql
+SELECT 字段名或表达式 INTO 变量
+FROM 表;
+```
+
+使用：
+
+```sql
+select @变量名;
+```
+
+#### 2.局部变量
+
+声明：
+
+```sql
+declare 变量名 类型 [default 值];
+```
+
+赋值：
+
+方式一：一般用于赋简单的值
+
+```sql
+SET 变量名=值;
+SET 变量名:=值;
+SELECT 变量名:=值;
+```
+
+方式二：一般用于赋表 中的字段值
+
+```sql
+SELECT 字段名或表达式 INTO 变量
+FROM 表;
+```
+
+使用：
+
+```sql
+select 变量名
+```
+
+二者的区别：
+
+|自定义变量类型|作用域|定义位置|语法|
+|----|-----|-----|-----|
+|用户变量|当前会话|会话的任何地方|加@符号，不用指定类型|
+|局部变量|定义它的BEGIN END中|BEGIN END的第一句话|一般不用加@,需要指定类型|
+
+### 分支
+
+#### 1.if函数
+
+语法：if(条件，值1，值2)
+特点：可以用在任何位置
+当条件满足时,返回值1,否则返回值2
+
+#### 2.case语句
+
+语法：
+
+情况一：类似于switch
+
+```sql
+case 表达式
+  when 值1 then 结果1或语句1(如果是语句，需要加分号)
+  when 值2 then 结果2或语句2(如果是语句，需要加分号)
+  ...
+  else 结果n或语句n(如果是语句，需要加分号)
+end 【case】（如果是放在begin end中需要加上case，如果放在select后面不需要）
+```
+
+情况二：类似于多重if
+
+```sql
+case
+  when 条件1 then 结果1或语句1(如果是语句，需要加分号)
+  when 条件2 then 结果2或语句2(如果是语句，需要加分号)
+  ...
+  else 结果n或语句n(如果是语句，需要加分号)
+end 【case】（如果是放在begin end中需要加上case，如果放在select后面不需要）
+```
+
+特点：
+可以用在任何位置
+
+```sql
+CREATE FUNCTION test_case(score FLOAT) RETURNS CHAR
+BEGIN
+  DECLARE ch CHAR DEFAULT 'A';
+  CASE
+    WHEN score>90 THEN SET ch='A';
+    WHEN score>80 THEN SET ch='B';
+    WHEN score>60 THEN SET ch='C';
+    ELSE SET ch='D';
+  END CASE;
+  RETURN ch;
+END $
+```
+
+#### 3.if elseif语句
+
+语法：
+
+```sql
+if 情况1 then 语句1;
+elseif 情况2 then 语句2;
+...
+else 语句n;
+end if;
+```
+
+特点：
+只能用在begin end中
+
+```sql
+CREATE FUNCTION test_if(score FLOAT) RETURNS CHAR
+BEGIN
+  DECLARE ch CHAR DEFAULT 'A';
+  IF score>90 THEN SET ch='A';
+  ELSEIF score>80 THEN SET ch='B';
+  ELSEIF score>60 THEN SET ch='C';
+  ELSE SET ch='D';
+  END IF;
+  RETURN ch;
+END $
+```
+
+#### 三者比较
+
+|结构|应用场合|
+|----|-------|
+|if函数|简单双分支|
+|case结构|等值判断的多分支|
+|if结构|区间判断的多分支|
+
+### 循环
+
+只能放在BEGIN END里面
+
+#### 循环控制
+
+iterate类似于continue，继续，结束本次循环，继续下一次
+leave 类似于break，跳出，结束当前所在的循环
+如果要搭配leave跳转语句，需要使用标签，否则可以不用标签
+
+#### 1.while
+
+语法：
+
+```sql
+【标签：】WHILE 循环条件 DO
+  循环体
+END WHILE 【标签】;
+```
+
+#### 2.loop
+
+语法：
+
+```sql
+【标签:】loop
+  循环体;
+end loop 【标签】;
+```
+
+可以用来模拟简单的死循环
+
+#### 3.repeat
+
+语法：
+
+```sql
+【标签：】repeat
+  循环体;
+until 结束循环的条件
+end repeat 【标签】;
+```
+
+#### 案例
+
+```sql
+DROP PROCEDURE pro_while1$
+CREATE PROCEDURE pro_while1(IN insertCount INT)
+BEGIN
+  DECLARE i INT DEFAULT 1;
+  WHILE i<=insertCount DO
+    INSERT INTO admin(username,`password`) VALUES(CONCAT('Rose',i),'666');
+    SET i=i+1;
+  END WHILE;
+END $
+```
+
+```sql
+CREATE PROCEDURE test_while1(IN insertCount INT)
+BEGIN
+  DECLARE i INT DEFAULT 1;
+  a:loop
+    INSERT INTO admin(username,`password`) VALUES(CONCAT('xiaohua',i),'0000');
+    IF i>=20 THEN LEAVE a;
+    END IF;
+    SET i=i+1;
+  END loop a;
+END $
+```
+
+```sql
+CREATE PROCEDURE test_while1(IN insertCount INT)
+BEGIN
+  DECLARE i INT DEFAULT 0;
+  a:WHILE i<=insertCount DO
+    SET i=i+1;
+    IF MOD(i,2)!=0 THEN ITERATE a;
+    END IF;
+    INSERT INTO admin(username,`password`) VALUES(CONCAT('xiaohua',i),'0000');
+  END WHILE a;
+END $
+```
+
+## DCL
+
+DCL: 管理用户，授权
+
+### 1.管理用户
+
+MySQL的一个用户有**用户名**和**允许访问的主机IP**两个约束
+即'deltav'@'localhost'和'deltav'@'%'是两个用户
+
+#### 1.添加用户
+
+- 语法：`CREATE USER '用户名'@'主机名' IDENTIFIED BY '密码';`
+
+#### 2.删除用户
+
+- 语法：`DROP USER '用户名'@'主机名';`
+
+#### 3.修改用户密码
+
+```sql
+UPDATE USER SET PASSWORD = PASSWORD('新密码') WHERE USER = '用户名';
+UPDATE USER SET PASSWORD = PASSWORD('abc') WHERE USER = 'lisi';
+
+SET PASSWORD FOR '用户名'@'主机名' = PASSWORD('新密码');
+SET PASSWORD FOR 'root'@'localhost' = PASSWORD('123');
+```
+
+- Windows MySQL-Server中忘记了root用户的密码
+
+1. cmd -- > net stop mysql 停止mysql服务(需要管理员运行该cmd)
+2. 使用无验证方式启动mysql服务： mysqld --skip-grant-tables
+3. 打开新的cmd窗口,直接输入mysql命令，敲回车。就可以登录成功
+4. use mysql;
+5. update user set password = password('你的新密码') where user = 'root';
+6. 关闭两个窗口
+7. 打开任务管理器，手动结束mysqld.exe 的进程
+8. 启动mysql服务
+9. 使用新密码登录。
+
+#### 4.查询用户
+
+1.切换到mysql数据库
+
+```sql
+USE myql;
+```
+
+2.查询user表
+
+```sql
+SELECT * FROM USER;
+```
+
+- 通配符： % 表示可以在任意主机使用用户登录数据库
+
+### 2.权限管理
+
+#### 1. 查询权限
+
+```sql
+SHOW GRANTS FOR '用户名'@'主机名';
+SHOW GRANTS FOR 'lisi'@'%';
+```
+
+#### 2.授予权限
+
+```sql
+  GRANT 权限列表 ON 数据库名.表名 TO '用户名'@'主机名';
+
+  -- 给张三用户授予所有权限，在任意数据库任意表上
+  GRANT ALL ON *.* TO 'zhangsan'@'localhost';
+```
+
+#### 3.撤销权限
+
+```sql
+  REVOKE 权限列表 ON 数据库名.表名 FROM '用户名'@'主机名';
+  REVOKE UPDATE ON db3.`account` FROM 'lisi'@'%';
+```
 
 ## Chore
 
