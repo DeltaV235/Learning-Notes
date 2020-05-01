@@ -119,41 +119,41 @@ public String myfirstRequest(){
 5. DispatcherServlet查询一个或多个ViewResoler视图解析器，找到ModelAndView指定的视图
 6. 视图负责将结果显示到客户端
 
-1）、客户端点击链接会发送 `http://localhost:8080/springmvc/hello` 请求
-2）、来到tomcat服务器；
-3）、SpringMVC的前端控制器收到所有请求；
-4）、来看请求地址和@RequestMapping标注的哪个匹配，来找到到底使用那个类的哪个方法来处理
-5）、前端控制器找到了目标处理器类和目标方法，直接利用返回执行目标方法；
-6）、方法执行完成以后会有一个返回值；SpringMVC认为这个返回值就是要去的页面地址
-7）、拿到方法返回值以后；用视图解析器进行拼串得到完整的页面地址；
-8）、拿到页面地址，前端控制器帮我们转发到页面；
+1）、客户端点击链接会发送 `http://localhost:8080/springmvc/hello` 请求  
+2）、来到tomcat服务器；  
+3）、SpringMVC的前端控制器收到所有请求；  
+4）、来看请求地址和@RequestMapping标注的哪个匹配，来找到到底使用那个类的哪个方法来处理  
+5）、前端控制器找到了目标处理器类和目标方法，直接利用返回执行目标方法；  
+6）、方法执行完成以后会有一个返回值；SpringMVC认为这个返回值就是要去的页面地址  
+7）、拿到方法返回值以后；用视图解析器进行拼串得到完整的页面地址；  
+8）、拿到页面地址，前端控制器帮我们转发到页面；  
 
 **RequestMapping**:
-@RequestMapping；
-就是告诉SpringMVC；这个方法用来处理什么请求；
-这个/是可以省略，即使省略了，也是默认从当前项目下开始；
-习惯加上比较好    /hello  /hello
-一个请求路径只能由一个方法处理,否则抛异常
+@RequestMapping；  
+就是告诉SpringMVC；这个方法用来处理什么请求；  
+这个/是可以省略，即使省略了，也是默认从当前项目下开始；  
+习惯加上比较好    /hello  /hello  
+一个请求路径只能由一个方法处理,否则抛异常  
 
 **默认配置文件位置**:
-如果不指定配置文件位置？
-如果不指定也会默认去找一个文件；
-就在web应用的/WEB-INF下创建一个名叫`前端控制器名-servlet.xml`
+如果不指定配置文件位置？  
+如果不指定也会默认去找一个文件；  
+就在web应用的/WEB-INF下创建一个名叫`前端控制器名-servlet.xml`  
 
 **url-pattern**:
 
-`/`: 拦截所有请求，不拦截jsp页面，*.jsp请求
-`/*`: 拦截所有请求，拦截jsp页面，*.jsp请求
-处理`*.jsp`是tomcat做的事；所有项目的小web.xml都是继承于大web.xml(Tomcat全局web配置)
-DefaultServlet是Tomcat中处理静态资源的Servlet
-除过jsp，和servlet外剩下的都是静态资源；
-index.html：静态资源，tomcat就会在服务器下找直接到这个资源并返回;
-我们前端控制器的/禁用了tomcat服务器中的DefaultServlet
-1）服务器的大web.xml中有一个DefaultServlet是url-pattern=/
-2）我们的配置中前端控制器 url-pattern=/
-静态资源会来到DispatcherServlet（前端控制器）看那个方法的RequestMapping是这个index.html
-3）为什么jsp又能访问；因为我们没有覆盖服务器中的JspServlet的配置
-4） `/*`  直接就是拦截所有请求；我们写`/`；也是为了迎合后来Rest风格的URL地址
+`/`: 拦截所有请求，不拦截jsp页面，*.jsp请求  
+`/*`: 拦截所有请求，拦截jsp页面，*.jsp请q  
+处理`*.jsp`是tomcat做的事；所有项目的小web.xml都是继承于大web.xml(Tomcat全局web配置)  
+DefaultServlet是Tomcat中处理静态资源的Servlet  
+除过jsp，和servlet外剩下的都是静态资源；  
+index.html：静态资源，tomcat就会在服务器下找直接到这个资源并返回;  
+我们前端控制器的/禁用了tomcat服务器中的DefaultServlet  
+1）服务器的大web.xml中有一个DefaultServlet是url-pattern=/  
+2）我们的配置中前端控制器 url-pattern=/  
+静态资源会来到DispatcherServlet（前端控制器）看那个方法的RequestMapping是这个index.html  
+3）为什么jsp又能访问；因为我们没有覆盖服务器中的JspServlet的配置  
+4） `/*`  直接就是拦截所有请求；我们写`/`；也是为了迎合后来Rest风格的URL地址  
 
 ## Tomcat url-pattern匹配规则
 
@@ -161,13 +161,13 @@ index.html：静态资源，tomcat就会在服务器下找直接到这个资源�
 
 用户请求这里进行url匹配的时候是有优先级的。 我们从上到下以优先级的高低进行说明：
 
-规则1：精确匹配，使用contextVersion的exactWrappers (url-pattern直接写明路径)
-规则2：前缀匹配，使用contextVersion的wildcardWrappers (url-pattern以`/*`结尾)
-规则3：扩展名匹配，使用contextVersion的extensionWrappers (url-pattern以`*.`开始,如JspServlet)
-规则4：使用资源文件来处理servlet，使用contextVersion的welcomeResources属性，这个属性是个字符串数组
-规则7：使用默认的servlet，使用contextVersion的defaultWrapper (url-pattern == `/`,如DefaultServlet,用于加载静态资源)
+规则1：精确匹配，使用contextVersion的exactWrappers (url-pattern直接写明路径)  
+规则2：前缀匹配，使用contextVersion的wildcardWrappers (url-pattern以`/*`结尾)  
+规则3：扩展名匹配，使用contextVersion的extensionWrappers (url-pattern以`*.`开始,如JspServlet)  
+规则4：使用资源文件来处理servlet，使用contextVersion的welcomeResources属性，这个属性是个字符串数组  
+规则7：使用默认的servlet，使用contextVersion的defaultWrapper (url-pattern == `/`,如DefaultServlet,用于加载静态资源)  
 
-根据上述url匹配优先级:
+根据上述url匹配优先级:  
 若Spring的前端控制器的url-pattern为`/*`,前缀匹配优先级高于扩展名匹配,所以原本由JspServlet(`url-pattern=*.jsp`)处理的jsp资源请求将被Spring的前端控制器处理,从而不能正确返回jsp页面
 
 ## @RequestMapping
@@ -193,39 +193,39 @@ public class RequestMappingController {
 
 #### method
 
-限定请求方式
-HTTP协议中的所有请求方式：
-【GET】, HEAD, 【POST】, PUT, PATCH, DELETE, OPTIONS, TRACE
-method=RequestMethod.POST：只接受这种类型的请求，默认是什么都可以；
-@RequestMapping(value = "/handle01", method = {RequestMethod.POST, RequestMethod.GET})
-不是规定的方式报错：4xx:都是客户端错误
+限定请求方式  
+HTTP协议中的所有请求方式：  
+【GET】, HEAD, 【POST】, PUT, PATCH, DELETE, OPTIONS, TRACE  
+method=RequestMethod.POST：只接受这种类型的请求，默认是什么都可以；  
+@RequestMapping(value = "/handle01", method = {RequestMethod.POST, RequestMethod.GET})  
+不是规定的方式报错：4xx:都是客户端错误  
 405 - Request method 'GET' not supported
 
 #### param
 
-params：规定请求参数
+params：规定请求参数  
 params 和 headers支持简单的表达式：
 
-param1: 表示请求必须包含名为 param1 的请求参数
-eg：params={"username"}:
+param1: 表示请求必须包含名为 param1 的请求参数  
+eg：params={"username"}:  
 发送请求的时候必须带上一个名为username的参数；没带都会400
 
 ---
-!param1: 表示请求不能包含名为 param1 的请求参数
-eg:params={"!username"}
+!param1: 表示请求不能包含名为 param1 的请求参数  
+eg:params={"!username"}  
 发送请求的时候必须不携带上一个名为username的参数；带了都会400
 
 ---
-param1 != value1: 表示请求包含名为 param1 的请求参数，但其值不能为 value1
-eg：params={"username!=123"}
+param1 != value1: 表示请求包含名为 param1 的请求参数，但其值不能为 value1  
+eg：params={"username!=123"}  
 发送请求的时候;携带的username值必须不是123(不带username或者username不是123)
 
 ---
-{“param1=value1”, “param2”}: 请求必须包含名为 param1 和param2 的两个请求参数，且 param1 参数的值必须为 value1
-eg:params={"username!=123","pwd","!age"}
+{“param1=value1”, “param2”}: 请求必须包含名为 param1 和param2 的两个请求参数，且 param1 参数的值必须为 value1  
+eg:params={"username!=123","pwd","!age"}  
 `@RequestMapping(value = "/handle02", params = {"username=123", "age!=88", "!sex"})`
-请求参数必须满足以上规则；
-请求的username不能是123，必须有pwd的值，不能有age
+请求参数必须满足以上规则；  
+请求的username不能是123，必须有pwd的值，不能有age  
 
 **NOTE**: param指定的参数是url上的参数,不规定post请求体中的参数,也就是说param属性是用来规定**请求行(GET请求参数)** 的
 
@@ -245,10 +245,10 @@ eg:params={"username!=123","pwd","!age"}
 
 ### ant风格的url
 
-URL地址可以写模糊的通配符：
-`?` : 能替代任意一个字符
-`*` : 能替代任意多个字符，和一层路径
-`**` : 能替代多层路径
+URL地址可以写模糊的通配符：  
+`?` : 能替代任意一个字符  
+`*` : 能替代任意多个字符，和一层路径  
+`**` : 能替代多层路径  
 
 ## 请求参数获取
 
@@ -256,7 +256,7 @@ URL地址可以写模糊的通配符：
 
 `@RequestMapping`上的URL可以使用占位符,占位符的值能够作为参数传给控制器方法
 
-语法就是可以在任意路径的地方写一个{变量名}
+语法就是可以在任意路径的地方写一个{变量名}  
 **NOTE**: 路径上的占位符只能占一层路径,url匹配时占位符优先级最高
 
 ```java
@@ -372,7 +372,7 @@ jsp中的DELETE和PUT请求的提交方式:
 ### 高版本的Tomcat的RestCURD不接收DELETE和PUT请求方法
 
 由于高版本Tomcat只能接收GET和POST请求方法,不接受DELETE和PUT,所以导致了405  
-可以将jsp页面设置为errorpage,这样tomcat的异常将不会抛出
+可以将jsp页面设置为errorpage,这样tomcat的异常将不会抛出  
 
 ### @RequestParam
 
@@ -431,9 +431,9 @@ String header = request.getHeader("Header-Agent") != null ? request.getHeader("H
 
 SpringMVC能够自动地将请求参数(GET/POST都可以)封装到一个pojo中
 
-1）、将POJO中的每一个属性，从request参数中尝试获取出来，并封装即可.若未找到pojo中属性对应的请求参数,则该属性封装为null(引用类型属性)或"null"(String类型属性)或0(Java原生数字类型)
-2）、还可以级联封装,属性的属性
-3）、请求参数的参数名和对象中的属性名一一对应就行
+1）、将POJO中的每一个属性，从request参数中尝试获取出来，并封装即可.若未找到pojo中属性对应的请求参数,则该属性封装为null(引用类型属性)或"null"(String类型属性)或0(Java原生数字类型)  
+2）、还可以级联封装,属性的属性  
+3）、请求参数的参数名和对象中的属性名一一对应就行  
 
 **NOTE**: 封装好的POJO将自动的放入请求域中(隐含模型中,隐含模型的中的数据最终将封装至请求域中)
 
@@ -543,12 +543,12 @@ SpringMVC前端控制器写完就直接写字符编码过滤器
 
 ### 1. Map Model ModelMap参数
 
-SpringMVC除过在方法上传入原生的request和session外还能怎么样把数据带给页面
-1）、可以在方法处传入Map、或者Model或者ModelMap。
+SpringMVC除过在方法上传入原生的request和session外还能怎么样把数据带给页面  
+1）、可以在方法处传入Map、或者Model或者ModelMap。  
 给这些参数里面保存的所有数据都会放在请求域中。可以在页面获取
 
-关系：
-Map，Model，ModelMap：最终都是BindingAwareModelMap在工作；
+关系：  
+Map，Model，ModelMap：最终都是BindingAwareModelMap在工作；  
 给BindingAwareModelMap中保存的东西都会被放在请求域中；
 
 ![ModelMap](imgs/ModelMap.svg)
@@ -583,10 +583,10 @@ public class OutputController {
 
 ### 2. ModelAndView返回类型
 
-2）、方法的返回值可以变为ModelAndView类型；
-既包含视图信息（页面地址）也包含模型数据（给页面带的数据）；
-而且数据是放在请求域中；
-request、session、application中request最常用,所以Spring的数据返回放在了request中
+2）、方法的返回值可以变为ModelAndView类型；  
+既包含视图信息（页面地址）也包含模型数据（给页面带的数据）；  
+而且数据是放在请求域中；  
+request、session、application中request最常用,所以Spring的数据返回放在了request中  
 
 示例代码:
 
@@ -615,17 +615,17 @@ public ModelAndView handle04() {
 
 ### 3. @SessionAttributes将数据写入HttpSesssion中
 
-SpringMVC提供了一种可以临时给Session域中保存数据的方式；
+SpringMVC提供了一种可以临时给Session域中保存数据的方式；  
 使用一个注解`@SessionAttributes`(只能标在类上)
 
 `@SessionAttributes(value="msg")`
-给BindingAwareModelMap中保存的数据，或者ModelAndView中的数据，
-同时给session中放一份；
-value指定保存数据时要给session中放的数据的key；
-value={"msg", "..."}：只要BindingAwareModelMap/ModelAndView中保存的是这种key的数据，给Session中放一份
-types={String.class, ...}：只要保存的是这种类型的数据，给Session中也放一份
+给BindingAwareModelMap中保存的数据，或者ModelAndView中的数据，  
+同时给session中放一份；  
+value指定保存数据时要给session中放的数据的key；  
+value={"msg", "..."}：只要BindingAwareModelMap/ModelAndView中保存的是这种key的数据，给Session中放一份  
+types={String.class, ...}：只要保存的是这种类型的数据，给Session中也放一份  
 
-后来推荐@SessionAttributes就别用了，可能会引发异常；
+后来推荐@SessionAttributes就别用了，可能会引发异常；  
 给session中放数据请使用**原生API HttpSession**
 
 ### @ModelAttribute
@@ -747,8 +747,8 @@ applicationContext.xml:
 
 ### 自定义视图解析器和视图对象
 
-视图解析器根据方法的返回值得到视图对象；
-多个视图解析器都会尝试能否得到视图对象；
+视图解析器根据方法的返回值得到视图对象；  
+多个视图解析器都会尝试能否得到视图对象；  
 视图对象不同就可以具有不同功能；
 
 **定义视图和视图解析器的步骤**:
@@ -841,7 +841,7 @@ render()方法中编写自定义的页面渲染代码,getContentType()中返回�
 </form:form>
 ```
 
-**NOTE**: 表单标签中指定的path属性,在隐含模型(请求域)的key为`command`的对象中必须存在,否则报500错误
+**NOTE**: 表单标签中指定的path属性,在隐含模型(请求域)的key为`command`的对象中必须存在,否则报500错误  
 可以使用`<form:form>`的`ModelAttribute`属性更改原来的key(`command`)为自定义值
 
 ## DispatcherServlet静态资源的处理
