@@ -1931,9 +1931,17 @@ SpringMVC Controller层有一个自己的容器，并且是Spring的子容器。
 如果SpringMVC的配置文件扫包时包含了业务层和数据访问层的包，则在使用时，不能调用业务层和数据访问层的Bean；即使Spring配置文件包含了业务层和数据访问层包的扫描，也会被SpringMVC子容器的初始化覆盖。  
 SpringMVC与Spring使用的参数配置文件要分别独立，各自加载自己的参数配置文件。
 
+![spring-mvc-mybatis](imgs/spring-mvc-mybatis.png)
+
+![web容器启动流程-与SSM的整合](imgs/web容器启动流程-与SSM的整合.svg)
+
+由于Listener先于Servlet运行,所以SpringIOC容器优于SpringMVC的IOC容器创建,先创建的IOC容器为父容器
+
 ## 与Mybatis的整合
 
 ### maven依赖
+
+![spring-mybatis-整合](imgs/spring-mybatis-整合.svg)
 
 ```xml
 <dependencies>

@@ -1045,6 +1045,8 @@ checkout()和updatePrice()事务方法都使用REQUIRES_NEW的传播行为,即�
 </tx:advice>
 ```
 
+![spring-transaction](imgs/spring-transaction.png)
+
 ## Listener
 
 Spring有自己的监听器,在项目启动的时候创建IOC容器,在项目结束的时候清理容器
