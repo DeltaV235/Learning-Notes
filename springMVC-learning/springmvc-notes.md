@@ -1198,7 +1198,8 @@ public String reqBodyTest(@RequestBody String body){
 **NOTE**: 只有**POST**请求有方法体参数.
 
 `@RequestBody`也能够将Json格式的请求体自动封装到Bean中  
-**NOTE**: 客户端应该发送**Json字符串**作为请求体到服务端,而不是直接将JS对象发送,并且指定**ContentType**为`application/json`,这样服务端才能正确将请求体中的Json字符串封装至参数中,否则Status Code = 415 Unsupported Media Type
+**NOTE**: 客户端应该发送**Json字符串**作为请求体到服务端,而不是直接将JS对象发送,并且指定**ContentType**为`application/json`,这样服务端才能正确将请求体中的Json字符串封装至参数中,否则Status Code = 415 Unsupported Media Type  
+默认的contentType为 : 'application/x-www-form-urlencoded; charset=UTF-8'
 
 ```javascript
 // JavaScript对象,typeof = Object

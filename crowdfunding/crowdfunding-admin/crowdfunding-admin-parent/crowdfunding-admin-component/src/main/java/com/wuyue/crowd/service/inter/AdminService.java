@@ -2,6 +2,8 @@ package com.wuyue.crowd.service.inter;
 
 import entity.Admin;
 
+import java.util.List;
+
 /**
  * @author DeltaV235
  * @version 1.0
@@ -11,4 +13,6 @@ import entity.Admin;
  */
 public interface AdminService {
     void saveAdmin(Admin admin);
+
+    List<Admin> getAll();
 }
