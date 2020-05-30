@@ -11,9 +11,13 @@ public interface AdminMapper {
 
     int deleteByExample(AdminExample example);
 
+    int deleteByPrimaryKey(Integer primaryKey);
+
     int insert(Admin record);
 
     int insertSelective(Admin record);
+
+    List<Admin> selectByKeyword(String keyword);
 
     List<Admin> selectByExample(AdminExample example);
 

@@ -48,7 +48,7 @@ PreparedStatement ps = connection.prepareStatement(sql);
             ps.execute();
 ```
 
-**注意**:**PreparedStatement只能替换字段的值，而不能替换字段名和表名，因为其会在问好两侧添加单引号，即占位符只能替换为字符串，如`select * from ? where ?=?` ==> `select * from 'table' where 'field'='value';` 字段的值使用字符串是合法的，即使字段的真实数据类型不是字符串类型。而表名和字段名在SQL中不能使用字符串表示(引号引起)。
+**注意**:**PreparedStatement**只能替换字段的值，而不能替换字段名和表名，因为其会在问好两侧添加单引号，即占位符只能替换为字符串，如`select * from ? where ?=?` ==> `select * from 'table' where 'field'='value';` 字段的值使用字符串是合法的，即使字段的真实数据类型不是字符串类型。而表名和字段名在SQL中不能使用字符串表示(引号引起)。
 
 ## ResultSet
 

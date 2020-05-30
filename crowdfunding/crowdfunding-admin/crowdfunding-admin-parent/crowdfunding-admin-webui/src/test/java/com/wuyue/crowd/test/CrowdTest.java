@@ -2,6 +2,7 @@ package com.wuyue.crowd.test;
 
 import com.wuyue.crowd.mapper.AdminMapper;
 import com.wuyue.crowd.service.inter.AdminService;
+import com.wuyue.util.CrowdUtil;
 import entity.Admin;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,7 +24,7 @@ import java.sql.SQLException;
  * @date 2020/5/2 23:47
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:/spring-persist-mybatis.xml","classpath:/spring-persist-tx.xml"})
+@ContextConfiguration(locations = {"classpath:/spring-persist-mybatis.xml", "classpath:/spring-persist-tx.xml"})
 public class CrowdTest {
 
     @Autowired
@@ -35,6 +36,27 @@ public class CrowdTest {
     @Autowired
     private AdminService adminService;
 
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    @Test
+    public void insertFakeData() {
+        for (int i = 0; i < 3; i++) {
+            adminMapper.insert(new Admin(null,
+                    "loginAcct" + i,
+                    CrowdUtil.md5("userPswd" + i),
+                    "userName" + i,
+                    "email" + i,
+                    null));
+        }
+    }
+
+    @Test
+    public void testMd5() {
+        String source = "123123";
+        String encoded = CrowdUtil.md5(source);
+        logger.info(encoded);
+    }
+
     @Test
     public void testTX() {
         Admin admin = new Admin(null, "jerry", "jerrypass", "jerry", "jerry@cat.com", "null");
@@ -43,7 +65,6 @@ public class CrowdTest {
 
     @Test
     public void testLogger() {
-        Logger logger = LoggerFactory.getLogger(getClass());
         logger.trace("trace");
         logger.debug("debug");
         logger.info("info");

@@ -9,7 +9,7 @@
 - **mybatis-learning**: Mybatis笔记
 - **mysql-learning**: MySQL基础笔记
 - **redis-learning**: Redis笔记
-- **spring--learning**: Spring笔记
+- **spring-learning**: Spring笔记
 - **springMVC-learning**: SpringMVC笔记
 - **springboot**: SpringBoot笔记
 - **sql-learning**: SQL基础笔记(不完整,具体查看mysql-learning)

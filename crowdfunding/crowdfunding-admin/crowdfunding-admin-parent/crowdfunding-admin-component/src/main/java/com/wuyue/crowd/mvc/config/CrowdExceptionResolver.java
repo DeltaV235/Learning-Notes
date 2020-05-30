@@ -1,8 +1,7 @@
 package com.wuyue.crowd.mvc.config;
 
 import com.google.gson.Gson;
-import com.wuyue.util.CrowdUtil;
-import com.wuyue.util.ResultEntity;
+import com.wuyue.util.*;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
@@ -23,10 +22,35 @@ import static com.wuyue.util.CrowdConstant.EXCEPTION;
 @ControllerAdvice
 public class CrowdExceptionResolver {
 
+    @ExceptionHandler(LoginAcctAlreadyInUseException.class)
+    public ModelAndView LoginAcctAlreadyInUseException(Exception exception,
+                                                       HttpServletRequest request,
+                                                       HttpServletResponse response) throws IOException {
+        String viewName = "admin-add";
+        return commonResolve(viewName, exception, request, response);
+    }
+
+    @ExceptionHandler(AccessForbiddenException.class)
+    public ModelAndView resolveAccessForbiddenException(Exception exception,
+                                                        HttpServletRequest request,
+                                                        HttpServletResponse response) throws IOException {
+        String viewName = "admin-login";
+        return commonResolve(viewName, exception, request, response);
+    }
+
+    @ExceptionHandler(LoginFailedException.class)
+    public ModelAndView resolveLoginFailedException(Exception exception,
+                                                    HttpServletRequest request,
+                                                    HttpServletResponse response) throws IOException {
+        String viewName = "admin-login";
+        return commonResolve(viewName, exception, request, response);
+    }
+
     @ExceptionHandler(Exception.class)
     public ModelAndView resolveNullPointerException(Exception exception,
                                                     HttpServletRequest request,
                                                     HttpServletResponse response) throws IOException {
+        exception.printStackTrace();
         String viewName = "system-error";
         return commonResolve(viewName, exception, request, response);
     }

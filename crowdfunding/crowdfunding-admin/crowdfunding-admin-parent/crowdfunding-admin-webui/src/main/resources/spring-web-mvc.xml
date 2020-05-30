@@ -23,10 +23,23 @@
         <property name="exceptionMappings">
             <props>
                 <prop key="java.lang.Exception">system-error</prop>
+                <prop key="com.wuyue.util.AccessForbiddenException">admin-login</prop>
             </props>
         </property>
     </bean>
 
     <mvc:view-controller path="/admin/to/login/page.html" view-name="admin-login"/>
+    <mvc:view-controller path="/admin/to/main/page.html" view-name="admin-main"/>
+    <mvc:view-controller path="/admin/to/add/page.html" view-name="admin-add"/>
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/admin/to/login/page.html"/>
+            <mvc:exclude-mapping path="/admin/do/login.html"/>
+            <mvc:exclude-mapping path="/admin/do/logout.html"/>
+            <bean class="com.wuyue.crowd.mvc.interceptor.LoginInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
 
 </beans>

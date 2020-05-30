@@ -27,12 +27,20 @@
 
     <form class="form-signin" role="form" method="post" action="admin/do/login.html">
         <h2 class="form-signin-heading"><i class="glyphicon glyphicon-log-in"></i> 管理员登录</h2>
+        <#if (Request.exception.message)??>
+            <p>
+                ${(Request.exception.message)}
+            </p>
+        </#if>
         <div class="form-group has-success has-feedback">
-            <input name="loginAcct" type="text" class="form-control" id="inputSuccess4" placeholder="请输入登录账号" autofocus>
+            <input name="loginAcct" type="text" class="form-control" id="inputSuccess4" placeholder="请输入登录账号"
+                   value="tom"
+                   autofocus>
             <span class="glyphicon glyphicon-user form-control-feedback"></span>
         </div>
         <div class="form-group has-success has-feedback">
             <input name="userPswd" type="text" class="form-control" id="inputSuccess4" placeholder="请输入登录密码"
+                   value="123123"
                    style="margin-top:10px;">
             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
         </div>
