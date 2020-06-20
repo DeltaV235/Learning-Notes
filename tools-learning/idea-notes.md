@@ -36,7 +36,8 @@
 `ctrl + shift + up/down`: 上移/下移语句或方法
 `ctrl + shift + F12`: 隐藏所有窗口,除了编辑器
 `shift + F12`: 恢复默认窗口布局
-`alt + 1`: 将焦点移至project窗口
+`alt + 1`: 将焦点移至project窗口,在焦点已经在project窗口时,trigger该窗口
+`ctrl + shift + j`: 将光标处下一行的内容合并至当前行的行尾
 
 ## Default Live Template
 
