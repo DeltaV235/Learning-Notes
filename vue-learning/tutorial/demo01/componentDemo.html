@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>component</title>
+</head>
+<body>
+<div id="app">
+    <todo-item
+            v-for="todo in todoList"
+            v-bind:person="todo"
+            v-bind:key="todo.id"
+    ></todo-item>
+</div>
+
+<script>
+    Vue.component('todo-item', {
+        template: '<li>{{person.name}}&nbsp{{person.age}}</li>',
+        props: ['person']
+    });
+
+    var app = new Vue({
+        el: '#app',
+        data: {
+            todoList: [
+                {
+                    id: 1,
+                    name: 'wuyue',
+                    age: 18
+                },
+                {
+                    id: 2,
+                    name: 'kangwy',
+                    age: 18
+                },
+                {
+                    id: 3,
+                    name: 'linzc',
+                    age: 18
+                }
+            ]
+        }
+    })
+</script>
+</body>
+</html>

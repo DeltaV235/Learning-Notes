@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>HelloWorld!</title>
@@ -20,6 +20,12 @@
     <li v-for="person in persons">
         {{person.name}}&nbsp;&nbsp;&nbsp;{{person.age}}
     </li>
+
+    <button v-on:click="reverseMessage">
+        reverse
+    </button>
+
+    <input v-model="message">
 </div>
 
 <script>
@@ -43,6 +49,11 @@
                     age: "21"
                 }
             ]
+        },
+        methods: {
+            reverseMessage: function () {
+                this.message = this.message.split('').reverse().join('')
+            }
         }
     });
 
