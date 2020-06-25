@@ -12,17 +12,20 @@
             v-bind:person="todo"
             v-bind:key="todo.id"
     ></todo-item>
+    <span v-html="rawHtml">
+    </span>
 </div>
 
 <script>
     Vue.component('todo-item', {
-        template: '<li>{{person.name}}&nbsp{{person.age}}</li>',
+        template: '<li>{{person.name}}&nbsp{{person.age + 20}}</li>',
         props: ['person']
     });
 
     var app = new Vue({
         el: '#app',
         data: {
+            rawHtml: '<h1>test</h1>',
             todoList: [
                 {
                     id: 1,

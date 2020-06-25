@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>v-for-demo</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <template v-for="(person,index) in persons">
+        <li>{{index}} - {{person.name}} - {{person.age}}</li>
+    </template>
+    <template v-for="(value,name,i) in object">
+        <li>{{i}} - {{value}} - {{name}}</li>
+    </template>
+</div>
+
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            persons: [
+                {
+                    name: 'wuyue',
+                    age: 18
+                },
+                {
+                    name: 'kangwy',
+                    age: 18
+                }
+            ],
+            object: {
+                school: 'sjtu',
+                age: 20,
+                isFemale: true
+            }
+        }
+    })
+</script>
+</body>
+</html>

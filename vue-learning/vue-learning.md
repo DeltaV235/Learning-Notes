@@ -134,6 +134,52 @@ var app6 = new Vue({
 })
 ```
 
+### v-once
+
+执行一次性地插值，当数据改变时，插值处的内容不会更新。
+
+```html
+<span v-once>这个将不会改变: {{ msg }}</span>
+```
+
+后续对app.$data.msg的改变将不会更改插值处的值
+
+### v-html
+
+双大括号会将数据解释为普通文本，而非 HTML 代码。为了输出真正的 HTML，你需要使用 v-html 指令
+
+```html
+<p>Using v-html directive: <span v-html="rawHtml"></span></p>
+```
+
+### 缩写
+
+#### v-bind缩写
+
+```html
+<!-- 完整语法 -->
+<a v-bind:href="url">...</a>
+
+<!-- 缩写 -->
+<a :href="url">...</a>
+
+<!-- 动态参数的缩写 (2.6.0+) -->
+<a :[key]="url"> ... </a>
+```
+
+#### v-on缩写
+
+```html
+<!-- 完整语法 -->
+<a v-on:click="doSomething">...</a>
+
+<!-- 缩写 -->
+<a @click="doSomething">...</a>
+
+<!-- 动态参数的缩写 (2.6.0+) -->
+<a @[event]="doSomething"> ... </a>
+```
+
 ## 3.组件化应用构建
 
 注册组件:
