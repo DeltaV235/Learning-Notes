@@ -1,5 +1,61 @@
 # Linux笔记
 
+## command line
+
+## alias
+
+## shell/bash
+
+## cd/rm/cp/mv/less/more/cat/tail/od
+
+## authoritication
+
+## user:group:other
+
+## vim
+
+## .bashrc
+
+## dir
+
+## rpm
+
+## yum
+
+## ssh
+
+## ^d/^l/^c/^z/^u/^w/^r/
+
+## pipe
+
+## du/df/fileSystem
+
+## mount
+
+## tar/gzip/gunzip
+
+## scp/ftp
+
+## systemctl/service
+
+## reg
+
+## export/env variable
+
+## su -
+
+## root
+
+## shell script
+
+## std/serr/sin
+
+## redirect
+
+## grep
+
+## deploy
+
 ## ssh秘钥登录配置
 
 ```bash
