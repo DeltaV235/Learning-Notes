@@ -1,6 +1,11 @@
 package com.wuyue.mp.entities;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
@@ -12,12 +17,17 @@ import java.time.LocalDateTime;
  * @date 2020/7/21 1:02
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@TableName("mp_user")
 public class User {
     // 主键
-    private Long id;
+    @TableId
+    private Long userId;
 
     // 姓名
-    private String name;
+    @TableField("name")
+    private String realName;
 
     // 年龄
     private Integer age;
@@ -30,4 +40,8 @@ public class User {
 
     // 创建时间
     private LocalDateTime createTime;
+
+    // 备注
+    @TableField(exist = false)
+    private String remark;
 }
