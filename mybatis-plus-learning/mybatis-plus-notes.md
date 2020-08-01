@@ -8,16 +8,16 @@
 
 ### 特性
 
-- 无入侵、损耗小、强大的CRUD操作
+- 无入侵、损耗小、强大的 CRUD 操作
 - 支持Lambda形式调用、支持多种数据库(MySQL、Oracle)
-- 支持主键自动生成、支持ActiveRecord模式
+- 支持主键自动生成、支持 ActiveRecord 模式
 - 支持自定义全局通用操作、支持关键词自动转义
 - 内置代码生成器、内置分页插件、内置性能分析插件
-- 内置全局拦截插件、内置SQL注入剥离器
+- 内置全局拦截插件、内置 SQL 注入剥离器
 
 ## HelloWorld
 
-- 执行建表SQL
+- 执行建表 SQL
 
 ```sql
 # 创建用户表
@@ -41,7 +41,7 @@ VALUES
     (1094592041087729666, '刘红雨', 32, 'lhm@baomidou.com', 1088248166370832385, '2019-01-14 09:48:16');
 ```
 
-- 引入Mybatis Plus依赖
+- 引入 Mybatis Plus 依赖
 
 ```xml
 <dependency>
@@ -71,14 +71,14 @@ public class User {
 }
 ```
 
-- 创建Mapper接口并继承BaseMapper<>
+- 创建 Mapper 接口并继承 BaseMapper<>
 
 ```java
 public interface UserMapper extends BaseMapper<User> {
 }
 ```
 
-- Spring启动类添加MapperScan注解，扫描指定路径下所有的接口的代理实现类并注入容器中
+- Spring 启动类添加 MapperScan 注解，扫描指定路径下所有的接口的代理实现类并注入容器中
 
 ```java
 @SpringBootApplication
@@ -110,7 +110,7 @@ class MpApplicationTests {
 
 ## 基本使用
 
-### 通用Mapper
+### 通用 Mapper
 
 #### 新增方法
 
@@ -129,12 +129,12 @@ public void testInsert() {
 ```
 
 **MP插入及更新字段策略**：
-在实体类属性为null时，不插入或更新该字段。
+在实体类属性为 null 时，不插入或更新该字段。
 
 #### 常用注解
 
-- MP默认将实体类的驼峰属性名、类名映射为下划线分割的数据库字段名及表名。
-- MP中默认向名为id的实体类属性中使用雪花算法添加主键内容
+- MP 默认将实体类的驼峰属性名、类名映射为下划线分割的数据库字段名及表名。
+- MP 中默认向名为 id 的实体类属性中使用雪花算法添加主键内容
 
 ```java
 @TableName("mp_user")
@@ -163,7 +163,7 @@ public class User {
 
 ##### @TableName
 
-若数据库表名与实体类名不一致，可以通过`@TableName`注解，直接指定数据库表名。
+若数据库表名与实体类名不一致，可以通过 `@TableName` 注解，直接指定数据库表名。
 
 ```java
 @TableName("mp_user")
@@ -174,7 +174,7 @@ public class User {
 
 ##### @TableId
 
-被标注的实体类属性为表的主键，value为映射的数据库字段名。若该属性为null，则默认使用雪花算法向其中写入主键的值。
+被标注的实体类属性为表的主键，value 为映射的数据库字段名。若该属性为 null，则默认使用雪花算法向其中写入主键的值。
 
 ```java
 // 主键
@@ -198,7 +198,7 @@ private String realName;
 
 ##### transient
 
-为实体类属性添加`transient`关键字，在不对该字段进行序列化的同时，也忽略该属性的CRUD操作。
+为实体类属性添加 `transient` 关键字，在不对该字段进行序列化的同时，也忽略该属性的 CRUD 操作。
 
 ```java
 private transient String remark;
@@ -206,7 +206,7 @@ private transient String remark;
 
 ##### static
 
-为实体类属性添加`static`关键字，忽略该属性的CRUD操作。
+为实体类属性添加 `static` 关键字，忽略该属性的 CRUD 操作。
 
 ```java
 private static String remark;
@@ -214,7 +214,7 @@ private static String remark;
 
 ##### @TableField(exist = false)
 
-为实体类属性添加`@TableField(exist = false)`注解，推荐使用。
+为实体类属性添加 `@TableField(exist = false)` 注解，推荐使用。
 
 ```java
 @TableField(exist = false)
@@ -237,7 +237,7 @@ T selectById(Serializable id);
 User user = userMapper.selectById(1087982257332887553L);
 ```
 
-包装类均实现了`Serializable`接口
+包装类均实现了 `Serializable` 接口
 
 查询SQL为：
 
@@ -260,7 +260,7 @@ Collection<? extends Serializable> idList = Arrays.asList(1087982257332887553L,
 List<User> users = userMapper.selectBatchIds(idList);
 ```
 
-查询SQL为：
+查询 SQL 为：
 
 ```sql
 SELECT user_id,name AS realName,age,email,manager_id,create_time FROM mp_user WHERE user_id IN ( #{param1} , #{param2} , #{param3} )
@@ -268,7 +268,7 @@ SELECT user_id,name AS realName,age,email,manager_id,create_time FROM mp_user WH
 
 ###### selectByMap
 
-根据传入的Map查询符合所有条件的记录，Map中的key为数据库中的列名（如果输入的是实体类中的属性名会报错）、value是列对应的值。Map中键值对之间的关系是`and`。
+根据传入的 Map 查询符合所有条件的记录，Map 中的 key 为数据库中的列名（如果输入的是实体类中的属性名会报错）、value 是列对应的值。Map 中键值对之间的关系是 `and`。
 
 ```java
 List<T> selectByMap(Map<key,value> map)
@@ -281,7 +281,7 @@ columnMap.put("age", 30);
 List<User> users = userMapper.selectByMap(columnMap);
 ```
 
-查询SQL为：
+查询 SQL 为：
 
 ```sql
 SELECT user_id,name AS realName,age,email,manager_id,create_time FROM mp_user WHERE name = #{name} AND age = #{age}
@@ -289,8 +289,8 @@ SELECT user_id,name AS realName,age,email,manager_id,create_time FROM mp_user WH
 
 ###### 条件构造器为参数的查询方法
 
-QueryWrapper继承于AbstractWrapper类。用于设置查询条件。
-两种获取QueryWrapper的方法。
+`QueryWrapper` 继承于 `AbstractWrapper` 类。用于设置查询条件。
+两种获取 `QueryWrapper` 的方法。
 
 ```java
 QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
@@ -306,7 +306,7 @@ QueryWrapper<User> queryWrapper = Wrappers.query();
 `isNotNull(String column)` => `column is not null`
 
 **Attention**:
-QueryWrapper中的条件之间的关系默认为`and`。可以使用`or()`来改变。`or()`只会改变下一个查询条件的逻辑运算符为`or`，后续的不受影响。
+QueryWrapper 中的条件之间的关系默认为 `and`。可以使用 `or()` 来改变。`or()` 只会改变下一个查询条件的逻辑运算符为 `or`，后续的不受影响。
 
 ```java
 /**
@@ -374,11 +374,11 @@ public void testSelectByWrapperWithSubSQL() {
 `and(Consumer<Param> consumer)`
 `or(Consumer<Param> consumer)`
 `nested(Consumer<Param> consumer)`
-方法可以用于查询条件的嵌套，需要传入一个`Consumer`接口类型的对象，可以使用lambda表达式来简化编码。
+方法可以用于查询条件的嵌套，需要传入一个 `Consumer` 接口类型的对象，可以使用 lambda 表达式来简化编码。
 
 ---
 
-嵌套and
+嵌套 and
 
 ```java
 /**
@@ -398,7 +398,7 @@ public void testSelectByWrapperWithAnd() {
 
 ---
 
-嵌套or
+嵌套 or
 
 ```java
 /**
@@ -437,7 +437,7 @@ public void testSelectByWrapperWithNested() {
 
 ---
 
-in()方法签名：
+`in()` 方法签名：
 
 ```java
 default Children in(R column, Collection<?> coll)
@@ -459,7 +459,9 @@ public void testSelectByWrapperIn() {
 
 ---
 
-limit的实现方法
+limit 的实现方法
+
+`last()` 只能在 mp 中使用一次,多次调用将以最后一次为准。
 
 ```java
 /**
