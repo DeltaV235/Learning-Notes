@@ -1957,14 +1957,34 @@ SHOW GRANTS FOR 'lisi'@'%';
 #### 3.撤销权限
 
 ```sql
-  REVOKE 权限列表 ON 数据库名.表名 FROM '用户名'@'主机名';
-  REVOKE UPDATE ON db3.`account` FROM 'lisi'@'%';
+REVOKE 权限列表 ON 数据库名.表名 FROM '用户名'@'主机名';
+REVOKE UPDATE ON db3.`account` FROM 'lisi'@'%';
 ```
 
 ## Chore
 
 MySQL表结构以及表数据默认存放于`/var/lib/mysql`下，一个Schema对应一个目录。
 MySQL数据库不区分SQL大小写，但建议使用大写。
+
+### MySQL运算符优先级
+
+```sql
+!
+- （负号）,~ （按位取反）
+^（按位异或）
+*,/ (DIV),% (MOD)
++,-
+>>,<<
+&
+|
+= （比较运算）,<=>,<,<=,>,>=,!=,<>,IN,IS NULL,LIKE,REGEXP
+BETWEEN AND,CASE,WHEN,THEN,ELSE
+NOT
+&&,AND
+XOR
+||,OR
+= （赋值运算）,:=
+```
 
 ### 编解码字符集
 
