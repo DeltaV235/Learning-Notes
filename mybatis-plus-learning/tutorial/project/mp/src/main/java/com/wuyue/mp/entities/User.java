@@ -21,27 +21,41 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @TableName("mp_user")
 public class User {
-    // 主键
+    /**
+     * 主键
+     */
     @TableId
     private Long userId;
 
-    // 姓名
+    /**
+     * 姓名
+     */
     @TableField("name")
     private String realName;
 
-    // 年龄
+    /**
+     * 年龄
+     */
     private Integer age;
 
-    // 邮箱
+    /**
+     * 邮箱
+     */
     private String email;
 
-    // 直属上级
+    /**
+     * 直属上级
+     */
     private Long managerId;
 
-    // 创建时间
+    /**
+     * 创建时间
+     */
     private LocalDateTime createTime;
 
-    // 备注
+    /**
+     * 备注
+     */
     @TableField(exist = false)
     private String remark;
 }
