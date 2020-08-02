@@ -355,3 +355,22 @@ sudo apt-get install tmux
 gu{motion}  lowercase
 gU{motion}  uppercase
 ```
+
+## vim 的配置
+
+### 多会话撤销历史
+
+```shell
+# 启用 undofile，开启撤销文件
+set undofile
+# 指定撤销文件位置
+set undodir=~/.vim/undodir
+```
+
+当 `undodir` 不存在时，创建该目录。
+
+```shell
+if !isdirectory(&undodir)
+    call mkdir(&undodir, 'p', 0700)
+endif
+```
