@@ -374,3 +374,36 @@ if !isdirectory(&undodir)
     call mkdir(&undodir, 'p', 0700)
 endif
 ```
+
+### 鼠标的支持
+
+```shell
+if has('mouse')
+  if has('gui_running') || (&term =~ 'xterm' && !has('mac'))
+    set mouse=a
+  else
+    set mouse=nvi
+  endif
+endif
+```
+
+- 当 VIM 以图形界面运行或终端兼容 xterm 且不是 Mac 时，启用完全的鼠标支持。鼠标在 VIM 中拖拽时，VIM 将使用可视模式选中对应的内容。当按下 Shift 键时，操作系统或终端接管鼠标事件，用户可以使用鼠标复制 VIM 窗口里的内容供其他应用程序使用。
+- 否则（非图形界面的的终端，且终端类型不是 xterm），就只在正常模式（n）、可视模式（v）、插入模式（i）中使用鼠标。这意味着，当用户按下 `:` 键进入命令行模式时，VIM 将不对鼠标进行响应，这时，用户就可以使用鼠标复制 VIM 窗口里的内容到其他应用程序里去了。
+
+### 中文支持
+
+```shell
+set fileencodings=ucs-bom,utf-8,gb18030,latin1
+```
+
+1. 首先，检查文件是不是有 Unicode 的 BOM（字节顺序标记）字符，有的话按照 BOM 字符来转换文件内容。
+2. 其次，检查文件能不能当作 UTF-8 来解码；如果可以，就当作 UTF-8 来解释。
+3. 否则，尝试用 GB18030 来解码；如果能成功，就当作 GB18030 来转换文件内容。
+4. 最后，如果上面的解码都不成功，就按 Latin1 字符集来解码；由于这是单字节的编码，转换必定成功。
+
+## vim command
+
+### set
+
+- set ft?
+查询当前文件类型
