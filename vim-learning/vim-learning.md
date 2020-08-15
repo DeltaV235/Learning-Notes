@@ -1,55 +1,105 @@
 
 # VIM 笔记
 
-## 从normal进入insert
+## TODO
+
+- [ ] 整理笔记结构
+- [ ] 补充笔记内容
+- [ ] 重构图片目录
+
+## VIM 基础操作
+
+### VIM 模式
+
+#### Normal Mode
+
+VIM 打开后默认的模式，用于光标的移动和文本的操作。
+
+**Normal Mode** 下的光标行内快速移动
+
+- **w / W**
+word / WORD(以空格为分割符)
+移动至下一个单词开头
+- **e / E**
+end of word / 以空格为分隔符
+移动至下一个单词尾部
+- **b / B**
+backword / 以空格为分隔符
+移动至上一个单词开头
+- **t / T**
+till / 向前搜索
+光标后移直到找到指定的字母
+- **f / F**
+find / 向前搜索
+查找指定的字母并将光标移至其上
+
+#### Insert Mode
+
+VIM 中写入文本的模式。
+
+从 **Normal Mode** 进入 **Insert Mode**
+
+- **a**
+append
+在光标后进入 Insert Mode
+- **i**
+insert
+在光标前进入 Insert Mode
+- **o**
+open a line below
+在光标下新增一行并进入插入模式
+- **A**
+append after line
+在行末进入 Insert Mode
+- **I**
+insert before line
+在行首进入 Insert Mode
+- **O**
+append a line above
+在光标上新增一行并进入插入模式
+
+#### Command Mode
+
+末行模式
+
+- `sp`、`vs`
+分屏编辑
+- `% s/str1/str2/[g]`
+文本[全局]替换;
+
+#### visual Mode
+
+Normal Mode 下
+`v` / `V` / `^v` 进行可视化    (光标/整行选中/块)操作
+
+#### Replace Mode
+
+`R` 进入替换模式
+
+## VIM 使用技巧
+
+### VIM 快捷键 (Insert Mode)
 
 ```shell
-a           # append
-i           # insert
-o           # open a line below
-A           # append after line
-I           # insert before line
-O           # append a line above
-```
-
-```shell
-sp、vs                          可进行分屏编辑
-% s/str1/str2/[g]               可进行文本[全局]替换;
-normal模式下  v/V/^v进行可视化    (光标/整行选中/块)操作
-```
-
-## vim 快捷键 (insert mode)
-
-```shell
+ctrl + j                # 换行
 ctrl + h                # 删除字符
 ctrl + w                # 删除单词
 ctrl + u                # 删除一行
 ctrl + c / [            # 功能同Esc 切换insert和normal模式
 ```
 
----
-shell:
+- shell shortcut:
 
 ```shell
 ctrl+a ahead of command line
 ctrl+e end of command line
 ```
 
----
-
-## normal下的快速移动
-
-```shell
-w/W         # word/WORD(以空格为分割符)               移动至下一个单词开头
-e/E         # end of word/以空格为分隔符              移动至下一个单词尾部
-b/B         # backword                               移动至上一个单词开头
-```
-
-## 行间搜索
+### 行间搜索
 
 ```shell
 f           find   # 移动到字符上        ;/,     搜索下一个/上一个
-t                  # 移动到前一个字符
+t           till   # 移动到前一个字符
 F                  # 向前搜索
 ^                  # 移动第一个非空白字符
 0                  # 移动至行首
@@ -57,8 +107,12 @@ $                  # 移动至行尾
 
 ^u                 # up(half page)
 ^d                 # down(half page)
+
 ^f                 # front
 ^b                 # back
+
+^e                 # down scroll onw row
+^y                 # up scroll one row
 
 ^o                 # 快速返回
 
@@ -66,12 +120,15 @@ gg                 # 文件头
 G                  # 文件尾
 
 H/M/L              # Head/Middle/Lower
+
 zz                 # 中置当前行
+zt                 # 将当前行至于屏幕顶部
+zb                 # 将当前行至于屏幕底部
 ```
 
-## 快速增删改查(normal mode)
+### 快速增删改查(normal mode)
 
-### 删除
+#### 删除
 
 ```shell
 x                   # 快速删除一个字符
@@ -89,7 +146,7 @@ visual mode:
 d                   # delete select string
 ```
 
-### 修改
+#### 修改
 
 ```shell
 r                   # replace           替换一个字符
@@ -104,7 +161,7 @@ ct"                 # change to "
 ctw                 # change to word
 ```
 
-### 搜索
+#### 搜索
 
 ```shell
 /                   # 向前(front)搜索
@@ -116,40 +173,72 @@ N                   # 跳转到上一个匹配
 
 ---
 
-## vim搜索替换
+### vim搜索替换
 
-![vim_search_replace](pic/replace/vim-replcae-command-1.png)
-![vim_search_flags](pic/replace/vim-replcae-command-2.png)
+substitude 命令允许我们查找并且替换掉文本，并且支持正则表达式
+
+`:[range]s[ubstitude]/{pattern}/{string}/{flag}`
+
+- range 表示范围 比如 :10,20 表示 10-20 行，% 表示全部文本
+- pattern 是要替换的模式，string 是替换后的文本
+- flag 替换标志位
+  - g(global) 全局范围内执行
+  - c(confirm) 替换前确认
+  - n(number) 仅报告匹配到的次数而不替换，可以用来查询匹配的次数
 
 ---
 
-## vim多文件操作
+### vim多文件操作
 
-![vim-buffer-window-tab](pic/multifiles/vim-buffer-window-tab.png)
+- buffer 是指打开的一个文件的内存缓冲区
+- window 是 buffer 可视化的分割区域
+- tab 可以组织 window 为一个工作区
+
 ![vim-buffer-window-tab-2](pic/multifiles/vim-buffer-window-tab-2.png)
-![what_is_buffer](pic/multifiles/vim-what-is-buffer.png)
-![vim-buffer](pic/multifiles/vim-buffer.png)
+
+#### Buffer
+
+- VIM 打开一个文件后会加载文件内容到缓冲区
+- 之后的修改都是针对内存中的缓冲群，并不会直接保存到文件
+- 直到我们执行 `:w` 的时候才会把修改内容写入到文件里
+- buffer 切换
+  - 使用 `:ls`会列举当前缓冲区，使用 `:b n` 跳转到第 n 个缓冲区
+  - `:bpre` `:bnext` `:bfirst` `:blast`
+  - `:b buffer_name` 加上 tab 补全来跳转
 
 ---
-![what_is_window](pic/multifiles/vim-what-is-window.png)
+
+#### Window
+
+窗口是可视化的分割区域
+
+- 一个缓冲区可以分割为多个窗口，每个窗口也可以打开不同的缓冲区
+- `<C-w> + s` 水平分割，`<C-w> + v` 垂直分割。或者 `:sp` 和 `:vs`
+- 每个窗口可以继续无限分割
+- `<C-w> + p`跳转到上一个窗口
+
 ![how_to_switch_window](pic/multifiles/vim-how-to-switch-window.png)
-`<C-w-p>`跳转到上一个窗口
 ![how_to_resize_window](pic/multifiles/vim-how-to-resize-window.png)
 
 ---
-![what_is_tab](pic/multifiles/vim-what-is-tab.png)
+
+#### Tab
+
+Tab 是可以容纳一系列窗口的容器(:h tabpage)
+
 ![how_to_use_tab](pic/multifiles/vim-how-to-create-tab.png)
 ![how_to_switch_tab](pic/multifiles/vim-how-to-switch-tab.png)
 
 ---
 
-## vim的Text Object
+### vim的Text Object
 
 ```shell
 [number]<command>[text object]
 ```
 
-![oper-text-object](pic/text_object/vim-how-to-oper-text-object.png)
+- number 表示次数，command 是命令，d(delete)，c(change)，y(yank)
+- text object 是要操作的文本对象，比如单词 w，句子 s，段落 p
 
 ```shell
 iw              # inner word
@@ -159,7 +248,7 @@ i"              # inner ""
 
 ---
 
-## vim下的复制粘贴和寄存器
+### vim下的复制粘贴和寄存器
 
 **normal mode:**
 
@@ -171,9 +260,18 @@ yiw             # yank inner a word
 ```
 
 **register:**
-![vim-register](pic/register/vim-register.png)
-**其他寄存器**
-![vim-register-other](pic/register/vim-register-other.png)
+
+VIM 不使用单一剪贴板进行剪贴、复制与粘贴，而是多组寄存器
+
+- 通过 `"{register}` 前缀可以指定寄存器，不指定则默认使用无名寄存器
+- `"ayiw` 复制一个单词到寄存器 a 中，`"bdd` 剪贴当前行到寄存器 b 中
+- VIM 中 `""` 表示无名寄存器，缺省使用。`""p` <==> `p`
+
+除了有名寄存器 a-z，VIM 中还有一些常见寄存器
+
+- 复制专用寄存器 `"0` 使用 y 复制文本同时会被拷贝到复制寄存器0中
+- 系统剪贴板 `"+`
+- `"%` 当前文件名，`".` 上次插入的文本
 
 ```vim
 :e! 重新加载文件 ,且不保存
@@ -185,7 +283,7 @@ set unpaste
 
 ---
 
-## 宏的录制和使用
+### 宏的录制和使用
 
 Vim使用q键来录制，q键结束录制
 使用 q{register} 选择要保存的寄存器，把录制的命令保存其中
@@ -193,19 +291,19 @@ Vim使用q键来录制，q键结束录制
 
 ---
 
-## 代码补全
+### 代码补全
 
 ![vim-code-completion](pic/code_completion/vim-code-completion.png)
 
 ---
 
-## 修改vim配色
+### 修改vim配色
 
 ![vim-colorscheme](pic/colorscheme/color_scheme.jpg)
 
 ---
 
-## vim常用命令
+### vim常用命令
 
 ```vim
 :h option-list 命令查询
@@ -213,11 +311,11 @@ Vim使用q键来录制，q键结束录制
 
 ---
 
-## vim映射
+### vim映射
 
 vim映射就是把 一个操作 映射到 另一个操作
 
-### 基本映射
+#### 基本映射
 
 所有模式下都生效
 
@@ -229,7 +327,7 @@ imap key default_key        # 只在insert下生效
 imap/nmap/vmap              # 定义的映射只在insert/normal/visual下有效
 ```
 
-#### 非递归映射
+##### 非递归映射
 
 映射不会递归解释映射的按键
 
