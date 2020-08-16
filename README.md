@@ -1,4 +1,4 @@
-# Learning notes
+# Learning Notes
 
 - **configuration-files**: 一些SSM的配置文件
 - **frontEnd-learning**: 前端相关笔记

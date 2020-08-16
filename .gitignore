@@ -12,13 +12,13 @@ libs/
 out/
 
 # ignore bootstrap file
-frontSide-learning/Bootstrap/train/css/
-frontSide-learning/Bootstrap/train/js/
-frontSide-learning/Bootstrap/train/fonts/
+08-frontEnd-learning/Bootstrap/train/css/
+08-frontEnd-learning/Bootstrap/train/js/
+08-frontEnd-learning/Bootstrap/train/fonts/
 
 # Test File
 *.test
-java-learning/train/SXT_Train/Test/
+13-java-learning/train/SXT_Train/Test/
 *.mp4
 
 # Compiled class file
