@@ -24,4 +24,6 @@
 - **22-vue-learning**: Vue 使用记录
 - **23-crowdfunding**: 实验项目，众筹网
 - **24-sino-learning**: 培训笔记
+- **25-dubbo-learning**: dubbo 笔记
+- **26-spring-cloud-learning**: Spring Cloud 笔记
 
