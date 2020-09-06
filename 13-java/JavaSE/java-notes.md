@@ -219,6 +219,47 @@ class Student implements Person, Named
 1. 匿名内部类没有访问修饰符。
 2. 匿名内部类没有构造方法。因为它连名字都没有那又何来构造方法呢。
 
+## 函数式接口
+
+有且仅有一个**未实现**的方法，存在任意个默认(default)方法、任意个静态方法 的接口称为**函数式接口**(FunctionalInterface)
+
+函数式接口要使用 `@FunctionalInterface` 注解来标识。
+
+```java
+@FunctionalInterface
+interface Foo {
+
+    int add(int a, int b);
+
+    default double div(double a, double b) {
+        return a / b;
+    }
+
+    default double mod(int a, int b) {
+        return a % b;
+    }
+
+    static double mul(double a, double b) {
+        return a * b;
+    }
+}
+```
+
+### 常用的函数式接口
+
+// TODO 常用的函数式接口
+
+## Lambda 表达式
+
+`Lambda Expression` 可以简化匿名内部类的编写，可以直接实现函数式接口
+
+```java
+System.out.println(Foo.mul(4, 5));
+Foo foo = (a, b) -> a + b;
+System.out.println(foo.add(4, 5));
+System.out.println(foo.div(20, 4));
+```
+
 ## 字符串比较
 
 >1. equals方法用来检测两个字符串内容是否相等。如果字符串s和t内容相等，则s.equals(t)返回true，否则返回false。  
