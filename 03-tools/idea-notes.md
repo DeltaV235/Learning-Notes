@@ -38,6 +38,7 @@
 `shift + F12`: 恢复默认窗口布局
 `alt + 1`: 将焦点移至project窗口,在焦点已经在project窗口时,trigger该窗口
 `ctrl + shift + j`: 将光标处下一行的内容合并至当前行的行尾
+`ctr + alt + t`: Surround With
 
 ## Default Live Template
 
