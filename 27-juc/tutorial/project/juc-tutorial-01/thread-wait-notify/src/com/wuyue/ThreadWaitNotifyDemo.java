@@ -29,6 +29,24 @@ public class ThreadWaitNotifyDemo {
                 }
             }
         }, "B").start();
+        new Thread(() -> {
+            for (int i = 0; i < 10; i++) {
+                try {
+                    cake.decrement();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, "C").start();
+        new Thread(() -> {
+            for (int i = 0; i < 10; i++) {
+                try {
+                    cake.increment();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, "D").start();
     }
 }
 
@@ -36,7 +54,7 @@ class Cake {
     private int count = 0;
 
     public synchronized void increment() throws InterruptedException {
-        if (count != 0) {
+        while (count != 0) {
             wait();
         }
         count++;
@@ -45,7 +63,7 @@ class Cake {
     }
 
     public synchronized void decrement() throws InterruptedException {
-        if (count == 0) {
+        while (count == 0) {
             wait();
         }
         count--;

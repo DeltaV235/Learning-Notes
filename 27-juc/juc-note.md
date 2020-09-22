@@ -28,6 +28,35 @@
 
 ![img](juc-note.assets/v2-674f0d37fca4fac1bd2df28a2b78e633_1440w.jpg)
 
+## 线程的虚假唤醒
+
+```java
+class Cake {
+    private int count = 0;
+
+    public synchronized void increment() throws InterruptedException {
+        if (count != 0) {
+            wait();
+        }
+        count++;
+        System.out.println(Thread.currentThread().getName() + " : " + count);
+        notifyAll();
+    }
+
+    public synchronized void decrement() throws InterruptedException {
+        if (count == 0) {
+            wait();
+        }
+        count--;
+        System.out.println(Thread.currentThread().getName() + " : " + count);
+        notifyAll();
+    }
+}
+```
+
+若存在大于 2 个线程操作资源类，可能存在虚假唤醒的问题。
+只要相邻 2 个被唤醒的线程是同一个操作，那么 `count` 将不再交替增减。因为在线程唤醒时，无法指定唤醒线程执行的操作，而线程在唤醒后直接进行增减操作，而没有再次进行判断，从而导致不再交替增减。并且存在死锁的可能。
+
 ## java.util.concurrent
 
 > 线程 操作 资源类
