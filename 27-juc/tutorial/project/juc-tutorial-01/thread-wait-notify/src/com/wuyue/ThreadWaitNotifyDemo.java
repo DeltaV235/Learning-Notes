@@ -54,7 +54,7 @@ class Cake {
     private int count = 0;
 
     public synchronized void increment() throws InterruptedException {
-        while (count != 0) {
+        while (count > 0) {
             wait();
         }
         count++;
@@ -63,7 +63,7 @@ class Cake {
     }
 
     public synchronized void decrement() throws InterruptedException {
-        while (count == 0) {
+        while (count <= 0) {
             wait();
         }
         count--;
