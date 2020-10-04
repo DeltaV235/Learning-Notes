@@ -72,3 +72,14 @@ PermitRootLogin no
 ```
 
 **.ssh目录权限必须为700，authorized_keys权限为600，user group 为登录用户** !
+
+## misc
+
+### 多人共享命令行 IO
+
+**Cation**: need root permission
+
+```bash
+sudo screen -S foo # 指定screen作业的名称
+sudo screen -x foo # 恢复之前离线的screen作业
+```
