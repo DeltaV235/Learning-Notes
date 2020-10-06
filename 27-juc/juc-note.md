@@ -30,6 +30,8 @@
 
 ## 线程的虚假唤醒
 
+在多线程交互的过程中，由于是否继续执行的判断只使用了 `if ()` 做了一次判断，所以会存在虚假唤醒错误线程的情况。
+
 ```java
 class Cake {
     private int count = 0;
@@ -57,11 +59,144 @@ class Cake {
 若存在大于 2 个线程操作资源类，可能存在虚假唤醒的问题。
 只要相邻 2 个被唤醒的线程是同一个操作，那么 `count` 将不再交替增减。因为在线程唤醒时，无法指定唤醒线程执行的操作，而线程在唤醒后直接进行增减操作，而没有再次进行判断，从而导致不再交替增减。并且存在死锁的可能(判断条件的问题)。
 
+所以线程的唤醒需要使用 `while ()` 来作为判断的条件。
+
+**synchronized 实现**：
+
+```java
+class Cake {
+    private int count = 0;
+
+    public synchronized void increment() throws InterruptedException {
+        while (count > 0) {
+            wait();
+        }
+        count++;
+        System.out.println(Thread.currentThread().getName() + " : " + count);
+        notifyAll();
+    }
+
+    public synchronized void decrement() throws InterruptedException {
+        while (count <= 0) {
+            wait();
+        }
+        count--;
+        System.out.println(Thread.currentThread().getName() + " : " + count);
+        notifyAll();
+    }
+}
+```
+
+**ReentrantLock 实现**：
+
+```java
+class DiffCake {
+    private int count = 0;
+    private final Lock lock = new ReentrantLock();
+    private final Condition condition = lock.newCondition();
+
+    public void increment() throws InterruptedException {
+        lock.lock();
+        try {
+            while (this.count != 0) {
+                condition.await();
+            }
+            System.out.println(Thread.currentThread().getName() + " count: " + ++count);
+            condition.signalAll();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public void decrement() throws InterruptedException {
+        lock.lock();
+        try {
+            while (this.count == 0) {
+                condition.await();
+            }
+            System.out.println(Thread.currentThread().getName() + " count: " + --count);
+            condition.signalAll();
+        } finally {
+            lock.unlock();
+        }
+    }
+}
+```
+
+## 线程的精准顺序唤醒
+
+```java
+class Resource {
+    private int number = 1; // 1:A 2:B 3:C
+    private final Lock lock = new ReentrantLock();
+    private final Condition condition1 = lock.newCondition();
+    private final Condition condition2 = lock.newCondition();
+    private final Condition condition3 = lock.newCondition();
+
+    public void print5() {
+        lock.lock();
+        try {
+            while (this.number != 1) {
+                condition1.await();
+            }
+            for (int i = 0; i < 5; i++) {
+                System.out.printf("%s : %s%n", Thread.currentThread().getName(), i);
+            }
+            number = 2;
+            condition2.signal();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public void print10() {
+        lock.lock();
+        try {
+            while (this.number != 2) {
+                condition2.await();
+            }
+            for (int i = 0; i < 10; i++) {
+                System.out.printf("%s : %s%n", Thread.currentThread().getName(), i);
+            }
+            number = 3;
+            condition3.signal();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public void print15() {
+        lock.lock();
+        try {
+            while (this.number != 3) {
+                condition3.await();
+            }
+            for (int i = 0; i < 15; i++) {
+                System.out.printf("%s : %s%n", Thread.currentThread().getName(), i);
+            }
+            number = 1;
+            condition1.signal();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            lock.unlock();
+        }
+    }
+}
+```
+
+`number` 用于指定运行的线程，`signal` 时指定线程唤醒，线程之间不再争抢锁
+
 ## java.util.concurrent
 
-> 线程 操作 资源类
+> 高内聚低耦合的前提下，线程 操作 资源类
 > 判断、干活、通知
 > 多线程交互中，必须要防止多线程的虚假唤醒，也即（判断只用 while，不能用 if）
+> 标志位
 > PC 程序计数器
 
 ### java.util.concurrent.lock
@@ -85,7 +220,7 @@ try {
 
 `ReentrantLock`要放在 `try-catch-finally` 块外。
 
-> 在使用阻塞等待获取锁的方式中，必须在try代码块之外，并且在加锁方法与try代码块之间没有任何可能抛出异常的方法调用，避免加锁成功后，在finally中无法解锁。
-说明一：如果在lock方法与try代码块之间的方法调用抛出异常，那么无法解锁，造成其它线程无法成功获取锁。
-说明二：如果lock方法在try代码块之内，可能由于其它方法抛出异常，导致在finally代码块中，unlock对未加锁的对象解锁，它会调用AQS的tryRelease方法（取决于具体实现类），抛出IllegalMonitorStateException异常。
-说明三：在Lock对象的lock方法实现中可能抛出unchecked异常，产生的后果与说明二相同。
+> 在使用阻塞等待获取锁的方式中，必须在 try 代码块之外，并且在加锁方法与 try 代码块之间没有任何可能抛出异常的方法调用，避免加锁成功后，在 finally 中无法解锁。
+> 说明一：如果在 lock 方法与 try 代码块之间的方法调用抛出异常，那么无法解锁，造成其它线程无法成功获取锁。
+> 说明二：如果 lock 方法在 try 代码块之内，可能由于其它方法抛出异常，导致在 finally 代码块中，unlock 对未加锁的对象解锁，它会调用 AQS 的 tryRelease 方法（取决于具体实现类），抛出 IllegalMonitorStateException 异常。
+> 说明三：在 Lock 对象的 lock 方法实现中可能抛出 unchecked 异常，产生的后果与说明二相同。
