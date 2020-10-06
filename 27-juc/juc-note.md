@@ -189,7 +189,262 @@ class Resource {
 }
 ```
 
-`number` 用于指定运行的线程，`signal` 时指定线程唤醒，线程之间不再争抢锁
+`number` 用于指定运行的线程，`signal()` 时指定线程唤醒，线程之间不再争抢锁
+
+## 多线程锁的几种使用示例
+
+### 1.同步方法
+
+资源类：
+
+```java
+class LockResource {
+    public synchronized void sendEmail() throws InterruptedException {
+        System.out.println("email.....");
+    }
+
+    public synchronized void sendSMS() {
+        System.out.println("SMS.....");
+    }
+}
+```
+
+线程启动类：
+
+```java
+public class EightLock {
+    public static void main(String[] args) throws InterruptedException {
+        LockResource resource = new LockResource();
+        new Thread(() -> {
+            try {
+                resource.sendEmail();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }, "A").start();
+
+        TimeUnit.MILLISECONDS.sleep(100L);
+
+        new Thread(() -> {
+            try {
+                resource.sendSMS();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }, "B").start();
+    }
+}
+```
+
+`TimeUnit.MILLISECONDS.sleep(100L);` 主线程在此阻塞 100 ms，以提高 `sendEmail()` 限制性的概率。
+**运行结果**：email 先于 sms 打印
+`sendEmail()` **A** 线程先进入运行状态(Running)（大概率），后 **B** 线程进入就绪状态(Runable)
+
+### 2.sendEmail()暂停 4 秒
+
+资源类：
+
+```java
+class LockResource {
+    public synchronized void sendEmail() throws InterruptedException {
+        TimeUnit.SECONDS.sleep(4L);
+        System.out.println("email.....");
+    }
+
+    public synchronized void sendSMS() {
+        System.out.println("SMS.....");
+    }
+}
+```
+
+线程启动类：
+
+```java
+public class EightLock {
+    public static void main(String[] args) throws InterruptedException {
+        LockResource resource = new LockResource();
+        new Thread(() -> {
+            try {
+                resource.sendEmail();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }, "A").start();
+
+        TimeUnit.MILLISECONDS.sleep(100L);
+
+        new Thread(() -> {
+            try {
+                resource.sendSMS();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }, "B").start();
+    }
+}
+```
+
+**运行结果**：email 先于 sms 打印
+`sendEmail()` **A** 拿到 Lock 后，进入 Running 状态，随后 `Thread.sleep(4000)` 进入 Blocked 状态，但没有释放锁，当 Blocked 结束，打印 email，后释放锁，`sendSMS()` **B** 线程获得 Lock，然后打印 SMS
+
+### 3.同步方法与普通方法
+
+资源类：
+
+```java
+class LockResource {
+    public synchronized void sendEmail() throws InterruptedException {
+        TimeUnit.SECONDS.sleep(4L);
+        System.out.println("email.....");
+    }
+
+    public void hello() {
+        System.out.println("hello.....");
+    }
+}
+```
+
+线程启动类：
+
+```java
+public class EightLock {
+    public static void main(String[] args) throws InterruptedException {
+        LockResource resource = new LockResource();
+        new Thread(() -> {
+            try {
+                resource.sendEmail();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }, "A").start();
+
+        TimeUnit.MILLISECONDS.sleep(100L);
+
+        new Thread(() -> {
+            try {
+                resource.hello();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }, "B").start();
+    }
+}
+```
+
+**运行结果**：hello 先于 email 打印
+`hello()` **B** 线程不需要获取 Lock，所以直接打印 hello，两个线程之间无锁关系
+
+### 4.两个资源类
+
+资源类：
+
+```java
+class LockResource {
+    public synchronized void sendEmail() throws InterruptedException {
+        TimeUnit.SECONDS.sleep(4L);
+        System.out.println("email.....");
+    }
+
+    public synchronized void sendSMS() {
+        System.out.println("SMS.....");
+    }
+}
+```
+
+线程启动类：
+
+```java
+public class EightLock {
+    public static void main(String[] args) throws InterruptedException {
+        LockResource resource = new LockResource();
+        LockResource resource2 = new LockResource();
+        new Thread(() -> {
+            try {
+                resource.sendEmail();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }, "A").start();
+
+        TimeUnit.MILLISECONDS.sleep(100L);
+
+        new Thread(() -> {
+            try {
+                resource2.sendSMS();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }, "B").start();
+    }
+}
+```
+
+**运行结果**：sms 先于 email 打印
+两个线程获取两个不同对象的锁，两个线程之间无锁关系，锁对象为 `resource` 和 `resource2`
+
+### 5.两个静态同步方法，同一个资源类
+
+资源类：
+
+```java
+class LockResource {
+    public static synchronized void sendEmail() throws InterruptedException {
+        TimeUnit.SECONDS.sleep(4L);
+        System.out.println("email.....");
+    }
+
+    public static synchronized void sendSMS() {
+        System.out.println("SMS.....");
+    }
+}
+```
+
+线程启动类：
+
+```java
+public class EightLock {
+    public static void main(String[] args) throws InterruptedException {
+        LockResource resource = new LockResource();
+        new Thread(() -> {
+            try {
+                resource.sendEmail();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }, "A").start();
+
+        TimeUnit.MILLISECONDS.sleep(100L);
+
+        new Thread(() -> {
+            try {
+                resource.sendSMS();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }, "B").start();
+    }
+}
+```
+
+**运行结果**：email 先于 sms 打印
+两个线程获取同一个类的锁，**A** 线程先获得 Lock，Timed_waiting 后又不释放锁，所以 email 先于 sms 打印，与是否为同一资源类无关
+锁对象为 `LockResource.class`
+
+### 6.两个静态同步方法，两个资源类
+
+**运行结果**：email 先于 sms 打印
+同上，两个线程获取同一个类的锁，**A** 线程先获得 Lock，Timed_waiting 后又不释放锁，所以 email 先于 sms 打印，与是否为同一资源类无关
+锁对象为 `LockResource.class`
+
+### 7.一个同步方法，一个静态同步方法，一个资源类
+
+**运行结果**：sms 先于 email 打印
+锁对象为 `resource` `LockResource.class`，无锁关系
+
+### 8.一个同步方法，一个静态同步方法，两个资源类
+
+**运行结果**：sms 先于 email 打印
+锁对象为 `resource` `LockResource.class`，无锁关系
 
 ## java.util.concurrent
 
@@ -198,6 +453,20 @@ class Resource {
 > 多线程交互中，必须要防止多线程的虚假唤醒，也即（判断只用 while，不能用 if）
 > 标志位
 > PC 程序计数器
+
+### java.util.concurrent.TimeUnit
+
+一个用于转换时间单位，阻塞线程指定时间的枚举类
+
+```java
+TimeUnit.SECONDS.sleep(4);
+```
+
+<==>
+
+```java
+Thread.sleep(4 * 1000);
+```
 
 ### java.util.concurrent.lock
 
