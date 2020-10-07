@@ -32,13 +32,13 @@ public class EightLock {
             }
         }, "B").start();
 
-//        new Thread(() -> {
-//            try {
-//                resource.hello();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }, "C").start();
+        new Thread(() -> {
+            try {
+                resource.hello();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }, "C").start();
     }
 }
 
