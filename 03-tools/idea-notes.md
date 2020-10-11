@@ -1,6 +1,6 @@
 # IDEA使用笔记
 
-## plugins
+## Plugins
 
 1. Background Image Plus
 2. CodeGlance: vscod右侧代码地图
@@ -38,7 +38,9 @@
 `shift + F12`: 恢复默认窗口布局
 `alt + 1`: 将焦点移至project窗口,在焦点已经在project窗口时,trigger该窗口
 `ctrl + shift + j`: 将光标处下一行的内容合并至当前行的行尾
-`ctr + alt + t`: Surround With
+`ctrl + alt + t`: **Surround** with **Suggest Code Block** and **Live Template**
+`ctrl + alt + j`: **Surround** with **Live Template**
+`ctrl + j`: Show **All Available Live Template** and Put It on **Current Cursor**
 
 ## Default Live Template
 
@@ -47,3 +49,13 @@
 `iter`: 遍历最近的可遍历对象
 `sout`: System.out.println()
 `main/psvm`: public static void main(String[] args) {}
+
+## Live Template
+
+- **\$END\$**
+The cursor position when all parameters are filled.
+`$END$` indicates the position of the cursor when the code snippet is complete, and you can no longer press Tab to jump to the next variable.
+- **\$SELECTION\$**
+`$SELECTION$` is used in surround templates and denotes the code fragment to be wrapped. After the template expands, it wraps the selected text as specified in the template. For example, if you select EXAMPLE in your code and invoke the "`$SELECTION$`" template via the assigned abbreviation or by pressing `Ctrl+Alt+T` and selecting the desired template from the list, IntelliJ IDEA will wrap the selection in double quotes as follows: "EXAMPLE".
+
+[Live Template Variables Usage](https://www.jetbrains.com/help/idea/2020.2/edit-template-variables-dialog.html)
