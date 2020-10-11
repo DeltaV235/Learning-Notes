@@ -478,6 +478,108 @@ Java 中的**每个对象**都可以作为锁。
 > 标志位
 > PC 程序计数器
 
+### 线程不安全集合
+
+`ArrayList` `HashSet` `HashMap`
+
+Demo:
+
+```java
+public static void main(String[] args) {
+    List<String> list = new ArrayList<>();
+    for (int i = 0; i < 200; i++) {
+        new Thread(() -> {
+            list.add(UUID.randomUUID().toString().substring(0, 8));
+            System.out.println(list);
+        }, String.valueOf(i)).start();
+    }
+}
+```
+
+### 线程安全集合
+
+`CopyOnWriteArrayList` `CopyOnWriteHashSet` `ConcurrentHashMap`
+
+前两者采用读写分离的思想实现
+
+#### Vector(非 juc)
+
+#### Collections.synchronizedList() (非 juc)
+
+#### CopyOnWriteArrayList()
+
+`CopyOnWrite` 容器即写时复制的容器。往一个容器添加元素的时候，不直接往当前容器Object[\]添加，而是先将当前容器Object[\]进行Copy，复制出一个新的容器Object[] newElements，然后向新的容器Object[] newElements里添加元素。
+添加元素后，再将原容器的引用指向新的容器setArray(newElements)。
+这样做的好处是可以对CopyOnWrite容器进行并发的读，而不需要加锁，因为当前容器不会添加任何元素。
+所以CopyOnWrite容器也是一种读写分离的思想，读和写不同的容器。
+
+source:
+
+```java
+public boolean add(E e) {
+    synchronized (lock) {
+        Object[] es = getArray();
+        int len = es.length;
+        es = Arrays.copyOf(es, len + 1);
+        es[len] = e;
+        setArray(es);
+        return true;
+    }
+}
+```
+
+### Callable
+
+- 与 `Runable` 的区别
+  - `Callable` 有返回值
+  - `Callable` 能够抛出异常
+  - `Callable` 支持泛型，能够控制 `call()` 方法的返回值
+  - `Callable` 需实现 `call()` 方法， `Runable` 需要实现 `run()` 方法
+  - 需要 `FutureTask` 类来启动线程
+
+- Demo:
+
+```java
+public class CallableDemo {
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+        FutureTask<Integer> integerFutureTask = new FutureTask<>(new CallableThread());
+        new Thread(integerFutureTask, "A").start();
+        System.out.println("integerFutureTask.get() = " + integerFutureTask.get());
+    }
+
+    static class CallableThread implements Callable<Integer> {
+        @Override
+        public Integer call() throws Exception {
+            System.out.println("hello callable");
+            return 2048;
+        }
+    }
+}
+```
+
+#### FutureTask
+
+- 一个继承了 `RunableFuture` 接口的实现类
+
+![image-20201011201304229](juc-note.assets/image-20201011201304229.png)
+
+通过 `get()` 方法获取 `Callable` `call()` 方法的返回值
+
+### Exception
+
+#### java.util.ConcurrentModificationException
+
+```java
+Exception in thread "0" java.util.ConcurrentModificationException
+    at java.base/java.util.ArrayList$Itr.checkForComodification(ArrayList.java:1043)
+    at java.base/java.util.ArrayList$Itr.next(ArrayList.java:997)
+    at java.base/java.util.AbstractCollection.toString(AbstractCollection.java:472)
+    at java.base/java.lang.String.valueOf(String.java:2951)
+    at java.base/java.io.PrintStream.println(PrintStream.java:897)
+    at com.wuyue.NotSafeListDemo.lambda$main$0(NotSafeListDemo.java:20)
+    at java.base/java.lang.Thread.run(Thread.java:834)
+```
+
 ### java.util.concurrent.TimeUnit
 
 一个用于转换时间单位，阻塞线程指定时间的枚举类
