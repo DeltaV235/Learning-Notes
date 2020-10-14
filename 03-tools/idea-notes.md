@@ -82,6 +82,9 @@ The cursor position when all parameters are filled.
 
 [Reformat & Rearrange Offical Documentation](https://www.jetbrains.com/help/idea/reformat-and-rearrange-code.html)
 
+- Code cleanup
+Select this option to run the code cleanup inspections. IntelliJ IDEA finds and automatically fixes potentially problematic code fragments.
+
 ## Run Commands using IDE
 
 - *IDEA 2020 new feature*
@@ -89,3 +92,11 @@ The cursor position when all parameters are filled.
 ![image-20201011234517996](idea-notes.assets/image-20201011234517996.png)
 
 - Run Commands using IDE Press `Ctrl+Enter` to run the highlighted action using the relevant **IDE feature** instead of the terminal. Press `Ctrl+Shift+Enter` for **debug**. Press `Enter` to run the command in the terminal as **usual**. You can turn this behavior on/off in **Settings | Tools | Terminal**.
+
+## Version Control
+
+### Commit
+
+- use non-modal commit interface (*IDEA 2020 new feature*)
+
+![image-20201012011948540](idea-notes.assets/image-20201012011948540.png)
