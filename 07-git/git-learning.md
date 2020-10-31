@@ -59,6 +59,8 @@ git log --all --oneline --gragh # 查看版本库的提交历史
                                 # --gragh:图像化的显示提交的历史，若有all选项，则会显示所有分支的演进过程
 git log branchname              # 查看指定分支的提交历史，与--all一起使用则无效
 git branch -v                   # 显示分支 -v:分支最后一次提交的message
+git branch -r                   # --remote 显示远端分支
+git branch -a                   # --all 显示所有分支
 ```
 
 ### git的结构
@@ -247,8 +249,14 @@ git push reponame --all                     # push 所有分支
 
 ### git fetch
 
-将远端的仓库拉至本地，但**不执行merge**操作
+- 将远端的仓库拉至本地，但**不执行merge**操作
+
 `git fetch reponame`
+
+* remove any remote tracking branches that no longer exist remotely
+
+`git fetch -p`
+`git fetch --prune`
 
 ### git pull
 
