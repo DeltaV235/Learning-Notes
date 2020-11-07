@@ -83,3 +83,27 @@ PermitRootLogin no
 sudo screen -S foo # 指定screen作业的名称
 sudo screen -x foo # 恢复之前离线的screen作业
 ```
+
+### vnstat 查看网卡流量使用及实时网速
+
+```text
+ vnstat --help
+ vnStat 1.18 by Teemu Toivola <tst at iki dot fi>
+
+         -q,  --query          query database
+         -h,  --hours          show hours
+         -d,  --days           show days
+         -m,  --months         show months
+         -w,  --weeks          show weeks
+         -t,  --top10          show top 10 days
+         -s,  --short          use short output
+         -u,  --update         update database
+         -i,  --iface          select interface (default: eth0)
+         -?,  --help           short help
+         -v,  --version        show version
+         -tr, --traffic        calculate traffic
+         -ru, --rateunit       swap configured rate unit
+         -l,  --live           show transfer rate in real time
+
+See also "--longhelp" for complete options list and "man vnstat".
+```
