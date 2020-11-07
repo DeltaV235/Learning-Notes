@@ -12,10 +12,14 @@ public class RearrangeTest {
     @Override
     public String toString() {
         return "RearrangeTest{" +
-                "var5='" + var5 + '\'' +
-                ", var6=" + var6 +
-                ", var8=" + var8 +
-                ", var7=" + var7 +
+                "field1=" + field1 +
+                ", field=" + field +
+                ", field2=" + field2 +
+                ", field3=" + field3 +
+                ", field4=" + field4 +
+                ", field5=" + field5 +
+                ", field6=" + field6 +
+                ", field7=" + field7 +
                 '}';
     }
 
