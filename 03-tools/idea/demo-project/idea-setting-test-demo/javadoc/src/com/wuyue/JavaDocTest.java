@@ -23,6 +23,8 @@ public class JavaDocTest {
      * @param param  the param
      * @param param2 the param 2
      * @return the int
+     * @author wuyue
+     * @date 2020/11/8 3:06
      */
     public int foo(int param, String param2) {
         return 1;

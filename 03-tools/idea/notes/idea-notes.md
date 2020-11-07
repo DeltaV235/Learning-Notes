@@ -103,6 +103,14 @@ Select this option to run the code cleanup inspections. IntelliJ IDEA finds and 
 
 ![image-20201012011948540](idea-notes.assets/image-20201012011948540.png)
 
+## Changelist
+
+[Manage changelist](https://www.jetbrains.com/help/idea/managing-changelists.html)
+
+A changelist is a set of local changes that have not yet been committed to a VCS repository.
+
+With changelists, you can group changes related to different tasks and commit these sets of changes independently.
+
 ## Plugins Descriptions
 
 ### javadoc
