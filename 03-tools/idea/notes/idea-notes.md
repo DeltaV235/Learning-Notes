@@ -30,7 +30,8 @@
 22. color themes 有各种好看的主题，推荐sublime 3主题
 
 23. ANSI Highlighter 在IntelliJ编辑器下渲染ANSI转义序列
-24. SequencePlugin：显示指定方法的序列图
+24. SequencePlugin 显示指定方法的序列图
+25. javadoc 生成/删除/更新 javadoc
 
 ## Shortcut
 
@@ -101,3 +102,22 @@ Select this option to run the code cleanup inspections. IntelliJ IDEA finds and 
 - use non-modal commit interface (*IDEA 2020 new feature*)
 
 ![image-20201012011948540](idea-notes.assets/image-20201012011948540.png)
+
+## Plugins Descriptions
+
+### javadoc
+
+[Github javadocs wiki](https://github.com/setial/intellij-javadocs/wiki)
+
+Plugin generates java docs for all elements in java classes.
+To generate javadocs for active element press "shift + alt + G".
+To generate javadocs for all elements in current java file press "shift + ctrl + alt + G".
+You can also select a part of code in editor and press "shift + alt + G" or from context dialog ("Javadocs -> Selected element" in case of Intellij Idea before 13 and "JavaDocs for the selected element" in case of Intellij Idea 13 and greater) and javadocs will be created for all selected elements.
+Both of this actions could be executed from the generate popup dialog ("alt + insert").
+
+Since release 1.0.11 new shortcuts are available:
+
+- Remove javadocs on current/selected element: "shift + alt + Z"
+- Remove javadocs on all elements of current class: "shift + ctrl + alt + Z"
+- From project view available new option to Create javadocs for selected folder/files
+- From project view available new option to Remove javadocs for selected folder/files
