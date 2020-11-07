@@ -1,0 +1,3 @@
+--proxy http://localhost:7890
+
+-o ~/youtube-video-download/%(title)s.%(ext)s
