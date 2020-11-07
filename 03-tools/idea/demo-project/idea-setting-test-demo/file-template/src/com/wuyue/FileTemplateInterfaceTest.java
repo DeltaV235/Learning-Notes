@@ -3,8 +3,7 @@ package com.wuyue;
 /**
  * @author DeltaV235
  * @version 1.0
- * @className FileTemplateInterfaceTest
- * @date 2020/10/12 1:00
+ * @date 2020/11/8 0:52
  */
 public interface FileTemplateInterfaceTest {
 }
