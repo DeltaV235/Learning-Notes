@@ -30,6 +30,7 @@
 22. color themes 有各种好看的主题，推荐sublime 3主题
 
 23. ANSI Highlighter 在IntelliJ编辑器下渲染ANSI转义序列
+24. SequencePlugin：显示指定方法的序列图
 
 ## Shortcut
 
