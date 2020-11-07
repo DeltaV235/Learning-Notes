@@ -3,9 +3,9 @@ package com.wuyue;
 /**
  * @author DeltaV235
  * @version 1.0
- * @className RearrangeTest
- * @description
  * @date 2020/10/11 23:19
+ *
+ * idea rearrange test demo
  */
 public class RearrangeTest {
 
@@ -65,9 +65,12 @@ public class RearrangeTest {
 
     protected void testMethod3() {}
 
-    private void testMethod4() {}
+    public void testMethod4() {}
 
     static void testMethod5() {}
+
+    public RearrangeTest(int var) {
+    }
 
     public RearrangeTest() {
     }
