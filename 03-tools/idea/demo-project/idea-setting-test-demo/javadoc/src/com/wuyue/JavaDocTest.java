@@ -1,7 +1,7 @@
 package com.wuyue;
 
 /**
- * The type Java doc test.
+ * javadoc 测试类
  *
  * @author DeltaV235
  * @version 1.0
@@ -20,11 +20,9 @@ public class JavaDocTest {
     /**
      * Foo int.
      *
-     * @param param  param1
+     * @param param  the param
      * @param param2 the param 2
-     * @return int int
-     * @author wuyue
-     * @date 2020 /11/8 2:37
+     * @return the int
      */
     public int foo(int param, String param2) {
         return 1;
