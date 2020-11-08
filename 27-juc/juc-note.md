@@ -717,6 +717,115 @@ public class SemaphoreDemo {
 
 `new Semaphore(1)` <==> `new ReentrantLock()`
 
+### ReadWriteLock
+
+- 读写锁
+  - 读读不互斥
+  - 读写互斥
+  - 写写互斥
+
+demo:
+
+```java
+/**
+ * ReentrantReadWriteLock 示例类
+ *
+ * @author DeltaV235
+ * @version 1.0
+ * @date 2020/11/8 20:58
+ */
+public class ReadWriteLockDemo {
+    public static void main(String[] args) {
+        Cache cache = new Cache();
+        // write threads
+        for (int i = 0; i < 5; i++) {
+            final int temp = i;
+            new Thread(() -> {
+                cache.put("key" + temp, temp);
+            }).start();
+        }
+
+        // read threads
+        for (int i = 0; i < 5; i++) {
+            final int temp = i;
+            new Thread(() -> {
+                Object value = cache.get("key" + temp);
+                System.out.println("value = " + value);
+            }).start();
+        }
+    }
+
+    static class Cache {
+        ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
+        Lock lock = new ReentrantLock();
+        private Map<String, Object> map = new HashMap<>();
+
+        public void put(String key, Object element) {
+            readWriteLock.writeLock().lock();
+//            lock.lock();
+            try {
+                System.out.println(Thread.currentThread().getName() + "\twrite start\t" + element);
+                map.put(key, element);
+                System.out.println(Thread.currentThread().getName() + "\twrite finish\t" + element);
+            } finally {
+                readWriteLock.writeLock().unlock();
+//                lock.unlock();
+            }
+
+        }
+
+        public Object get(String key) {
+            readWriteLock.readLock().lock();
+//            lock.lock();
+            try {
+                System.out.println(Thread.currentThread().getName() + "\tread start\t" + key);
+                Object retVal = map.get(key);
+                System.out.println(Thread.currentThread().getName() + "\tread finish\t" + key);
+                return retVal;
+            } finally {
+                readWriteLock.readLock().unlock();
+//                lock.unlock();
+            }
+
+        }
+    }
+}
+```
+
+在使用 `ReadWriteLock` 时，输出结果中，读写操作交替出现，写操作的开始和完成在相邻的输出语句完成，读操作并发出现，但读写不交叉。
+
+output:
+
+```java
+Thread-9    read start  key4
+Thread-8    read start  key3
+Thread-9    read finish  key4
+Thread-8    read finish  key3
+Thread-3    write start  3
+Thread-3    write finish  3
+Thread-1    write start  1
+Thread-1    write finish  1
+Thread-4    write start  4
+Thread-4    write finish  4
+Thread-6    read start  key1
+Thread-6    read finish  key1
+Thread-0    write start  0
+Thread-0    write finish  0
+Thread-2    write start  2
+Thread-2    write finish  2
+Thread-7    read start  key2
+Thread-7    read finish  key2
+value = 2
+value = null
+Thread-5    read start  key0
+Thread-5    read finish  key0
+value = 0
+value = 1
+value = null
+```
+
+在使用 `Lock` 使，读写交替出现，但写操作不存在并发执行。
+
 ### Exception
 
 #### java.util.ConcurrentModificationException
