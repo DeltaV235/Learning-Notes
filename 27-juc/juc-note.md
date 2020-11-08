@@ -602,6 +602,73 @@ public class CountDownLatchDemo {
 `countDownLatch.countDown` 使 `countDownLatch` 的计数减一。
 `countDownLatch.await()` 在 **count** 不为 **0** 时，会阻塞当前线程。
 
+### CyclicBarrier
+
+A synchronization aid that allows a set of threads to all wait for each other to reach a common barrier point. CyclicBarriers are useful in programs involving a fixed sized party of threads that must occasionally wait for each other. The barrier is called cyclic because it can be re-used after the waiting threads are released.
+
+**CyclicBarrier** 一个同步的辅助工具，可以使线程的集合全部等待这些线程都到达一个公共的障碍点后再继续执行。`CyclicBarrier` 对于程序执行一个固定大小的线程组，并且必须偶尔的等待其他线程，非常有用。这个阻碍点称为可循环的因为它可以被重用，在所有的等待线程被释放后。
+
+A CyclicBarrier supports an optional Runnable command that is run once per barrier point, after the last thread in the party arrives, but before any threads are released. This barrier action is useful for updating shared-state before any of the parties continue.
+
+CyclicBarrier 支持一个可选的 Runable 命令，每次所有线程都到达阻碍点后会被运行，在线程组里的最后一个线程到达阻碍点，在所有等待线程被释放前。这个阻碍动作(Runable)很有用，在更新共享的状态，在任何线程继续执行前。
+
+demo:
+
+```java
+/**
+ * CyclicBarrier 演示类
+ *
+ * @author DeltaV235
+ * @version 1.0
+ * @date 2020/11/8 17:22
+ */
+public class CyclicBarrierDemo {
+    public static void main(String[] args) {
+        CyclicBarrier cyclicBarrier = new CyclicBarrier(6, new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("total count has arrive threshold");
+            }
+        });
+
+        for (int i = 0; i < 6; i++) {
+            final int temp = i;
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    for (int j = 0; j < 3; j++) {
+                        System.out.println(Thread.currentThread().getName() + "\t" + temp);
+                        try {
+                            cyclicBarrier.await();
+                            System.out.println(Thread.currentThread().getName() + "\twaiting finish");
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        } catch (BrokenBarrierException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }, String.valueOf(i)).start();
+        }
+    }
+}
+```
+
+- Constructor
+  - **CyclicBarrier(int parties, Runnable barrierAction)**
+  Creates a new CyclicBarrier that will trip when the given number of parties (threads) are waiting upon it, and which will execute the given barrier action when the barrier is tripped, performed by the last thread entering the barrier.
+
+- Method
+  - **await()**
+  Waits until all parties have invoked await on this barrier.
+    - Returns:
+    the arrival index of the current thread, where index getParties() - 1 indicates the first to arrive and zero indicates the last to arrive
+    - Throws:
+      - InterruptedException - if the current thread was interrupted while waiting
+      - BrokenBarrierException - if another thread was interrupted or timed out while the current thread was waiting, or the barrier was reset, or the barrier was broken when await was called, or the barrier action (if present) failed due to an exception
+  - **await(long timeout, TimeUnit unit)**
+  Waits until all parties have invoked await on this barrier, or the specified waiting time elapses.
+
 ### Exception
 
 #### java.util.ConcurrentModificationException

@@ -3,6 +3,8 @@ package com.wuyue;
 import java.util.concurrent.CountDownLatch;
 
 /**
+ * CountDownLatch 演示类
+ *
  * @author DeltaV235
  * @version 1.0
  * @date 2020/11/8 16:32
