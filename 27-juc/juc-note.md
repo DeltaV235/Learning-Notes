@@ -669,6 +669,54 @@ public class CyclicBarrierDemo {
   - **await(long timeout, TimeUnit unit)**
   Waits until all parties have invoked await on this barrier, or the specified waiting time elapses.
 
+### Semaphore
+
+A counting semaphore. Conceptually, a semaphore maintains a set of permits. Each acquire() blocks if necessary until a permit is available, and then takes it. Each release() adds a permit, potentially releasing a blocking acquirer. However, no actual permit objects are used; the Semaphore just keeps a count of the number available and acts accordingly.
+
+Semaphores are often used to restrict the number of threads than can access some (physical or logical) resource.
+
+demo:
+
+```java
+/**
+ * Semaphore 信号量 示例代码
+ *
+ * @author DeltaV235
+ * @version 1.0
+ * @date 2020/11/8 18:33
+ */
+public class SemaphoreDemo {
+    public static void main(String[] args) {
+        Semaphore semaphore = new Semaphore(3);
+        for (int i = 0; i < 6; i++) {
+            new Thread(() -> {
+                try {
+                    semaphore.acquire();
+                    System.out.println(Thread.currentThread().getName() + "\tget semaphore");
+                    TimeUnit.SECONDS.sleep(new Random().nextInt(10));
+                    System.out.println(Thread.currentThread().getName() + "\trelease semaphore");
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+                    semaphore.release();
+                }
+            }).start();
+        }
+    }
+}
+```
+
+- **void acquire()**
+  - Acquires a permit from this semaphore, blocking until one is available, or the thread is interrupted.
+- **void acquire(int permits)**
+  - Acquires the **given number** of permits from this semaphore, blocking until all are available, or the thread is interrupted.
+- **void release()**
+  - Releases a permit, returning it to the semaphore.
+- **void release(int permits)**
+  - Releases the **given number** of permits, returning them to the semaphore.
+
+`new Semaphore(1)` <==> `new ReentrantLock()`
+
 ### Exception
 
 #### java.util.ConcurrentModificationException
