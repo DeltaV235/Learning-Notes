@@ -111,6 +111,47 @@ A changelist is a set of local changes that have not yet been committed to a VCS
 
 With changelists, you can group changes related to different tasks and commit these sets of changes independently.
 
+## Debugger
+
+[IDEA - Debugger 经验总结](https://moqimoqidea.github.io/2017/06/02/IDEA-Debugger/)
+[IntelliJ IDEA Debugger 经验总结 - youtube](https://www.youtube.com/watch?v=H-nIkSJ_1Bc&list=WL&index=19)
+
+### Analyze external stack traces
+
+[Analyze external stack traces](https://www.jetbrains.com/help/idea/analyzing-external-stacktraces.html)
+
+You might want to analyze exceptions received by someone else, for example, QA engineers, or investigate a deadlock, or a hang-problem. Unlike the exceptions that you get in the debug mode or when running unit tests, these exceptions do not have links that help you navigate to the corresponding locations in the source code. Moreover, the source code can be scrambled.
+
+With IntelliJ IDEA, you can copy an exception or full thread dump, paste it to the Stack Trace Analyzer, explore information, and navigate to the corresponding source code.
+
+### Alter the program's execution flow
+
+[Alter the program's execution flow](https://www.jetbrains.com/help/idea/altering-the-program-s-execution-flow.html)
+
+While debugging an application, you typically follow the normal flow of a program. However, there are cases when you need to deviate from it. This can be required in order to reproduce certain conditions or to test how the program deals with issues (for example, processes a null value or handles an exception).
+
+#### Return to a previous stack frame
+
+IntelliJ IDEA lets you fall back to a previous stack frame in a program's execution flow. This can be useful, for example, if you've mistakenly stepped too far, or want to re-enter a method where you missed a critical spot.
+
+- Click the Drop Frame icon Drop frame on the toolbar of the Debug tool window.
+
+![Drop Frame](idea-notes.assets/debug_altering_flow_df.png)
+
+#### Force return from the current method
+
+You can exit a method before it reaches the return statement and make it `return` an arbitrary value. This is useful when the problem is related to the return value of the method and not to how it's produced. **Force return** helps you test how the return values are handled by the program without having to reproduce the conditions that lead to these values.
+
+#### Throw an exception
+
+#### Reload modified classes
+
+### Analyze Java Stream operations
+
+[Analyze Java Stream operations](https://www.jetbrains.com/help/idea/analyze-java-stream-operations.html)
+
+Java 8 Streams may sometimes be difficult to debug. This happens because they require you to insert additional breakpoints and thoroughly analyze each transformation inside the stream. IntelliJ IDEA provides a solution to this by letting you visualize what is going on in Java Stream operations.
+
 ## Plugins Descriptions
 
 ### javadoc
