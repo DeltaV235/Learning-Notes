@@ -826,6 +826,213 @@ value = null
 
 在使用 `Lock` 使，读写交替出现，但写操作不存在并发执行。
 
+### BlockingQueue
+
+阻塞队列
+
+![BlockingQueue – TutorialFlow](juc-note.assets/Queue_Image.jpg)
+
+- 当队列是空的，从队列中获取元素的操作将会被阻塞
+- 当队列是满的，从队列中添加元素的操作将会被阻塞
+- 试图从空的队列中获取元素的线程将会被阻塞，直到其他线程往空的队列插入新的元素
+- 试图向已满的队列中添加新元素的线程将会被阻塞，直到其他线程从队列中移除一个或多个元素或者完全清空，使队列变得空闲起来并后续新增
+
+我们不需要关心什么时候需要阻塞线程，什么时候需要唤醒线程，因为这一切BlockingQueue都一手包办了
+
+| 方法类型 | 抛出异常  |  特殊值  |  阻塞  |         超时         |
+| :------: | :-------: | :------: | :----: | :------------------: |
+|   插入   |  add(e)   | offer(e) | put(e) | offer(e, time, unit) |
+|   移除   | remove()  |  poll()  | take() |   poll(time, unit)   |
+|   检查   | element() |  peek()  | 不可用 |        不可用        |
+
+| 类型     | 队列为空或满时执行的动作                                     |
+| :------- | :----------------------------------------------------------- |
+| 抛出异常 | 当阻塞队列满时，再往队列里add插入元素会抛 IllegalStateException:Queue full;当阻塞队列空时，再往队列里remove移除元素会抛 NoSuchElementException |
+| 特殊值   | 插入方法，成功ture失败falses;移除方法，成功返回出队列的元素，队列里没有就返回null |
+| 一直阻塞 | 当阻塞队列满时，生产者线程继续往队列里put元素，队列会一直阻塞生产者线程直到put数据or响应中断退出;当阻塞队列空时，消费者线程试图从队列里take元素，队列会一直阻塞消费者线程直到队列可用 |
+| 超时退出 | 当阻塞队列满时，队列会阻塞生产者线程一定时间，超过限时后生产者线程会退出 |
+
+**demo**:
+
+- add()
+
+```java
+public class BlockingQueueDemo {
+
+    public static void main(String[] args) {
+        BlockingQueue<String> blockingQueue = new ArrayBlockingQueue<>(3);
+
+        System.out.println("blockingQueue.add(\"a\") = " + blockingQueue.add("a"));
+        System.out.println("blockingQueue.add(\"b\") = " + blockingQueue.add("b"));
+        System.out.println("blockingQueue.add(\"c\") = " + blockingQueue.add("c"));
+        System.out.println("blockingQueue.add(\"d\") = " + blockingQueue.add("d"));
+
+    }
+}
+```
+
+- output
+
+```java
+blockingQueue.add("a") = true
+blockingQueue.add("b") = true
+blockingQueue.add("c") = true
+Exception in thread "main" java.lang.IllegalStateException: Queue full
+    at java.base/java.util.AbstractQueue.add(AbstractQueue.java:98)
+    at java.base/java.util.concurrent.ArrayBlockingQueue.add(ArrayBlockingQueue.java:326)
+    at com.wuyue.BlockingQueueDemo.main(BlockingQueueDemo.java:21
+```
+
+---
+
+- remove()
+
+```java
+public class BlockingQueueDemo {
+
+    public static void main(String[] args) {
+        BlockingQueue<String> blockingQueue = new ArrayBlockingQueue<>(3);
+
+        System.out.println("blockingQueue.add(\"a\") = " + blockingQueue.add("a"));
+        System.out.println("blockingQueue.add(\"b\") = " + blockingQueue.add("b"));
+        System.out.println("blockingQueue.add(\"c\") = " + blockingQueue.add("c"));
+
+        System.out.println("blockingQueue.remove() = " + blockingQueue.remove());
+        System.out.println("blockingQueue.remove() = " + blockingQueue.remove());
+        System.out.println("blockingQueue.remove() = " + blockingQueue.remove());
+        System.out.println("blockingQueue.remove() = " + blockingQueue.remove());
+    }
+}
+```
+
+- output
+
+```java
+blockingQueue.add("a") = true
+blockingQueue.add("b") = true
+blockingQueue.add("c") = true
+blockingQueue.remove() = a
+blockingQueue.remove() = b
+blockingQueue.remove() = c
+Exception in thread "main" java.util.NoSuchElementException
+    at java.base/java.util.AbstractQueue.remove(AbstractQueue.java:117)
+    at com.wuyue.BlockingQueueDemo.main(BlockingQueueDemo.java:25)
+```
+
+---
+
+- element()
+
+```java
+public class BlockingQueueDemo {
+    public static void main(String[] args) {
+        BlockingQueue<String> blockingQueue = new ArrayBlockingQueue<>(3);
+
+        System.out.println("blockingQueue.add(\"a\") = " + blockingQueue.add("a"));
+        System.out.println("blockingQueue.add(\"b\") = " + blockingQueue.add("b"));
+        System.out.println("blockingQueue.add(\"c\") = " + blockingQueue.add("c"));
+        System.out.println("blockingQueue.element() = " + blockingQueue.element());
+    }
+}
+```
+
+- output
+
+```java
+blockingQueue.add("a") = true
+blockingQueue.add("b") = true
+blockingQueue.add("c") = true
+blockingQueue.element() = a
+```
+
+---
+
+- offer(e)
+
+```java
+public class BlockingQueueDemo {
+    public static void main(String[] args) {
+        BlockingQueue<String> blockingQueue = new ArrayBlockingQueue<>(3);
+
+        System.out.println("blockingQueue.offer(\"a\") = " + blockingQueue.offer("a"));
+        System.out.println("blockingQueue.offer(\"b\") = " + blockingQueue.offer("b"));
+        System.out.println("blockingQueue.offer(\"c\") = " + blockingQueue.offer("c"));
+        System.out.println("blockingQueue.offer(\"d\") = " + blockingQueue.offer("d"));
+    }
+}
+```
+
+- output
+
+```java
+blockingQueue.offer("a") = true
+blockingQueue.offer("b") = true
+blockingQueue.offer("c") = true
+blockingQueue.offer("d") = false
+```
+
+---
+
+- poll() & peek()
+
+```java
+public class BlockingQueueDemo {
+    public static void main(String[] args) {
+        BlockingQueue<String> blockingQueue = new ArrayBlockingQueue<>(3);
+
+        System.out.println("blockingQueue.offer(\"a\") = " + blockingQueue.offer("a"));
+        System.out.println("blockingQueue.offer(\"b\") = " + blockingQueue.offer("b"));
+        System.out.println("blockingQueue.offer(\"c\") = " + blockingQueue.offer("c"));
+
+        System.out.println("blockingQueue.peek() = " + blockingQueue.peek());
+
+        System.out.println("blockingQueue.poll() = " + blockingQueue.poll());
+        System.out.println("blockingQueue.poll() = " + blockingQueue.poll());
+        System.out.println("blockingQueue.poll() = " + blockingQueue.poll());
+        System.out.println("blockingQueue.poll() = " + blockingQueue.poll());
+    }
+}
+```
+
+- output
+
+```java
+blockingQueue.offer("a") = true
+blockingQueue.offer("b") = true
+blockingQueue.offer("c") = true
+blockingQueue.peek() = a
+blockingQueue.poll() = a
+blockingQueue.poll() = b
+blockingQueue.poll() = c
+blockingQueue.poll() = null
+```
+
+---
+
+- put(e)
+
+```java
+public class BlockingQueueDemo {
+    public static void main(String[] args) throws InterruptedException {
+        BlockingQueue<String> blockingQueue = new ArrayBlockingQueue<>(3);
+
+        blockingQueue.put("a");
+        blockingQueue.put("a");
+        blockingQueue.put("a");
+        blockingQueue.put("a");
+    }
+}
+```
+
+- output
+
+程序阻塞，`take()` 同理
+
+---
+
+- offer(e, time, unit)
+- 阻塞指定时间后，若队列仍满，则返回false，继续执行程序，`poll(time, unit)` 同理
+
 ### Exception
 
 #### java.util.ConcurrentModificationException
