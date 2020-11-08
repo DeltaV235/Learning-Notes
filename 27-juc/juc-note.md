@@ -564,6 +564,43 @@ public class CallableDemo {
 ![image-20201011201304229](juc-note.assets/image-20201011201304229.png)
 
 通过 `get()` 方法获取 `Callable` `call()` 方法的返回值
+`get()` 方法应放于主线程最后的位置，因为 `FutureTask.get()` 方法会阻塞调用的线程。
+`Callable` 接口实现类里的 `call()` 方法只会被执行一次。
+
+### CountDownLatch
+
+A synchronization aid that allows one or more threads to wait until a set of operations being performed in other threads completes.
+
+demo:
+
+```java
+public class CountDownLatchDemo {
+
+    public static void main(String[] args) throws InterruptedException {
+
+        CountDownLatch countDownLatch = new CountDownLatch(6);
+
+        for (int i = 0; i < 6; i++) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    System.out.println(Thread.currentThread().getName() + "\t finish");
+                    countDownLatch.countDown();
+                    System.out.println("countDownLatch.getCount() = " + countDownLatch.getCount());
+                }
+            }, String.valueOf(i)).start();
+        }
+
+        countDownLatch.await();
+        System.out.println(Thread.currentThread().getName() + "\t main finish");
+
+    }
+
+}
+```
+
+`countDownLatch.countDown` 使 `countDownLatch` 的计数减一。
+`countDownLatch.await()` 在 **count** 不为 **0** 时，会阻塞当前线程。
 
 ### Exception
 
