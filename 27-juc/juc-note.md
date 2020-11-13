@@ -1033,6 +1033,20 @@ public class BlockingQueueDemo {
 - offer(e, time, unit)
 - 阻塞指定时间后，若队列仍满，则返回false，继续执行程序，`poll(time, unit)` 同理
 
+### 线程池
+
+线程池的作用：
+
+1. 避免了频繁创建线程带来的性能上的额外开销
+2. 线程复用
+3. 统一管理、创建、回收线程
+
+
+
+#### 3种常见的线程池
+
+##### 1.
+
 ### Exception
 
 #### java.util.ConcurrentModificationException
