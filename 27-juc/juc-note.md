@@ -1037,15 +1037,233 @@ public class BlockingQueueDemo {
 
 线程池的作用：
 
-1. 避免了频繁创建线程带来的性能上的额外开销
-2. 线程复用
-3. 统一管理、创建、回收线程
+1. 线程复用
+2. 控制最大并发数
+3. 管理线程
 
+#### 继承结构
 
+![image-20201118234041749](juc-note.assets/image-20201118234041749.png)
 
-#### 3种常见的线程池
+#### 线程池的创建
 
-##### 1.
+```java
+
+```
+
+#### 几种常见的线程池
+
+**1.Executors.newFixedThreadPool**
+执行长期任务性能好，创建一个线程池，一池有N个固定的线程，有固定线程数的线程
+
+```java
+ExecutorService executorService = Executors.newFixedThreadPool(10);
+```
+
+方法签名：
+
+```java
+/**
+ * Creates a thread pool that reuses a fixed number of threads
+ * operating off a shared unbounded queue.  At any point, at most
+ * {@code nThreads} threads will be active processing tasks.
+ * If additional tasks are submitted when all threads are active,
+ * they will wait in the queue until a thread is available.
+ * If any thread terminates due to a failure during execution
+ * prior to shutdown, a new one will take its place if needed to
+ * execute subsequent tasks.  The threads in the pool will exist
+ * until it is explicitly {@link ExecutorService#shutdown shutdown}.
+ *
+ * @param nThreads the number of threads in the pool
+ * @return the newly created thread pool
+ * @throws IllegalArgumentException if {@code nThreads <= 0}
+ */
+public static ExecutorService newFixedThreadPool(int nThreads) {
+    return new ThreadPoolExecutor(nThreads, nThreads,
+                                  0L, TimeUnit.MILLISECONDS,
+                                  new LinkedBlockingQueue<Runnable>());
+}
+```
+
+newFixedThreadPool创建的线程池corePoolSize和maximumPoolSize值是相等的，它使用的是LinkedBlockingQueue
+
+**2.Executor.newSingleThreadExecutor**
+一个任务一个任务的执行，一池一线程
+
+```java
+ExecutorService executorService1 = Executors.newSingleThreadExecutor();
+```
+
+```java
+/**
+ * Creates an Executor that uses a single worker thread operating
+ * off an unbounded queue. (Note however that if this single
+ * thread terminates due to a failure during execution prior to
+ * shutdown, a new one will take its place if needed to execute
+ * subsequent tasks.)  Tasks are guaranteed to execute
+ * sequentially, and no more than one task will be active at any
+ * given time. Unlike the otherwise equivalent
+ * {@code newFixedThreadPool(1)} the returned executor is
+ * guaranteed not to be reconfigurable to use additional threads.
+ *
+ * @return the newly created single-threaded Executor
+ */
+public static ExecutorService newSingleThreadExecutor() {
+    return new FinalizableDelegatedExecutorService
+        (new ThreadPoolExecutor(1, 1,
+                                0L, TimeUnit.MILLISECONDS,
+                                new LinkedBlockingQueue<Runnable>()));
+}
+```
+
+newSingleThreadExecutor 创建的线程池corePoolSize和maximumPoolSize值都是1，它使用的是LinkedBlockingQueue
+
+**3.Executors.newCachedThreadPool**
+执行很多短期异步任务，线程池根据需要创建新线程，但在先前构建的线程可用时将重用它们。可扩容，遇强则强
+
+```java
+ExecutorService executorService2 = Executors.newCachedThreadPool();
+```
+
+```java
+/**
+ * Creates a thread pool that creates new threads as needed, but
+ * will reuse previously constructed threads when they are
+ * available.  These pools will typically improve the performance
+ * of programs that execute many short-lived asynchronous tasks.
+ * Calls to {@code execute} will reuse previously constructed
+ * threads if available. If no existing thread is available, a new
+ * thread will be created and added to the pool. Threads that have
+ * not been used for sixty seconds are terminated and removed from
+ * the cache. Thus, a pool that remains idle for long enough will
+ * not consume any resources. Note that pools with similar
+ * properties but different details (for example, timeout parameters)
+ * may be created using {@link ThreadPoolExecutor} constructors.
+ *
+ * @return the newly created thread pool
+ */
+public static ExecutorService newCachedThreadPool() {
+    return new ThreadPoolExecutor(0, Integer.MAX_VALUE,
+                                  60L, TimeUnit.SECONDS,
+                                  new SynchronousQueue<Runnable>());
+}
+```
+
+newCachedThreadPool创建的线程池将corePoolSize设置为0，将maximumPoolSize设置为Integer.MAX_VALUE，它使用的是SynchronousQueue，也就是说来了任务就创建线程运行，当线程空闲超过60秒，就销毁线程。
+
+#### 线程池的7个参数
+
+```java
+/**
+ * Creates a new {@code ThreadPoolExecutor} with the given initial
+ * parameters.
+ *
+ * @param corePoolSize the number of threads to keep in the pool, even
+ *        if they are idle, unless {@code allowCoreThreadTimeOut} is set
+ * @param maximumPoolSize the maximum number of threads to allow in the
+ *        pool
+ * @param keepAliveTime when the number of threads is greater than
+ *        the core, this is the maximum time that excess idle threads
+ *        will wait for new tasks before terminating.
+ * @param unit the time unit for the {@code keepAliveTime} argument
+ * @param workQueue the queue to use for holding tasks before they are
+ *        executed.  This queue will hold only the {@code Runnable}
+ *        tasks submitted by the {@code execute} method.
+ * @param threadFactory the factory to use when the executor
+ *        creates a new thread
+ * @param handler the handler to use when execution is blocked
+ *        because the thread bounds and queue capacities are reached
+ * @throws IllegalArgumentException if one of the following holds:<br>
+ *         {@code corePoolSize < 0}<br>
+ *         {@code keepAliveTime < 0}<br>
+ *         {@code maximumPoolSize <= 0}<br>
+ *         {@code maximumPoolSize < corePoolSize}
+ * @throws NullPointerException if {@code workQueue}
+ *         or {@code threadFactory} or {@code handler} is null
+ */
+public ThreadPoolExecutor(int corePoolSize,
+                          int maximumPoolSize,
+                          long keepAliveTime,
+                          TimeUnit unit,
+                          BlockingQueue<Runnable> workQueue,
+                          ThreadFactory threadFactory,
+                          RejectedExecutionHandler handler) {
+    if (corePoolSize < 0 ||
+        maximumPoolSize <= 0 ||
+        maximumPoolSize < corePoolSize ||
+        keepAliveTime < 0)
+        throw new IllegalArgumentException();
+    if (workQueue == null || threadFactory == null || handler == null)
+        throw new NullPointerException();
+    this.corePoolSize = corePoolSize;
+    this.maximumPoolSize = maximumPoolSize;
+    this.workQueue = workQueue;
+    this.keepAliveTime = unit.toNanos(keepAliveTime);
+    this.threadFactory = threadFactory;
+    this.handler = handler;
+}
+```
+
+**1.corePoolSize**
+线程池中的常驻核心线程数
+
+**2.maximumPoolSize**
+线程池中能够容纳同时执行的最大线程数，此值必须大于等于1
+
+**3.keepAliveTime**
+多余的空闲线程的存活时间
+
+当前池中线程数量超过 **corePoolSize** 时，当空闲时间达到 **keepAliveTime** 时，多余线程会被销毁直到只剩下 **corePoolSize** 个线程为止
+
+**4.unit**
+keepAliveTime的单位
+
+**5.workQueue**
+任务队列，被提交但尚未被执行的任务
+
+**6.threadFactory**
+表示生成线程池中工作线程的线程工厂，用于创建线程，一般默认的即可
+
+**7.handler**
+拒绝策略，表示当队列满了，并且工作线程大于等于线程池的最大线程数（**maximumPoolSize**）时如何来拒绝请求执行的 runnable 的策略
+
+#### 线程池的任务运行流程
+
+1. 在创建了线程池后，开始等待请求。
+2. 当调用 **execute()** 方法添加一个请求任务时，线程池会做出如下判断：
+    (1) 如果正在运行的线程数量小于 **corePoolSize**，那么马上创建线程运行这个任务；
+    (2) 如果正在运行的线程数量大于或等于 **corePoolSize**，那么将这个任务放入**队列**；
+    (3) 如果这个时候队列满了且正在运行的线程数量还小于 **maximumPoolSize**，那么还是要创建非核心线程立刻运行这个任务；
+    (4) 如果队列满了且正在运行的线程数量大于或等于 **maximumPoolSize**，那么线程池会启动饱和**拒绝策略**来执行。
+3. 当一个线程完成任务时，它会从队列中取下一个任务来执行。
+4. 当一个线程无事可做超过一定的时间（**keepAliveTime**）时，线程会判断：
+    如果当前运行的线程数大于 **corePoolSize**，那么这个线程就被停掉。
+    所以线程池的所有任务完成后，它最终会收缩到 **corePoolSize** 的大小。
+
+执行流程如下所示：
+
+![img](juc-note.assets/L3Byb3h5L2h0dHBzL2ltZzIwMTguY25ibG9ncy5jb20vYmxvZy85NjM5MDMvMjAxOTA0Lzk2MzkwMy0yMDE5MDQxNjIyNTMxMDk5Ny0xNDExODA3MTA3LnBuZw==.jpg)
+
+#### 拒绝策略
+
+等待队列已经满，同时线程池中的活动线程数已经达到了 **maximumPoolSize**，无法继续为新任务服务。
+这个时候拒绝策略就会被触发。
+
+##### JDK 内置的拒绝策略
+
+**AbortPolicy** (Default)
+直接抛出 **RejectedExecutionException** 异常阻止系统正常运行
+
+**CallerRunsPolicy**
+“调用者运行”一种调节机制，该策略既不会抛弃任务，也不会抛出异常，而是将某些任务回退到调用者，从而降低新任务的流量。
+
+**DiscardOldestPolicy**
+抛弃队列中等待最久的任务，然后把当前任务加入队列中，尝试再次提交当前任务。
+
+**DiscardPolicy**
+该策略默默地丢弃无法处理的任务，不予任何处理也不抛出异常。如果允许任务丢失，这是最好的一种策略。
+
+以上内置拒绝策略均实现了 **RejectedExecutionHandle** 接口
 
 ### Exception
 
