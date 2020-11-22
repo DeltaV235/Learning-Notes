@@ -1265,6 +1265,103 @@ keepAliveTime的单位
 
 以上内置拒绝策略均实现了 **RejectedExecutionHandle** 接口
 
+### ForkJoin
+
+参考以下文献
+[ForkJoin](https://www.twle.cn/c/yufei/javatm/javatm-basic-forkjoin.html)
+
+Fork：拆分为分支
+Join：把拆分的任务合并
+
+demo:
+
+```java
+public class ForkJoinDemo {
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+        forkMethod();
+//        long result = 0;
+//        for (int i = 0; i <= 60000; i++) {
+//            result += i;
+//        }
+//        System.out.println("result = " + result);
+    }
+
+    private static void forkMethod() throws InterruptedException, ExecutionException {
+        MyTask myTask = new MyTask(0, 60000);
+        ForkJoinPool forkJoinPool = new ForkJoinPool();
+        ForkJoinTask<Integer> task = forkJoinPool.submit(myTask);
+        Integer result = task.get();
+        System.out.println("result = " + result);
+        forkJoinPool.shutdown();
+    }
+
+    static class MyTask extends RecursiveTask<Integer> {
+
+        private static final Integer COMPUTE_THRESHOLD = 10;
+        private final int begin;
+        private final int end;
+        private int retVal;
+
+        public MyTask(int begin, int end) {
+            this.begin = begin;
+            this.end = end;
+        }
+
+        @Override
+        protected Integer compute() {
+            if (end - begin <= COMPUTE_THRESHOLD) {
+                for (int i = begin; i <= end; i++) {
+                    retVal += i;
+                }
+            } else {
+                int middle = (end + begin) / 2;
+                MyTask myTask1 = new MyTask(begin, middle);
+                MyTask myTask2 = new MyTask(middle + 1, end);
+                myTask1.fork();
+                myTask2.fork();
+                retVal = myTask1.join() + myTask2.join();
+            }
+            return retVal;
+        }
+    }
+}
+```
+
+#### ForkJoinPool
+
+**ForkJoinPool** 是 fork/join 框架的核心，是 **ExecutorService** 的一个实现，用于管理工作线程，并提供了一些工具来帮助获取有关线程池状态和性能的信息。
+
+工作线程一次只能执行一个任务。
+
+**ForkJoinPool** 线程池并不会为每个子任务创建一个单独的线程，相反，池中的每个线程都有自己的双端队列用于存储任务 （ double-ended queue ）
+
+这种架构使用了一种名为工作窃取（ work-stealing ）算法来平衡线程的工作负载。
+
+在 Java 8 中，创建 **ForkJoinPool** 实例的最简单的方式就是使用其静态方法 `commonPool()`。
+
+`commonPool()` 静态方法，见名思义，就是提供了对公共池的引用，公共池是每个 **ForkJoinTask** 的默认线程池。
+
+根据 Oracle 的官方文档，使用预定义的公共池可以减少资源消耗，因为它会阻止每个任务创建一个单独的线程池。
+
+```java
+ForkJoinPool commonPool = ForkJoinPool.commonPool();
+```
+
+#### ForkJoinTask
+
+**ForkJoinTask** 是 **ForkJoinPool** 线程之中执行的任务的基本类型。我们日常使用时，一般不直接使用 **ForkJoinTask** ，而是扩展它的两个子类中的任意一个
+
+- 任务不返回结果 （ 返回 void ） 的 RecursiveAction
+- 返回值的任务的 **RecursiveTask \<V>**
+
+这两个类都有一个抽象方法 compute() ，用于定义任务的逻辑。
+
+我们所要做的，就是继承任意一个类，然后实现 compute() 方法。
+
+#### RecursiveTask
+
+继承了 **ForkJoinTask** 的抽象类
+
 ### Exception
 
 #### java.util.ConcurrentModificationException
