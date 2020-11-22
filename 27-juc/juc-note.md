@@ -1362,6 +1362,50 @@ ForkJoinPool commonPool = ForkJoinPool.commonPool();
 
 继承了 **ForkJoinTask** 的抽象类
 
+### CompletableFuture
+
+异步回调
+
+**demo**:
+
+```java
+public class CompletableFutureDemo {
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+        CompletableFuture<Void> future =
+                CompletableFuture.runAsync(() -> System.out.println(Thread.currentThread().getName() + "\tCompletableFuture Demo"));
+        try {
+            TimeUnit.SECONDS.sleep(5);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("sleep finish");
+        future.get();
+
+        CompletableFuture<Integer> supplyAsync = CompletableFuture.supplyAsync(() -> {
+//            int i = 10 / 0;
+            return 1024;
+        });
+        CompletableFuture<Integer> completableFuture = supplyAsync.whenComplete((integer, throwable) -> {
+            System.out.println("integer = " + integer);
+            System.out.println("throwable = " + throwable);
+        }).exceptionally(throwable -> {
+            System.out.println("throwable = " + throwable);
+            return 404;
+        });
+
+
+        Integer integer = completableFuture.get();
+        System.out.println("integer = " + integer);
+    }
+}
+```
+
+在调用了 `runAsync()` 或 `supplyAsync()` 会异步执行传入的 `runable` 或 `supplier` 接口的 `run()` 或 `get()`方法。
+当异步执行完成后，会回调 `whenComplete()` 方法中定义的 `BiConsumer.accept()` (Bi = Binary) 方法。其中 第一个参数为 **CompletableFuture** 执行的返回值，第二参数为异常类型，若无异常则为 **null**。
+若 `exceptionally()` 中定义了异常的回调方法，则执行抛出异常时将回调 `exceptionally()` 中的方法，并覆盖返回值。
+
+`CompletableFuture.get()` 会阻塞调用该方法的线程。
+
 ### Exception
 
 #### java.util.ConcurrentModificationException
