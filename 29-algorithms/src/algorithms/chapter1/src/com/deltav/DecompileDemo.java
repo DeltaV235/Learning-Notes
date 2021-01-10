@@ -1,5 +1,7 @@
 package com.deltav;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * 反编译、字节码测试
  *
@@ -12,5 +14,13 @@ public class DecompileDemo {
         int i = 2;
         int j = 3;
         int sum = i + j;
+
+        try {
+            TimeUnit.SECONDS.sleep(10);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Hello World!");
     }
 }
