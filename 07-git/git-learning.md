@@ -249,7 +249,7 @@ git push reponame --all                     # push 所有分支
 
 ### git fetch
 
-- 将远端的仓库拉至本地，但**不执行merge**操作
+* 将远端的仓库拉至本地，但**不执行merge**操作
 
 `git fetch reponame`
 
@@ -372,3 +372,30 @@ feature->master
 [Commit message 和 Change log 编写指南](http://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html)
 
 ---
+
+## git command
+
+### git gc
+
+git 垃圾回收
+
+* git-gc - Cleanup unnecessary files and optimize the local repository
+
+```bash
+SYNOPSIS
+       git gc [--aggressive] [--auto] [--quiet] [--prune=<date> | --no-prune] [--force]
+OPTIONS
+       --aggressive
+           Usually git gc runs very quickly while providing good disk space utilization and performance. This option will cause git gc to more aggressively optimize the repository at the expense of taking
+           much more time. The effects of this optimization are persistent, so this option only needs to be used occasionally; every few hundred changesets or so.
+
+       --auto
+           With this option, git gc checks whether any housekeeping is required; if not, it exits without performing any work. Some git commands run git gc --auto after performing operations that could
+           create many loose objects.
+
+           Housekeeping is required if there are too many loose objects or too many packs in the repository. If the number of loose objects exceeds the value of the gc.auto configuration variable, then
+           all loose objects are combined into a single pack using git repack -d -l. Setting the value of gc.auto to 0 disables automatic packing of loose objects.
+
+           If the number of packs exceeds the value of gc.autoPackLimit, then existing packs (except those marked with a .keep file) are consolidated into a single pack by using the -A option of git
+           repack. Setting gc.autoPackLimit to 0 disables automatic consolidation of packs.
+```
