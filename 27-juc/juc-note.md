@@ -1048,7 +1048,12 @@ public class BlockingQueueDemo {
 #### 线程池的创建
 
 ```java
-
+ExecutorService executorService = Executors.newFixedThreadPool(10);
+ExecutorService executorService1 = Executors.newSingleThreadExecutor();
+ExecutorService executorService2 = Executors.newCachedThreadPool();
+ExecutorService threadPool = new ThreadPoolExecutor(0, 10,
+                                      60L, TimeUnit.MILLISECONDS,
+                                      new LinkedBlockingQueue<Runnable>());
 ```
 
 #### 几种常见的线程池
