@@ -185,6 +185,89 @@
 
 具体JVM的内存结构，其实取决于其实现，不同厂商的JVM，或者同一厂商发布的不同版本，都有可能存在一定差异。主要以Oracle HotSpot VM为默认虚拟机。
 
+## 二.类加载子系统
+
+[参考笔记(https://github.com/youthlql/JavaYouth/blob/main/docs/Java/JVM/JVM%E7%B3%BB%E5%88%97-%E7%AC%AC2%E7%AB%A0-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%AD%90%E7%B3%BB%E7%BB%9F.md)](https://github.com/youthlql/JavaYouth/blob/main/docs/Java/JVM/JVM%E7%B3%BB%E5%88%97-%E7%AC%AC2%E7%AB%A0-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%AD%90%E7%B3%BB%E7%BB%9F.md)
+
+### 内存结构概述
+
+TODO 简图
+TODO 详细图
+
+### 类加载子系统
+
+#### 类加载器子系统作用
+
+1. 类加载器子系统负责从文件系统或者网络中加载 Class 文件，class 文件在文件开头有特定的文件标识。
+2. ClassLoader 只负责 class 文件的加载，至于它是否可以运行，则由 Execution Engine 决定。
+3. **加载的类信息存放于一块称为方法区的内存空间**。除了类的信息外，方法区中还会存放运行时常量池信息，可能还包括字符串字面量和数字常量（这部分常量信息是Class文件中常量池部分的内存映射）
+
+#### 类加载的过程
+
+##### Loading
+
+**加载：**
+
+1. 通过一个类的全限定名获取定义此类的二进制字节流
+2. 将这个字节流所代表的静态存储结构转化为方法区的运行时数据结构
+3. 在内存中生成一个代表这个类的java.lang.Class对象，作为方法区这个类的各种数据的访问入口
+
+**加载class文件的方式：**
+
+1. 从本地系统中直接加载
+2. 通过网络获取，典型场景：Web Applet
+3. 从zip压缩包中读取，成为日后jar、war格式的基础
+4. 运行时计算生成，使用最多的是：动态代理技术
+5. 由其他文件生成，典型场景：JSP应用从专有数据库中提取.class文件，比较少见
+6. 从加密文件中获取，典型的防Class文件被反编译的保护措施
+
+##### Linking
+
+链接分为三个子阶段：**验证** -> **准备** -> **解析**
+
+**验证(Verify)**:
+
+1. 目的在于确保Class文件的字节流中包含信息符合当前虚拟机要求，保证被加载类的正确性，不会危害虚拟机自身安全
+2. 主要包括四种验证，文件格式验证，元数据验证，字节码验证，符号引用验证。
+
+查看字节码文件，其开头均为 CAFE BABE ，如果出现不合法的字节码文件，那么将会验证不通过。
+
+![image-20210211175611397](jvm-note.assets/image-20210211175611397.png)
+
+**准备(Prepare)**:
+
+1. 为类变量（static变量）分配内存并且设置该类变量的默认初始值，即零值
+2. 这里不包含用final修饰的static，因为final在编译的时候就会分配好了默认值，准备阶段会显式初始化
+3. 注意：这里不会为**实例变量**分配初始化，**类变量**会分配在方法区中，而实例变量是会随着对象一起分配到Java堆中
+
+变量a在准备阶段会赋初始值，但不是1，而是0，在初始化阶段会被赋值为 1
+
+```java
+public class HelloApp {
+    private static int a = 1;//prepare：a = 0 ---> initial : a = 1
+
+
+    public static void main(String[] args) {
+        System.out.println(a);
+    }
+}
+```
+
+**解析(Resolve)**:
+
+1. **将常量池内的符号引用转换为直接引用的过程**
+2. 事实上，解析操作往往会伴随着JVM在执行完初始化之后再执行
+3. 符号引用就是一组符号来描述所引用的目标。符号引用的字面量形式明确定义在《java虚拟机规范》的class文件格式中。直接引用就是直接指向目标的指针、相对偏移量或一个间接定位到目标的句柄
+4. 解析动作主要针对类或接口、字段、类方法、接口方法、方法类型等。对应常量池中的CONSTANT Class info、CONSTANT Fieldref info、CONSTANT Methodref info等
+
+**符号引用**:
+
+- 反编译 class 文件后可以查看符号引用，下面带# 的就是符号引用
+
+![image-20210211180433925](jvm-note.assets/image-20210211180433925.png)
+
+##### Initialization
+
 ## chore
 
 ### javap
