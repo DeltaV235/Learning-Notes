@@ -107,3 +107,20 @@ sudo screen -x foo # 恢复之前离线的screen作业
 
 See also "--longhelp" for complete options list and "man vnstat".
 ```
+
+### dpkg
+
+Debian 系的发行版的包管理系统。
+dpkg is used to install, remove, and provide information about . deb packages.
+
+```shell
+dpkg -L <packagename>           # dpkg is used to install, remove, and provide information about . deb packages.
+```
+
+### netstat
+
+- 查看使用的端口号
+
+```shell
+netstat -anp | grep port
+```
