@@ -13,7 +13,7 @@ import javax.jms.*;
  * @date 2021/2/28 11:15
  */
 @Slf4j
-public class ActiveMqDemo {
+public class JmsProducer {
     private static final String ACTIVE_MQ_URL = "tcp://192.168.2.200:61616";
     private static final String QUEUE_NAME = "queue01";
 
