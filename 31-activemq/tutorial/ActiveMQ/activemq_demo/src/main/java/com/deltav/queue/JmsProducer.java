@@ -1,4 +1,4 @@
-package com.deltav;
+package com.deltav.queue;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.activemq.ActiveMQConnectionFactory;
@@ -35,7 +35,7 @@ public class JmsProducer {
         MessageProducer producer = session.createProducer(queue);
 
         // 6.通过 producer 将 3 条消息发送到 MQ 的队列中
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 20; i++) {
             // 7.创建消息
             TextMessage textMessage = session.createTextMessage("TEXT_" + i);
             // 8.通过 producer 发送给 MQ

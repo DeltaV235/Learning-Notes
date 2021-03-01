@@ -1,4 +1,4 @@
-package com.deltav;
+package com.deltav.topic;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
@@ -6,40 +6,29 @@ import javax.jms.*;
 import java.io.IOException;
 
 /**
+ * Topic Consumer Demo
+ *
  * @author DeltaV235
  * @version 1.0
- * @date 2021/2/28 15:49
+ * @date 2021/2/28 17:58
  */
-public class JmsConsumer {
+public class JmsTopicConsumer {
     private static final String ACTIVE_MQ_URL = "tcp://192.168.2.200:61616";
-    private static final String QUEUE_NAME = "queue01";
+    private static final String TOPIC_NAME = "topic01";
 
     public static void main(String[] args) throws JMSException, IOException {
         ActiveMQConnectionFactory activeMQConnectionFactory = new ActiveMQConnectionFactory(ACTIVE_MQ_URL);
-
         Connection connection = activeMQConnectionFactory.createConnection();
         connection.start();
 
         Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+        Topic topic = session.createTopic(TOPIC_NAME);
 
-        Queue queue = session.createQueue(QUEUE_NAME);
-        MessageConsumer consumer = session.createConsumer(queue);
-
-//        while (true) {
-//            TextMessage message = (TextMessage) consumer.receive(6000L);
-//            if (null != message) {
-//                System.out.println(message.getText());
-//            } else {
-//                break;
-//            }
-//        }
-
-        // 监听器方法
+        MessageConsumer consumer = session.createConsumer(topic);
         consumer.setMessageListener(message -> {
             if (null != message && message instanceof TextMessage) {
-                TextMessage textMessage = (TextMessage) message;
                 try {
-                    System.out.println(textMessage.getText());
+                    System.out.println(((TextMessage) message).getText());
                 } catch (JMSException e) {
                     e.printStackTrace();
                 }
