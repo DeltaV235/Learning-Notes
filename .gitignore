@@ -48,3 +48,6 @@ hs_err_pid*
 
 # ignore spring cloud tutorial code
 26-spring-cloud/tutorial/spring-cloud-code
+
+# ignore audition question and answer documentation
+32-audition-gitignore/
