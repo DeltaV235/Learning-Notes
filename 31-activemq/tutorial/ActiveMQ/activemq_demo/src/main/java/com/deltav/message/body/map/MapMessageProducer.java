@@ -1,4 +1,4 @@
-package com.deltav.message.map;
+package com.deltav.message.body.map;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 

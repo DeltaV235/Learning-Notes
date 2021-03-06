@@ -1,4 +1,4 @@
-package com.deltav.message.stream;
+package com.deltav.message.body.stream;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
