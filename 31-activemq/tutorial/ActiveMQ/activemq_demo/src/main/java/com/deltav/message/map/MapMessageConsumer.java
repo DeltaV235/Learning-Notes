@@ -1,4 +1,4 @@
-package com.deltav.queue;
+package com.deltav.message.map;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
@@ -6,13 +6,15 @@ import javax.jms.*;
 import java.io.IOException;
 
 /**
+ * MapMessage Consumer 测试
+ *
  * @author DeltaV235
  * @version 1.0
- * @date 2021/2/28 15:49
+ * @date 2021/3/6 23:15
  */
-public class JmsConsumer {
+public class MapMessageConsumer {
     private static final String ACTIVE_MQ_URL = "tcp://192.168.2.200:61616";
-    private static final String QUEUE_NAME = "queue01";
+    private static final String QUEUE_NAME = "map_queue";
 
     public static void main(String[] args) throws JMSException, IOException {
         ActiveMQConnectionFactory activeMQConnectionFactory = new ActiveMQConnectionFactory(ACTIVE_MQ_URL);
@@ -25,21 +27,21 @@ public class JmsConsumer {
         Queue queue = session.createQueue(QUEUE_NAME);
         MessageConsumer consumer = session.createConsumer(queue);
 
-//        while (true) {
-//            TextMessage message = (TextMessage) consumer.receive(6000L);
-//            if (null != message) {
-//                System.out.println(message.getText());
-//            } else {
-//                break;
-//            }
-//        }
-
         // 监听器方法
         consumer.setMessageListener(message -> {
             if (null != message && message instanceof TextMessage) {
                 TextMessage textMessage = (TextMessage) message;
                 try {
-                    System.out.println(textMessage.getText());
+                    System.out.println("TextMessage -> " + textMessage.getText());
+                } catch (JMSException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (null != message && message instanceof MapMessage) {
+                MapMessage mapMessage = (MapMessage) message;
+                try {
+                    System.out.println("MapMessage -> " + mapMessage.getString("key"));
                 } catch (JMSException e) {
                     e.printStackTrace();
                 }

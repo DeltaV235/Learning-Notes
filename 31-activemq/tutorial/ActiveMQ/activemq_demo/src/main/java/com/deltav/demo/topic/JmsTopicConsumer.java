@@ -1,4 +1,4 @@
-package com.deltav.topic;
+package com.deltav.demo.topic;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
