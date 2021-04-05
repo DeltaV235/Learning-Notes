@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * 测试 Object.wait() 是否只释放锁对象的监视器锁
+ * at P8
  * <p>
  * result: 线程 1 获得 lock1 和 lock2 后，lock1.wait() 只释放 lock1 的监视器锁，并不会释放 lock2，这导致了 线程 2 死锁。
  *
