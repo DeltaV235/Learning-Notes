@@ -150,6 +150,8 @@ messageProducer.setDeliveryMode(DeliveryMode.PERSISTENT);
 > 持久化消息，保证这些消息只被传送一次和成功使用一次。对于这些消息，可靠性是优先考虑的因素。
 > 可靠性的另一个重要方面是确保持久性消息传送至目标后，消息服务在向消费者传送它们之前不会丢失这些消息。
 
+在不设置 producer 的 **DeliveryMode** 时，默认为持久化。
+
 ## Q & A
 
 ### ActiveMQ 启动后无法访问 Console
