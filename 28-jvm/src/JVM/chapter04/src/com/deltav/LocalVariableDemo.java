@@ -12,4 +12,19 @@ public class LocalVariableDemo {
         int testInteger = 0;
         LocalVariableDemo localVariableDemo = new LocalVariableDemo();
     }
+
+    public void instanceMethod(int parameter) {
+        String testString = "test";
+        StackOverFlowDemo stackOverFlowDemo = new StackOverFlowDemo();
+    }
+
+    public String slotReuseTestMethod() {
+        int i = 1;
+        {
+            int j = 3;
+            System.out.println(i);
+        }
+        int k = i++;
+        return "";
+    }
 }
