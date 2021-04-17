@@ -267,7 +267,7 @@ public class HelloApp {
 
 ##### Initialization
 
-## chore
+## command
 
 ### javap
 
@@ -311,9 +311,25 @@ GNU 样式的选项可使用 = (而非空白) 来分隔选项名称
 ```
 
 ```shell
-javap -v classFile
+javap [-v] classFile
 ```
 
 ### jps
 
+```bash
+jps
+```
 
+show JVM instance run on the system.
+
+### jstat
+
+```bash
+jstat [-gc] pid   # show gc status of specificate pid
+```
+
+### jinfo
+
+```bash
+jinfo -flag [JVM XX parameter] pid   # show the flag of pid
+```
