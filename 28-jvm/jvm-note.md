@@ -333,3 +333,29 @@ jstat [-gc] pid   # show gc status of specificate pid
 ```bash
 jinfo -flag [JVM XX parameter] pid   # show the flag of pid
 ```
+
+## JVM Parameters
+
+### -Xss
+
+Max memory size of JVM Stack
+
+```bash
+-Xss10m
+```
+
+### -Xms
+
+Initial heap memory size
+
+```bash
+-Xms600m
+```
+
+### -Xmx
+
+Max heap memory size
+
+```bash
+-Xmx600m
+```
