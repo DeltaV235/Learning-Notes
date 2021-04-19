@@ -8,7 +8,8 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Test Random and ThreadLocalRandom efficient.
+ * Test Random and ThreadLocalRandom efficient. Create 50 threads and every thread make 20,000 times loop to generate
+ * random number.
  *
  * <p>
  * result:
@@ -71,7 +72,7 @@ public class ThreadLocalRandomEfficientTest {
         @Override
         public void run() {
             for (int i = 0; i < LOOP_COUNT; i++) {
-                int randomNum = random.nextInt(1000);
+                random.nextInt(1000);
             }
             latchWithTraditional.countDown();
         }
@@ -83,7 +84,7 @@ public class ThreadLocalRandomEfficientTest {
         @Override
         public void run() {
             for (int i = 0; i < LOOP_COUNT; i++) {
-                int randomNum = random.nextInt(1000);
+                random.nextInt(1000);
             }
             latchWithThreadLocal.countDown();
         }
