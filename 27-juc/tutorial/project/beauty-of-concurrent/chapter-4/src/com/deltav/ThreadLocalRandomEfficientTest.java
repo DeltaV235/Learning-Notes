@@ -27,6 +27,7 @@ public class ThreadLocalRandomEfficientTest {
     private static final int LOOP_COUNT = 20000;
     private static final CountDownLatch latchWithTraditional = new CountDownLatch(THREAD_NUMBER);
     private static final CountDownLatch latchWithThreadLocal = new CountDownLatch(THREAD_NUMBER);
+    private static final Random random = new Random();
 
     public static void main(String[] args) throws InterruptedException {
         final List<Thread> traditionalThreads = new ArrayList<>(20);
@@ -67,7 +68,6 @@ public class ThreadLocalRandomEfficientTest {
     }
 
     static class TaskWithTraditionalRandom implements Runnable {
-        private static final Random random = new Random();
 
         @Override
         public void run() {
