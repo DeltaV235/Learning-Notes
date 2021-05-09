@@ -7,6 +7,9 @@ import java.util.concurrent.*;
 /**
  * Test Object memory allocate efficiency with different TLAB setting in JVM parameter.
  * <p>
+ * JVM Parameters:
+ * -XX:-UseTLAB -XX:+PrintFlagsFinal -Xms512m -Xmx512m -XX:+PrintGC
+ * <p>
  * without TLAB
  * sumTime = 3927 ms
  * avgTime = 7.854 ms
