@@ -1,5 +1,9 @@
 # JVM Note
 
+## Reference document
+
+[Oracle JDK Java Command Options Explain](https://docs.oracle.com/javase/8/docs/technotes/tools/windows/java.html)
+
 ## 一.JVM 与 Java 体系结构
 
 ### 1.JVM 的架构模型
