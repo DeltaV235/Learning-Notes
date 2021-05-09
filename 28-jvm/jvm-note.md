@@ -342,7 +342,7 @@ Export dump file.
 
 ### -Xss
 
-Max memory size of JVM Stack
+Max memory size of JVM Stack. `-Xx:Stack Size`
 
 ```bash
 -Xss10m
@@ -350,7 +350,7 @@ Max memory size of JVM Stack
 
 ### -Xms
 
-Initial heap memory size
+Initial heap memory size. `-Xx:Memory Start`
 
 ```bash
 -Xms600m
@@ -358,7 +358,7 @@ Initial heap memory size
 
 ### -Xmx
 
-Max heap memory size
+Max heap memory size. `-Xx:Memory maX`
 
 ```bash
 -Xmx600m
@@ -366,11 +366,17 @@ Max heap memory size
 
 ### -Xmn
 
-Young generation memory size. Priority is higher than `-XX:NewRatio` parameter.
+Young generation memory size. Priority is higher than `-XX:NewRatio` parameter. `-Xx:Memory of New`
 
 ```bash
 -Xmn100m
 ```
+
+### -server
+
+Enable server mode. In this mode, Scalar Replace and Escape Analysis function will start working.
+
+>Selects the Java HotSpot Server VM. The 64-bit version of the JDK supports only the Server VM, so in that case the option is implicit.
 
 ### -XX:NewRatio
 
@@ -405,6 +411,10 @@ Print GC Details Infomation after JVM instance stop.
 -XX:+PrintGCDetails
 ```
 
+### -XX:+PrintGC
+
+Print GC simplified information.
+
 ### -XX:MaxTenuringThreshold
 
 The threshold which time to promote the survivor object ot tenuring generation.
@@ -412,3 +422,11 @@ The threshold which time to promote the survivor object ot tenuring generation.
 ```bash
 -XX:MaxTenuringThreshold=15
 ```
+
+### -XX:+DoEscapeAnalysis
+
+Enable escape analysis in HotSpot. Accurately the Scalar Replace function in HotSpot.
+
+### -XX:+EliminateAllocations
+
+Enable Scalar replace function in HotSpot. The function will allocate object which allocate on heap memory originally on Stack Frame, and split the polymer(object) into scalar(local variables).
