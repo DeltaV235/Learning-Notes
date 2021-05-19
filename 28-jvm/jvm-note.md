@@ -434,3 +434,41 @@ Enable escape analysis in HotSpot. Accurately the Scalar Replace function in Hot
 ### -XX:+EliminateAllocations
 
 Enable Scalar replace function in HotSpot. The function will allocate object which allocate on heap memory originally on Stack Frame, and split the polymer(object) into scalar(local variables).
+
+### -XX:PermSize
+
+Before JDK8, the implementation of `method area` is `Permanent Generation`.
+Sets initial permanent generation memory size. Default value is 20.75 MiB.
+
+```java
+-XX:PermSize=100m
+-XX:PermSize=2g
+```
+
+### -XX:MaxPermSize
+
+Before JDK8.
+Sets max permanent generation memory size. Default valus is 82 MiB.
+
+```java
+-XX:MaxPermSize=100m
+-XX:MaxPermSize=1G
+```
+
+### -XX:MetaspaceSize
+
+After JDK8, Metaspace replace PermGen.
+Sets initial metaspace size. Default value of metaspace is 21 MiB.
+
+```java
+-XX:MetaspaceSize=100m
+```
+
+### -XX:MaxMetaspaceSize
+
+After JDK8, sets max metaspace size. Default value is -1(all native heap memory).
+
+```java
+-XX:MaxMetaspaceSize=100m
+-XX:MaxMetaspaceSize=1g
+```
