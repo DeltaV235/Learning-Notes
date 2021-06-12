@@ -290,7 +290,7 @@ public class HelloApp {
   -protected                       显示受保护的/公共类和成员
   -package                         显示程序包/受保护的/公共类
                                    和成员 (默认)
-  -p  -private                     显示所有类和成员
+  -p  -private                     显示所有类和成员 (inculde private modifier)
   -c                               对代码进行反汇编
   -s                               输出内部类型签名
   -sysinfo                         显示正在处理的类的
