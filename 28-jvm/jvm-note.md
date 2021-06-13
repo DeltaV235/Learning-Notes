@@ -4,7 +4,7 @@
 
 [Oracle JDK Java Command Options Explain](https://docs.oracle.com/javase/8/docs/technotes/tools/windows/java.html)
 
-## 一.JVM 与 Java 体系结构
+## 一、JVM 与 Java 体系结构
 
 ### 1.JVM 的架构模型
 
@@ -270,6 +270,17 @@ public class HelloApp {
 ![image-20210211180433925](jvm-note.assets/image-20210211180433925.png)
 
 ##### Initialization
+
+## 三、方法区
+
+- 方法区的演进
+
+Hotspot
+
+| JDK1.6及以前 | 有永久代（permanent generation），静态变量存储在永久代上     |
+| ------------ | ------------------------------------------------------------ |
+| JDK1.7       | 有永久代，但已经逐步 “去永久代”，**字符串常量池，静态变量移除，保存在堆中** |
+| JDK1.8       | 无永久代，类型信息，字段，方法，常量保存在本地内存的元空间，但字符串常量池、静态变量仍然在堆中。 |
 
 ## command
 
