@@ -5,14 +5,17 @@ import java.util.Scanner;
 
 /**
  * code of testing direct memory in heap area by using NIO.
+ * <p>
+ * JVM parameter:
+ * -Xms100M -Xmx2G
  *
  * @author DeltaV235
  * @version 1.0
  * @date 2021/6/14 13:42
  */
 public class DirectMemoryDemo {
-    // 1 GIGABYTE
-    private static final int BUFFER = 1024 * 1024 * 1024;
+    // 1.5 GIGABYTE
+    private static final int BUFFER = (int) (1.5 * 1024 * 1024 * 1024);
 
     public static void main(String[] args) {
         ByteBuffer byteBuffer = ByteBuffer.allocateDirect(BUFFER);
