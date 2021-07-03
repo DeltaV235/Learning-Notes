@@ -320,3 +320,15 @@ final void longAccumulate(long x, LongBinaryOperator fn,
 6. casBase
 
 ![Accumulate-of-Striped64](juc-note.assets/Accumulate-of-Striped64.svg)
+
+## LockSupport
+
+This class associates, with each thread that uses it, a permit (in the sense of the Semaphore class). A call to park will return immediately if the permit is available, consuming it in the process; otherwise it may block. A call to unpark makes the permit available, if it was not already available. (Unlike with Semaphores though, permits do not accumulate. There is at most one.)
+
+[Related Offical Ducumentation](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/locks/LockSupport.html)
+
+**Note:**
+
+- `unpark()` method will make specified thread from parameter get a permit.
+- `park()` method will consume the permit and return immediately, otherwise current thread will be block.
+- Permits do not accumulate, there is at most one permit in one thread.
