@@ -391,7 +391,21 @@ Young generation memory size. Priority is higher than `-XX:NewRatio` parameter. 
 
 Enable server mode. In this mode, Scalar Replace and Escape Analysis function will start working.
 
->Selects the Java HotSpot Server VM. The 64-bit version of the JDK supports only the Server VM, so in that case the option is implicit.
+Selects the Java HotSpot Server VM. The 64-bit version of the JDK supports only the Server VM, so in that case the option is implicit.
+
+### -Xint
+
+Runs the application in interpreted-only mode. Compilation to native code is disabled, and all bytecode is executed by the interpreter. The performance benefits offered by the just in time (JIT) compiler are not present in this mode.
+
+### -Xcomp
+
+Forces compilation of methods on first invocation. By default, the Client VM (-client) performs 1,000 interpreted method invocations and the Server VM (-server) performs 10,000 interpreted method invocations to gather information for efficient compilation. Specifying the -Xcomp option disables interpreted method invocations to increase compilation performance at the expense of efficiency.
+
+You can also change the number of interpreted method invocations before compilation using the -XX:CompileThreshold option.
+
+### -Xmixed
+
+Executes all bytecode by the interpreter except for hot methods, which are compiled to native code.
 
 ### -XX:NewRatio
 
