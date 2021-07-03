@@ -4,7 +4,8 @@ import java.util.concurrent.locks.LockSupport;
 
 /**
  * To test unpark method in LockSupport Class.
- * In this case, unpark will assign a licence to caller thread, then park method will consume the licence and return
+ * In this case, unpark method will assign a permit to caller thread, then park method will consume the licence and
+ * return
  * immediately.
  *
  * @author DeltaV235
