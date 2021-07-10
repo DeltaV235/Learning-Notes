@@ -584,3 +584,7 @@ public abstract class AbstractOwnableSynchronizer
 }
 
 ```
+
+## Interrupt
+
+若在线程 start 前执行 thread.interrupt()，则其中断标志位不会置位。
