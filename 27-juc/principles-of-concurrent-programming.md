@@ -332,3 +332,178 @@ This class associates, with each thread that uses it, a permit (in the sense of 
 - `unpark()` method will make specified thread from parameter get a permit.
 - `park()` method will consume the permit and return immediately, otherwise current thread will be block.
 - Permits do not accumulate, there is at most one permit in one thread.
+
+## AbstractQueuedSynchronizer
+
+### acquire
+
+![AQS-acquire-method-seq-diagram](juc-note.assets/AQS-acquire-method-seq-diagram.png)
+
+```java
+public final void acquire(int arg) {
+    if (!tryAcquire(arg) &&                            // 若获取独占资源失败，则将当前线程加入 AQS 队列并阻塞
+        acquireQueued(addWaiter(Node.EXCLUSIVE), arg)) // 当前线程继续尝试获取独占资源，或 park
+        selfInterrupt();                               // 设置当前线程的 interrupt 标志位
+}
+```
+
+#### tryAquire
+
+需要子类实现，直接调用 `AQS` 将抛出 `UnsupportedOperationException`。（此处为何不使用抽象方法？）
+获取独占的资源。
+
+#### addWaiter
+
+将当前线程封装为 `Node`，并添加至 `AQS` 队列尾部。若 `AQS` 未初始化则初始化，并自旋 CAS 设置当前 `AQS` 的 `tail` 的引用指向。
+
+```java
+/**
+* Creates and enqueues node for current thread and given mode.
+*
+* @param mode Node.EXCLUSIVE for exclusive, Node.SHARED for shared
+* @return the new node
+*/
+private Node addWaiter(Node mode) {
+    Node node = new Node(Thread.currentThread(), mode);
+    // Try the fast path of enq; backup to full enq on failure
+    Node pred = tail;
+    if (pred != null) {
+        node.prev = pred;
+        if (compareAndSetTail(pred, node)) {
+            pred.next = node;
+            return node;
+        }
+    }
+    enq(node);
+    return node;
+}
+```
+
+#### enq
+
+enqueue.
+若 `AQS` 的 `tail` 为 `null`，则表名 `AQS` 未进行过初始化，初始化 `AQS` 队列。
+
+**方法功能**：
+
+- 初始化 AQS 队列。
+- 自旋 CAS 设置 tail。
+
+```java
+/**
+* Inserts node into queue, initializing if necessary. See picture above.
+* @param node the node to insert
+* @return node's predecessor
+*/
+private Node enq(final Node node) {
+    for (;;) {
+        Node t = tail;
+        if (t == null) { // Must initialize
+            // 初始化 AQS 队列
+            if (compareAndSetHead(new Node()))
+                // tail 和 head 指向同一个 Node
+                tail = head;
+        } else {
+            // 自旋设置 node 的前驱节点，并通过 CAS 设置 tail 为 node，直到 CAS 成功。
+            node.prev = t;
+            if (compareAndSetTail(t, node)) {
+                t.next = node;
+                return t;
+            }
+        }
+    }
+}
+```
+
+#### predecessor
+
+返回 `Node` 的前驱节点。 若前驱节点为 `null` 在抛出 `NullPointerException`。null check 是多余的，但可以帮助 JVM (GC?)
+
+```java
+/**
+* Returns previous node, or throws NullPointerException if null.
+* Use when predecessor cannot be null.  The null check could
+* be elided, but is present to help the VM.
+*
+* @return the predecessor of this node
+*/
+final Node predecessor() throws NullPointerException {
+    Node p = prev;
+    if (p == null)
+        throw new NullPointerException();
+    else
+        return p;
+}
+```
+
+#### acquireQueued
+
+- 当前线程继续尝试获取独占资源，或 park
+
+```java
+final boolean acquireQueued(final Node node, int arg) {
+    boolean failed = true;
+    try {
+        boolean interrupted = false;
+        for (;;) {
+            final Node p = node.predecessor();
+            // 若 node 的先驱节点为 head （AQS 队列中下一个执行的 node），则执行 tryAcquire 尝试获取独占资源。
+            // 若获取独占资源成功，则 head 指针后移一个节点。
+            if (p == head && tryAcquire(arg)) {
+                setHead(node); // 此处是否存在线程安全问题
+                p.next = null; // help GC
+                failed = false;
+                return interrupted;
+            }
+            // 若非 head.next 或获取独占资源失败
+            if (shouldParkAfterFailedAcquire(p, node) &&
+                parkAndCheckInterrupt())
+                interrupted = true;
+        }
+    } finally {
+        if (failed)
+            cancelAcquire(node);
+    }
+}
+```
+
+#### shouldParkAfterFailedAcquire
+
+```java
+/**
+* Checks and updates status for a node that failed to acquire.
+* Returns true if thread should block. This is the main signal
+* control in all acquire loops.  Requires that pred == node.prev.
+*
+* @param pred node's predecessor holding status
+* @param node the node
+* @return {@code true} if thread should block
+*/
+private static boolean shouldParkAfterFailedAcquire(Node pred, Node node) {
+    int ws = pred.waitStatus;
+    if (ws == Node.SIGNAL)
+        /*
+            * This node has already set status asking a release
+            * to signal it, so it can safely park.
+            */
+        return true;
+    if (ws > 0) {
+        /*
+            * Predecessor was cancelled. Skip over predecessors and
+            * indicate retry.
+            */
+        do {
+            node.prev = pred = pred.prev;
+        } while (pred.waitStatus > 0);
+        pred.next = node;
+    } else {
+        /*
+            * waitStatus must be 0 or PROPAGATE.  Indicate that we
+            * need a signal, but don't park yet.  Caller will need to
+            * retry to make sure it cannot acquire before parking.
+            */
+        compareAndSetWaitStatus(pred, ws, Node.SIGNAL);
+    }
+    return false;
+}
+```
