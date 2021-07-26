@@ -5,7 +5,7 @@ package com.deltav;
  * <p>
  * -Xint: 6048 ms
  * -Xcomp: 1241 ms
- * - Xmixed: 1375 ms
+ * -Xmixed: 1375 ms
  *
  * @author DeltaV235
  * @version 1.0
