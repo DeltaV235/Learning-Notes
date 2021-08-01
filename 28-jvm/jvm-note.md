@@ -497,3 +497,12 @@ After JDK8, sets max metaspace size. Default value is -1(all native heap memory)
 -XX:MaxMetaspaceSize=100m
 -XX:MaxMetaspaceSize=1g
 ```
+
+### -XX:StringTableSize
+
+Set HashTable size of String constant pool.
+At JDK8, the default value upper to  60013. The min value is 1009.
+
+```java
+-XX:StringTableSize=1009
+```
