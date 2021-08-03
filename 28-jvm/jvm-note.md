@@ -282,6 +282,39 @@ Hotspot
 | JDK1.7       | 有永久代，但已经逐步 “去永久代”，**字符串常量池，静态变量移除，保存在堆中** |
 | JDK1.8       | 无永久代，类型信息，字段，方法，常量保存在本地内存的元空间，但字符串常量池、静态变量仍然在堆中。 |
 
+## StringTable
+
+Use below method will not generate string in String Pool.
+So `String str = new String(char[])` and `str.intern() == str` is true.
+`str.intern()` will put non-exists string to string pool, but in this case the reference of the string in String Pool will link to `str` object which allocated in heap. (JDK7 and later)
+In JDK6, a copy of `str` will generate in String Pool, so `str.intern() != str`.
+
+Advantages of making a string pool object refer to a string object that exists in the heap instead of creating a new copy of it and putting it into the string pool:
+
+1. Save memory space. JVM only need 4 Byte space for store reference type object.
+2. Save time. The JVM does not need to copy the entire character array to the string pool.
+
+```java
+java.lang.String#String(char[], int, int)
+```
+
+Use following method, the parameter will be generated in String Pool. So return value of `String str = new String(String)` is not equal `str.intern()`
+
+```java
+java.lang.String#String(java.lang.String)
+```
+
+### 总结 intern() 的使用
+
+- JDK1.6 中，将这个字符串对象尝试放入串池。
+
+  - 如果 String Pool 中有，则不会放入。返回已有的串池中的对象的地址。
+  - 如果没有，会把**此对象复制一份**，放入 String Pool，并返回 String Pool 中的对象地址。
+
+- JDK1.7 起，将这个字符串对象尝试放入串池。
+  - 如果串池中有，则并不会放入。返回已有的串池中的对象的地址。
+  - 如果没有，则会把**对象的引用地址复制一份**，放入串池，并返回串池中的引用地址。
+
 ## command
 
 ### javap
