@@ -5,8 +5,8 @@ package com.deltav;
  * Interview question for String.
  * <p>
  * result:
- * jkd6: false / false
- * jdk7/8: false / true
+ * jkd6: false / false / false / true
+ * jdk7/8: false / true / true / true
  * 测试类 与 直接运行的 结果不一致
  *
  * @author DeltaV235
