@@ -315,6 +315,54 @@ java.lang.String#String(java.lang.String)
   - 如果串池中有，则并不会放入。返回已有的串池中的对象的地址。
   - 如果没有，则会把**对象的引用地址复制一份**，放入串池，并返回串池中的引用地址。
 
+## GC
+
+```java
+/**
+  * Runs the garbage collector.
+  * <p>
+  * Calling the <code>gc</code> method suggests that the Java Virtual
+  * Machine expend effort toward recycling unused objects in order to
+  * make the memory they currently occupy available for quick reuse.
+  * When control returns from the method call, the Java Virtual
+  * Machine has made a best effort to reclaim space from all discarded
+  * objects.
+  * <p>
+  * The call <code>System.gc()</code> is effectively equivalent to the
+  * call:
+  * <blockquote><pre>
+  * Runtime.getRuntime().gc()
+  * </pre></blockquote>
+  *
+  * @see     java.lang.Runtime#gc()
+  */
+public static void gc() {
+    Runtime.getRuntime().gc();
+}
+
+/**
+  * Runs the finalization methods of any objects pending finalization.
+  * <p>
+  * Calling this method suggests that the Java Virtual Machine expend
+  * effort toward running the <code>finalize</code> methods of objects
+  * that have been found to be discarded but whose <code>finalize</code>
+  * methods have not yet been run. When control returns from the
+  * method call, the Java Virtual Machine has made a best effort to
+  * complete all outstanding finalizations.
+  * <p>
+  * The call <code>System.runFinalization()</code> is effectively
+  * equivalent to the call:
+  * <blockquote><pre>
+  * Runtime.getRuntime().runFinalization()
+  * </pre></blockquote>
+  *
+  * @see     java.lang.Runtime#runFinalization()
+  */
+public static void runFinalization() {
+    Runtime.getRuntime().runFinalization();
+}
+```
+
 ## command
 
 ### javap
