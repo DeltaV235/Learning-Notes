@@ -47,6 +47,9 @@
 `ctrl + shift + j`: 将光标处下一行的内容合并至当前行的行尾
 `ctrl + shift + up/down`: 上移/下移语句或方法
 `alt + insert`: 自动创建方法或文件解决错误等功能
+`alt + <CR>`: Show Context Action
+`ctrl + <LEFT ARROR>`: Expand current window
+`ctrl + <RIGHT ARROR>`: Shrink current window
 
 ---
 
@@ -170,3 +173,7 @@ Since release 1.0.11 new shortcuts are available:
 - Remove javadocs on all elements of current class: "shift + ctrl + alt + Z"
 - From project view available new option to Create javadocs for selected folder/files
 - From project view available new option to Remove javadocs for selected folder/files
+
+## Live Template
+
+
