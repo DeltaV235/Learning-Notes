@@ -12,7 +12,10 @@ import java.lang.ref.SoftReference;
  */
 public class SoftReferenceTest {
     public static void main(String[] args) {
-        SoftReference<User> userSoftReference = new SoftReference<>(new User(1, "deltav"));
+//        SoftReference<User> userSoftReference = new SoftReference<>(new User(1, "deltav"));
+        User user = new User(1, "deltav");
+        SoftReference<User> userSoftReference = new SoftReference<>(user);
+        user = null;
         System.out.println(userSoftReference.get());
 
         System.gc();

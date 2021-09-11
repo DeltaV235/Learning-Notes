@@ -375,7 +375,7 @@ Reclaim when memory is insufficient.
 
 ### Weak Reference
 
-### Pho Reference
+### Phantom Reference
 
 `System.gc()` and `System.runFinalization()` jsut suggest JVM to recyclie memeory space and run finalize method of object that have been not yet run. It is not ensure that these two methods affected after they return.
 
