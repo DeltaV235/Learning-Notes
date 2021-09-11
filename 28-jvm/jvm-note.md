@@ -375,7 +375,11 @@ Reclaim when memory is insufficient.
 
 ### Weak Reference
 
+只要 GC 就会被回收。
+
 ### Phantom Reference
+
+任何时候都会被回收，回收后放入 Reference Queue 中。
 
 `System.gc()` and `System.runFinalization()` jsut suggest JVM to recyclie memeory space and run finalize method of object that have been not yet run. It is not ensure that these two methods affected after they return.
 
