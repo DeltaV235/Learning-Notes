@@ -315,7 +315,7 @@ java.lang.String#String(java.lang.String)
   - 如果串池中有，则并不会放入。返回已有的串池中的对象的地址。
   - 如果没有，则会把**对象的引用地址复制一份**，放入串池，并返回串池中的引用地址。
 
-## GC
+## GC method
 
 ```java
 /**
@@ -362,6 +362,20 @@ public static void runFinalization() {
     Runtime.getRuntime().runFinalization();
 }
 ```
+
+## Reference
+
+### Strong Reference
+
+String Reference will not be cleared at any time.
+
+### Soft Reference
+
+Reclaim when memory is insufficient.
+
+### Weak Reference
+
+### Pho Reference
 
 `System.gc()` and `System.runFinalization()` jsut suggest JVM to recyclie memeory space and run finalize method of object that have been not yet run. It is not ensure that these two methods affected after they return.
 
