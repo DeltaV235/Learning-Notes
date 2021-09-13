@@ -1,0 +1,29 @@
+package com.deltav.dao;
+
+import com.deltav.entities.Payment;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+/**
+ * @author DeltaV235
+ * @version 1.0
+ * @date 2021/9/14 0:54
+ */
+@Mapper
+public interface PaymentDao {
+    /**
+     * create payment record in DB
+     *
+     * @param payment entity of payment
+     * @return insert result
+     */
+    Long add(Payment payment);
+
+    /**
+     * get payment information by id
+     *
+     * @param id payment id
+     * @return entity
+     */
+    Payment queryById(@Param("id") Long id);
+}
