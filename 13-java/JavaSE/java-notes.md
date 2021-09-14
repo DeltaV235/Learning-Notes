@@ -1438,6 +1438,10 @@ TestClass tc = (TestClass)clz.getConstructor().newInstance();
   - 比反射开销小，性能高
   - Javassist性能高于反射，低于ASM
 
+## Generics 泛型
+
+
+
 ## JVM
 
 ### 类加载全过程
