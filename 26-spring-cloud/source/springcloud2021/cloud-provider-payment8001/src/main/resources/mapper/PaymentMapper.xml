@@ -2,12 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.deltav.dao.PaymentDao">
-    <insert id="add" parameterType="Payment" useGeneratedKeys="true" keyColumn="id">
+    <insert id="add" parameterType="com.deltav.entities.Payment" useGeneratedKeys="true" keyColumn="id">
         insert into payment(serial)
         values (#{payment.serial})
     </insert>
 
-    <resultMap id="paymentMap" type="Payment">
+    <resultMap id="paymentMap" type="com.deltav.entities.Payment">
         <id column="id" property="id" jdbcType="BIGINT"/>
         <result column="serial" property="serial" jdbcType="VARCHAR"/>
     </resultMap>

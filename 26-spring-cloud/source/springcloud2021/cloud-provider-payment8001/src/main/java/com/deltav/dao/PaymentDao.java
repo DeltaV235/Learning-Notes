@@ -5,9 +5,10 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 /**
+ * The interface Payment dao.
+ *
  * @author DeltaV235
  * @version 1.0
- * @date 2021/9/14 0:54
  */
 @Mapper
 public interface PaymentDao {
@@ -23,7 +24,7 @@ public interface PaymentDao {
      * get payment information by id
      *
      * @param id payment id
-     * @return entity
+     * @return entity payment
      */
     Payment queryById(@Param("id") Long id);
 }
