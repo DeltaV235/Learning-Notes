@@ -1440,7 +1440,135 @@ TestClass tc = (TestClass)clz.getConstructor().newInstance();
 
 ## Generics 泛型
 
+### Reference
 
+[java 泛型详解-绝对是对泛型方法讲解最详细的，没有之一](https://blog.csdn.net/s10461/article/details/53941091)
+[Java泛型指南](https://blog.csdn.net/qq_36622496/article/details/108998744)
+
+泛型，即“参数化类型”。
+
+### 泛型类
+
+```java
+package com.deltav;
+
+/**
+ * @author DeltaV235
+ * @version 1.0
+ */
+public class GenericClass<T> {
+    private T key;
+
+    public GenericClass(T key) {
+        this.key = key;
+    }
+
+    public T getKey() {
+        return key;
+    }
+
+    public void setKey(T key) {
+        this.key = key;
+    }
+
+    public static void main(String[] args) {
+        GenericClass<String> stringGenericClass = new GenericClass<>("test");
+        System.out.println("stringGenericClass.getKey() = " + stringGenericClass.getKey());
+    }
+}
+```
+
+### 泛型接口
+
+**Interface:**
+
+```java
+package com.deltav;
+
+/**
+ * The interface Generic interface.
+ *
+ * @param <K> the type parameter
+ * @param <V> the type parameter
+ * @author DeltaV235
+ * @version 1.0
+ */
+public interface GenericInterface<K, V> {
+    /**
+     * Print k.
+     *
+     * @param v the v
+     * @return the k
+     */
+    K print(V v);
+}
+```
+
+**Implement class with generics arguments:**
+
+```java
+package com.deltav;
+
+/**
+ * @author DeltaV235
+ * @version 1.0
+ */
+public class GenericInterClass implements GenericInterface<String, Integer> {
+    @Override
+    public String print(Integer integer) {
+        return integer.toString();
+    }
+
+    public static void main(String[] args) {
+        GenericInterClass genericInterClass = new GenericInterClass();
+        System.out.println("genericInterClass.print(2938) = " + genericInterClass.print(2938));
+    }
+}
+```
+
+**Implement class without specified generics:**
+
+```java
+package com.deltav;
+
+/**
+ * The type Generic inter class without type.
+ *
+ * @param <K> the type parameter
+ * @param <V> the type parameter
+ * @author DeltaV235
+ * @version 1.0
+ */
+public class GenericInterClassWithoutType<K, V> implements GenericInterface<K, V> {
+
+    @Override
+    public K print(V v) {
+        return (K)v.getClass();
+    }
+}
+```
+
+### 泛型方法
+
+```java
+package com.deltav;
+
+
+/**
+ * @author DeltaV235
+ * @version 1.0
+ */
+public class GenericMethod {
+    public <T> void genericMethod(T t) {
+        System.out.println("t.hashCode() = " + t.hashCode());
+    }
+
+    public static void main(String[] args) {
+        GenericMethod genericMethod = new GenericMethod();
+        genericMethod.genericMethod("test");
+    }
+}
+```
 
 ## JVM
 
