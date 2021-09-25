@@ -4,7 +4,7 @@
 <mapper namespace="com.deltav.dao.PaymentDao">
     <insert id="add" parameterType="com.deltav.entities.Payment" useGeneratedKeys="true" keyColumn="id">
         insert into payment(serial)
-        values (#{payment.serial})
+        values (#{serial})
     </insert>
 
     <resultMap id="paymentMap" type="com.deltav.entities.Payment">
