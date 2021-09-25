@@ -12,7 +12,7 @@ import javax.annotation.Resource;
  * @author DeltaV235
  * @version 1.0
  */
-@RestController()
+@RestController
 @Slf4j
 public class PaymentController {
     @Resource
