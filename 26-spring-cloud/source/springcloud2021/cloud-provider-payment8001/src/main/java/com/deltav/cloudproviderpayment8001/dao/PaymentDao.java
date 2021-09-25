@@ -1,6 +1,6 @@
-package com.deltav.dao;
+package com.deltav.cloudproviderpayment8001.dao;
 
-import com.deltav.entities.Payment;
+import com.deltav.cloudproviderpayment8001.entities.Payment;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

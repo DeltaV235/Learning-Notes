@@ -1,10 +1,10 @@
-package com.deltav.vo;
+package com.deltav.cloudproviderpayment8001.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import static com.deltav.constant.PaymentConstant.*;
+import static com.deltav.cloudproviderpayment8001.constant.PaymentConstant.*;
 
 /**
  * @author DeltaV235

@@ -1,8 +1,8 @@
-package com.deltav.service.impl;
+package com.deltav.cloudproviderpayment8001.service.impl;
 
-import com.deltav.dao.PaymentDao;
-import com.deltav.entities.Payment;
-import com.deltav.service.PaymentService;
+import com.deltav.cloudproviderpayment8001.dao.PaymentDao;
+import com.deltav.cloudproviderpayment8001.entities.Payment;
+import com.deltav.cloudproviderpayment8001.service.PaymentService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

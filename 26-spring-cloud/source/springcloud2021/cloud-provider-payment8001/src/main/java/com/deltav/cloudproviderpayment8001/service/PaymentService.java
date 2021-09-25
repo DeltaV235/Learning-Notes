@@ -1,6 +1,6 @@
-package com.deltav.service;
+package com.deltav.cloudproviderpayment8001.service;
 
-import com.deltav.entities.Payment;
+import com.deltav.cloudproviderpayment8001.entities.Payment;
 
 /**
  * The interface Payment service.

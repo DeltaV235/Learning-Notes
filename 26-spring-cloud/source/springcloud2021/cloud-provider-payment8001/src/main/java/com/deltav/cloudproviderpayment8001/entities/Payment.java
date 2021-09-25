@@ -1,4 +1,4 @@
-package com.deltav.entities;
+package com.deltav.cloudproviderpayment8001.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

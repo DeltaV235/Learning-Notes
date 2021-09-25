@@ -13,4 +13,4 @@ spring:
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
-#  type-aliases-package: com.deltav.entities
+#  type-aliases-package: com.deltav.cloudproviderpayment8001.entities
