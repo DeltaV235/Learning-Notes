@@ -383,6 +383,38 @@ Reclaim when memory is insufficient.
 
 `System.gc()` and `System.runFinalization()` jsut suggest JVM to recyclie memeory space and run finalize method of object that have been not yet run. It is not ensure that these two methods affected after they return.
 
+## GC 分类
+
+![GC](jvm-note.assets/GC.svg)
+
+![image-20210925171352224](jvm-note.assets/image-20210925171352224.png)
+
+1. 两个收集器间有连线，表明它们可以搭配使用：
+    - Serial/Serial old
+    - Serial/CMS    （JDK9废弃）
+    - ParNew/Serial Old （JDK9废弃）
+    - ParNew/CMS
+    - Parallel Scavenge/Serial Old  （预计废弃）
+    - Parallel Scavenge/Parallel Old
+    - G1
+2. 其中Serial Old作为CMS出现"Concurrent Mode Failure"失败的后备预案。
+3. （红色虚线）由于维护和兼容性测试的成本，在JDK 8时将Serial+CMS、ParNew+Serial Old这两个组合声明为废弃（JEP173），并在JDK9中完全取消了这些组合的支持（JEP214），即：移除。
+4. （绿色虚线）JDK14中：弃用Parallel Scavenge和Serial Old GC组合（JEP366）
+5. （青色虚线）JDK14中：删除CMS垃圾回收器（JEP363）
+
+### check default GC
+
+1. -XX:+PrintCommandLineFlags：查看命令行相关参数（包含使用的垃圾收集器）
+2. 使用命令行指令：jinfo -flag 相关垃圾回收器参数 进程ID
+
+```bash
+jps
+jinfo -flag UseParallelGC 进程id
+jinfo -flag UseParallelOldGC 进程id
+```
+
+![image-20210925174340594](jvm-note.assets/image-20210925174340594.png)
+
 ## command
 
 ### javap
@@ -606,4 +638,18 @@ At JDK8, the default value upper to  60013. The min value is 1009.
 
 ```java
 -XX:StringTableSize=1009
+```
+
+### -XX:+PrintCommandLineFlags
+
+Print Command Line parameters in console when application started.
+
+```jav
+-XX:+PrintCommandLineFlags
+```
+
+**Console:**
+
+```java
+-XX:-BytecodeVerificationLocal -XX:-BytecodeVerificationRemote -XX:InitialHeapSize=266846528 -XX:+ManagementServer -XX:MaxHeapSize=4269544448 -XX:+PrintCommandLineFlags -XX:TieredStopAtLevel=1 -XX:+UseCompressedClassPointers -XX:+UseCompressedOops -XX:-UseLargePagesIndividualAllocation -XX:+UseParallelGC 
 ```
