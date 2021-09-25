@@ -415,6 +415,20 @@ jinfo -flag UseParallelOldGC 进程id
 
 ![image-20210925174340594](jvm-note.assets/image-20210925174340594.png)
 
+**NOTE**: `ParallelGC` 和 `ParallelOldGC` 默认绑定使用，所有在 `PrintCommandLineFlags` 中只打印了 `+XX:+UseParallelGC`
+
+**JDK12**:
+
+默认使用 G1GC
+
+```java
+-XX:-BytecodeVerificationLocal -XX:-BytecodeVerificationRemote -XX:G1ConcRefinementThreads=4 -XX:GCDrainStackTargetSize=64 -XX:InitialHeapSize=266846528 -XX:+ManagementServer -XX:MaxHeapSize=4269544448 -XX:+PrintCommandLineFlags -XX:ReservedCodeCacheSize=251658240 -XX:+SegmentedCodeCache -XX:TieredStopAtLevel=1 -XX:+UseCompressedClassPointers -XX:+UseCompressedOops -XX:+UseG1GC -XX:-UseLargePagesIndividualAllocation 
+```
+
+jinfo:
+
+![image-20210925181506973](jvm-note.assets/image-20210925181506973.png)
+
 ## command
 
 ### javap
