@@ -1,4 +1,4 @@
-package com.deltav.cloudconsumerorder80.entities;
+package com.deltav.springcloud.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

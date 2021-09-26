@@ -1,6 +1,6 @@
 package com.deltav.cloudproviderpayment8001.dao;
 
-import com.deltav.cloudproviderpayment8001.entities.Payment;
+import com.deltav.springcloud.entities.Payment;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

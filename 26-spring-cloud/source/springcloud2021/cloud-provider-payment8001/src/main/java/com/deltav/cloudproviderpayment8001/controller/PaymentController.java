@@ -1,8 +1,8 @@
 package com.deltav.cloudproviderpayment8001.controller;
 
-import com.deltav.cloudproviderpayment8001.entities.Payment;
 import com.deltav.cloudproviderpayment8001.service.PaymentService;
-import com.deltav.cloudproviderpayment8001.vo.CommonResultVO;
+import com.deltav.springcloud.entities.Payment;
+import com.deltav.springcloud.vo.CommonResultVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 

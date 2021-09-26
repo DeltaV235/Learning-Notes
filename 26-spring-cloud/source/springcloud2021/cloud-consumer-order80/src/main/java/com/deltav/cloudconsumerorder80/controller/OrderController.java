@@ -1,7 +1,7 @@
 package com.deltav.cloudconsumerorder80.controller;
 
-import com.deltav.cloudconsumerorder80.entities.Payment;
-import com.deltav.cloudconsumerorder80.vo.CommonResultVO;
+import com.deltav.springcloud.entities.Payment;
+import com.deltav.springcloud.vo.CommonResultVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -13,7 +13,8 @@ import javax.annotation.Resource;
  * @version 1.0
  */
 @Slf4j
-@RestController("/consumer")
+@RestController
+@RequestMapping("/consumer")
 public class OrderController {
 
     private static final String PAYMENT_URL = "http://localhost:8001";

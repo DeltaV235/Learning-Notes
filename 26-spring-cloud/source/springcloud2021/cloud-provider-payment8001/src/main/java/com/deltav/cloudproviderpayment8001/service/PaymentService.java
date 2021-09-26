@@ -1,6 +1,7 @@
 package com.deltav.cloudproviderpayment8001.service;
 
-import com.deltav.cloudproviderpayment8001.entities.Payment;
+
+import com.deltav.springcloud.entities.Payment;
 
 /**
  * The interface Payment service.

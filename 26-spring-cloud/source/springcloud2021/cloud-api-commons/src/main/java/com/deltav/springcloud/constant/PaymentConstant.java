@@ -1,4 +1,4 @@
-package com.deltav.cloudproviderpayment8001.constant;
+package com.deltav.springcloud.constant;
 
 /**
  * @author DeltaV235

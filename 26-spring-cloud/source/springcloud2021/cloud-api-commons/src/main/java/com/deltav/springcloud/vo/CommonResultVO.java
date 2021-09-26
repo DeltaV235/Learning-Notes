@@ -1,10 +1,9 @@
-package com.deltav.cloudconsumerorder80.vo;
+package com.deltav.springcloud.vo;
 
+import com.deltav.springcloud.constant.PaymentConstant;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import static com.deltav.cloudconsumerorder80.constant.PaymentConstant.*;
 
 /**
  * @author DeltaV235
@@ -19,18 +18,18 @@ public class CommonResultVO<T> {
     private T data;
 
     public static <E> CommonResultVO<E> successWithoutData() {
-        return new CommonResultVO<>(CODE_SUCCESS, MESSAGE_SUCCESS, null);
+        return new CommonResultVO<>(PaymentConstant.CODE_SUCCESS, PaymentConstant.MESSAGE_SUCCESS, null);
     }
 
     public static <E> CommonResultVO<E> successWithData(E data) {
-        return new CommonResultVO<>(CODE_SUCCESS, MESSAGE_SUCCESS, data);
+        return new CommonResultVO<>(PaymentConstant.CODE_SUCCESS, PaymentConstant.MESSAGE_SUCCESS, data);
     }
 
     public static <E> CommonResultVO<E> failedWithoutData() {
-        return new CommonResultVO<>(CODE_FAILED, MESSAGE_FAILED, null);
+        return new CommonResultVO<>(PaymentConstant.CODE_FAILED, PaymentConstant.MESSAGE_FAILED, null);
     }
 
     public static <E> CommonResultVO<E> failedWithData(E data) {
-        return new CommonResultVO<>(CODE_FAILED, MESSAGE_FAILED, data);
+        return new CommonResultVO<>(PaymentConstant.CODE_FAILED, PaymentConstant.MESSAGE_FAILED, data);
     }
 }

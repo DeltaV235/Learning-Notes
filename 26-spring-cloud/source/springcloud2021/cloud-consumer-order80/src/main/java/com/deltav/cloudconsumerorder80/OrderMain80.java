@@ -7,10 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author DeltaV
  */
 @SpringBootApplication
-public class CloudConsumerOrder80Application {
+public class OrderMain80 {
 
     public static void main(String[] args) {
-        SpringApplication.run(CloudConsumerOrder80Application.class, args);
+        SpringApplication.run(OrderMain80.class, args);
     }
 
 }
