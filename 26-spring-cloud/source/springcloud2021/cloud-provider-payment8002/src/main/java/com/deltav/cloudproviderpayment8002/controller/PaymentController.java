@@ -1,6 +1,6 @@
-package com.deltav.cloudproviderpayment8001.controller;
+package com.deltav.cloudproviderpayment8002.controller;
 
-import com.deltav.cloudproviderpayment8001.service.PaymentService;
+import com.deltav.cloudproviderpayment8002.service.PaymentService;
 import com.deltav.springcloud.entities.Payment;
 import com.deltav.springcloud.vo.CommonResultVO;
 import lombok.extern.slf4j.Slf4j;

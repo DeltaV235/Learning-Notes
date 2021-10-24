@@ -17,7 +17,7 @@ import javax.annotation.Resource;
 @RequestMapping("/consumer")
 public class OrderController {
 
-    private static final String PAYMENT_URL = "http://localhost:8001";
+    private static final String PAYMENT_URL = "http://cloud-payment-service";
 
     @Resource
     private RestTemplate restTemplate;
