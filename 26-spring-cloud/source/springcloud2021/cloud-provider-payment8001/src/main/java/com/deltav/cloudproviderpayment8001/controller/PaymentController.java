@@ -5,9 +5,12 @@ import com.deltav.springcloud.entities.Payment;
 import com.deltav.springcloud.vo.CommonResultVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author DeltaV235
@@ -26,6 +29,9 @@ public class PaymentController {
 
     @Value("${server.port}")
     private String serverPort;
+
+    @Resource
+    private DiscoveryClient discoveryClient;
 
     @GetMapping("/payment/{id}")
     public CommonResultVO<Payment> getPaymentById(@PathVariable("id") Long id) {
@@ -48,5 +54,23 @@ public class PaymentController {
             log.error("insert payment info failed", e);
             return CommonResultVO.failedWithoutData(applicationName, serverPort, CONTROLLER_DESCRIPTION);
         }
+    }
+
+    @GetMapping("/payment/discovery")
+    public Object discovery() {
+        List<String> services = discoveryClient.getServices();
+        for (String service : services) {
+            log.info("service: {}", service);
+        }
+
+        for (ServiceInstance instance : discoveryClient.getInstances(services.get(0))) {
+            log.info("instance of Payment: {} - {} - {} - {}",
+                    instance.getInstanceId(),
+                    instance.getHost(),
+                    instance.getPort(),
+                    instance.getUri());
+        }
+
+        return this.discoveryClient;
     }
 }
