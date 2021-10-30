@@ -4,6 +4,48 @@
 
 ### Eureka Server
 
+#### Eureka Server Startup Class
+
+```java
+@SpringBootApplication
+@EnableEurekaServer
+public class EurekaMain7002 {
+    public static void main(String[] args) {
+        SpringApplication.run(EurekaMain7002.class, args);
+    }
+}
+```
+
+#### Eureka Server POM
+
+```xml
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+</dependency>
+```
+
+#### Eureka Server application.yml
+
+```yml
+server:
+  port: 7002
+
+eureka:
+  instance:
+    hostname: eureka7002.com  # eureka服务端的实例名字
+  client:
+    register-with-eureka: false  # 表示不向注册中心注册自己
+    fetch-registry: false # 表示自己就是注册中心，职责是维护服务实例，并不需要去检索服务
+    service-url:
+      defaultZone: http://eureka7001.com:7001/eureka/ # 注册服务都需要依赖这个地址
+  server:
+    # 禁用 self-preservation
+    #    enable-self-preservation: false
+    # expiry instance 剔除执行的时间间隔
+    eviction-interval-timer-in-ms: 2000
+```
+
 #### self-preservation
 
 [Spring Cloud Eureka 自我保护机制](https://www.cnblogs.com/xishuai/p/spring-cloud-eureka-safe.html)
@@ -20,17 +62,7 @@ Eureka Server 在运行期间会去统计心跳失败比例在 15 分钟之内�
 `Renews (last min)`：**Eureka Server 最后 1 分钟收到客户端实例续约的总数**。
 
 ```yml
-server:
-  port: 7002
-
 eureka:
-  instance:
-    hostname: eureka7002.com  # eureka服务端的实例名字
-  client:
-    register-with-eureka: false  # 表示不向注册中心注册自己
-    fetch-registry: false # 表示自己就是注册中心，职责是维护服务实例，并不需要去检索服务
-    service-url:
-      defaultZone: http://eureka7001.com:7001/eureka/ # 注册服务都需要依赖这个地址
   server:
     # 禁用 self-preservation
     enable-self-preservation: false
@@ -53,6 +85,61 @@ Eureka通过“自我保护模式”来解决这个问题——当Eureka Server�
 eureka server清理无效节点的时间间隔，默认60000毫秒，即60秒
 
 ### Eureka Client
+
+#### Eureka Client POM
+
+```xml
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+</dependency>
+```
+
+#### Eureka Client application.yml
+
+```yml
+server:
+  port: 8001
+
+spring:
+  application:
+    name: cloud-payment-service
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/springcloud?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: deltav
+    password: testpass
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+#  type-aliases-package: com.deltav.cloudproviderpayment8001.entities
+
+eureka:
+  client:
+    # 表示是否将自己注册进 EurekaServer，默认为 true
+    register-with-eureka: true
+    # 是否从 EurekaServer 抓取已有的注册信息，默认为 true。单节点无所谓，集群必须设置为 true 才能配合使用
+    fetchRegistry: true
+    service-url:
+      defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka
+  instance:
+    instance-id: paymwent8001
+    prefer-ip-address: true
+```
+
+#### Eureka Client Startup Class
+
+```java
+@SpringBootApplication
+@EnableEurekaClient
+@EnableDiscoveryClient
+public class PaymentMain8001 {
+    public static void main(String[] args) {
+        SpringApplication.run(PaymentMain8001.class, args);
+    }
+}
+```
 
 #### @LoadBalanced
 
