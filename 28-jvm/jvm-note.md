@@ -415,7 +415,7 @@ jinfo -flag UseParallelOldGC 进程id
 
 ![image-20210925174340594](jvm-note.assets/image-20210925174340594.png)
 
-**NOTE**: `ParallelGC` 和 `ParallelOldGC` 默认绑定使用，所有在 `PrintCommandLineFlags` 中只打印了 `+XX:+UseParallelGC`
+**NOTE**: `ParallelGC` 和 `ParallelOldGC` 默认绑定使用，所以在 `PrintCommandLineFlags` 中只打印了 `+XX:+UseParallelGC`
 
 **JDK12**:
 
@@ -428,6 +428,119 @@ jinfo -flag UseParallelOldGC 进程id
 jinfo:
 
 ![image-20210925181506973](jvm-note.assets/image-20210925181506973.png)
+
+### Serial GC
+
+Command Line
+
+```bash
+-XX:+UseSerialGC
+```
+
+在 HotSpot 虚拟机中，使用`-XX:+UseSerialGC`参数可以指定年轻代和老年代都使用串行收集器。即新生代使用 `Serial GC`，老年代使用 `Serial Old GC`。
+
+1. Serial收集器是最基本、历史最悠久的垃圾收集器了。JDK1.3之前回收新生代唯一的选择。
+2. Serial收集器作为HotSpot中Client模式下的默认新生代垃圾收集器。
+3. Serial收集器采用复制算法、串行回收和"Stop-the-World"机制的方式执行内存回收。
+4. 除了年轻代之外，Serial收集器还提供用于执行老年代垃圾收集的Serial Old收集器。Serial old收集器同样也采用了串行回收和"Stop the World"机制，只不过内存回收算法使用的是标记-压缩算法。
+5. Serial Old是运行在Client模式下默认的老年代的垃圾回收器，Serial Old在Server模式下主要有两个用途：
+    - 与新生代的Parallel Scavenge配合使用
+    - 作为老年代CMS收集器的后备垃圾收集方案
+
+这个收集器是一个单线程的收集器，“单线程”的意义：它只会使用一个CPU（串行）或一条收集线程去完成垃圾收集工作。更重要的是在它进行垃圾收集时，必须暂停其他所有的工作线程，直到它收集结束（Stop The World）
+
+![image-20211114225759048](jvm-note.assets/image-20211114225759048.png)
+
+### ParNew GC
+
+```bash
+-XX:+UseParNewGC        # enable ParNew GC
+-XX:ParallelGCThreads   # set number of GC thread
+```
+
+1. 如果说Serial GC是年轻代中的单线程垃圾收集器，那么ParNew收集器则是Serial收集器的多线程版本。
+    - Par是Parallel的缩写，New：只能处理新生代
+2. ParNew 收集器除了采用**并行回收**的方式执行内存回收外，两款垃圾收集器之间几乎没有任何区别。ParNew收集器在年轻代中同样也是采用复制算法、"Stop-the-World"机制。
+3. ParNew 是很多JVM运行在Server模式下新生代的默认垃圾收集器。
+
+![image-20211213140336920](jvm-note.assets/image-20211213140336920.png)
+
+1. 对于新生代，回收次数频繁，使用并行方式高效。
+2. 对于老年代，回收次数少，使用串行方式节省资源。（CPU并行需要切换线程，串行可以省去切换线程的资源）
+
+**设置 ParNew 垃圾回收器**:
+
+1. 在程序中，开发人员可以通过选项"-XX:+UseParNewGC"手动指定使用ParNew收集器执行内存回收任务。它表示年轻代使用并行收集器，不影响老年代。
+2. -XX:ParallelGCThreads限制线程数量，默认开启和CPU数据相同的线程数。
+
+### Parallel GC
+
+**Commond Line**:
+
+```bash
+-XX:+UseParallelGC    # enable Parallel GC
+-XX:+UseParallelOldGC
+-XX:ParallelGCThreads
+```
+
+**Parallel Scavenge 回收器：吞吐量优先**:
+
+1. HotSpot的年轻代中除了拥有ParNew收集器是基于并行回收的以外，Parallel Scavenge收集器同样也采用了复制算法、并行回收和"Stop the World"机制。
+2. 那么Parallel收集器的出现是否多此一举？
+    - 和ParNew收集器不同，Parallel Scavenge收集器的目标则是达到一个**可控制的吞吐量**（Throughput），它也被称为吞吐量优先的垃圾收集器。
+    - 自适应调节策略也是Parallel Scavenge与ParNew一个重要区别。（动态调整内存分配情况，以达到一个最优的吞吐量或低延迟）
+3. 高吞吐量则可以高效率地利用CPU时间，尽快完成程序的运算任务，**主要适合在后台运算而不需要太多交互的任务**。因此，常见在服务器环境中使用。例如，那些执行批量处理、订单处理、工资支付、科学计算的应用程序。
+4. Parallel收集器在JDK1.6时提供了用于执行老年代垃圾收集的Parallel Old收集器，用来代替老年代的Serial Old收集器。
+5. Parallel Old收集器采用了标记-压缩算法，但同样也是基于并行回收和"Stop-the-World"机制。
+
+![image-20211213141302768](jvm-note.assets/image-20211213141302768.png)
+
+1. 在程序吞吐量优先的应用场景中，Parallel收集器和Parallel Old收集器的组合，在server模式下的内存回收性能很不错。
+2. **在Java8中，默认是此垃圾收集器。**
+
+**Parallel Scavenge 回收器参数设置**:
+
+1. -XX:+UseParallelGC 手动指定年轻代使用Parallel并行收集器执行内存回收任务。
+2. -XX:+UseParallelOldGC：手动指定老年代都是使用并行回收收集器。
+   - 分别适用于新生代和老年代
+   - 上面两个参数分别适用于新生代和老年代。默认jdk8是开启的。默认开启一个，另一个也会被开启。（互相激活）
+3. -XX:ParallelGCThreads：设置年轻代并行收集器的线程数。一般地，最好与CPU数量相等，以避免过多的线程数影响垃圾收集性能。
+    1. 在默认情况下，当CPU数量小于8个，ParallelGCThreads的值等于CPU数量。
+    2. 当CPU数量大于8个，ParallelGCThreads的值等于 3+\[5*CPU_Count\]/8
+4. -XX:MaxGCPauseMillis 设置垃圾收集器最大停顿时间（即STW的时间）。单位是毫秒。
+    1. 为了尽可能地把停顿时间控制在XX:MaxGCPauseMillis 以内，收集器在工作时会调整Java堆大小或者其他一些参数。
+    2. 对于用户来讲，停顿时间越短体验越好。但是在服务器端，我们注重高并发，整体的吞吐量。所以服务器端适合Parallel，进行控制。
+    3. 该参数使用需谨慎。
+
+5. -XX:GCTimeRatio垃圾收集时间占总时间的比例，即等于 1 / (N+1) ，用于衡量吞吐量的大小。
+    1. 取值范围(0, 100)。默认值99，也就是垃圾回收时间占比不超过1。
+    2. 与前一个-XX:MaxGCPauseMillis参数有一定矛盾性，STW暂停时间越长，Radio参数就容易超过设定的比例。
+
+6. -XX:+UseAdaptiveSizePolicy 设置Parallel Scavenge收集器具有**自适应调节策略**
+    1. 在这种模式下，年轻代的大小、Eden和Survivor的比例、晋升老年代的对象年龄等参数会被自动调整，已达到在堆大小、吞吐量和停顿时间之间的平衡点。
+    2. 在手动调优比较困难的场合，可以直接使用这种自适应的方式，仅指定虚拟机的最大堆、目标的吞吐量（GCTimeRatio）和停顿时间（MaxGCPauseMillis），让虚拟机自己完成调优工作。
+
+### CMS
+
+Concurrent Mark Sweep
+
+**Commond Line**:
+
+```bash
+-XX:+UseConcMarkSweepGC
+```
+
+![image-20211213142148329](jvm-note.assets/image-20211213142148329.png)
+
+### G1
+
+Garbage First
+
+**Commond Line**:
+
+```bash
+-XX:+UseG1GC
+```
 
 ## command
 
