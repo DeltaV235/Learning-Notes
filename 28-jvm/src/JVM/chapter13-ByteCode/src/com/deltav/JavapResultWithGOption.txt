@@ -1,0 +1,159 @@
+Classfile /D:/OneDrive - st.sdju.edu.cn/Learning/28-jvm/src/JVM/chapter13-ByteCode/src/com/deltav/JavapTest.class
+  Last modified 2022Äê1ÔÂ23ÈÕ; size 1302 bytes
+  MD5 checksum e282cefa150fec0b116875732aa0d9f8
+  Compiled from "JavapTest.java"
+public class com.deltav.JavapTest
+  minor version: 0
+  major version: 56
+  flags: (0x0021) ACC_PUBLIC, ACC_SUPER
+  this_class: #9                          // com/deltav/JavapTest
+  super_class: #10                        // java/lang/Object
+  interfaces: 0, fields: 3, methods: 4, attributes: 3
+Constant pool:
+   #1 = Methodref          #10.#32        // java/lang/Object."<init>":()V
+   #2 = String             #33            // test
+   #3 = Fieldref           #9.#34         // com/deltav/JavapTest.str:Ljava/lang/String;
+   #4 = Fieldref           #35.#36        // java/lang/System.out:Ljava/io/PrintStream;
+   #5 = InvokeDynamic      #0:#40         // #0:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+   #6 = Methodref          #41.#42        // java/io/PrintStream.println:(Ljava/lang/String;)V
+   #7 = Methodref          #43.#44        // java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+   #8 = Fieldref           #9.#45         // com/deltav/JavapTest.i:Ljava/lang/Integer;
+   #9 = Class              #46            // com/deltav/JavapTest
+  #10 = Class              #47            // java/lang/Object
+  #11 = Utf8               i
+  #12 = Utf8               Ljava/lang/Integer;
+  #13 = Utf8               str
+  #14 = Utf8               Ljava/lang/String;
+  #15 = Utf8               ConstantValue
+  #16 = Utf8               decimal
+  #17 = Utf8               D
+  #18 = Utf8               add
+  #19 = Utf8               ()S
+  #20 = Utf8               Code
+  #21 = Utf8               LineNumberTable
+  #22 = Utf8               LocalVariableTable
+  #23 = Utf8               this
+  #24 = Utf8               Lcom/deltav/JavapTest;
+  #25 = Utf8               <init>
+  #26 = Utf8               ()V
+  #27 = Utf8               calc
+  #28 = Utf8               (Ljava/lang/String;)V
+  #29 = Utf8               <clinit>
+  #30 = Utf8               SourceFile
+  #31 = Utf8               JavapTest.java
+  #32 = NameAndType        #25:#26        // "<init>":()V
+  #33 = Utf8               test
+  #34 = NameAndType        #13:#14        // str:Ljava/lang/String;
+  #35 = Class              #48            // java/lang/System
+  #36 = NameAndType        #49:#50        // out:Ljava/io/PrintStream;
+  #37 = Utf8               BootstrapMethods
+  #38 = MethodHandle       6:#51          // REF_invokeStatic java/lang/invoke/StringConcatFactory.makeConcatWithConstants:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+  #39 = String             #52            // str = \u0001
+  #40 = NameAndType        #53:#54        // makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+  #41 = Class              #55            // java/io/PrintStream
+  #42 = NameAndType        #56:#28        // println:(Ljava/lang/String;)V
+  #43 = Class              #57            // java/lang/Integer
+  #44 = NameAndType        #58:#59        // valueOf:(I)Ljava/lang/Integer;
+  #45 = NameAndType        #11:#12        // i:Ljava/lang/Integer;
+  #46 = Utf8               com/deltav/JavapTest
+  #47 = Utf8               java/lang/Object
+  #48 = Utf8               java/lang/System
+  #49 = Utf8               out
+  #50 = Utf8               Ljava/io/PrintStream;
+  #51 = Methodref          #60.#61        // java/lang/invoke/StringConcatFactory.makeConcatWithConstants:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+  #52 = Utf8               str = \u0001
+  #53 = Utf8               makeConcatWithConstants
+  #54 = Utf8               (Ljava/lang/String;)Ljava/lang/String;
+  #55 = Utf8               java/io/PrintStream
+  #56 = Utf8               println
+  #57 = Utf8               java/lang/Integer
+  #58 = Utf8               valueOf
+  #59 = Utf8               (I)Ljava/lang/Integer;
+  #60 = Class              #62            // java/lang/invoke/StringConcatFactory
+  #61 = NameAndType        #53:#66        // makeConcatWithConstants:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+  #62 = Utf8               java/lang/invoke/StringConcatFactory
+  #63 = Class              #68            // java/lang/invoke/MethodHandles$Lookup
+  #64 = Utf8               Lookup
+  #65 = Utf8               InnerClasses
+  #66 = Utf8               (Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+  #67 = Class              #69            // java/lang/invoke/MethodHandles
+  #68 = Utf8               java/lang/invoke/MethodHandles$Lookup
+  #69 = Utf8               java/lang/invoke/MethodHandles
+{
+  static java.lang.Integer i;
+    descriptor: Ljava/lang/Integer;
+    flags: (0x0008) ACC_STATIC
+
+  public double decimal;
+    descriptor: D
+    flags: (0x0001) ACC_PUBLIC
+
+  public short add();
+    descriptor: ()S
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: iconst_3
+         1: ireturn
+      LineNumberTable:
+        line 15: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       2     0  this   Lcom/deltav/JavapTest;
+
+  public com.deltav.JavapTest();
+    descriptor: ()V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=2, locals=1, args_size=1
+         0: aload_0
+         1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+         4: aload_0
+         5: ldc           #2                  // String test
+         7: putfield      #3                  // Field str:Ljava/lang/String;
+        10: return
+      LineNumberTable:
+        line 18: 0
+        line 11: 4
+        line 19: 10
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      11     0  this   Lcom/deltav/JavapTest;
+
+  final void calc(java.lang.String);
+    descriptor: (Ljava/lang/String;)V
+    flags: (0x0010) ACC_FINAL
+    Code:
+      stack=2, locals=2, args_size=2
+         0: getstatic     #4                  // Field java/lang/System.out:Ljava/io/PrintStream;
+         3: aload_1
+         4: invokedynamic #5,  0              // InvokeDynamic #0:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+         9: invokevirtual #6                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+        12: return
+      LineNumberTable:
+        line 22: 0
+        line 23: 12
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      13     0  this   Lcom/deltav/JavapTest;
+            0      13     1   str   Ljava/lang/String;
+
+  static {};
+    descriptor: ()V
+    flags: (0x0008) ACC_STATIC
+    Code:
+      stack=1, locals=0, args_size=0
+         0: iconst_2
+         1: invokestatic  #7                  // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+         4: putstatic     #8                  // Field i:Ljava/lang/Integer;
+         7: return
+      LineNumberTable:
+        line 10: 0
+}
+SourceFile: "JavapTest.java"
+InnerClasses:
+  public static final #64= #63 of #67;    // Lookup=class java/lang/invoke/MethodHandles$Lookup of class java/lang/invoke/MethodHandles
+BootstrapMethods:
+  0: #38 REF_invokeStatic java/lang/invoke/StringConcatFactory.makeConcatWithConstants:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #39 str = \u0001
