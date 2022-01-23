@@ -544,6 +544,16 @@ Garbage First
 
 ## command
 
+### javac
+
+用法: `javac <options> <source files>`
+
+```bash
+-g                           生成所有调试信息
+-g:{lines,vars,source}       只生成某些调试信息
+-g:none                      不生成任何调试信息
+```
+
 ### javap
 
 显示通过字节码反编译后的 **Java** 代码。
