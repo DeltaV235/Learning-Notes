@@ -32,4 +32,5 @@
 - **30-design-pattern**: Design Dattern notes, incomplete
 - **31-activemq**: notes and demo for ActiveMQ
 <!-- - **32-audition**: audition record -->
-- **32-nio**: notes and demo for Java NIO
+- **33-nio**: notes and demo for Java NIO
+- 34-performance: performance related notes and demo code
