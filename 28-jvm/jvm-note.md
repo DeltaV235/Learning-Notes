@@ -623,7 +623,7 @@ jinfo -flag [JVM XX parameter] pid   # show the flag of pid
 
 Export dump file.
 
-## JVM Parameters
+## JVM Command Line Options
 
 ### -Xss
 
@@ -677,7 +677,13 @@ You can also change the number of interpreted method invocations before compilat
 
 Executes all bytecode by the interpreter except for hot methods, which are compiled to native code.
 
-### -XX:NewRatio
+### -XX Options
+
+- Boolean options are turned on with -XX:+<option> and turned off with -XX:-<option>
+- Numeric options are set with -XX:<option>=<number>. Numbers can include 'm' or 'M' for megabytes, 'k' or 'K' for kilobytes, and 'g' or 'G' for gigabytes (for example, 32k is the same as 32768).
+- String options are set with -XX:<option>=<string>, are usually used to specify a file, a path, or a list of commands
+
+#### -XX:NewRatio
 
 The old generation and young generation memory size ratio. Default value is 2.
 
@@ -685,7 +691,7 @@ The old generation and young generation memory size ratio. Default value is 2.
 -XX:NewRatio=2
 ```
 
-### -XX:SurvivorRatio
+#### -XX:SurvivorRatio
 
 The Eden and Survivor generation memory size ratio.Default ratio is 8.
 Because of Adaptive Memory Size Policy, the ratio between Eden and Survivor generation is not the default value. You must set `SurvivorRatio` to 8 obviously， then the ratio can take effect.
@@ -694,7 +700,7 @@ Because of Adaptive Memory Size Policy, the ratio between Eden and Survivor gene
 -XX:SurvivorRatio=8
 ```
 
-### -XX:-UseAdaptiveSizePolicy
+#### -XX:-UseAdaptiveSizePolicy
 
 Disable Adaptive memory size policy.(Not effection, Need set ratio)
 
@@ -702,7 +708,7 @@ Disable Adaptive memory size policy.(Not effection, Need set ratio)
 -XX:-UseAdaptiveSizePolicy
 ```
 
-### -XX:+PrintGCDetails
+#### -XX:+PrintGCDetails
 
 Print GC Details Infomation after JVM instance stop.
 
@@ -710,11 +716,11 @@ Print GC Details Infomation after JVM instance stop.
 -XX:+PrintGCDetails
 ```
 
-### -XX:+PrintGC
+#### -XX:+PrintGC
 
 Print GC simplified information.
 
-### -XX:MaxTenuringThreshold
+#### -XX:MaxTenuringThreshold
 
 The threshold which time to promote the survivor object ot tenuring generation.
 
@@ -722,71 +728,80 @@ The threshold which time to promote the survivor object ot tenuring generation.
 -XX:MaxTenuringThreshold=15
 ```
 
-### -XX:+DoEscapeAnalysis
+#### -XX:+DoEscapeAnalysis
 
 Enable escape analysis in HotSpot. Accurately the Scalar Replace function in HotSpot.
 
-### -XX:+EliminateAllocations
+#### -XX:+EliminateAllocations
 
 Enable Scalar replace function in HotSpot. The function will allocate object which allocate on heap memory originally on Stack Frame, and split the polymer(object) into scalar(local variables).
 
-### -XX:PermSize
+#### -XX:PermSize
 
 Before JDK8, the implementation of `method area` is `Permanent Generation`.
 Sets initial permanent generation memory size. Default value is 20.75 MiB.
 
-```java
+```bash
 -XX:PermSize=100m
 -XX:PermSize=2g
 ```
 
-### -XX:MaxPermSize
+#### -XX:MaxPermSize
 
 Before JDK8.
 Sets max permanent generation memory size. Default valus is 82 MiB.
 
-```java
+```bash
 -XX:MaxPermSize=100m
 -XX:MaxPermSize=1G
 ```
 
-### -XX:MetaspaceSize
+#### -XX:MetaspaceSize
 
 After JDK8, Metaspace replace PermGen.
 Sets initial metaspace size. Default value of metaspace is 21 MiB.
 
-```java
+```bash
 -XX:MetaspaceSize=100m
 ```
 
-### -XX:MaxMetaspaceSize
+#### -XX:MaxMetaspaceSize
 
 After JDK8, sets max metaspace size. Default value is -1(all native heap memory).
 
-```java
+```bash
 -XX:MaxMetaspaceSize=100m
 -XX:MaxMetaspaceSize=1g
 ```
 
-### -XX:StringTableSize
+#### -XX:StringTableSize
 
 Set HashTable size of String constant pool.
 At JDK8, the default value upper to  60013. The min value is 1009.
 
-```java
+```bash
 -XX:StringTableSize=1009
 ```
 
-### -XX:+PrintCommandLineFlags
+#### -XX:+PrintCommandLineFlags
 
 Print Command Line parameters in console when application started.
 
-```jav
+```bash
 -XX:+PrintCommandLineFlags
 ```
 
 **Console:**
 
-```java
+```log
 -XX:-BytecodeVerificationLocal -XX:-BytecodeVerificationRemote -XX:InitialHeapSize=266846528 -XX:+ManagementServer -XX:MaxHeapSize=4269544448 -XX:+PrintCommandLineFlags -XX:TieredStopAtLevel=1 -XX:+UseCompressedClassPointers -XX:+UseCompressedOops -XX:-UseLargePagesIndividualAllocation -XX:+UseParallelGC 
 ```
+
+#### -XX:+LogCompilation
+
+-XX:+LogCompilation
+Enables logging of compilation activity to a file named hotspot.log in the current working directory. You can specify a different log file path and name using the -XX:LogFile option.
+
+By default, this option is disabled and compilation activity is not logged. The -XX:+LogCompilation option has to be used together with the -XX:+UnlockDiagnosticVMOptions option that unlocks diagnostic JVM options.
+
+You can enable verbose diagnostic output with a message printed to the console every time a method is compiled by using the -XX:+PrintCompilation option.
