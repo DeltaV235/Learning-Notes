@@ -805,3 +805,11 @@ Enables logging of compilation activity to a file named hotspot.log in the curre
 By default, this option is disabled and compilation activity is not logged. The -XX:+LogCompilation option has to be used together with the -XX:+UnlockDiagnosticVMOptions option that unlocks diagnostic JVM options.
 
 You can enable verbose diagnostic output with a message printed to the console every time a method is compiled by using the -XX:+PrintCompilation option.
+
+#### -XX:+TraceClassLoading
+
+Print class load info.
+
+#### -XX:+PrintAssembly
+
+Let HotSpot output the disassembled native code.
