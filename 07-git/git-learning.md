@@ -176,12 +176,12 @@ git checkout [commitID] filename    # file level,将commit的内容覆盖到inde
 
 | |HEAD|Index|Workdir|WD Safe?|
 |-|----|:-----:|:-------:|:--------:|
-|__Commit Level__|
+|**Commit Level**|
 |reset --soft [commit]|REF|NO|NO|YES|
 |reset [commit]|REF|YES|NO|YES|
 |reset --hard [commit]|REF|YES|YES|NO|
 |checkout [commit]|HEAD|YES|YES|YES|
-|__File Level__|
+|**File Level**|
 |reset (commit) [file]|NO|YES|NO|YES|
 |checkout (commit) [file]|NO|YES|YES|NO|
 
@@ -398,4 +398,21 @@ OPTIONS
 
            If the number of packs exceeds the value of gc.autoPackLimit, then existing packs (except those marked with a .keep file) are consolidated into a single pack by using the -A option of git
            repack. Setting gc.autoPackLimit to 0 disables automatic consolidation of packs.
+```
+
+**For the issue which unable to update local ref**
+**Pllease refer below same issue:**
+[Git error on git pull (unable to update local ref)](https://stackoverflow.com/questions/10068640/git-error-on-git-pull-unable-to-update-local-ref)
+
+Issue:
+
+```bash
+error: couldn't set 'refs/remotes/github/master'
+ ! a263a4c..bd437fa  master     -> github/master  (unable to update local ref)
+```
+
+Solution:
+
+```bash
+git gc --prune=now
 ```
