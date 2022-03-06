@@ -46,30 +46,23 @@ import java.util.concurrent.TimeUnit;
  * @author DeltaV
  */
 @BenchmarkMode(Mode.AverageTime)
-@Warmup(iterations = 3, time = 5)
+@Warmup(iterations = 5, time = 5)
 @Measurement(iterations = 5, time = 10)
 @Threads(1)
-@Fork(1)
+@Fork(value = 1, jvmArgs = {"-XX:+UnlockDiagnosticVMOptions", "-XX:+TraceClassLoading", "-XX:+LogCompilation",
+        "-XX:+DebugNonSafepoints", "-XX:+PrintAssembly", "-XX:LogFile=Hotspot.log"})
+//@Fork(value = 1, jvmArgs = {"-XX:+UnlockDiagnosticVMOptions", "-XX:+LogCompilation", "-XX:+PrintCompilation"})
+//@Fork(value = 1, jvmArgs = {"-Xint", "-XX:+UnlockDiagnosticVMOptions", "-XX:+LogCompilation", "-XX:LogFile=JIT.log"})
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 public class MyBenchmark {
-
-    public static void main(String[] args) throws RunnerException {
-        Options options = new OptionsBuilder()
-                .include(MyBenchmark.class.getSimpleName())
-                .result("benchmark-result.json")
-                .resultFormat(ResultFormatType.JSON)
-                .build();
-        new Runner(options).run();
-    }
 
     /**
      * 3.5924825
      * sum = 155184200000
      */
-    @OperationsPerInvocation(1)
     @Benchmark
-    public void sumSortedArray() {
-        // Generate data
+    public long sumSortedArray() {
+        // Generate data 2^15
         int arraySize = 32768;
         int[] data = new int[arraySize];
 
@@ -94,6 +87,7 @@ public class MyBenchmark {
             }
         }
 
+        return 0;
 //        System.out.println((System.nanoTime() - start) / 1000000000.0);
 //        System.out.println("sum = " + sum);
     }
@@ -103,8 +97,8 @@ public class MyBenchmark {
      * sum = 155184200000
      */
     @Benchmark
-    public void sumUnsortedArray() {
-        // Generate data
+    public long sumUnsortedArray() {
+        // Generate data 2^15
         int arraySize = 32768;
         int[] data = new int[arraySize];
 
@@ -126,8 +120,18 @@ public class MyBenchmark {
             }
         }
 
+        return 0;
 //        System.out.println((System.nanoTime() - start) / 1000000000.0);
 //        System.out.println("sum = " + sum);
+    }
+
+    public static void main(String[] args) throws RunnerException {
+        Options options = new OptionsBuilder()
+                .include(MyBenchmark.class.getSimpleName())
+                .result("benchmark-result.json")
+                .resultFormat(ResultFormatType.JSON)
+                .build();
+        new Runner(options).run();
     }
 
 }
