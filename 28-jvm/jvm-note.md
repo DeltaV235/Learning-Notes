@@ -813,3 +813,21 @@ Print class load info.
 #### -XX:+PrintAssembly
 
 Let HotSpot output the disassembled native code.
+
+#### -XX:+PrintCodeCache
+
+#### -XX:+PrintCodeCacheOnCompilation
+
+#### -XX:+PrintAssembly
+
+Print disassembled native code of HotSpot.
+
+> This requires you to use a debug JVM build or have built the hsdis (HotSpot disassembler) binary. The source for hsdis is part of OpenJDK
+
+**file name for Windows:**
+`hsdis-amd64.dll`
+
+**location:**
+```text
+/${JAVA_HOME}/jre/bin/server
+```
