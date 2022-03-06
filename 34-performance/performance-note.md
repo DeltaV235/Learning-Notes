@@ -334,8 +334,199 @@ MyBenchmark.sumSortedArray    avgt   10  41981.788 ± 1088.702  ms/op
 MyBenchmark.sumUnsortedArray  avgt   10  49175.716 ±  271.523  ms/op
 ```
 
+---
+
+**Update 2022-2-27**
+在将 JDK 更换为 12 后，benchmark 结果又符合预期了。(•́へ•́╬)
+
 **证实 final:**
 
+在使用 JDK 8 的情况下：
+
+在最后一次 C2 编译后的 Unsorted 方法执行的 native code 如下。
+
+```text
+# {method} {0x000000001c2aedc0} 'sumUnsortedArray' '()J' in 'com/deltav/MyBenchmark'
+#           [sp+0x50]  (sp of caller)
+[Entry Point]
+0x0000000003365f20: mov 0x8(%rdx),%r10d
+0x0000000003365f24: shl $0x3,%r10
+0x0000000003365f28: cmp %r10,%rax
+0x0000000003365f2b: jne 0x0000000003185f60  ;   {runtime_call}
+0x0000000003365f31: data16 xchg %ax,%ax
+0x0000000003365f34: nopl 0x0(%rax,%rax,1)
+0x0000000003365f3c: data16 data16 xchg %ax,%ax
+[Verified Entry Point]
+0x0000000003365f40: mov %eax,-0x6000(%rsp)
+0x0000000003365f47: push %rbp
+0x0000000003365f48: sub $0x40,%rsp  ;*synchronization entry
+                                    ; - com.deltav.MyBenchmark::sumUnsortedArray@-1 (line 102)
+0x0000000003365f4c: mov 0x60(%r15),%rbp
+0x0000000003365f50: mov %rbp,%r10
+0x0000000003365f53: add $0x20010,%r10
+0x0000000003365f5a: cmp 0x70(%r15),%r10
+0x0000000003365f5e: jae L0007
+0x0000000003365f64: mov %r10,0x60(%r15)
+0x0000000003365f68: prefetchnta 0x100(%r10)
+0x0000000003365f70: movq $0x1,0x0(%rbp)
+0x0000000003365f78: prefetchnta 0x140(%r10)
+0x0000000003365f80: movl $0xf800016d,0x8(%rbp)  ;   {metadata({type array int})}
+0x0000000003365f87: prefetchnta 0x180(%r10)
+0x0000000003365f8f: movl $0x8000,0xc(%rbp)
+0x0000000003365f96: mov %rbp,%rdi
+0x0000000003365f99: add $0x10,%rdi
+0x0000000003365f9d: mov $0x4000,%ecx
+0x0000000003365fa2: xor %rax,%rax
+0x0000000003365fa5: shl $0x3,%rcx
+0x0000000003365fa9: rep rex  ; - com.deltav.MyBenchmark::sumUnsortedArray@4 (line 103)
+             L0000: mov 0x60(%r15),%r8
+0x0000000003365fb0: mov %r8,%r10
+0x0000000003365fb3: add $0x18,%r10
+0x0000000003365fb7: cmp 0x70(%r15),%r10
+0x0000000003365fbb: jae L0008
+0x0000000003365fc1: mov %r10,0x60(%r15)
+0x0000000003365fc5: prefetchnta 0x100(%r10)
+0x0000000003365fcd: mov $0xf800574b,%r10d  ;   {metadata('java/util/concurrent/atomic/AtomicLong')}
+0x0000000003365fd3: shl $0x3,%r10
+0x0000000003365fd7: mov 0xa8(%r10),%r10
+0x0000000003365fde: mov %r10,(%r8)
+0x0000000003365fe1: movl $0xf800574b,0x8(%r8)  ;   {metadata('java/util/concurrent/atomic/AtomicLong')}
+0x0000000003365fe9: mov %r12d,0xc(%r8)
+0x0000000003365fed: mov %r12,0x10(%r8)
+             L0001: movabs $0xffffffffffff,%r9
+0x0000000003365ffb: xor %r10d,%r10d
+0x0000000003365ffe: movabs $0x5deece66d,%rcx
+0x0000000003366008: mov %rcx,0x10(%r8)
+0x000000000336600c: lock addl $0x0,(%rsp)  ;*synchronization entry
+                                           ; - com.deltav.MyBenchmark::sumUnsortedArray@-1 (line 102)
+0x0000000003366011: jmp L0004
+             L0002: neg %r11d
+0x0000000003366016: movzbl %r11b,%r11d
+0x000000000336601a: neg %r11d  ;*irem
+                               ; - com.deltav.MyBenchmark::sumUnsortedArray@35 (line 107)
+             L0003: mov %r11d,0x10(%rbp,%r10,4)  ;*iastore
+                                                 ; - com.deltav.MyBenchmark::sumUnsortedArray@36 (line 107)
+0x0000000003366022: inc %r10d  ;*iinc
+                               ; - com.deltav.MyBenchmark::sumUnsortedArray@37 (line 106)
+0x0000000003366025: cmp $0x8000,%r10d
+0x000000000336602c: jge L0005  ;*aload_2
+                               ; - com.deltav.MyBenchmark::sumUnsortedArray@25 (line 107)
+             L0004: mov 0x10(%r8),%rax  ;*invokevirtual compareAndSwapLong
+                                        ; - java.util.concurrent.atomic.AtomicLong::compareAndSet@9 (line 147)
+                                        ; - java.util.Random::next@32 (line 204)
+                                        ; - java.util.Random::nextInt@3 (line 329)
+                                        ; - com.deltav.MyBenchmark::sumUnsortedArray@29 (line 107)
+0x0000000003366032: mov %rax,%rdi
+0x0000000003366035: imul %rcx,%rdi
+0x0000000003366039: add $0xb,%rdi  ;*ladd
+                                   ; - java.util.Random::next@20 (line 203)
+                                   ; - java.util.Random::nextInt@3 (line 329)
+                                   ; - com.deltav.MyBenchmark::sumUnsortedArray@29 (line 107)
+0x000000000336603d: mov %rdi,%rbx
+0x0000000003366040: and %r9,%rbx  ;*land
+                                  ; - java.util.Random::next@24 (line 203)
+                                  ; - java.util.Random::nextInt@3 (line 329)
+                                  ; - com.deltav.MyBenchmark::sumUnsortedArray@29 (line 107)
+0x0000000003366043: lock cmpxchg %rbx,0x10(%r8)
+0x0000000003366049: sete %r11b
+0x000000000336604d: movzbl %r11b,%r11d  ;*invokevirtual compareAndSwapLong
+                                        ; - java.util.concurrent.atomic.AtomicLong::compareAndSet@9 (line 147)
+                                        ; - java.util.Random::next@32 (line 204)
+                                        ; - java.util.Random::nextInt@3 (line 329)
+                                        ; - com.deltav.MyBenchmark::sumUnsortedArray@29 (line 107)
+0x0000000003366051: test %r11d,%r11d
+0x0000000003366054: je L0006  ;*ifeq
+                              ; - java.util.Random::next@35 (line 204)
+                              ; - java.util.Random::nextInt@3 (line 329)
+                              ; - com.deltav.MyBenchmark::sumUnsortedArray@29 (line 107)
+0x0000000003366056: shr $0x10,%rdi
+0x000000000336605a: mov %edi,%r11d  ;*l2i  ; - java.util.Random::next@45 (line 205)
+                                    ; - java.util.Random::nextInt@3 (line 329)
+                                    ; - com.deltav.MyBenchmark::sumUnsortedArray@29 (line 107)
+0x000000000336605d: test %r11d,%r11d
+0x0000000003366060: jl L0002
+0x0000000003366062: movzbl %r11b,%r11d  ;*irem
+                                        ; - com.deltav.MyBenchmark::sumUnsortedArray@35 (line 107)
+0x0000000003366066: jmp L0003
+             L0005: xor %eax,%eax
+0x000000000336606a: add $0x40,%rsp
+0x000000000336606e: pop %rbp
+0x000000000336606f: test %eax,-0x24a6075(%rip)  # 0x0000000000ec0000
+                                                ;   {poll_return} *** SAFEPOINT POLL ***
+0x0000000003366075: ret
+             L0006: mov $0xffffff65,%edx
+0x000000000336607b: mov %r10d,0x4(%rsp)
+0x0000000003366080: mov %rbx,0x10(%rsp)
+0x0000000003366085: mov %r11d,0x20(%rsp)
+0x000000000336608a: mov %r8,0x28(%rsp)
+0x000000000336608f: call 0x00000000031857a0  ; OopMap{rbp=Oop [40]=Oop off=372}
+                                             ;*ifeq
+                                             ; - java.util.Random::next@35 (line 204)
+                                             ; - java.util.Random::nextInt@3 (line 329)
+                                             ; - com.deltav.MyBenchmark::sumUnsortedArray@29 (line 107)
+                                             ;   {runtime_call}
+0x0000000003366094: int3  ;*ifeq
+                          ; - java.util.Random::next@35 (line 204)
+                          ; - java.util.Random::nextInt@3 (line 329)
+                          ; - com.deltav.MyBenchmark::sumUnsortedArray@29 (line 107)
+             L0007: mov $0x8000,%r8d
+0x000000000336609b: movabs $0x7c0000b68,%rdx  ;   {metadata({type array int})}
+0x00000000033660a5: xchg %ax,%ax
+0x00000000033660a7: call 0x00000000032450a0  ; OopMap{off=396}
+                                             ;*newarray
+                                             ; - com.deltav.MyBenchmark::sumUnsortedArray@4 (line 103)
+                                             ;   {runtime_call}
+0x00000000033660ac: mov %rax,%rbp
+0x00000000033660af: jmp L0000  ;*invokespecial <init>
+                               ; - java.util.Random::<init>@1 (line 135)
+                               ; - com.deltav.MyBenchmark::sumUnsortedArray@12 (line 105)
+             L0008: movabs $0x7c002ba58,%rdx  ;   {metadata('java/util/concurrent/atomic/AtomicLong')}
+0x00000000033660be: nop
+0x00000000033660bf: call 0x00000000032449e0  ; OopMap{rbp=Oop off=420}
+                                             ;*new  ; - java.util.Random::<init>@19 (line 137)
+                                             ; - com.deltav.MyBenchmark::sumUnsortedArray@12 (line 105)
+                                             ;   {runtime_call}
+0x00000000033660c4: mov %rax,%r8
+0x00000000033660c7: jmp L0001  ;*new
+                               ; - java.util.Random::<init>@19 (line 137)
+                               ; - com.deltav.MyBenchmark::sumUnsortedArray@12 (line 105)
+0x00000000033660cc: mov %rax,%rdx
+0x00000000033660cf: jmp L0009
+0x00000000033660d1: mov %rax,%rdx  ;*newarray
+                                   ; - com.deltav.MyBenchmark::sumUnsortedArray@4 (line 103)
+             L0009: add $0x40,%rsp
+0x00000000033660d8: pop %rbp
+0x00000000033660d9: jmp 0x0000000003245420  ;*aload_2
+                                            ; - com.deltav.MyBenchmark::sumUnsortedArray@25 (line 107)
+                                            ;   {runtime_call}
+0x00000000033660de: hlt
+0x00000000033660df: hlt
+[Exception Handler]
+[Stub Code]
+0x00000000033660e0: jmp 0x00000000031aede0  ;   {no_reloc}
+[Deopt Handler Code]
+0x00000000033660e5: call 0x00000000033660ea
+0x00000000033660ea: subq $0x5,(%rsp)
+0x00000000033660ef: jmp 0x0000000003187600  ;   {runtime_call}
+0x00000000033660f4: hlt
+0x00000000033660f5: hlt
+0x00000000033660f6: hlt
+0x00000000033660f7: hlt
+```
+
+可以发现其中没有 114 行后执行累加的循环体。（注释中未出现 114 line）
+即如下的循环体。
+
+```java
+ for (int i = 0; i < 100000; ++i) {
+        // Primary loop
+        for (int c = 0; c < arraySize; ++c) {
+            if (data[c] >= 128) {
+                sum += data[c];
+            }
+        }
+    }
+```
 
 ---
 
@@ -405,3 +596,7 @@ public static void main(String[] args) throws RunnerException {
 ```
 
 在 interpreted mode 下，log 中不会出现 JIT 编译。
+
+## JIT
+
+[Java即时编译器原理解析及实践](https://tech.meituan.com/2020/10/22/java-jit-practice-in-meituan.html)
