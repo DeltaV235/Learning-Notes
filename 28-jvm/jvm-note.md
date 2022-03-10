@@ -831,3 +831,59 @@ Print disassembled native code of HotSpot.
 ```text
 /${JAVA_HOME}/jre/bin/server
 ```
+
+## The Java Virtual Machine Instruction Set
+
+### 操作数栈入栈指令
+
+#### load series
+
+局部变量压栈指令将给定的局部变量表中的数据压入操作数栈。
+
+`xload` **(x = i / l / f / d / a)**
+- i = int / short / char / byte / boolean
+- l = long
+- f = float
+- d = double
+- a = reference
+
+`xload_<n>` **(n = [0, 3], n ∈ Z)**
+
+#### const series
+
+常量入栈指令的功能是将常数压入操作数栈，根据数据类型和入栈内容的不同，又可以分为 `const` 系列、`push` 系列和 `ldc` 指令。
+
+- int
+`iconst_m1`
+`iconst_x` **(x = [0, 5], x ∈ Z)**
+
+- long
+`lconst_x` **(x = [0, 1], x ∈ Z)**
+
+- float
+`fconst_x` **(x = [0, 2], x ∈ Z)**
+
+- double
+`dconst_x` **(x = [0, 1], x ∈ Z)**
+
+- reference
+`aconst_null`
+
+#### push series
+
+- `bipush`
+Push byte
+
+- `sipush`
+Push short
+> The immediate unsigned byte1 and byte2 values are assembled into an intermediate short, where the value of the short is (byte1 << 8) | byte2. The intermediate value is then sign-extended to an int value. That value is pushed onto the operand stack.
+
+### 操作数出栈存储至局部变量表指令
+
+将当前操作数栈顶的元素存储至局部变量变中。
+
+`xstore`
+`xstore_<n>` **(n = [0, 3], n ∈ Z)**
+
+`x`: i/l/f/d/a <=> int/long/float/double/ref
+`n`: 局部变量表的索引
