@@ -542,6 +542,97 @@ Garbage First
 -XX:+UseG1GC
 ```
 
+## ++ 运算符
+
+```java
+public void method6() {
+    int i = 10;
+    i++;
+}
+```
+
+```java
+public void method6() {
+    int i = 10;
+    ++i;
+}
+```
+
+如上的两种情况，由于 i 自增后并未赋值给其他变量，所以它们生成的字节码相同。
+
+Byte Code:
+
+```text
+0 bipush 10
+2 istore_1
+3 iinc 1 by 1
+6 return
+```
+
+---
+
+```java
+public void method7() {
+    int i = 10;
+    int a = i++;
+
+    int j = 20;
+    int b = ++j;
+}
+```
+
+Byte code of code attribute in method_info:
+
+```text
+ 0 bipush 10
+ 2 istore_1
+ 3 iload_1
+ 4 iinc 1 by 1
+ 7 istore_2
+ 8 bipush 20
+10 istore_3
+11 iinc 3 by 1
+14 iload_3
+15 istore 4
+17 return
+```
+
+不难发现，对于 `int a = i++;`，会先把 `i` 的值压入操作数栈中，随后对局部变量表中的 `i` 自增 1，最后将操作数栈中的未自增的 `i` 存入局部变量表中的 `a`。
+`int b = ++j;` 先将局部变量表中的 j++，随后压入栈再存入局部变量表中的 `b`。
+
+---
+
+```java
+@Test
+public void method8() {
+    int i = 10;
+    i = i++;
+    System.out.println(i);
+}
+```
+
+Byte Code:
+
+```text
+ 0 bipush 10
+ 2 istore_1
+ 3 iload_1
+ 4 iinc 1 by 1
+ 7 istore_1
+ 8 getstatic #2 <java/lang/System.out : Ljava/io/PrintStream;>
+11 iload_1
+12 invokevirtual #5 <java/io/PrintStream.println : (I)V>
+15 return
+```
+
+1. 将 10 压入操作数栈
+2. 存入 1 索引位置的局表变量表中
+3. 将局部表量表中索引为 1 的变量值压入操作数栈
+4. 局部变量表索引位置 1 的变量值 +1
+5. 将操作数栈中的变量存入局部变量表中索引为 1 的位置
+
+综述，i = 10
+
 ## command
 
 ### javac
