@@ -1015,6 +1015,8 @@ Push short
 
 ### 对象的创建于访问指令
 
+#### 1.创建指令
+
 1. 创建类实例的指令：
 创建类实例的指令：new 
 
@@ -1026,9 +1028,47 @@ Push short
 - anewarray：创建引用类型数组
 - multianewarray：创建多维数组
 
-```java
+| Array Type  | *atype* |
+| ----------- | ------- |
+| `T_BOOLEAN` | 4       |
+| `T_CHAR`    | 5       |
+| `T_FLOAT`   | 6       |
+| `T_DOUBLE`  | 7       |
+| `T_BYTE`    | 8       |
+| `T_SHORT`   | 9       |
+| `T_INT`     | 10      |
+| `T_LONG`    | 11      |
 
+**Note**
+
+如下代码，二维数组并未初始化，所以在此只当做引用类型数组创建实例
+
+```java
+// bipush 10
+// anewarray #7 <[Ljava/lang/String;>
+String[][] strArray = new String[10][];
+
+// bipush 10
+// iconst_5
+// multianewarray #8 <[[Ljava/lang/String;> dim 2
+String[][] strArray2 = new String[10][5];
 ```
+
+#### 2.字段访问指令
+
+- 访问类字段(static 字段，或者称为类变量)的指令：getstatic、putstatic
+- 访问类实例字段(非 static 字段，或者称为实例变量)的指令：getfield、putfield
+
+#### 3.数组操作指令
+
+- 把一个数组元素加载到操作数栈的指令：baload、caload、saload、iaload、 laload、faload、daload、aaload 
+- 将一个操作数栈的值存储到数组元素中的指令：bastore、castore、sastore、 iastore、lastore、fastore、dastore、aastore
+- 取数组长度的指令：arraylength
+
+#### 4.类型检查指令
+
+- 指令 checkcast 用于检查类型强制转换是否可以进行。如果可以进行，那么 checkcast 指令不会改变操作数栈，否则它会抛出 ClassCastException 异常
+- 指令 instanceof 用来判断给定对象是否是某一个类的实例，它会将判断结果压入操作数栈
 
 ### 方法调用与返回指令
 
