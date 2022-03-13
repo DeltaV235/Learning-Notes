@@ -1072,4 +1072,42 @@ String[][] strArray2 = new String[10][5];
 
 ### 方法调用与返回指令
 
+#### 方法调用指令
+
+- invokevirtual 指令用于调用对象的实例方法，根据对象的实际类型进行分派 (虚方法分派)，支持多态。这也是 Java 语言中最常见的方法分派方式
+- invokeinterface 指令用于调用接口方法，它会在运行时搜索由特定对象所实 现的这个接口方法，并找出适合的方法进行调用
+- invokespecial 指令用于调用一些需要特殊处理的实例方法，包括实例初始化 方法(构造器)、私有方法和父类方法。这些方法都是静态类型绑定的，不会 在调用时进行动态派发
+- invokestatic 指令用于调用命名类中的类方法(static 方法)。这是静态绑定的
+- invokedynamic 调用动态绑定的方法，这个是 JDK 1.7 后新加入的指令。用于在运行时动态解析出调用点限定符所引用的方法，并执行该方法。前面 4 条调用指令的分派逻辑都固化在 Java 虚拟机内部，而 invokedynamic 指令的分派逻辑是由用户所设定的引导方法决定的
+
+**NOTE**
+
+如果调用的方法是 private 和 static 修饰的，则使用 `invokestatic` 调用方法。
+若调用 Interface 中的 default，则使用 `invokeinterface`。
+若调用 Interface 中的 static 方法，则使用 `invokestatic`。
+
+**总结**
+
+
+调用 Interface 变量的方法，就使用 `invokeinterface`。
+调用的是 Static 方法，无论在类还是接口，无论有什么修饰符，都使用 `invokestatic`。
+
+#### 方法返回指令
+
+- 包括 ireturn(当返回值是 boolean、byte、char、short 和 int 类型时使用)、lreturn、freturn、dreturn 和 areturn
+- 另外还有一条 return 指令供声明为 void 的方法、实例初始化方法以及 类和接口的类初始化方法使用
+
+| 返回类型                            | 返回指令    |
+|---------------------------------|---------|
+| void                            | return  |
+| int(boolean, byte, char, short) | ireturn |
+| long                            | lreturn |
+| float                           | freturn |
+| double                          | dreturn |
+| reference                       | areturn |
+
+> 通过 `ireturn` 指令，将当前函数操作数栈的顶层元素弹出，并将这个元素压入调用者函数的操作数栈中(因为调用者非常关心函数的返回值)，所有在当前函数操作数栈中的其他元素都会被丢弃。
+> 如果当前返回的是 synchronized 方法，那么还会执行一个隐含的 `monitorexit` 指令，退出临界区。
+> 最后，会丢弃当前方法的整个帧，恢复调用者的帧，并将控制权转交给调用者。
+
 ### 操作数栈管理指令
