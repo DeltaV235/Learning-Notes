@@ -1,4 +1,4 @@
-package com.deltav;
+package com.deltav.instruction;
 
 import org.junit.Test;
 
