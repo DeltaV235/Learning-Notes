@@ -981,9 +981,54 @@ Push short
 
 ### 算数指令
 
+- 加法指令：iadd、ladd、fadd、dadd
+- 减法指令：isub、lsub、fsub、dsub
+- 乘法指令：imul、lmul、fmul、dmul
+- 除法指令：idiv、ldiv、fdiv、ddiv
+- 求余指令：irem、lrem、frem、drem(remainder：余数)
+- 取反指令：ineg、lneg、fneg、dneg(negation：取反)
+- 自增指令：iinc
+- 位运算指令，又可分为：
+  - 位移指令：ishl(int shift left)、ishr、iushr、lshl、lshr、lushr
+  - 按位或指令：ior、lor
+  - 按位与指令：iand、land
+  - 按位异或指令：ixor、lxor
+- 比较指令：dcmpg、dcmlp、fcmpg、fcmpl、lcmp
+
 ### 类型转换指令
 
+#### 宽化类型转换
+
+- 从 int 类型到 long、float 或者 double 类型，对应的指令为：i2l、i2f、i2d
+- 从 long 类型到 float、double 类型。对应的指令为：l2f、l2d
+- 从 float 类型到 double 类型。对应的指令为：f2d
+
+`int --> long --> float --> double`
+
+#### 窄化类型转换
+
+- 从 int 类型至 byte、short 或者 char 类型。对应的指令有：i2b、i2s、i2c
+- 从 long 类型到 int 类型。对应的指令有：l2i
+- 从 float 类型到 int 或者 long
+类型。对应的指令有：f2i、f2l
+- 从 double 类型到 int、long 或者 float 类型。对应的指令有：d2i、d2l、d2f
+
 ### 对象的创建于访问指令
+
+1. 创建类实例的指令：
+创建类实例的指令：new 
+
+- 它接收一个操作数，为指向常量池的索引，表示要创建的类型，执行完成后， 将对象的引用压入栈
+
+2. 创建数组的指令： 创建数组的指令：newarray、anewarray、multianewarray
+
+- newarray：创建基本类型数组
+- anewarray：创建引用类型数组
+- multianewarray：创建多维数组
+
+```java
+
+```
 
 ### 方法调用与返回指令
 
