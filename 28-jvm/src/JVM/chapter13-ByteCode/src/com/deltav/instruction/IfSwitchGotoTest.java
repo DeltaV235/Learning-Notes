@@ -1,5 +1,9 @@
 package com.deltav.instruction;
 
+enum Test {
+    FIRST, SECOND, THIRD;
+}
+
 /**
  * 条件跳转指令
  *
@@ -133,4 +137,66 @@ public class IfSwitchGotoTest {
                 break;
         }
     }
+
+    public void switch4(Test test) {
+        int num;
+        switch (test) {
+            case FIRST:
+                num = 10;
+                break;
+            case THIRD:
+                num = 1000;
+                break;
+            case SECOND:
+                num = 100;
+                break;
+        }
+    }
+
+    /**
+     * 4.无条件跳转指令
+     */
+    public void whileInt() {
+        int i = 0;
+        while (i < 100) {
+            String s = "test";
+            i++;
+        }
+    }
+
+    public void whileDouble() {
+        double d = 0.0;
+        while (d < 100.1) {
+            String s = "test";
+            d++;
+        }
+    }
+
+    public void printFor() {
+        short i;
+        for (i = 0; i < 100; i++) {
+            String s = "test";
+        }
+    }
+
+    public void whileTest() {
+        int i = 1;
+        while (i <= 100) {
+            i++;
+        }
+    }
+
+    public void forTest() {
+        for (int i = 1; i <= 100; i++) {
+        }
+    }
+
+    public void doWhileTest() {
+        int i = 1;
+
+        do {
+            i++;
+        } while (i <= 100);
+    }
+
 }

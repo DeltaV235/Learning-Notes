@@ -1185,6 +1185,7 @@ String[][] strArray2 = new String[10][5];
 1. 对于 String 类型的 switch 分支，会使用 String 的 hashcode 方法，计算出 String 的 hash，如果与 case 条件的 hash 相同，则再使用 String 的 equals 方法比较 case 条件是否成立（防止 hash 冲突）。case 条件根据其 hash code 进行升序排序。当某个 case 条件满足时，会向局部变量表中存入该条件的 index，然后再根据这个 index，在 `tableswitch` 中跳转执行 case 方法体中的 code。如下所示。
 
 2. 若判断变量的 hash code 冲突，则执行 default 语句
+3. 对于 enum 类型来说，会先使用被判断变量的 ordinal 方法，获取枚举类的索引值，再使用 `tableswitch` 进行多条件跳转。
 
 **Concern**
 
@@ -1246,7 +1247,9 @@ String[][] strArray2 = new String[10][5];
 
 #### 4.无条件跳转
 
+目前主要的无条件跳转指令为 `goto`，指令 `goto` 接收两个字节的操作数，共同组成一个带符号的整数，用于指定指令的偏移量（绝对偏移量），指令执行的目的就是跳转到偏移量给定的位置处如果指令偏移量太大，超过双字节的带符号整数的范围，则可以使用指令 `goto_w`，它和 `goto` 有相同的作用，但是它接收 4 个字节的操作数，可以表示更大的地址范围。
 
+指令 jsr、jsr_w、ret 虽然也是无条件跳转的，但主要用于 try-finally 语句，且已经被虚拟机逐渐废弃。
 
 ### 异常处理指令
 
