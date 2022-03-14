@@ -1175,6 +1175,79 @@ String[][] strArray2 = new String[10][5];
 
 比较条件跳转指令比较的对象为 int(boolean, byte, char, short) 和引用类型，long/float/double 使用比较指令和条件跳转指令的结合。
 
+#### 3.多条件分支跳转指令
+
+- `tableswitch` 要求多个条件分支值是连续的，它内部只存放起始值和终止值，以及若干个跳转偏移量，通过给定的操作数 index，可以立即定位到跳转偏移量位置，因此效率比较高
+- `lookupswitch` 内部存放着各个离散的 case-offset 对，每次执行都要搜索全部的 case-offset 对，找到匹配的 case 值，并根据对应的 offset 计算跳转地址， 因此效率较低
+
+**NOTE**
+
+1. 对于 String 类型的 switch 分支，会使用 String 的 hashcode 方法，计算出 String 的 hash，如果与 case 条件的 hash 相同，则再使用 String 的 equals 方法比较 case 条件是否成立（防止 hash 冲突）。case 条件根据其 hash code 进行升序排序。当某个 case 条件满足时，会向局部变量表中存入该条件的 index，然后再根据这个 index，在 `tableswitch` 中跳转执行 case 方法体中的 code。如下所示。
+
+2. 若判断变量的 hash code 冲突，则执行 default 语句
+
+**Concern**
+
+1. 若将 hash 冲突的字符串作为 case 条件，是否能正常编程运行？
+2. 在字节码中 `lookupswitch` 跳转后，为什么不直接执行 case 后的方法体，而是在 LV 存入成立条件的索引，在额外的 `tableswitch` 中再次条件跳转执行对应的方法体？
+
+```text
+  0 aload_1
+  1 astore_2
+  2 iconst_m1
+  3 istore_3
+  4 aload_2
+  5 invokevirtual #11 <java/lang/String.hashCode : ()I>
+  8 lookupswitch 4
+	-1842350579:  52 (+44)
+	-1837878353:  66 (+58)
+	-1734407483:  94 (+86)
+	1941980694:  80 (+72)
+	default:  105 (+97)
+ 52 aload_2
+ 53 ldc #12 <SPRING>
+ 55 invokevirtual #13 <java/lang/String.equals : (Ljava/lang/Object;)Z>
+ 58 ifeq 105 (+47)
+ 61 iconst_0
+ 62 istore_3
+ 63 goto 105 (+42)
+ 66 aload_2
+ 67 ldc #14 <SUMMER>
+ 69 invokevirtual #13 <java/lang/String.equals : (Ljava/lang/Object;)Z>
+ 72 ifeq 105 (+33)
+ 75 iconst_1
+ 76 istore_3
+ 77 goto 105 (+28)
+ 80 aload_2
+ 81 ldc #15 <AUTUMN>
+ 83 invokevirtual #13 <java/lang/String.equals : (Ljava/lang/Object;)Z>
+ 86 ifeq 105 (+19)
+ 89 iconst_2
+ 90 istore_3
+ 91 goto 105 (+14)
+ 94 aload_2
+ 95 ldc #16 <WINTER>
+ 97 invokevirtual #13 <java/lang/String.equals : (Ljava/lang/Object;)Z>
+100 ifeq 105 (+5)
+103 iconst_3
+104 istore_3
+105 iload_3
+106 tableswitch 0 to 3
+	0:  136 (+30)
+	1:  139 (+33)
+	2:  142 (+36)
+	3:  145 (+39)
+	default:  145 (+39)
+136 goto 145 (+9)
+139 goto 145 (+6)
+142 goto 145 (+3)
+145 return
+```
+
+#### 4.无条件跳转
+
+
+
 ### 异常处理指令
 
 ### 同步控制指令

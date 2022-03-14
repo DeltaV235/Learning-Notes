@@ -85,4 +85,52 @@ public class IfSwitchGotoTest {
     /**
      * 3.多条件分支跳转
      */
+    public void switch1(int select) {
+        int num;
+        switch (select) {
+            case 1:
+                num = 10;
+                break;
+            case 2:
+                num = 20;
+            case 3:
+                num = 30;
+                break;
+            default:
+                num = 40;
+        }
+    }
+
+    public void switch2(int select) {
+        int num;
+        switch (select) {
+            case 100:
+                num = 10;
+                break;
+            case 500:
+                num = 20;
+                break;
+            case 200:
+                num = 30;
+                break;
+            default:
+                num = 40;
+        }
+    }
+
+    /**
+     * JDK7 新特性：String 类型 Switch
+     */
+    public void switch3(String season) {
+        switch (season) {
+            case "SPRING":
+                break;
+            case "SUMMER":
+                break;
+            case "AUTUMN":
+                break;
+            case "WINTER":
+                break;
+        }
+    }
 }
