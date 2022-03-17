@@ -1280,3 +1280,75 @@ String[][] strArray2 = new String[10][5];
 **当一个异常被抛出时，JVM 会在当前的方法里寻找一个匹配的异常处理，如果没有找到，这个方法会强制结束并弹出当前栈帧，并且异常会重新抛给上层的调用方法。如果在所有栈帧弹出前仍然没有找到合适的异常处理，则这个线程终止。如果这个异常在最后一个非守护线程里抛出，将会导致 JVM 终止。**
 
 ### 同步控制指令
+
+Java 虚拟机支持两种同步结构：**方法级同步** 和 **方法内部一段指令序列的同步**，这两种同步都是使用 monitor 来支持的。
+
+#### 1.方法级的同步
+
+方法级的同步：是隐式的，即无需通过字节码指令来控制，它实现在方法调用和返回操作之中。虚拟机可以从方法常量池的方法表结构中的ACC_SYNCHRONIZED访问标志得知一个方法是否声明为同步方法
+
+当调用方法时，调用指令将会检查方法的ACC_SYNCHRONIZED访问标志是否设置
+
+- 如果设置了，执行线程将先持有同步锁，然后执行方法，最后在方法完成(无论是正常完成还是非正常完成)时释放同步锁
+- 在方法执行期间，执行线程持有了同步锁，其它任何线程都无法再获得同一个锁
+- 如果一个同步方法执行期间抛出了异常，并且在方法内部无法处理此异常，那么这个同步方法所持有的锁将在异常抛到同步方法之外时自动释放
+
+#### 2.方法内指定指令序列的同步
+
+同步一段指令集序列：通常是由Java中的 synchronized 语句块来表示的。JVM 的指令集有 `monitorenter` 和 `monitorexit` 两条指令来支持 synchronized 关键字的语义。
+当一个线程进入同步代码块时，它使用 `monitorenter` 指令请求进入。如果当前对象的监视器计数器为 0，则它会被准许进入，若为 1，则判断持有当前监视器的线程是否为自己，如果是，则进入，否则进行等待，直到对象的监视器计数器为 0，才会被允许进入同步块。
+
+- 当线程退出同步块时，需要使用 `monitorexit` 声明退出。在Java虚拟机中，任何对象都有一个监视器与之相关联，用来判断对象是否被锁定，当监视器被持有后，对象处于锁定状态。
+- 指令 `monitorenter` 和 `monitorexit` 在执行时，都需要在操作数栈顶压入对象，之后 `monitorenter` 和 `monitorexit` 的锁定和释放都是针对这个对象的监视器进行的。
+- 编译器必须确保无论方法通过何种方式完成，方法中调用过的每条 `monitorenter` 指令都必须执行其对应的 `monitorexit` 指令，而无论这个方法是正常结束还是异常结束。
+- 为了保证在方法异常完成时 `monitorenter` 和 `monitorexit` 指令依然可以正确配对执行，编译器会自动产生一个异常处理器，这个异常处理器声明可处理所有的异常，它的目的就是用来执行 `monitorexit` 指令。
+
+---
+
+**Example**
+
+```java
+private int i = 0;
+private Object obj = new Object();
+
+public void subtract() {
+    synchronized (obj) {
+        i--;
+    }
+}
+```
+
+```text
+ 0 aload_0
+ 1 getfield #4 <com/deltav/instruction/SynchronizedTest.obj : Ljava/lang/Object;>
+ 4 dup
+ 5 astore_1
+ 6 monitorenter
+ 7 aload_0
+ 8 dup
+ 9 getfield #2 <com/deltav/instruction/SynchronizedTest.i : I>
+12 iconst_1
+13 isub
+14 putfield #2 <com/deltav/instruction/SynchronizedTest.i : I>
+17 aload_1
+18 monitorexit
+19 goto 27 (+8)
+22 astore_2
+23 aload_1
+24 monitorexit
+25 aload_2
+26 athrow
+27 return
+```
+
+**异常表**：
+
+![image-20220317233506489](jvm-note.assets/image-20220317233506489.png)
+
+- 通过异常表可以发现，若在同步代码块中(7-19 offect)发生任何异常，都将跳转至 22 offest，无论如何都将将 obj 对象上的监视器锁释放。若在异常释放 monitor 的过程中再次发生异常，将再次无条件跳转至 22 offect，再次释放 monitor。
+- 同步方法异常情况下，释放完 monitor 后，会将异常抛至调用者(`25 aload_2` `26 athrow`)。
+
+**NOTE**
+
+- monitor 即为对象头中的锁标志和持有锁的线程。
+- synchronized 是可重入的
