@@ -1,4 +1,4 @@
-package com.deltav;
+package com.deltav.classloader;
 
 /**
  * @author DeltaV235

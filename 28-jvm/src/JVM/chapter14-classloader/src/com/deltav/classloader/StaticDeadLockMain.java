@@ -1,4 +1,4 @@
-package com.deltav;
+package com.deltav.classloader;
 
 import java.util.concurrent.TimeUnit;
 
@@ -13,7 +13,7 @@ public class StaticDeadLockMain {
         Thread thread1 = new Thread(() -> {
             System.out.println("thread1 start");
             try {
-                Class.forName("com.deltav.StaticA");
+                Class.forName("com.deltav.classloader.StaticA");
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
@@ -21,7 +21,7 @@ public class StaticDeadLockMain {
         Thread thread2 = new Thread(() -> {
             System.out.println("thread2 start");
             try {
-                Class.forName("com.deltav.StaticB");
+                Class.forName("com.deltav.classloader.StaticB");
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
@@ -40,7 +40,7 @@ class StaticA {
             e.printStackTrace();
         }
         try {
-            Class.forName("com.deltav.StaticB");
+            Class.forName("com.deltav.classloader.StaticB");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -56,7 +56,7 @@ class StaticB {
             e.printStackTrace();
         }
         try {
-            Class.forName("com.deltav.StaticA");
+            Class.forName("com.deltav.classloader.StaticA");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }

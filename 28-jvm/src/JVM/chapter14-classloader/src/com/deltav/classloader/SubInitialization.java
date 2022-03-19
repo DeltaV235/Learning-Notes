@@ -1,4 +1,4 @@
-package com.deltav;
+package com.deltav.classloader;
 
 /**
  * @author DeltaV235
@@ -6,8 +6,6 @@ package com.deltav;
  */
 public class SubInitialization extends InitializationTest {
     static {
-        number = 4;
-        System.out.println("Hello Son");
     }
 
     public static void main(String[] args) {

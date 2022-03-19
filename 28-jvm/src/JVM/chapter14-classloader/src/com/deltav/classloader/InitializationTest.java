@@ -1,4 +1,4 @@
-package com.deltav;
+package com.deltav.classloader;
 
 /**
  * 类初始化测试
