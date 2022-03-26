@@ -823,9 +823,41 @@ private Class<?> defineClass(String name, Resource res) throws IOException {
 }
 ```
 
+在 `native defineClass1` 前，`preDefineClass` 方法会对加载的类名进行判断，若 name 是 `java.` 开头，则抛出 `SecurityException`。
+
+```java
+/* Determine protection domain, and check that:
+    - not define java.* class,
+    - signer of this class matches signers for the rest of the classes in
+      package.
+*/
+private ProtectionDomain preDefineClass(String name,
+                                        ProtectionDomain pd)
+{
+    if (!checkName(name))
+        throw new NoClassDefFoundError("IllegalName: " + name);
+
+    // Note:  Checking logic in java.lang.invoke.MemberName.checkForTypeAlias
+    // relies on the fact that spoofing is impossible if a class has a name
+    // of the form "java.*"
+    if ((name != null) && name.startsWith("java.")) {
+        throw new SecurityException
+            ("Prohibited package name: " +
+              name.substring(0, name.lastIndexOf('.')));
+    }
+    if (pd == null) {
+        pd = defaultDomain;
+    }
+
+    if (name != null) checkCerts(name, pd.getCodeSource());
+
+    return pd;
+}
+```
+
 ##### Overall
 
-`loadClass` 方法实现了 ClassLoader 的双亲委派模式。若要破坏双亲委派机制，可以重写该方法。在 `loadClass` 方法中，若父类无法加载指定的类，将使用当前 ClassLaoder 的 `loadClass` 方法尝试加载类。
+`loadClass` 方法实现了 ClassLoader 的双亲委派模式。若要破坏双亲委派机制，可以重写该方法。在 `loadClass` 方法中，若父类无法加载指定的类，将使用当前 ClassLaoder 的 `findClass` 方法尝试加载类。
 `findClass` 方法需要具体的 ClassLoader 实现。若要实现自定义的类加载器，可重写该方法。
 `defineClas` 方法将加载字节数组，并返回 Class 对象。`defineClass` 在 URLClassLoader 中为 private 方法，无法被子类重写。
 
