@@ -492,19 +492,25 @@ public ExtClassLoader(File[] var1) throws IOException {
 
 ##### loadClass 方法
 
+双亲委派机制的实现。
+
 ```java
 protected Class<?> loadClass(String name, boolean resolve)
     throws ClassNotFoundException
 {
     synchronized (getClassLoadingLock(name)) {
         // First, check if the class has already been loaded
+        // 若 name 对应的 Class 已经被加载过，则返回对应的 Class 对象，否则返回 null
         Class<?> c = findLoadedClass(name);
         if (c == null) {
+            // 若 c == null，即 name 未被加载过，则尝试加载
             long t0 = System.nanoTime();
             try {
                 if (parent != null) {
+                    // 若存在父类类加载器，则使用父类的 loadClass 方法尝试加载类
                     c = parent.loadClass(name, false);
                 } else {
+                    // 若无父类加载器，则说明父类加载器为 Bootstrap ClassLoader，使用 findBootstrapClassOrNull 方法尝试使用 Bootstrap ClassLoader 加载，若无法加载则返回 null
                     c = findBootstrapClassOrNull(name);
                 }
             } catch (ClassNotFoundException e) {
@@ -513,6 +519,7 @@ protected Class<?> loadClass(String name, boolean resolve)
             }
 
             if (c == null) {
+                // 若父类加载无法加载 或 Bootstrpa ClassLoader 无法加载，则使用当前 ClassLoader 的 findClass 方法
                 // If still not found, then invoke findClass in order
                 // to find the class.
                 long t1 = System.nanoTime();
@@ -524,15 +531,18 @@ protected Class<?> loadClass(String name, boolean resolve)
                 sun.misc.PerfCounter.getFindClasses().increment();
             }
         }
+        
+        // resolve - 是否执行解析操作
         if (resolve) {
             resolveClass(c);
         }
+        // name 类已经被加载，则直接返回
         return c;
     }
 }
 ```
 
----
+###### getClassLoadingLock 方法
 
 其中 `getClassLoadingLock()` 方法通过被加载的类的全类名获取一个唯一的锁对象，该锁对象对于当前的 ClassLoader 而言是唯一的。
 
@@ -593,6 +603,102 @@ protected Object getClassLoadingLock(String className) {
     }
     return lock;
 }
+```
+
+###### findLoadedClass 方法
+
+Returns the class with the given **binary name** if this loader has been recorded by the Java virtual machine as an initiating loader of a class with that **binary name**. Otherwise null is returned.
+
+**Binary names**
+Any class name provided as a String parameter to methods in ClassLoader must be a binary name as defined by The Java™ Language Specification.
+Examples of valid class names include:
+     "java.lang.String"
+     "javax.swing.JSpinner$DefaultEditor"
+     "java.security.KeyStore$Builder$FileBuilder$1"
+     "java.net.URLClassLoader$3$1"
+
+```java
+/**
+ * Returns the class with the given <a href="#name">binary name</a> if this
+ * loader has been recorded by the Java virtual machine as an initiating
+ * loader of a class with that <a href="#name">binary name</a>.  Otherwise
+ * <tt>null</tt> is returned.
+ *
+ * @param  name
+ *         The <a href="#name">binary name</a> of the class
+ *
+ * @return  The <tt>Class</tt> object, or <tt>null</tt> if the class has
+ *          not been loaded
+ *
+ * @since  1.1
+ */
+protected final Class<?> findLoadedClass(String name) {
+    if (!checkName(name))
+        return null;
+    return findLoadedClass0(name);
+}
+```
+
+其中的 `checkName` 方法，若 name 为 null 或有成为合法 binary name 的可能的，返回 true。
+若 name 中含有 "/" 或以 "[" 开头的，返回 false。`VM.allowArraySyntax()` 默认为 False，即不允许数组语法。
+
+```java
+// true if the name is null or has the potential to be a valid binary name
+private boolean checkName(String name) {
+    if ((name == null) || (name.length() == 0))
+        return true;
+    if ((name.indexOf('/') != -1)
+        || (!VM.allowArraySyntax() && (name.charAt(0) == '[')))
+        return false;
+    return true;
+}
+```
+
+**VM.class**
+
+```java
+private static boolean defaultAllowArraySyntax = false;
+private static boolean allowArraySyntax;
+
+static {
+    allowArraySyntax = defaultAllowArraySyntax;
+    savedProps = new Properties();
+    finalRefCount = 0;
+    peakFinalRefCount = 0;
+    initialize();
+}
+```
+
+`findLoadedClass0` 为 native 方法。
+
+```java
+private native final Class<?> findLoadedClass0(String name);
+```
+
+###### findBootstrapClassOrNull 方法
+
+在执行 `findBootstrapClass` 方法前，也会先进行 `checkName` 检查 name 是否合规，有成功加载类的潜力。
+
+```java
+/**
+ * Returns a class loaded by the bootstrap class loader;
+ * or return null if not found.
+ */
+private Class<?> findBootstrapClassOrNull(String name)
+{
+    if (!checkName(name)) return null;
+
+    return findBootstrapClass(name);
+}
+```
+
+**findBootstrapClass()** 为 native 方法。
+
+return null if not found
+
+```java
+// return null if not found
+private native Class<?> findBootstrapClass(String name)
 ```
 
 ## 三、方法区
