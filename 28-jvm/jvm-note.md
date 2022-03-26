@@ -423,6 +423,178 @@ Object object = new Object();
 
 上图中的引用关系需要全部断开，类才有可能被卸载。
 
+### ClassLoader
+
+#### BootStrap ClassLoader
+
+#### Extension ClassLoader
+
+#### Application ClassLoader
+
+#### ClassLoader 源码
+
+```java
+public abstract class ClassLoader {
+
+    private static native void registerNatives();
+    static {
+        registerNatives();
+    }
+
+    // The parent class loader for delegation
+    // Note: VM hardcoded the offset of this field, thus all new fields
+    // must be added *after* it.
+    private final ClassLoader parent;
+
+}
+```
+
+ClassLoader 类中存在一个 parent 的字段，用于引用 ClassLoader 的父类加载器。
+
+---
+
+```java
+public class Launcher {
+
+    public Launcher() {
+        Launcher.ExtClassLoader var1;
+        try {
+            var1 = Launcher.ExtClassLoader.getExtClassLoader();
+        } catch (IOException var10) {
+            throw new InternalError("Could not create extension class loader", var10);
+        }
+
+        try {
+            this.loader = Launcher.AppClassLoader.getAppClassLoader(var1);
+        } catch (IOException var9) {
+            throw new InternalError("Could not create application class loader", var9);
+        }
+
+        Thread.currentThread().setContextClassLoader(this.loader);
+        // ......
+    }
+
+}
+```
+
+在 Launcher 的构造器，首先实例化 ExtClassLoader，随后将 ExtClassLoader 作为参数，实例化 AppClassLoader。AppClassLoader 将其 parent 字段设置为 ExtClassLoader。
+
+```java
+public ExtClassLoader(File[] var1) throws IOException {
+    super(getExtURLs(var1), (ClassLoader)null, Launcher.factory);
+    SharedSecrets.getJavaNetAccess().getURLClassPath(this).initLookupCache(this);
+}
+```
+
+对于 ExtClassLoader 而言，其 parent 字段就设置为了 null。
+
+---
+
+##### loadClass 方法
+
+```java
+protected Class<?> loadClass(String name, boolean resolve)
+    throws ClassNotFoundException
+{
+    synchronized (getClassLoadingLock(name)) {
+        // First, check if the class has already been loaded
+        Class<?> c = findLoadedClass(name);
+        if (c == null) {
+            long t0 = System.nanoTime();
+            try {
+                if (parent != null) {
+                    c = parent.loadClass(name, false);
+                } else {
+                    c = findBootstrapClassOrNull(name);
+                }
+            } catch (ClassNotFoundException e) {
+                // ClassNotFoundException thrown if class not found
+                // from the non-null parent class loader
+            }
+
+            if (c == null) {
+                // If still not found, then invoke findClass in order
+                // to find the class.
+                long t1 = System.nanoTime();
+                c = findClass(name);
+
+                // this is the defining class loader; record the stats
+                sun.misc.PerfCounter.getParentDelegationTime().addTime(t1 - t0);
+                sun.misc.PerfCounter.getFindClassTime().addElapsedTimeFrom(t1);
+                sun.misc.PerfCounter.getFindClasses().increment();
+            }
+        }
+        if (resolve) {
+            resolveClass(c);
+        }
+        return c;
+    }
+}
+```
+
+---
+
+其中 `getClassLoadingLock()` 方法通过被加载的类的全类名获取一个唯一的锁对象，该锁对象对于当前的 ClassLoader 而言是唯一的。
+
+映射类名和对应的锁对象，当当前的 ClassLoader 是可并行的。JVM 也会使用这个字段决定当前的 ClassLoader 是否是可并行的，以及锁对象是否适合类加载。
+
+```java
+// Maps class name to the corresponding lock object when the current
+// class loader is parallel capable.
+// Note: VM also uses this field to decide if the current class loader
+// is parallel capable and the appropriate lock object for class loading.
+private final ConcurrentHashMap<String, Object> parallelLockMap;
+```
+
+根据全类名，返回一个锁对象。
+若当前 ClassLoader 不可并行加载 Class，则返回 this。由于 ClassLoader 是单例的，所以在这种情况下所有的类都串行加载。
+在可并行加载的情况下，每个被加载类的全类名对应一个唯一的锁对象。
+
+为何不直接使用 String 对象作为锁对象呢？
+- 对于字面量 String，若将其作为锁对象，所有同时加载该类的 ClassLoader 将公用一个锁对象。String 字面量存于字符串常量池中，JVM 中只有一份，同一个字面量返回同一个引用。
+
+以下的方式也可以用于对 Integer 的加锁。
+
+```java
+/**
+ * Returns the lock object for class loading operations.
+ * For backward compatibility, the default implementation of this method
+ * behaves as follows. If this ClassLoader object is registered as
+ * parallel capable, the method returns a dedicated object associated
+ * with the specified class name. Otherwise, the method returns this
+ * ClassLoader object.
+ *
+ * @param  className
+ *         The name of the to-be-loaded class
+ *
+ * @return the lock for class loading operations
+ *
+ * @throws NullPointerException
+ *         If registered as parallel capable and <tt>className</tt> is null
+ *
+ * @see #loadClass(String, boolean)
+ *
+ * @since  1.7
+ */
+protected Object getClassLoadingLock(String className) {
+    Object lock = this;
+    // 若当前的 ClassLoader 不是可并行加载类的，则跳过下方代码块，直接 return this
+    if (parallelLockMap != null) {
+        Object newLock = new Object();
+        
+        lock = parallelLockMap.putIfAbsent(className, newLock);
+        
+        // 若 lock == null，则说明此前当前 ClassLoader 并未加载过当前需要加载的类，将 newLock 存入 Map 中，并返回 newLock
+        // 若 parallelLockMap 中已存在被加载类的全类名的 key-value pair，则不会对 map 赋值，并返回之前已经存入 map 的锁对象
+        if (lock == null) {
+            lock = newLock;
+        }
+
+    }
+    return lock;
+}
+```
+
 ## 三、方法区
 
 - 方法区的演进
