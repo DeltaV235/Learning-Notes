@@ -1,4 +1,4 @@
-package com.deltav.classloader;
+package com.deltav.classInitialization;
 
 import java.util.Random;
 

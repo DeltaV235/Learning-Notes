@@ -1,4 +1,4 @@
-package com.deltav.classloader;
+package com.deltav.classInitialization;
 
 /**
  * 类加载阶段 2：链接阶段
