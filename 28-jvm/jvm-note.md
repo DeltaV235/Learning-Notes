@@ -701,6 +701,136 @@ return null if not found
 private native Class<?> findBootstrapClass(String name)
 ```
 
+##### findClass 方法
+
+findClass 方法在 ClassLoader 中会抛出一个 `ClassNotFoundException`，该方法需要实现类实现。
+
+找到指定二进制文件名的类。这个方法应该被实现的 ClassLoader 覆盖，并且 findClass 方法会在在调用了 loadClass 方法之后被执行，在检查了父类加载器之后。默认的实现会抛出 ClassNotFoundException。
+
+```java
+/**
+ * Finds the class with the specified <a href="#name">binary name</a>.
+ * This method should be overridden by class loader implementations that
+ * follow the delegation model for loading classes, and will be invoked by
+ * the {@link #loadClass <tt>loadClass</tt>} method after checking the
+ * parent class loader for the requested class.  The default implementation
+ * throws a <tt>ClassNotFoundException</tt>.
+ *
+ * @param  name
+ *         The <a href="#name">binary name</a> of the class
+ *
+ * @return  The resulting <tt>Class</tt> object
+ *
+ * @throws  ClassNotFoundException
+ *          If the class could not be found
+ *
+ * @since  1.2
+ */
+protected Class<?> findClass(String name) throws ClassNotFoundException {
+    throw new ClassNotFoundException(name);
+}
+```
+
+**URLClassLoader 的 findClass 的实现代码**
+
+继承于 URLClasLoader 的 ExtClassLoader 和 AppClassLoader 均使用该重写的方法。
+
+该方法中使用 `deineClass` 方法来加载类。
+
+```java
+/**
+ * Finds and loads the class with the specified name from the URL search
+ * path. Any URLs referring to JAR files are loaded and opened as needed
+ * until the class is found.
+ *
+ * @param name the name of the class
+ * @return the resulting class
+ * @exception ClassNotFoundException if the class could not be found,
+ *            or if the loader is closed.
+ * @exception NullPointerException if {@code name} is {@code null}.
+ */
+protected Class<?> findClass(final String name)
+    throws ClassNotFoundException
+{
+    final Class<?> result;
+    try {
+        result = AccessController.doPrivileged(
+            new PrivilegedExceptionAction<Class<?>>() {
+                public Class<?> run() throws ClassNotFoundException {
+                    String path = name.replace('.', '/').concat(".class");
+                    Resource res = ucp.getResource(path, false);
+                    if (res != null) {
+                        try {
+                            return defineClass(name, res);
+                        } catch (IOException e) {
+                            throw new ClassNotFoundException(name, e);
+                        }
+                    } else {
+                        return null;
+                    }
+                }
+            }, acc);
+    } catch (java.security.PrivilegedActionException pae) {
+        throw (ClassNotFoundException) pae.getException();
+    }
+    if (result == null) {
+        throw new ClassNotFoundException(name);
+    }
+    return result;
+}
+```
+
+---
+
+`defineClass` 方法会使用传入的字节数组，实现类的加载。
+
+```java
+return defineClass(name, b, 0, b.length, cs);
+```
+
+```java
+/*
+ * Defines a Class using the class bytes obtained from the specified
+ * Resource. The resulting Class must be resolved before it can be
+ * used.
+ */
+private Class<?> defineClass(String name, Resource res) throws IOException {
+    long t0 = System.nanoTime();
+    int i = name.lastIndexOf('.');
+    URL url = res.getCodeSourceURL();
+    if (i != -1) {
+        String pkgname = name.substring(0, i);
+        // Check if package already loaded.
+        Manifest man = res.getManifest();
+        definePackageInternal(pkgname, man, url);
+    }
+    // Now read the class bytes and define the class
+    java.nio.ByteBuffer bb = res.getByteBuffer();
+    if (bb != null) {
+        // Use (direct) ByteBuffer:
+        CodeSigner[] signers = res.getCodeSigners();
+        CodeSource cs = new CodeSource(url, signers);
+        sun.misc.PerfCounter.getReadClassBytesTime().addElapsedTimeFrom(t0);
+        return defineClass(name, bb, cs);
+    } else {
+        byte[] b = res.getBytes();
+        // must read certificates AFTER reading bytes.
+        CodeSigner[] signers = res.getCodeSigners();
+        CodeSource cs = new CodeSource(url, signers);
+        sun.misc.PerfCounter.getReadClassBytesTime().addElapsedTimeFrom(t0);
+        return defineClass(name, b, 0, b.length, cs);
+    }
+}
+```
+
+##### Overall
+
+`loadClass` 方法实现了 ClassLoader 的双亲委派模式。若要破坏双亲委派机制，可以重写该方法。在 `loadClass` 方法中，若父类无法加载指定的类，将使用当前 ClassLaoder 的 `loadClass` 方法尝试加载类。
+`findClass` 方法需要具体的 ClassLoader 实现。若要实现自定义的类加载器，可重写该方法。
+`defineClas` 方法将加载字节数组，并返回 Class 对象。`defineClass` 在 URLClassLoader 中为 private 方法，无法被子类重写。
+
+`defineClass()` 方法通常与 `findClass()` 方法一起使用，一般情况下，在自定义类加载器时，会直接覆盖 ClassLoader 的 `findClass()` 方法并编写加载规则，取得要加载类的字节码后转换成流，然后调用 `defineClass()` 方法生成类的 Class 对象。
+
 ## 三、方法区
 
 - 方法区的演进
