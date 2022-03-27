@@ -65,6 +65,23 @@
 `ctrl + alt + l`: Reformat the **whole file** or **Selected File**
 `ctrl + alt + shift + l`: Show Reformat Dialog
 
+---
+
+## Shortcut for Plugin
+
+- **String Manipulation**
+`alt + m`: Open opreation meun
+
+---
+
+- **Code Glance**
+`ctrl + shift + g`: toggle glance
+
+---
+
+- **TranslationPlugin**
+`ctrl + shift + y`: translate seleted text
+
 ## Default Live Template
 
 `.var`: 声明一个变量
@@ -175,5 +192,3 @@ Since release 1.0.11 new shortcuts are available:
 - From project view available new option to Remove javadocs for selected folder/files
 
 ## Live Template
-
-
