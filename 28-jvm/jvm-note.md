@@ -431,6 +431,23 @@ Object object = new Object();
 
 #### Application ClassLoader
 
+#### Thread Context ClassLoader
+
+默认为 Appication ClassLoader。
+ContextClassLoader 在 BootstrapClassLoader 需要使用子类加载器加载的类的时候被使用。
+
+> 有了线程上下文类加载器，程序就可以做一些"舞弊"的事情了。JNDI服务使用这个线程上下文类加载器去加载所需的SPI服务代码。这是一种父类加载器去请求子类加载器完成类加载的行为，这种行为实际上是打通了双亲委派模型的层次结构来逆向使用类加载器，已经违背了双亲委派模型的一般性原则，但也是无可奈何的事情。Java中涉及SPI的加载基本上都采用这种方式来完成，例如JNDI、JDBC、JCE、JAXB和JBI等。不过，当SPI的服务提供者多于一个的时候，代码就只能根据具体提供者的类型来硬编码判断，为了消除这种极不优雅的方式，在JDK6时，JDK提供了java.util.ServiceLoader类，以META-INF/Services中的配置信息，辅以责任链模式，这才算是给SPI的加载提供了一种相对合理的解决方案
+
+```java
+try {
+    this.loader = Launcher.AppClassLoader.getAppClassLoader(var1);
+} catch (IOException var9) {
+    throw new InternalError("Could not create application class loader", var9);
+}
+
+Thread.currentThread().setContextClassLoader(this.loader);
+```
+
 #### ClassLoader 源码
 
 ```java
@@ -862,6 +879,86 @@ private ProtectionDomain preDefineClass(String name,
 `defineClas` 方法将加载字节数组，并返回 Class 对象。`defineClass` 在 URLClassLoader 中为 private 方法，无法被子类重写。
 
 `defineClass()` 方法通常与 `findClass()` 方法一起使用，一般情况下，在自定义类加载器时，会直接覆盖 ClassLoader 的 `findClass()` 方法并编写加载规则，取得要加载类的字节码后转换成流，然后调用 `defineClass()` 方法生成类的 Class 对象。
+
+#### 双亲委派机制的破坏
+
+1. 重写 `ClassLoader.loadClass()` 方法，或使用 1.2 版本之前的 JDK。
+2. 线程像下文类加载器
+3. 码热替换(HotSwap)、模块热部署(HotDeployment) 等
+
+#### 自定义类加载器
+
+**自定义类加载器的目的**
+
+1. 隔离加载类
+2. 修改类加载的方式
+3. 扩展加载源
+4. 防止源码泄露
+
+**实现方式**
+
+Java提供了抽象类java.lang.ClassLoader，所有用户自定义的类加载器都应该继承ClassLoader类。
+
+- 方式一：重写loadClass()方法
+- 方式二：重写findClass()方法
+
+建议优先使用方式二，不去破坏双亲委派机制。
+自定义类加载器的父类是 `AppClassLoader`。
+
+**Example**
+
+从文件系统中加载字节码，调用 `defineClass()` 生成 Class 对象。
+
+```java
+package com.deltav.classloader;
+
+import java.io.*;
+
+/**
+ * custom classloader
+ *
+ * @author DeltaV235
+ * @version 1.0
+ */
+public class MyClassLoader extends ClassLoader {
+    private String rootPath;
+
+    public MyClassLoader(ClassLoader parent, String rootPath) {
+        super(parent);
+        this.rootPath = rootPath;
+    }
+
+    public MyClassLoader(String rootPath) {
+        this.rootPath = rootPath;
+    }
+
+    @Override
+    protected Class<?> findClass(String name) {
+        final String fileName = rootPath + File.separator + name + ".class";
+        byte[] byteCode;
+        try {
+            ByteArrayOutputStream byteArrayOutputStream;
+            try (BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(fileName))) {
+                byteArrayOutputStream = new ByteArrayOutputStream();
+
+                int length;
+                byte[] buffer = new byte[1024];
+
+                while ((length = bufferedInputStream.read(buffer)) != -1) {
+                    byteArrayOutputStream.write(buffer, 0, length);
+                }
+            }
+
+            byteCode = byteArrayOutputStream.toByteArray();
+            return defineClass(null, byteCode, 0, byteCode.length);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+}
+```
 
 ## 三、方法区
 
