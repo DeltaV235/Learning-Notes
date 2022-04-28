@@ -1612,6 +1612,10 @@ Print disassembled native code of HotSpot.
 /${JAVA_HOME}/jre/bin/server
 ```
 
+#### -XX:+UsePerfData
+
+> Enables the perfdata feature. This option is enabled by default to allow JVM monitoring and performance testing. Disabling it suppresses the creation of the hsperfdata_userid directories. To disable the perfdata feature, specify -XX:-UsePerfData.
+
 ## The Java Virtual Machine Instruction Set
 
 ### 操作数栈入栈指令
