@@ -46,17 +46,21 @@
 - **Editor**
 `ctrl + shift + j`: 将光标处下一行的内容合并至当前行的行尾
 `ctrl + shift + up/down`: 上移/下移语句或方法
-`alt + insert`: 自动创建方法或文件解决错误等功能
+`alt + insert`: Generate 自动创建方法或文件解决错误等功能
 `alt + <CR>`: Show Context Action
 `ctrl + <LEFT ARROR>`: Expand current window
 `ctrl + <RIGHT ARROR>`: Shrink current window
+`ctrl + shift + delete`: Unwrap/Remove
+`ctrl + alt + v`: Introduce Local Variable
+`ctrl + alt + q`: Toggle Reader Mode
 
 ---
 
 - **Surround Code & Live Template**
 `ctrl + alt + t`: **Surround** with **Suggest Code Block** and **Live Template**
+
 `ctrl + alt + j`: **Surround** with **Live Template**
-`ctrl + j`: Show **All Available Live Template** and Put It on **Current Cursor**
+`ctrl + j`: Insert Live Template
 
 ---
 
@@ -64,6 +68,23 @@
 `ctrl + alt + o`: Optimize Imports
 `ctrl + alt + l`: Reformat the **whole file** or **Selected File**
 `ctrl + alt + shift + l`: Show Reformat Dialog
+
+---
+
+- **Run/Debug**
+`shift + F10`: Run current selected configuration
+`ctrl + shift + F10`: Run the executable method where the cursor is located, such as a unit test or the main method, etc.
+`shift + F9`: Debug current selected configuration
+`F9`: Open the debug dialog
+
+---
+
+- **VCS**
+`alt + \``: Open VCS Operations meun
+`ctrl + alt + a`: Add current file to VCS
+`ctrl + k`: Open the commit interface
+`ctrl + shift + k`: Open push interface
+`alt + 9`: Toggle Git tool window
 
 ---
 
@@ -84,11 +105,12 @@
 
 ## Default Live Template
 
-`.var`: 声明一个变量
-`.if`: 将前面的对象用if进行包裹
-`iter`: 遍历最近的可遍历对象
-`sout`: System.out.println()
-`main/psvm`: public static void main(String[] args) {}
+`.var`: 声明一个变量 <=> `ctrl +alt + v (variable)`
+`.if`: 将前面的对象用 `if` 进行包裹
+`iter`: 遍历最近的可遍历对象(for-each)
+`sout`: `System.out.println()`
+`soutv`: `System.out.println(variableName = variableValue)`
+`main/psvm`: `public static void main(String[] args) {}`
 
 ## Live Template Variables
 
