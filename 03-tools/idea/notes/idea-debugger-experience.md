@@ -49,3 +49,92 @@ IDEA Debugger 时可以可视化 Java Stream 进行的操作和对值数据的�
 [analyzing-external-stacktraces](https://www.jetbrains.com/help/idea/analyzing-external-stacktraces.html)
 [altering-the-program-s-execution-flow](https://www.jetbrains.com/help/idea/altering-the-program-s-execution-flow.html)
 [analyze-java-stream-operations](https://www.jetbrains.com/help/idea/analyze-java-stream-operations.html)
+
+---
+
+## Monitor Ctrl-Break
+
+对于早期的 IDEA 版本(2021.2 or earlier)中，使用 Debug 模式启动程序时，会额外启动一个 Monitor Control Break 线程，用于监听服务端发出的停止信号，来停止被 Debug 的 JVM 实例。
+
+```bash
+C:\Program Files\Java\jdk1.8.0_241\bin\java.exe" -agentlib:jdwp=transport=dt_socket,address=127.0.0.1:1828,suspend=y,server=n -javaagent:C:\Users\DeltaV\AppData\Local\JetBrains\Toolbox\apps\IDEA-U\ch-0\213.7172.25\lib\idea_rt.jar=5130
+```
+
+新版本中的 debug JVM 参数
+```bash
+C:\Program Files\Java\jdk1.8.0_241\bin\java.exe" -agentlib:jdwp=transport=dt_socket,address=127.0.0.1:1828,suspend=y,server=n -javaagent:C:\Users\DeltaV\AppData\Local\JetBrains\Toolbox\apps\IDEA-U\ch-0\213.7172.25\plugins\java\lib\rt\debugger-agent.jar
+```
+
+在这个 agent 中，会创建一个线程，如下所示。
+
+```java
+public static void premain(String args) {
+    try {
+        int p = args.indexOf(58);
+        if (p < 0) {
+            throw new IllegalArgumentException("incorrect parameter: " + args);
+        }
+
+        boolean helperLibLoaded = loadHelper(args.substring(p + 1));
+        int portNumber = Integer.parseInt(args.substring(0, p));
+        startMonitor(portNumber, helperLibLoaded);
+    } catch (Throwable var4) {
+        System.err.println("Launcher failed - \"Dump Threads\" and \"Exit\" actions are unavailable (" + var4.getMessage() + ')');
+    }
+
+}
+```
+
+在此创建了一个名为 *Monitor Ctrl-Break* 的线程。
+
+```java
+private static void startMonitor(int portNumber, boolean helperLibLoaded) {
+    Thread t = new 1("Monitor Ctrl-Break", portNumber, helperLibLoaded);
+    t.setDaemon(true);
+    t.start();
+}
+```
+
+Class 1 的 decompile code 如下，在该线程中监听的本地的指定端号，若服务端发送 **TERM** 信号，则该线程结束。若发送 **STOP** 信号，则终止当前 JVM 实例。
+
+```java
+class AppMainV2$1 extends Thread {
+    AppMainV2$1(String arg0, int var2, boolean var3) {
+        super(arg0);
+        this.val$portNumber = var2;
+        this.val$helperLibLoaded = var3;
+    }
+
+    public void run() {
+        try {
+            Socket client = new Socket("127.0.0.1", this.val$portNumber);
+
+            try {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(client.getInputStream(), "US-ASCII"));
+
+                try {
+                    while(true) {
+                        String msg = reader.readLine();
+                        if (msg == null || "TERM".equals(msg)) {
+                            return;
+                        }
+
+                        if ("BREAK".equals(msg)) {
+                            if (this.val$helperLibLoaded) {
+                                AppMainV2.access$000();
+                            }
+                        } else if ("STOP".equals(msg)) {
+                            System.exit(1);
+                        }
+                    }
+                } finally {
+                    reader.close();
+                }
+            } finally {
+                client.close();
+            }
+        } catch (Exception var14) {
+        }
+    }
+}
+```
