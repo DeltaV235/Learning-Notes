@@ -2045,3 +2045,68 @@ public void subtract() {
 
 - monitor 即为对象头中的锁标志和持有锁的线程。
 - synchronized 是可重入的
+
+## JVM Command Line Tools
+
+### jps
+
+**Java Process Status**
+
+```bash
+jps [-q] [-mlvV] [<hostid>]
+```
+
+### jstat
+
+**JVM Statistics Monitoring Tool**
+
+```bash
+jstat -<option> [-t] [-h<lines>] <vmid> [<interval> [<count>]]
+```
+
+### jinfo
+
+**Configuration Info for Java**
+
+### jmap
+
+**JVM Memory Map**
+
+获取 dump 文件（堆转储快照文件，二进制文件），它还可以获取目标 Java 进程的内存相关信息，包括 Java 堆各区域的使用情况，堆对象的统计信息、类加载信息
+
+```bash
+$ jmap.exe -help
+Usage:
+    jmap -clstats <pid>
+        to connect to running process and print class loader statistics
+    jmap -finalizerinfo <pid>
+        to connect to running process and print information on objects awaiting finalization
+    jmap -histo[:live] <pid>
+        to connect to running process and print histogram of java object heap
+        if the "live" suboption is specified, only count live objects
+    jmap -dump:<dump-options> <pid>
+        to connect to running process and dump java heap
+    jmap -? -h --help
+        to print this help message
+
+    dump-options:
+      live         dump only live objects; if not specified,
+                   all objects in the heap are dumped.
+      format=b     binary format
+      file=<file>  dump heap to <file>
+
+    Example: jmap -dump:live,format=b,file=heap.bin <pid>
+```
+
+```bash
+jmap -dump:format=b,file=<filename.hprof> <pid>
+jmap -dump:live,format=b,file=<filename.hprof> <pid>
+```
+
+### jhat
+
+**JVM Heap Analysis Tool**
+
+### jstack
+
+**JVM Stack Trace**
