@@ -28,22 +28,7 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e99e49be-11a6-4670-8ee0-d1cedf84e2ba" name="TestChangelist" comment="TestChangelist">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/debugger/spring-demo/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/debugger/spring-demo/.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/debugger/spring-demo/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/debugger/spring-demo/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/debugger/spring-demo/src/main/java/com/deltav/springdemo/SpringDemoApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/debugger/spring-demo/src/main/java/com/deltav/springdemo/controller/DemoController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/debugger/spring-demo/src/main/resources/application.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/debugger/spring-demo/src/test/java/com/deltav/springdemo/SpringDemoApplicationTests.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/debugger/src/com/wuyue/AdvanceDebugServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/debugger/src/com/wuyue/DebugDemo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/debugger/src/com/wuyue/DebugModel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/debugger/src/com/wuyue/DebugService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/debugger/src/com/wuyue/DebugServiceFactory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/debugger/src/com/wuyue/GeneralDebugServiceImpl.java" afterDir="false" />
+    <list default="true" id="e99e49be-11a6-4670-8ee0-d1cedf84e2ba" name="TestChangelist" comment="feat(idea-setting-test-demo): add demo code of debugging Tips">
       <change beforePath="$PROJECT_DIR$/../../../../27-juc/principles-of-concurrent-programming.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../27-juc/principles-of-concurrent-programming.md" afterDir="false" />
     </list>
     <list id="182d346e-917b-40dd-9fb5-4bcd56ce6110" name="Default Changelist" comment="feat(idea-setting-test-demo): Add JavaDocTest demo." />
@@ -550,7 +535,7 @@
       <workItem from="1604761334863" duration="182000" />
       <workItem from="1604761535603" duration="10853000" />
       <workItem from="1604809701908" duration="6274000" />
-      <workItem from="1651675473300" duration="24252000" />
+      <workItem from="1651675473300" duration="24504000" />
     </task>
     <task id="LOCAL-00001" summary="feat(idea-setting-test-demo): Refactor toString method.">
       <created>1604773811888</created>
@@ -566,7 +551,14 @@
       <option name="project" value="LOCAL" />
       <updated>1604774418223</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="feat(idea-setting-test-demo): add demo code of debugging Tips">
+      <created>1651899149349</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1651899149349</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -611,7 +603,8 @@
     <option name="FORCE_NON_EMPTY_COMMENT" value="true" />
     <MESSAGE value="feat(idea-setting-test-demo): Refactor toString method." />
     <MESSAGE value="feat(idea-setting-test-demo): Add JavaDocTest demo." />
-    <option name="LAST_COMMIT_MESSAGE" value="feat(idea-setting-test-demo): Add JavaDocTest demo." />
+    <MESSAGE value="feat(idea-setting-test-demo): add demo code of debugging Tips" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat(idea-setting-test-demo): add demo code of debugging Tips" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
