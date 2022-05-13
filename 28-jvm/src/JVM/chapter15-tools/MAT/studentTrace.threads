@@ -1,0 +1,47 @@
+Thread 0x76f308368
+  at java.lang.Object.wait(J)V (Native Method)
+  at java.lang.ref.ReferenceQueue.remove(J)Ljava/lang/ref/Reference; (ReferenceQueue.java:144)
+  at java.lang.ref.ReferenceQueue.remove()Ljava/lang/ref/Reference; (ReferenceQueue.java:165)
+  at java.lang.ref.Finalizer$FinalizerThread.run()V (Finalizer.java:216)
+
+  locals:
+    objectId=0x76f301000, line=1
+    objectId=0x76f300ff0, line=1
+    objectId=0x76f301000, line=2
+    objectId=0x76f308368, line=3
+    objectId=0x76f301020, line=3
+
+Thread 0x76f300b88
+
+  locals:
+
+Thread 0x76f308660
+  at java.lang.Runtime.gc()V (Native Method)
+  at java.lang.System.gc()V (System.java:993)
+  at com.deltav.mat.example1.StudentTrace.main([Ljava/lang/String;)V (StudentTrace.java:32)
+
+  locals:
+    objectId=0x76f310010, line=2
+    objectId=0x76f310020, line=2
+    objectId=0x76f310038, line=2
+    objectId=0x76f310050, line=2
+
+Thread 0x76f300e78
+
+  locals:
+
+Thread 0x76f3084e8
+  at java.lang.Object.wait(J)V (Native Method)
+  at java.lang.Object.wait()V (Object.java:502)
+  at java.lang.ref.Reference.tryHandlePending(Z)Z (Reference.java:191)
+  at java.lang.ref.Reference$ReferenceHandler.run()V (Reference.java:153)
+
+  locals:
+    objectId=0x76f308a20, line=1
+    objectId=0x76f308a20, line=2
+    objectId=0x76f3084e8, line=3
+
+Thread 0x76f300d00
+
+  locals:
+
