@@ -48,11 +48,14 @@
 `ctrl + shift + up/down`: 上移/下移语句或方法
 `alt + insert`: Generate 自动创建方法或文件解决错误等功能
 `alt + <CR>`: Show Context Action
-`ctrl + <LEFT ARROR>`: Expand current window
-`ctrl + <RIGHT ARROR>`: Shrink current window
+`ctrl + <LEFT ARROR>`: Expand Current Window
+`ctrl + <RIGHT ARROR>`: Shrink Current Window
 `ctrl + shift + delete`: Unwrap/Remove
 `ctrl + alt + v`: Introduce Local Variable
 `ctrl + alt + q`: Toggle Reader Mode
+`ctrl + F12`: Open File Structure Popup Window
+
+  ![IDEA-Shortcut-Ctrl-F12](idea-notes.assets/IDEA-Shortcut-Ctrl-F12.gif)
 
 ---
 
