@@ -153,9 +153,9 @@
 - PMU hardware 的 Java profiling tool 和诊断协助功能
 - 针对大数据场景的 ZenGC
 
-  4.taobao vm 应用在阿里产品上性能高，硬件严重依赖 inte1 的 cpu，损失了兼容性，但提高了性能
+  4.taobao vm 应用在阿里产品上性能高，硬件严重依赖 Intel 的 CPU，损失了兼容性，但提高了性能
 
-- 目前已经在淘宝、天猫上线，把 Oracle 官方 JvM 版本全部替换了。
+- 目前已经在淘宝、天猫上线，把 Oracle 官方 JVM 版本全部替换了。
 
 #### Dalvik VM
 
@@ -175,15 +175,15 @@
 
 #### Graal VM（未来虚拟机）
 
-1. 2018 年 4 月，Oracle Labs 公开了 GraalvM，号称 “Run Programs Faster Anywhere”，勃勃野心。与 1995 年 java 的”write once，run anywhere"遥相呼应。
+1. 2018 年 4 月，Oracle Labs 公开了 GraalVM，号称 “Run Programs Faster Anywhere”，勃勃野心。与 1995 年 java 的”write once，run anywhere"遥相呼应。
 
-2. GraalVM 在 HotSpot VM 基础上增强而成的**跨语言全栈虚拟机，可以作为“任何语言”**的运行平台使用。语言包括：Java、Scala、Groovy、Kotlin；C、C++、Javascript、Ruby、Python、R 等
+2. GraalVM 在 HotSpot VM 基础上增强而成的**跨语言全栈虚拟机，可以作为“任何语言”**的运行平台使用。语言包括：Java、Scala、Groovy、Kotlin、C、C++、Javascript、Ruby、Python、R 等
 
 3. 支持不同语言中混用对方的接口和对象，支持这些语言使用已经编写好的本地库文件
 
 4. 工作原理是将这些语言的源代码或源代码编译后的中间格式，通过解释器转换为能被 Graal VM 接受的中间表示。Graal VM 提供 Truffle 工具集快速构建面向一种新语言的解释器。在运行时还能进行即时编译优化，获得比原生编译器更优秀的执行效率。
 
-5. 如果说 HotSpot 有一天真的被取代，Graalvm 希望最大。但是 Java 的软件生态没有丝毫变化。
+5. 如果说 HotSpot 有一天真的被取代，GraalVM 希望最大。但是 Java 的软件生态没有丝毫变化。
 
 #### 总结
 
@@ -2110,3 +2110,47 @@ jmap -dump:live,format=b,file=<filename.hprof> <pid>
 ### jstack
 
 **JVM Stack Trace**
+
+## 对象的内存布局
+
+### 对象头 Header
+
+#### 运行时元数据 Mark Word
+
+- 哈希值 HashCode
+- GC 分代年龄
+- 锁状态标志
+- 线程持有的锁
+- 偏向线程 ID
+- 偏向时间戳
+
+占用内存大小：8 Byte
+
+#### 类型指针
+
+指向类元数据 InstanceKlass，确定该对象所属的类型
+
+类型指针被压缩的情况下，占用 4 Byte 大小的内存
+
+### 实例数据 Instance Data
+
+它是对象真正存储的有效信息，包括程序代码中定义的各种类型的字段（包括从父类继承下来的和本身拥有的字段）
+
+### 对齐填充 Padding
+
+对象的大小为 8 Byte 的整数倍，对象填充部分用于填充不满 8 Byte 的内存空间
+
+### 浅堆 Shallow Heap
+
+Shallow Heap 指一个对象所消耗的内存，在 32 位系统中，一个对象的引用会占用 4 Byte，一个 int 类型会占用 4 Byte，long 类型占用 8 Byte，每个对象头需要占据 8 Byte，根据堆快照格式的不同，对象的大小可能会向 8 Byte 进行对齐。
+
+### 深堆 Retained Heap
+
+- 保留集 Retained Set
+对象 A 的保留集指当对象 A 被 GC 后，可以被释放的所有的对象的集合（包括 A 对象本身），即对象 A 的保留集可以被认为是只能通过对象 A 被直接或间接访问到的所有对象的集合，通俗的说，就是指仅被对象 A 所引用的对象的集合。
+
+深堆是指对象的保留集中所有对象的浅堆大小之和。
+
+**Note:** 浅堆指对象本身占用的内存，不包括其引用的对象的大小。一个对象的深堆指的是通过该对象访问到的（直接或间接）所有对象的浅堆之和，即对象被回收后，可以释放的真实空间。
+
+当前深堆大小 = 当前对象的浅堆大小 + 对象中所包含对象的深堆大小
