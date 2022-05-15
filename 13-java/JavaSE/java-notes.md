@@ -367,7 +367,83 @@ public StringBuilder reverse();
 public String toString();
 ```
 
-## 容器
+## 容器/集合
+
+### Collection
+
+Collection 接口中定义了 `add` 和 `remove` 方法，以及 `toArray` 方法，将集合中的元素输出到数组中。由于 Collection 有不同的实现，如 List、Set、Queue 等，没有一个统一的元素遍历规则、方式。如 List 使用下标访问元素，Queue 只能访问队列两端的元素。所以 Collection 实现了 Iterable 接口。
+
+![image-20220515000139090](java-notes.assets/image-20220515000139090.png)
+
+#### Iterable
+
+Iterable 接口中需要实现 `Iterator<T> iterator()` 方法，该方法用于返回集合对应的迭代器对象。只有实现了 Iterable 接口的类才能够使用 for-each 循环。
+
+#### Iterator
+
+Iterator 接口中定义了两个方法。
+`hasNext()` 方法用于判断是否存在下一个元素，存在则返回 true
+`next()` 方法返回下移个元素，并将游标后移一个元素
+
+```java
+/**
+ * Returns {@code true} if the iteration has more elements.
+ * (In other words, returns {@code true} if {@link #next} would
+ * return an element rather than throwing an exception.)
+ *
+ * @return {@code true} if the iteration has more elements
+ */
+boolean hasNext();
+
+/**
+ * Returns the next element in the iteration.
+ *
+ * @return the next element in the iteration
+ * @throws NoSuchElementException if the iteration has no more elements
+ */
+E next();
+```
+
+#### For-Each
+
+JDK 1.8 中提供一个新的遍历集合的语法糖，如下所示。
+
+```java
+public static void test() {
+    Collection<String> collection = new ArrayList<>();
+    for (String str : collection) {
+        System.out.println(str);
+    }
+}
+```
+
+其原理是调用集合的 iterator 方法获取迭代器，后调用迭代器的 `hasNext()` 方法判断是否调用 `next()` 方法并进入循环体。所以使用 For-Each Loop 的对象必须实现 Iterable 接口。
+字节码如下：
+
+```text
+ 0 new #2 <java/util/ArrayList>
+ 3 dup
+ 4 invokespecial #3 <java/util/ArrayList.<init> : ()V>
+ 7 astore_0
+ 8 aload_0
+ 9 invokeinterface #6 <java/util/Collection.iterator : ()Ljava/util/Iterator;> count 1
+14 astore_1
+15 aload_1
+16 invokeinterface #7 <java/util/Iterator.hasNext : ()Z> count 1
+21 ifeq 44 (+23)
+24 aload_1
+25 invokeinterface #8 <java/util/Iterator.next : ()Ljava/lang/Object;> count 1
+30 checkcast #9 <java/lang/String>
+33 astore_2
+34 getstatic #10 <java/lang/System.out : Ljava/io/PrintStream;>
+37 aload_2
+38 invokevirtual #11 <java/io/PrintStream.println : (Ljava/lang/String;)V>
+41 goto 15 (-26)
+44 return
+```
+
+在 offset 9 的位置，调用的 ArrayList 对象的 iterator 方法，返回了一个 Iterator 对象，并存入了 LV 索引为 1 的位置。
+然后调用该迭代器的 `hasNext()` 方法，如果其返回不为 false，则调用该迭代器的 `next()` 方法，将其返回值进行类型检查后存入 LV Slot 2。最后执行循环体中的代码。
 
 ### List
 
@@ -387,6 +463,45 @@ List接口常用的实现类有3个：`ArrayList`、`LinkedList`和`Vector`。
 #### ArrayList
 
 ArrayList底层是用数组实现的存储。 特点：查询效率高，增删效率低，线程不安全。
+
+##### Iterator
+
+ArrayList 中的迭代器是 fail-fast 的。
+
+> if the list is structurally modified at any time after the iterator is created, in any way except through the iterator's own remove or add methods, the iterator will throw a ConcurrentModificationException.
+
+Itr 的 field expectedModCount 为 ArrayList.this.modCount。若 ArrayList.this.modCount 发生了变化（调用了 ArrayList 的 add 或者 remove 方法使 elements 发生了变化），则在执行 next 方法时将抛出 `ConcurrentModificationException`。
+
+```java
+private class Itr implements Iterator<E> {
+    int cursor;       // index of next element to return
+    int lastRet = -1; // index of last element returned; -1 if no such
+    int expectedModCount = modCount;
+}
+```
+
+```java
+final void checkForComodification() {
+    if (modCount != expectedModCount)
+        throw new ConcurrentModificationException();
+}
+```
+
+```java
+@SuppressWarnings("unchecked")
+public E next() {
+    checkForComodification();
+    int i = cursor;
+    if (i >= size)
+        throw new NoSuchElementException();
+    Object[] elementData = ArrayList.this.elementData;
+    // 若 elementData 在此时发生了 trim，则可能会抛出并发修改异常
+    if (i >= elementData.length)
+        throw new ConcurrentModificationException();
+    cursor = i + 1;
+    return (E) elementData[lastRet = i];
+}
+```
 
 #### LinkedList
 
