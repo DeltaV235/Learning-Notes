@@ -55,7 +55,7 @@
 `ctrl + alt + q`: Toggle Reader Mode
 `ctrl + F12`: Open File Structure Popup Window
 
-  ![IDEA-Shortcut-Ctrl-F12](idea-notes.assets/IDEA-Shortcut-Ctrl-F12.gif)
+![IDEA-Shortcut-Ctrl-F12](idea-notes.assets/IDEA-Shortcut-Ctrl-F12.gif)
 
 ---
 
