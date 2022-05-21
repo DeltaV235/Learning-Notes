@@ -39,6 +39,7 @@ public class MapTest {
 
     }
 
+    // WeakHashMap.entrySet 遍历的一半，然后发生了 GC，会有什么表现 - 不会发生什么，KV 如预期的被删除了
     public static void testWeakHashMap() {
 
         System.out.println("WeakHashMap GC之前");
