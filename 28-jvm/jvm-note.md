@@ -1480,7 +1480,9 @@ Because of Adaptive Memory Size Policy, the ratio between Eden and Survivor gene
 -XX:SurvivorRatio=8
 ```
 
-#### -XX:-UseAdaptiveSizePolicy
+Note: 在 JDK 8 中，若 UseAdaptiveSizePolicy 开启了，且未显式的设置 SurvivorRatio 的值，那么 Eden 与 Survivor 区的大小将动态调整，不是默认的 8:1:1。若显示的指定的 SurvivorRatio 的值那么该比例会生效，无论 UseAdaptiveSizePolicy 是否开启
+
+#### -XX:+UseAdaptiveSizePolicy
 
 Disable Adaptive memory size policy.(Not effection, Need set ratio)
 
