@@ -354,7 +354,7 @@ public final void acquire(int arg) {
 
 #### addWaiter
 
-将当前线程封装为 `Node`，并添加至 `AQS` 队列尾部。若 `AQS` 未初始化则初始化，并自旋 CAS 设置当前 `AQS` 的 `tail` 的引用指向。
+将当前线程封装为 `Node`，并添加至 `AQS` 队列尾部。若 `AQS` 未初始化则初始化，并自旋 CAS 设置当前 `AQS` 的 `tail` 的引用指向当前封装的 `Node` 对象。
 
 ```java
 /**
@@ -374,6 +374,7 @@ private Node addWaiter(Node mode) {
             return node;
         }
     }
+    // 若 AQS 队列未初始化，或 CAS set tail 失败，则使用 enq 入队
     enq(node);
     return node;
 }
@@ -382,7 +383,8 @@ private Node addWaiter(Node mode) {
 #### enq
 
 enqueue.
-若 `AQS` 的 `tail` 为 `null`，则表名 `AQS` 未进行过初始化，初始化 `AQS` 队列。
+若 `AQS` 的 `tail` 为 `null`，则表明 `AQS` 未进行过初始化，则初始化 `AQS` 队列。
+若 `AQS` 的 `tail` 不为 `null`，则 CAS 设置 AQS 的 tail 的引用指向。并同时设置要入队的 Node 的 prev 前驱节点和 tail.next tail 的后驱节点。
 
 **方法功能**：
 
@@ -407,6 +409,7 @@ private Node enq(final Node node) {
             // 自旋设置 node 的前驱节点，并通过 CAS 设置 tail 为 node，直到 CAS 成功。
             node.prev = t;
             if (compareAndSetTail(t, node)) {
+                // 若 CAS tail 成功，则设置原 tail 对象的后驱节点
                 t.next = node;
                 return t;
             }
