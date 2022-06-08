@@ -23,9 +23,7 @@ public class CommonResultVO<T> {
         return new CommonResultVO<>(PaymentConstant.CODE_SUCCESS, PaymentConstant.MESSAGE_SUCCESS, null, serviceInfo);
     }
 
-    public static <E> CommonResultVO<E> successWithoutData(String serviceName,
-                                                           String servicePort,
-                                                           String serviceDescription) {
+    public static <E> CommonResultVO<E> successWithoutData(String serviceName, String servicePort, String serviceDescription) {
         ServiceInfo serviceInfo = new ServiceInfo(serviceName, servicePort, serviceDescription);
         return successWithoutData(serviceInfo);
     }
@@ -46,9 +44,7 @@ public class CommonResultVO<T> {
         return new CommonResultVO<>(PaymentConstant.CODE_FAILED, PaymentConstant.MESSAGE_FAILED, null, serviceInfo);
     }
 
-    public static <E> CommonResultVO<E> failedWithoutData(String serviceName,
-                                                          String servicePort,
-                                                          String serviceDescription) {
+    public static <E> CommonResultVO<E> failedWithoutData(String serviceName, String servicePort, String serviceDescription) {
         ServiceInfo serviceInfo = new ServiceInfo(serviceName, servicePort, serviceDescription);
         return new CommonResultVO<>(PaymentConstant.CODE_FAILED, PaymentConstant.MESSAGE_FAILED, null, serviceInfo);
     }

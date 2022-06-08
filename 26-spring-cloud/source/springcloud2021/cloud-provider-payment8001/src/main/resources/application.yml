@@ -24,5 +24,5 @@ eureka:
     service-url:
       defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka
   instance:
-    instance-id: paymwent8001
+    instance-id: payment8001
     prefer-ip-address: true
