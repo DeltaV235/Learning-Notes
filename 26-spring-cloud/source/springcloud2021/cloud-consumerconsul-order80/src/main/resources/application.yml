@@ -1,0 +1,10 @@
+server:
+  port: 80
+
+spring:
+  application:
+    name: cloud-consumerconsul-order80
+  cloud:
+    consul:
+      discovery:
+        service-name: ${spring.application.name}
