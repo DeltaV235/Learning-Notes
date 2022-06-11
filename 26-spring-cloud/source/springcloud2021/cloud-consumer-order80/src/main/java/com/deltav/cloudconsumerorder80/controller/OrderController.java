@@ -3,6 +3,7 @@ package com.deltav.cloudconsumerorder80.controller;
 import com.deltav.springcloud.entities.Payment;
 import com.deltav.springcloud.vo.CommonResultVO;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -26,6 +27,14 @@ public class OrderController {
     @SuppressWarnings("unchecked")
     public CommonResultVO<Payment> getPayment(@PathVariable String id) {
         return restTemplate.getForObject(PAYMENT_URL + "/payment/" + id, CommonResultVO.class);
+    }
+
+    @GetMapping("/payment/entity/{id}")
+    public CommonResultVO<Payment> getPaymentEntity(@PathVariable String id) {
+        ResponseEntity<CommonResultVO> entity = restTemplate.getForEntity(PAYMENT_URL + "/payment/" + id, CommonResultVO.class);
+        log.info(entity.getHeaders().toString());
+        log.info(String.valueOf(entity.getStatusCodeValue()));
+        return entity.getBody();
     }
 
     @PostMapping("/payment")
