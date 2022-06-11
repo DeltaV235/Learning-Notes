@@ -1,13 +1,18 @@
 package com.deltav.cloudconsumerorder80.controller;
 
+import com.deltav.cloudconsumerorder80.balancer.CustomLoadBalancer;
 import com.deltav.springcloud.entities.Payment;
 import com.deltav.springcloud.vo.CommonResultVO;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
+import java.net.URI;
+import java.util.List;
 
 /**
  * @author DeltaV235
@@ -22,6 +27,12 @@ public class OrderController {
 
     @Resource
     private RestTemplate restTemplate;
+
+    @Resource
+    private CustomLoadBalancer customLoadBalancer;
+
+    @Resource
+    private DiscoveryClient discoveryClient;
 
     @GetMapping("/payment/{id}")
     @SuppressWarnings("unchecked")
@@ -41,5 +52,14 @@ public class OrderController {
     @SuppressWarnings("unchecked")
     public CommonResultVO<Payment> addPayment(@RequestBody Payment payment) {
         return restTemplate.postForObject(PAYMENT_URL + "/payment", payment, CommonResultVO.class);
+    }
+
+    @GetMapping("/payment/customLB/{id}")
+    @SuppressWarnings("unchecked")
+    public CommonResultVO<Payment> getPaymentCustomLb(@PathVariable String id) {
+        List<ServiceInstance> instances = discoveryClient.getInstances("CLOUD-PAYMENT-SERVICE");
+        ServiceInstance nextServiceInstance = customLoadBalancer.getServiceInstance(instances);
+        URI uri = nextServiceInstance.getUri();
+        return restTemplate.getForObject(uri + "/payment/" + id, CommonResultVO.class);
     }
 }
