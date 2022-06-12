@@ -30,4 +30,9 @@ public class OrderController {
     public CommonResultVO<Payment> getPayment(@PathVariable String id) {
         return paymentFeignService.getPaymentById(Long.valueOf(id));
     }
+
+    @GetMapping("/payment/feign/timeout")
+    public String paymentTimeout() {
+        return paymentFeignService.paymentTimeout();
+    }
 }
