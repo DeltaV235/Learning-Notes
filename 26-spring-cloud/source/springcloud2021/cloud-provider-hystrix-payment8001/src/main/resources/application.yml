@@ -1,0 +1,10 @@
+server:
+  port: 8001
+
+spring:
+  cloud:
+    consul:
+      discovery:
+        service-name: ${spring.application.name}
+  application:
+    name: provider-hystrix-payment
