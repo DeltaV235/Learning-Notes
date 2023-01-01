@@ -51,3 +51,6 @@ hs_err_pid*
 
 # ignore audition question and answer documentation
 32-audition-gitignore/
+
+# Apple Desktop Services Store
+.DS_Store
