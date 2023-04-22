@@ -1,0 +1,227 @@
+{
+  "main": {
+    "id": "3f52c4b22cd6c5dc",
+    "type": "split",
+    "children": [
+      {
+        "id": "475561ba070d4635",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "f8f8a7e9354fd881",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Java/Web/Web-Container/Tomcat & Jetty.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "dc5f4cce91b75f41",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "IDE-Guide/JetBrains/IDEA/代码跳转.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "420aa3a43bdedc4d",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "IDE-Guide/JetBrains/IDEA/书签.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "6e0f6e9d48798466",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "IDE-Guide/JetBrains/IDEA/书签.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "a8cf439385c09d71",
+            "type": "leaf",
+            "state": {
+              "type": "image",
+              "state": {
+                "file": "attachments/Pasted image 20230304204203.png"
+              }
+            }
+          },
+          {
+            "id": "8e284187740ce6ed",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Network/DHCP.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ],
+        "currentTab": 5
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "1cd6853b84c479b5",
+    "type": "split",
+    "children": [
+      {
+        "id": "6a5aa2a4187f331b",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "e8b04d0e5f55f45a",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "de7b4af737834394",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "59804e02fe3fe0ce",
+            "type": "leaf",
+            "state": {
+              "type": "starred",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "3170bf37929978fd",
+    "type": "split",
+    "children": [
+      {
+        "id": "29dd8be0752e3d8b",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "7fb8be2645789549",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Network/DHCP.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "e473e8e9005474f0",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Network/DHCP.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "5768f77f80b08f45",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "a58f2acf49555f4e",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Network/DHCP.md"
+              }
+            }
+          }
+        ],
+        "currentTab": 3
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "canvas:新建白板": false,
+      "switcher:打开快速切换": false,
+      "graph:查看关系图谱": false,
+      "daily-notes:打开/创建今天的日记": false,
+      "templates:插入模板": false,
+      "command-palette:打开命令面板": false
+    }
+  },
+  "active": "e8b04d0e5f55f45a",
+  "lastOpenFiles": [
+    "attachments/Pasted image 20230304204203.png",
+    "Network/DHCP.md",
+    "Network",
+    "attachments/IDEA-shortcut-com-opt-b.gif",
+    "attachments/IDEA-shortcut-com-b.gif",
+    "attachments/bookmarks-create.gif",
+    "Java/Web/Web-Container/Tomcat & Jetty.md",
+    "IDE-Guide/JetBrains/IDEA/代码跳转.md",
+    "IDE-Guide/JetBrains/IDEA/时序图.md",
+    "IDE-Guide/JetBrains/IDEA/书签.md",
+    "IDEA-shortcut-com-b.gif",
+    "IDE-Guide/JetBrains/IDEA/未命名.canvas",
+    "Java/Web/Web-Container/attachments/img-1.png",
+    "Java/Web/Web-Container/img-2.png",
+    "img-1.png",
+    "img-2.png"
+  ]
+}
