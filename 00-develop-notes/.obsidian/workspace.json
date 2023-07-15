@@ -205,8 +205,13 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "e8b04d0e5f55f45a",
+  "active": "8e284187740ce6ed",
   "lastOpenFiles": [
+    "attachments/Pasted image 20230422152658.png",
+    "attachments/Pasted image 20230422152603.png",
+    "attachments/Pasted image 20230422132745.png",
+    "attachments/Pasted image 20230422131244.png",
+    "attachments/Pasted image 20230422124747.png",
     "attachments/Pasted image 20230304204203.png",
     "Network/DHCP.md",
     "Network",
@@ -219,9 +224,6 @@
     "IDE-Guide/JetBrains/IDEA/书签.md",
     "IDEA-shortcut-com-b.gif",
     "IDE-Guide/JetBrains/IDEA/未命名.canvas",
-    "Java/Web/Web-Container/attachments/img-1.png",
-    "Java/Web/Web-Container/img-2.png",
-    "img-1.png",
-    "img-2.png"
+    "Java/Web/Web-Container/attachments/img-1.png"
   ]
 }
