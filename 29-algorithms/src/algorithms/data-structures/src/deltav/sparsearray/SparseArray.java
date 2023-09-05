@@ -64,57 +64,21 @@ public class SparseArray {
     }
 
     private static void writeArrayToFile(int[][] array, String path) {
-        OutputStream fileOutputStream = null;
-        ObjectOutputStream objectOutputStream = null;
-        try {
-            fileOutputStream = new FileOutputStream(path);
-            objectOutputStream = new ObjectOutputStream(fileOutputStream);
+        try (OutputStream fileOutputStream = new FileOutputStream(path);
+             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);) {
             objectOutputStream.writeObject(array);
             System.out.printf("%s saved successful\n", path);
         } catch (IOException e) {
             throw new RuntimeException(e);
-        } finally {
-            if (null != objectOutputStream) {
-                try {
-                    objectOutputStream.close();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            if (null != fileOutputStream) {
-                try {
-                    fileOutputStream.close();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
         }
     }
 
     private static int[][] readArrayFromFile(String path) {
-        InputStream fileInputStream = null;
-        ObjectInputStream objectInputStream = null;
-        try {
-            fileInputStream = new FileInputStream(path);
-            objectInputStream = new ObjectInputStream(fileInputStream);
+        try (InputStream fileInputStream = new FileInputStream(path);
+             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);) {
             return (int[][]) objectInputStream.readObject();
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
-        } finally {
-            if (null != fileInputStream) {
-                try {
-                    fileInputStream.close();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            if (null != objectInputStream) {
-                try {
-                    objectInputStream.close();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
         }
     }
 
