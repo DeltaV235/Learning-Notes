@@ -13,7 +13,7 @@ import java.util.Scanner;
  * 由于无法通过索引来区分队列的满和空，故引入 queueSize 变量用于记录队列的大小
  * rear + 1 = front 的情况下，可能时队列空，也可能时队列满
  */
-public class CircleArrayQueueDemoEnhance2 {
+public class CircularArrayQueueDemoEnhance2 {
     public static void main(String[] args) {
         CircularArrayQueueEnhance2 queue = new CircularArrayQueueEnhance2(4);
         boolean loop = true;

@@ -8,7 +8,7 @@ import java.util.Scanner;
  * front: 第一个元素的索引，默认值为 0
  * rear: 最后一个元素的后一个索引，默认值为 0
  */
-public class CircleArrayQueueDemoEnhance {
+public class CircularArrayQueueDemoEnhance {
     public static void main(String[] args) {
         CircularArrayQueueEnhance queue = new CircularArrayQueueEnhance(4);
         boolean loop = true;
