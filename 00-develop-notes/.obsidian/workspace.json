@@ -13,9 +13,19 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Java/Web/Web-Container/Tomcat & Jetty.md",
+                "file": "03-Middleware/Redis.md",
                 "mode": "source",
                 "source": false
+              }
+            }
+          },
+          {
+            "id": "dcf2f840186bf315",
+            "type": "leaf",
+            "state": {
+              "type": "release-notes",
+              "state": {
+                "currentVersion": "1.5.8"
               }
             }
           },
@@ -25,7 +35,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "IDE-Guide/JetBrains/IDEA/代码跳转.md",
+                "file": "01-IDE-Guide/JetBrains/IDEA/代码跳转.md",
                 "mode": "source",
                 "source": false
               }
@@ -35,24 +45,8 @@
             "id": "420aa3a43bdedc4d",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "IDE-Guide/JetBrains/IDEA/书签.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "6e0f6e9d48798466",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "IDE-Guide/JetBrains/IDEA/书签.md",
-                "mode": "source",
-                "source": false
-              }
+              "type": "graph",
+              "state": {}
             }
           },
           {
@@ -61,7 +55,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Network/VLAN.md",
+                "file": "04-Network/DHCP.md",
                 "mode": "source",
                 "source": false
               }
@@ -142,7 +136,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Network/VLAN.md",
+                "file": "04-Network/DHCP.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -159,7 +153,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Network/VLAN.md",
+                "file": "04-Network/DHCP.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -182,7 +176,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Network/VLAN.md"
+                "file": "04-Network/DHCP.md"
               }
             }
           }
@@ -205,20 +199,35 @@
   },
   "active": "b2ba460cf1086fd5",
   "lastOpenFiles": [
-    "IDE-Guide/JetBrains/IDEA/书签.md",
-    "Network/VLAN.md",
-    "未命名.canvas",
-    "Java/Web/Web-Container/Tomcat & Jetty.md",
+    "04-Network/VLAN.md",
+    "04-Network/DHCP.md",
+    "03-Middleware/Redis.md",
+    "01-IDE-Guide/JetBrains/IDEA/代码跳转.md",
     "Network/DHCP.md",
+    "IDE-Guide/JetBrains/IDEA/书签.md",
     "IDE-Guide/JetBrains/IDEA/代码跳转.md",
     "IDE-Guide/JetBrains/IDEA/时序图.md",
+    "02-Java/Web/Web-Container/Tomcat & Jetty.md",
+    "Network",
+    "Java/Web/Web-Container/Tomcat & Jetty.md",
+    "Java/Web/Web-Container",
+    "Java/Web",
+    "Java",
+    "IDE-Guide/JetBrains/IDEA",
+    "IDE-Guide/JetBrains",
+    "IDE-Guide",
+    "未命名",
+    "03-Middleware",
+    "未命名.canvas",
+    "01-IDE-Guide/JetBrains/IDEA/书签.md",
+    "01-IDE-Guide/JetBrains/IDEA/时序图.md",
     "attachments/Pasted image 20230422152658.png",
     "attachments/Pasted image 20230422152603.png",
     "attachments/Pasted image 20230422132745.png",
     "attachments/Pasted image 20230422131244.png",
     "attachments/Pasted image 20230422124747.png",
     "attachments/Pasted image 20230304204203.png",
-    "Network",
+    "04-Network",
     "attachments/IDEA-shortcut-com-opt-b.gif",
     "attachments/IDEA-shortcut-com-b.gif",
     "attachments/bookmarks-create.gif",
