@@ -55,7 +55,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "04-Network/DHCP.md",
+                "file": "05-Architecture/SOA.md",
                 "mode": "source",
                 "source": false
               }
@@ -136,7 +136,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "04-Network/DHCP.md",
+                "file": "05-Architecture/SOA.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -153,7 +153,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "04-Network/DHCP.md",
+                "file": "05-Architecture/SOA.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -176,7 +176,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "04-Network/DHCP.md"
+                "file": "05-Architecture/SOA.md"
               }
             }
           }
@@ -199,10 +199,12 @@
   },
   "active": "b2ba460cf1086fd5",
   "lastOpenFiles": [
+    "01-IDE-Guide/JetBrains/IDEA/代码跳转.md",
+    "05-Architecture/SOA.md",
     "04-Network/VLAN.md",
+    "05-Architecture",
     "04-Network/DHCP.md",
     "03-Middleware/Redis.md",
-    "01-IDE-Guide/JetBrains/IDEA/代码跳转.md",
     "Network/DHCP.md",
     "IDE-Guide/JetBrains/IDEA/书签.md",
     "IDE-Guide/JetBrains/IDEA/代码跳转.md",
@@ -216,7 +218,6 @@
     "IDE-Guide/JetBrains/IDEA",
     "IDE-Guide/JetBrains",
     "IDE-Guide",
-    "未命名",
     "03-Middleware",
     "未命名.canvas",
     "01-IDE-Guide/JetBrains/IDEA/书签.md",
