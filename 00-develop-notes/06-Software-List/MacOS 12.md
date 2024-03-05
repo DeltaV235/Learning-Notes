@@ -1,0 +1,52 @@
+# Desktop
+- Homebrew
+	- mos
+	- stats
+- ClashX
+- Google Chrome
+- JetBrains ToolBox
+	- IntelliJ IDEA Ultimate
+- iTerm
+- WPS Office
+- OS Tool
+	- Bartender
+	- AlDente
+	- Karabiner
+	- Mos(installed by Homebrew)
+	- Stats(installed by Homebrew)
+- Obsidian
+- Telegram
+- VS Code
+- 专注清单(App Store)
+- draw.io
+- WeChat(Optional)
+- WeChat For Enterprise(Optional)
+- Tencent Meeting(Optional)
+- Logitech G Hub(Optional)
+- SpeedTest(Optional)
+
+# CLI
+- Homebrew
+	- autojump
+	- ffmpeg
+	- smartmontools
+	- starship
+- Oh-My-Zsh
+	- git
+	- zsh-autosuggestions
+	- zsh-syntax-highlighting
+	- autojump
+	- vi-mode 
+- Vim/Neovim
+	- mhinz/vim-startify               " provides a start screen for Vim and Neovim
+	- scrooloose/nerdtree            " a file system explorer for the Vim editor
+	- vim-airline/vim-airline          " change the default airline
+	- yggdroot/indentline            " show indent line
+	- tpope/vim-surround               " provides mappings to easily delete, change and add such surroundings in pairs
+	- easymotion/vim-easymotion        " a much simpler way to use some motions in vim
+	- tpope/vim-commentary             " comment code
+	- airblade/vim-gitgutter           " shows which lines have been added, modified, or removed
+ 
+	- morhetz/gruvbox'
+	- dracula/vim
+- Git

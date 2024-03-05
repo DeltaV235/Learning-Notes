@@ -55,7 +55,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "05-Architecture/SOA.md",
+                "file": "06-Software-List/MacOS 12.md",
                 "mode": "source",
                 "source": false
               }
@@ -136,7 +136,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "05-Architecture/SOA.md",
+                "file": "06-Software-List/MacOS 12.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -153,7 +153,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "05-Architecture/SOA.md",
+                "file": "06-Software-List/MacOS 12.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -176,7 +176,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "05-Architecture/SOA.md"
+                "file": "06-Software-List/MacOS 12.md"
               }
             }
           }
@@ -199,8 +199,10 @@
   },
   "active": "b2ba460cf1086fd5",
   "lastOpenFiles": [
-    "01-IDE-Guide/JetBrains/IDEA/代码跳转.md",
     "05-Architecture/SOA.md",
+    "06-Software-List/MacOS 12.md",
+    "06-Software-List",
+    "01-IDE-Guide/JetBrains/IDEA/代码跳转.md",
     "04-Network/VLAN.md",
     "05-Architecture",
     "04-Network/DHCP.md",
@@ -228,7 +230,6 @@
     "attachments/Pasted image 20230422131244.png",
     "attachments/Pasted image 20230422124747.png",
     "attachments/Pasted image 20230304204203.png",
-    "04-Network",
     "attachments/IDEA-shortcut-com-opt-b.gif",
     "attachments/IDEA-shortcut-com-b.gif",
     "attachments/bookmarks-create.gif",
