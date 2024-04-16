@@ -45,24 +45,28 @@
             "id": "420aa3a43bdedc4d",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {}
+              "type": "markdown",
+              "state": {
+                "file": "06-Software-List/MacOS-12.md",
+                "mode": "source",
+                "source": false
+              }
             }
           },
           {
-            "id": "b2ba460cf1086fd5",
+            "id": "65e990fdf42683e0",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "06-Software-List/MacOS 12.md",
+                "file": "06-Software-List/MacOS-12.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
         ],
-        "currentTab": 4
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -136,7 +140,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "06-Software-List/MacOS 12.md",
+                "file": "06-Software-List/MacOS-12.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -153,7 +157,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "06-Software-List/MacOS 12.md",
+                "file": "06-Software-List/MacOS-12.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -176,7 +180,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "06-Software-List/MacOS 12.md"
+                "file": "06-Software-List/MacOS-12.md"
               }
             }
           }
@@ -197,10 +201,10 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "b2ba460cf1086fd5",
+  "active": "420aa3a43bdedc4d",
   "lastOpenFiles": [
+    "06-Software-List/MacOS-12.md",
     "05-Architecture/SOA.md",
-    "06-Software-List/MacOS 12.md",
     "06-Software-List",
     "01-IDE-Guide/JetBrains/IDEA/代码跳转.md",
     "04-Network/VLAN.md",

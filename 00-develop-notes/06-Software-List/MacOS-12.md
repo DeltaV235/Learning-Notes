@@ -31,6 +31,8 @@
 	- ffmpeg
 	- smartmontools
 	- starship
+	- tree
+	- neofetch
 - Oh-My-Zsh
 	- git
 	- zsh-autosuggestions
