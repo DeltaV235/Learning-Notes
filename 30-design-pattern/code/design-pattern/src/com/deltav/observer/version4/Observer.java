@@ -1,4 +1,4 @@
-package com.deltav.observer;
+package com.deltav.observer.version4;
 
 public abstract class Observer<T extends Subject> {
     protected T subject;

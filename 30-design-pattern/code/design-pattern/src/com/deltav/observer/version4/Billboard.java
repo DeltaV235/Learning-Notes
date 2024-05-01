@@ -1,4 +1,4 @@
-package com.deltav.observer;
+package com.deltav.observer.version4;
 
 public class Billboard extends Observer<Stock> {
 

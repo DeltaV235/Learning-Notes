@@ -1,4 +1,4 @@
-package com.deltav.observer;
+package com.deltav.observer.version3;
 
 public class Stock extends Subject {
     private int price;
