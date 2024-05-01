@@ -1,6 +1,7 @@
 package com.deltav.observer;
 
-public class Monitor extends StockObserver {
+public class Monitor extends Observer<Stock> {
+
     public Monitor(Stock stock) {
         super(stock);
     }
@@ -10,6 +11,6 @@ public class Monitor extends StockObserver {
     }
 
     public void update() {
-        display(super.stock.getPrice());
+        display(super.subject.getPrice());
     }
 }

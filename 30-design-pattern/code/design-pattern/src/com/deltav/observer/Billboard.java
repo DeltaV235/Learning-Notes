@@ -1,6 +1,6 @@
 package com.deltav.observer;
 
-public class Billboard extends StockObserver {
+public class Billboard extends Observer<Stock> {
 
     public Billboard(Stock stock) {
         super(stock);
@@ -10,8 +10,7 @@ public class Billboard extends StockObserver {
         System.out.println("Billboard: The price is: " + price);
     }
 
-
     public void update() {
-        display(super.stock.getPrice());
+        display(super.subject.getPrice());
     }
 }
