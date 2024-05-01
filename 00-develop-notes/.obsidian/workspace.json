@@ -33,23 +33,9 @@
             "id": "dc5f4cce91b75f41",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "image",
               "state": {
-                "file": "01-IDE-Guide/JetBrains/IDEA/代码跳转.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "420aa3a43bdedc4d",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "06-Software-List/MacOS-12.md",
-                "mode": "source",
-                "source": false
+                "file": "attachments/Pasted image 20230304204203.png"
               }
             }
           },
@@ -66,7 +52,7 @@
             }
           }
         ],
-        "currentTab": 3
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -140,7 +126,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "06-Software-List/MacOS-12.md",
+                "file": "attachments/Pasted image 20230304204203.png",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -157,7 +143,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "06-Software-List/MacOS-12.md",
+                "file": "attachments/Pasted image 20230304204203.png",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -180,7 +166,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "06-Software-List/MacOS-12.md"
+                "file": "attachments/Pasted image 20230304204203.png"
               }
             }
           }
@@ -201,12 +187,24 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "420aa3a43bdedc4d",
+  "active": "dc5f4cce91b75f41",
   "lastOpenFiles": [
+    "attachments/Pasted image 20230422124747.png",
+    "attachments/Pasted image 20230422131244.png",
+    "attachments/Pasted image 20230422132745.png",
+    "attachments/Pasted image 20230422152603.png",
+    "attachments/Pasted image 20230422152658.png",
+    "01-IDE-Guide/JetBrains/IDEA/代码跳转.md",
+    "attachments/Pasted image 20240501212501.png",
+    "attachments/Pasted image 20240501212443.png",
+    "attachments/Pasted image 20240501212554.png",
+    "02-Java/Design-Pattern/Observer Pattern.md",
+    "attachments/Pasted image 20230304204203.png",
+    "attachments/Pasted image 20240501212415.png",
     "06-Software-List/MacOS-12.md",
+    "02-Java/Design-Pattern",
     "05-Architecture/SOA.md",
     "06-Software-List",
-    "01-IDE-Guide/JetBrains/IDEA/代码跳转.md",
     "04-Network/VLAN.md",
     "05-Architecture",
     "04-Network/DHCP.md",
@@ -224,20 +222,9 @@
     "IDE-Guide/JetBrains/IDEA",
     "IDE-Guide/JetBrains",
     "IDE-Guide",
-    "03-Middleware",
     "未命名.canvas",
     "01-IDE-Guide/JetBrains/IDEA/书签.md",
     "01-IDE-Guide/JetBrains/IDEA/时序图.md",
-    "attachments/Pasted image 20230422152658.png",
-    "attachments/Pasted image 20230422152603.png",
-    "attachments/Pasted image 20230422132745.png",
-    "attachments/Pasted image 20230422131244.png",
-    "attachments/Pasted image 20230422124747.png",
-    "attachments/Pasted image 20230304204203.png",
-    "attachments/IDEA-shortcut-com-opt-b.gif",
-    "attachments/IDEA-shortcut-com-b.gif",
-    "attachments/bookmarks-create.gif",
-    "IDEA-shortcut-com-b.gif",
     "IDE-Guide/JetBrains/IDEA/未命名.canvas"
   ]
 }
