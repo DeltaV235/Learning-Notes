@@ -33,9 +33,11 @@
             "id": "dc5f4cce91b75f41",
             "type": "leaf",
             "state": {
-              "type": "image",
+              "type": "markdown",
               "state": {
-                "file": "attachments/Pasted image 20230304204203.png"
+                "file": "02-Java/Design-Pattern/Observer Pattern.md",
+                "mode": "preview",
+                "source": false
               }
             }
           },
@@ -126,7 +128,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "attachments/Pasted image 20230304204203.png",
+                "file": "02-Java/Design-Pattern/Observer Pattern.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -143,7 +145,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "attachments/Pasted image 20230304204203.png",
+                "file": "02-Java/Design-Pattern/Observer Pattern.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -166,7 +168,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "attachments/Pasted image 20230304204203.png"
+                "file": "02-Java/Design-Pattern/Observer Pattern.md"
               }
             }
           }
@@ -189,6 +191,7 @@
   },
   "active": "dc5f4cce91b75f41",
   "lastOpenFiles": [
+    "attachments/Pasted image 20230304204203.png",
     "attachments/Pasted image 20230422124747.png",
     "attachments/Pasted image 20230422131244.png",
     "attachments/Pasted image 20230422132745.png",
@@ -199,7 +202,6 @@
     "attachments/Pasted image 20240501212443.png",
     "attachments/Pasted image 20240501212554.png",
     "02-Java/Design-Pattern/Observer Pattern.md",
-    "attachments/Pasted image 20230304204203.png",
     "attachments/Pasted image 20240501212415.png",
     "06-Software-List/MacOS-12.md",
     "02-Java/Design-Pattern",
