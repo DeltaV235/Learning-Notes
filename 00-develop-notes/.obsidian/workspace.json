@@ -23,20 +23,10 @@
             "id": "dcf2f840186bf315",
             "type": "leaf",
             "state": {
-              "type": "release-notes",
-              "state": {
-                "currentVersion": "1.5.8"
-              }
-            }
-          },
-          {
-            "id": "dc5f4cce91b75f41",
-            "type": "leaf",
-            "state": {
               "type": "markdown",
               "state": {
-                "file": "02-Java/Design-Pattern/Observer Pattern.md",
-                "mode": "preview",
+                "file": "02-Java/Design-Pattern/Strategy Pattern.md",
+                "mode": "source",
                 "source": false
               }
             }
@@ -54,7 +44,7 @@
             }
           }
         ],
-        "currentTab": 2
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -83,7 +73,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "tag:#IDEA",
+                "query": "tag:#DesignPattern",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -128,7 +118,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "02-Java/Design-Pattern/Observer Pattern.md",
+                "file": "02-Java/Design-Pattern/Strategy Pattern.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -145,7 +135,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "02-Java/Design-Pattern/Observer Pattern.md",
+                "file": "02-Java/Design-Pattern/Strategy Pattern.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -168,7 +158,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "02-Java/Design-Pattern/Observer Pattern.md"
+                "file": "02-Java/Design-Pattern/Strategy Pattern.md"
               }
             }
           }
@@ -189,8 +179,11 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "dc5f4cce91b75f41",
+  "active": "dcf2f840186bf315",
   "lastOpenFiles": [
+    "02-Java/Design-Pattern/Observer Pattern.md",
+    "未命名.canvas",
+    "02-Java/Design-Pattern/Strategy Pattern.md",
     "attachments/Pasted image 20230304204203.png",
     "attachments/Pasted image 20230422124747.png",
     "attachments/Pasted image 20230422131244.png",
@@ -201,7 +194,6 @@
     "attachments/Pasted image 20240501212501.png",
     "attachments/Pasted image 20240501212443.png",
     "attachments/Pasted image 20240501212554.png",
-    "02-Java/Design-Pattern/Observer Pattern.md",
     "attachments/Pasted image 20240501212415.png",
     "06-Software-List/MacOS-12.md",
     "02-Java/Design-Pattern",
@@ -224,7 +216,6 @@
     "IDE-Guide/JetBrains/IDEA",
     "IDE-Guide/JetBrains",
     "IDE-Guide",
-    "未命名.canvas",
     "01-IDE-Guide/JetBrains/IDEA/书签.md",
     "01-IDE-Guide/JetBrains/IDEA/时序图.md",
     "IDE-Guide/JetBrains/IDEA/未命名.canvas"

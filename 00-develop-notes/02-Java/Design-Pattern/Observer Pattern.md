@@ -1,5 +1,7 @@
 # Observer Pattern
 
+#DesignPattern  #Java
+
 ## Class Diagram
 
 ```mermaid
