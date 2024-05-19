@@ -7,5 +7,6 @@
   "trashOption": "local",
   "strictLineBreaks": true,
   "alwaysUpdateLinks": true,
-  "useTab": false
+  "useTab": false,
+  "defaultViewMode": "preview"
 }
