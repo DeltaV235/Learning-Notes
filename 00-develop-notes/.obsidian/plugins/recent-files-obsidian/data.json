@@ -1,6 +1,10 @@
 {
   "recentFiles": [
     {
+      "basename": "Template Pattern",
+      "path": "02-Java/Design-Pattern/Template Pattern.md"
+    },
+    {
       "basename": "Obsidian Tutorial",
       "path": "Obsidian Tutorial.md"
     },
@@ -15,10 +19,6 @@
     {
       "basename": "时序图",
       "path": "01-IDE-Guide/JetBrains/IDEA/时序图.md"
-    },
-    {
-      "basename": "Template Pattern",
-      "path": "02-Java/Design-Pattern/Template Pattern.md"
     }
   ],
   "omittedPaths": [],

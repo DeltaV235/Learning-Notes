@@ -37,7 +37,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Obsidian Tutorial.md",
+                "file": "02-Java/Design-Pattern/Template Pattern.md",
                 "mode": "source",
                 "source": true
               }
@@ -126,7 +126,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Obsidian Tutorial.md",
+                "file": "02-Java/Design-Pattern/Template Pattern.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -143,7 +143,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Obsidian Tutorial.md",
+                "file": "02-Java/Design-Pattern/Template Pattern.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -166,7 +166,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Obsidian Tutorial.md"
+                "file": "02-Java/Design-Pattern/Template Pattern.md"
               }
             }
           }
@@ -188,8 +188,8 @@
   },
   "active": "d1740e9565134b8d",
   "lastOpenFiles": [
-    "Obsidian-Related/Template/Default.md",
     "Obsidian Tutorial.md",
+    "Obsidian-Related/Template/Default.md",
     "06-Software-List/MacOS-12.md",
     "01-IDE-Guide/JetBrains/IDEA/时序图.md",
     "02-Java/Design-Pattern/Template Pattern.md",
