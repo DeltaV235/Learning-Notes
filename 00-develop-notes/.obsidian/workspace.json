@@ -13,8 +13,8 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Obsidian-Related/Link-Demo2.md",
-                "mode": "source",
+                "file": "Obsidian Tutorial.md",
+                "mode": "preview",
                 "source": true
               }
             }
@@ -60,7 +60,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "[\"tags\"]",
+                "query": "tag: #Java  ",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -84,8 +84,17 @@
               "type": "bookmarks",
               "state": {}
             }
+          },
+          {
+            "id": "a4bb76cb45a512b9",
+            "type": "leaf",
+            "state": {
+              "type": "recent-files",
+              "state": {}
+            }
           }
-        ]
+        ],
+        "currentTab": 4
       }
     ],
     "direction": "horizontal",
@@ -105,7 +114,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Obsidian-Related/Link-Demo2.md",
+                "file": "Obsidian Tutorial.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -122,7 +131,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Obsidian-Related/Link-Demo2.md",
+                "file": "Obsidian Tutorial.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -145,11 +154,12 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Obsidian-Related/Link-Demo2.md"
+                "file": "Obsidian Tutorial.md"
               }
             }
           }
-        ]
+        ],
+        "currentTab": 3
       }
     ],
     "direction": "horizontal",
@@ -166,12 +176,13 @@
   },
   "active": "dcf2f840186bf315",
   "lastOpenFiles": [
-    "Obsidian-Related/Link-Demo1.md",
-    "Obsidian-Related/Template/Default.md",
-    "Untitled.md",
-    "Obsidian-Related/Link-Demo2.md",
-    "Obsidian-Related/Template",
+    "01-IDE-Guide/JetBrains/IDEA/时序图.md",
+    "Obsidian Tutorial.md",
     "02-Java/Design-Pattern/Template Pattern.md",
+    "Obsidian-Related/Template/Default.md",
+    "Obsidian-Related/Link-Demo2.md",
+    "Obsidian-Related/Link-Demo1.md",
+    "Obsidian-Related/Template",
     "Obsidian-Related",
     "2024-05-12.md",
     "attachments/Pasted image 20230422124747.png",
@@ -208,7 +219,6 @@
     "Java",
     "IDE-Guide/JetBrains/IDEA",
     "01-IDE-Guide/JetBrains/IDEA/书签.md",
-    "01-IDE-Guide/JetBrains/IDEA/时序图.md",
     "IDE-Guide/JetBrains/IDEA/未命名.canvas"
   ]
 }
