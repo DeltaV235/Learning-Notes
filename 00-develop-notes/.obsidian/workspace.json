@@ -8,26 +8,14 @@
         "type": "tabs",
         "children": [
           {
-            "id": "f8f8a7e9354fd881",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "03-Middleware/Redis.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
             "id": "dcf2f840186bf315",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "02-Java/Design-Pattern/Strategy Pattern.md",
+                "file": "Obsidian-Related/Link-Demo2.md",
                 "mode": "source",
-                "source": false
+                "source": true
               }
             }
           },
@@ -39,12 +27,11 @@
               "state": {
                 "file": "06-Software-List/MacOS-12.md",
                 "mode": "source",
-                "source": false
+                "source": true
               }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -73,7 +60,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "tag:#DesignPattern",
+                "query": "[\"tags\"]",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -118,7 +105,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "02-Java/Design-Pattern/Strategy Pattern.md",
+                "file": "Obsidian-Related/Link-Demo2.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -135,7 +122,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "02-Java/Design-Pattern/Strategy Pattern.md",
+                "file": "Obsidian-Related/Link-Demo2.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -158,12 +145,11 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "02-Java/Design-Pattern/Strategy Pattern.md"
+                "file": "Obsidian-Related/Link-Demo2.md"
               }
             }
           }
-        ],
-        "currentTab": 3
+        ]
       }
     ],
     "direction": "horizontal",
@@ -171,21 +157,31 @@
   },
   "left-ribbon": {
     "hiddenItems": {
-      "canvas:新建白板": false,
-      "switcher:打开快速切换": false,
-      "graph:查看关系图谱": false,
-      "daily-notes:打开/创建今天的日记": false,
-      "templates:插入模板": false,
-      "command-palette:打开命令面板": false
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
     }
   },
   "active": "dcf2f840186bf315",
   "lastOpenFiles": [
-    "02-Java/Design-Pattern/Observer Pattern.md",
-    "未命名.canvas",
-    "02-Java/Design-Pattern/Strategy Pattern.md",
-    "attachments/Pasted image 20230304204203.png",
+    "Obsidian-Related/Link-Demo1.md",
+    "Obsidian-Related/Template/Default.md",
+    "Untitled.md",
+    "Obsidian-Related/Link-Demo2.md",
+    "Obsidian-Related/Template",
+    "02-Java/Design-Pattern/Template Pattern.md",
+    "Obsidian-Related",
+    "2024-05-12.md",
     "attachments/Pasted image 20230422124747.png",
+    "04-Network/DHCP.md",
+    "04-Network/VLAN.md",
+    "03-Middleware/Redis.md",
+    "02-Java/Design-Pattern/Observer Pattern.md",
+    "02-Java/Design-Pattern/Strategy Pattern.md",
+    "未命名.canvas",
+    "attachments/Pasted image 20230304204203.png",
     "attachments/Pasted image 20230422131244.png",
     "attachments/Pasted image 20230422132745.png",
     "attachments/Pasted image 20230422152603.png",
@@ -199,10 +195,7 @@
     "02-Java/Design-Pattern",
     "05-Architecture/SOA.md",
     "06-Software-List",
-    "04-Network/VLAN.md",
     "05-Architecture",
-    "04-Network/DHCP.md",
-    "03-Middleware/Redis.md",
     "Network/DHCP.md",
     "IDE-Guide/JetBrains/IDEA/书签.md",
     "IDE-Guide/JetBrains/IDEA/代码跳转.md",
@@ -214,8 +207,6 @@
     "Java/Web",
     "Java",
     "IDE-Guide/JetBrains/IDEA",
-    "IDE-Guide/JetBrains",
-    "IDE-Guide",
     "01-IDE-Guide/JetBrains/IDEA/书签.md",
     "01-IDE-Guide/JetBrains/IDEA/时序图.md",
     "IDE-Guide/JetBrains/IDEA/未命名.canvas"
