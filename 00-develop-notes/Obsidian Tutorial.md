@@ -1,3 +1,11 @@
+---
+title: Obsidian Tutorial
+created: 2024-05-19
+tags:
+    - Tutorial
+    - Obsidian
+---
+
 # Obsidian Tutorial
 
 ## Shortcuts
@@ -29,3 +37,19 @@ embed OR search
 ### Reference
 
 [Obsidian Search Plugin Help Document](https://help.obsidian.md/Plugins/Search)
+
+## Plugins
+
+### Dataview
+
+#### Example
+
+```dataview
+table file.size/1024 + " KB" as file-size, file.ctime as "created time"
+from "Obsidian-Related"
+sort file.ctime desc
+```
+
+#### Reference
+
+[Dataview Reference Document](https://blacksmithgu.github.io/obsidian-dataview)

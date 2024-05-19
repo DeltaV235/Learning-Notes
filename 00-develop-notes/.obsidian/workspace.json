@@ -14,7 +14,7 @@
               "type": "markdown",
               "state": {
                 "file": "Obsidian Tutorial.md",
-                "mode": "preview",
+                "mode": "source",
                 "source": true
               }
             }
@@ -30,8 +30,21 @@
                 "source": true
               }
             }
+          },
+          {
+            "id": "d1740e9565134b8d",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Obsidian Tutorial.md",
+                "mode": "source",
+                "source": true
+              }
+            }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -93,8 +106,7 @@
               "state": {}
             }
           }
-        ],
-        "currentTab": 4
+        ]
       }
     ],
     "direction": "horizontal",
@@ -174,12 +186,13 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "dcf2f840186bf315",
+  "active": "d1740e9565134b8d",
   "lastOpenFiles": [
-    "01-IDE-Guide/JetBrains/IDEA/时序图.md",
-    "Obsidian Tutorial.md",
-    "02-Java/Design-Pattern/Template Pattern.md",
     "Obsidian-Related/Template/Default.md",
+    "Obsidian Tutorial.md",
+    "06-Software-List/MacOS-12.md",
+    "01-IDE-Guide/JetBrains/IDEA/时序图.md",
+    "02-Java/Design-Pattern/Template Pattern.md",
     "Obsidian-Related/Link-Demo2.md",
     "Obsidian-Related/Link-Demo1.md",
     "Obsidian-Related/Template",
@@ -202,7 +215,6 @@
     "attachments/Pasted image 20240501212443.png",
     "attachments/Pasted image 20240501212554.png",
     "attachments/Pasted image 20240501212415.png",
-    "06-Software-List/MacOS-12.md",
     "02-Java/Design-Pattern",
     "05-Architecture/SOA.md",
     "06-Software-List",

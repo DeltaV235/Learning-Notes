@@ -6,5 +6,6 @@
   "livePreview": false,
   "trashOption": "local",
   "strictLineBreaks": true,
-  "alwaysUpdateLinks": true
+  "alwaysUpdateLinks": true,
+  "useTab": false
 }
