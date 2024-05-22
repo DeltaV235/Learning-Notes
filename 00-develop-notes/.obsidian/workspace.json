@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Obsidian Tutorial.md",
+                "file": "Obsidian-Related/Obsidian Tutorial.md",
                 "mode": "source",
                 "source": true
               }
@@ -37,7 +37,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "02-Java/Design-Pattern/Template Pattern.md",
+                "file": "Obsidian-Related/Obsidian Tutorial.md",
                 "mode": "source",
                 "source": true
               }
@@ -126,7 +126,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "02-Java/Design-Pattern/Template Pattern.md",
+                "file": "Obsidian-Related/Obsidian Tutorial.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -143,7 +143,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "02-Java/Design-Pattern/Template Pattern.md",
+                "file": "Obsidian-Related/Obsidian Tutorial.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -166,7 +166,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "02-Java/Design-Pattern/Template Pattern.md"
+                "file": "Obsidian-Related/Obsidian Tutorial.md"
               }
             }
           }
@@ -186,13 +186,13 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "d1740e9565134b8d",
+  "active": "e8b04d0e5f55f45a",
   "lastOpenFiles": [
-    "Obsidian Tutorial.md",
+    "02-Java/Design-Pattern/Template Pattern.md",
+    "Obsidian-Related/Obsidian Tutorial.md",
     "Obsidian-Related/Template/Default.md",
     "06-Software-List/MacOS-12.md",
     "01-IDE-Guide/JetBrains/IDEA/时序图.md",
-    "02-Java/Design-Pattern/Template Pattern.md",
     "Obsidian-Related/Link-Demo2.md",
     "Obsidian-Related/Link-Demo1.md",
     "Obsidian-Related/Template",
