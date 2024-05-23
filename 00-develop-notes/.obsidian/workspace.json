@@ -25,7 +25,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "06-Software-List/MacOS-12.md",
+                "file": "Software-List/MacOS-12.md",
                 "mode": "source",
                 "source": true
               }
@@ -37,7 +37,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Obsidian-Related/Obsidian Tutorial.md",
+                "file": "06-Git/LF will be replaced by CRLF the next time Git touches it.md",
                 "mode": "source",
                 "source": true
               }
@@ -126,7 +126,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Obsidian-Related/Obsidian Tutorial.md",
+                "file": "06-Git/LF will be replaced by CRLF the next time Git touches it.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -143,7 +143,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Obsidian-Related/Obsidian Tutorial.md",
+                "file": "06-Git/LF will be replaced by CRLF the next time Git touches it.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -166,7 +166,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Obsidian-Related/Obsidian Tutorial.md"
+                "file": "06-Git/LF will be replaced by CRLF the next time Git touches it.md"
               }
             }
           }
@@ -189,9 +189,11 @@
   "active": "e8b04d0e5f55f45a",
   "lastOpenFiles": [
     "02-Java/Design-Pattern/Template Pattern.md",
+    "Software-List/MacOS-12.md",
     "Obsidian-Related/Obsidian Tutorial.md",
+    "06-Git/LF will be replaced by CRLF the next time Git touches it.md",
+    "06-Git",
     "Obsidian-Related/Template/Default.md",
-    "06-Software-List/MacOS-12.md",
     "01-IDE-Guide/JetBrains/IDEA/时序图.md",
     "Obsidian-Related/Link-Demo2.md",
     "Obsidian-Related/Link-Demo1.md",
@@ -217,7 +219,7 @@
     "attachments/Pasted image 20240501212415.png",
     "02-Java/Design-Pattern",
     "05-Architecture/SOA.md",
-    "06-Software-List",
+    "Software-List",
     "05-Architecture",
     "Network/DHCP.md",
     "IDE-Guide/JetBrains/IDEA/书签.md",
@@ -229,7 +231,6 @@
     "Java/Web/Web-Container",
     "Java/Web",
     "Java",
-    "IDE-Guide/JetBrains/IDEA",
     "01-IDE-Guide/JetBrains/IDEA/书签.md",
     "IDE-Guide/JetBrains/IDEA/未命名.canvas"
   ]
