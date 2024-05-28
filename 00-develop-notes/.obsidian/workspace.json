@@ -13,19 +13,19 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Obsidian-Related/Obsidian Tutorial.md",
+                "file": "02-Java/Design-Pattern/Template Pattern.md",
                 "mode": "source",
                 "source": true
               }
             }
           },
           {
-            "id": "65e990fdf42683e0",
+            "id": "639336f6e51f6875",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Software-List/MacOS-12.md",
+                "file": "Obsidian-Related/Obsidian Tutorial.md",
                 "mode": "source",
                 "source": true
               }
@@ -37,14 +37,14 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "06-Git/LF will be replaced by CRLF the next time Git touches it.md",
+                "file": "02-Java/Design-Pattern/Template Pattern.md",
                 "mode": "source",
                 "source": true
               }
             }
           }
         ],
-        "currentTab": 2
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -126,7 +126,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "06-Git/LF will be replaced by CRLF the next time Git touches it.md",
+                "file": "Obsidian-Related/Obsidian Tutorial.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -143,7 +143,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "06-Git/LF will be replaced by CRLF the next time Git touches it.md",
+                "file": "Obsidian-Related/Obsidian Tutorial.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -166,7 +166,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "06-Git/LF will be replaced by CRLF the next time Git touches it.md"
+                "file": "Obsidian-Related/Obsidian Tutorial.md"
               }
             }
           }
@@ -186,15 +186,20 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "e8b04d0e5f55f45a",
+  "active": "639336f6e51f6875",
   "lastOpenFiles": [
+    "02-Java/Core/Stream API.md",
+    "01-IDE-Guide/JetBrains/IDEA/时序图.md",
     "02-Java/Design-Pattern/Template Pattern.md",
-    "Software-List/MacOS-12.md",
+    "02-Java/Core",
+    "Obsidian-Related/Template/Default.md",
     "Obsidian-Related/Obsidian Tutorial.md",
+    "Software-List/MacOS-12.md",
+    "Software-List",
     "06-Git/LF will be replaced by CRLF the next time Git touches it.md",
     "06-Git",
-    "Obsidian-Related/Template/Default.md",
-    "01-IDE-Guide/JetBrains/IDEA/时序图.md",
+    "Obsidian Tutorial.md",
+    "06-Software-List/MacOS-12.md",
     "Obsidian-Related/Link-Demo2.md",
     "Obsidian-Related/Link-Demo1.md",
     "Obsidian-Related/Template",
@@ -219,7 +224,7 @@
     "attachments/Pasted image 20240501212415.png",
     "02-Java/Design-Pattern",
     "05-Architecture/SOA.md",
-    "Software-List",
+    "06-Software-List",
     "05-Architecture",
     "Network/DHCP.md",
     "IDE-Guide/JetBrains/IDEA/书签.md",
@@ -229,8 +234,6 @@
     "Network",
     "Java/Web/Web-Container/Tomcat & Jetty.md",
     "Java/Web/Web-Container",
-    "Java/Web",
-    "Java",
     "01-IDE-Guide/JetBrains/IDEA/书签.md",
     "IDE-Guide/JetBrains/IDEA/未命名.canvas"
   ]
