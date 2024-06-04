@@ -25,7 +25,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Obsidian-Related/Obsidian Tutorial.md",
+                "file": "Misc/Keyboard.md",
                 "mode": "source",
                 "source": true
               }
@@ -126,7 +126,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Obsidian-Related/Obsidian Tutorial.md",
+                "file": "Misc/Keyboard.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -143,7 +143,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Obsidian-Related/Obsidian Tutorial.md",
+                "file": "Misc/Keyboard.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -166,7 +166,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Obsidian-Related/Obsidian Tutorial.md"
+                "file": "Misc/Keyboard.md"
               }
             }
           }
@@ -188,12 +188,14 @@
   },
   "active": "639336f6e51f6875",
   "lastOpenFiles": [
-    "02-Java/Core/Stream API.md",
-    "01-IDE-Guide/JetBrains/IDEA/时序图.md",
     "02-Java/Design-Pattern/Template Pattern.md",
+    "Misc/Keyboard.md",
+    "02-Java/Core/Stream API.md",
+    "Misc",
+    "Obsidian-Related/Obsidian Tutorial.md",
+    "01-IDE-Guide/JetBrains/IDEA/时序图.md",
     "02-Java/Core",
     "Obsidian-Related/Template/Default.md",
-    "Obsidian-Related/Obsidian Tutorial.md",
     "Software-List/MacOS-12.md",
     "Software-List",
     "06-Git/LF will be replaced by CRLF the next time Git touches it.md",
@@ -233,8 +235,6 @@
     "02-Java/Web/Web-Container/Tomcat & Jetty.md",
     "Network",
     "Java/Web/Web-Container/Tomcat & Jetty.md",
-    "Java/Web/Web-Container",
-    "01-IDE-Guide/JetBrains/IDEA/书签.md",
     "IDE-Guide/JetBrains/IDEA/未命名.canvas"
   ]
 }

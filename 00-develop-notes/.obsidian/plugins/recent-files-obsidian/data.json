@@ -1,20 +1,24 @@
 {
   "recentFiles": [
     {
-      "basename": "Obsidian Tutorial",
-      "path": "Obsidian-Related/Obsidian Tutorial.md"
+      "basename": "Keyboard",
+      "path": "Misc/Keyboard.md"
+    },
+    {
+      "basename": "Template Pattern",
+      "path": "02-Java/Design-Pattern/Template Pattern.md"
     },
     {
       "basename": "Stream API",
       "path": "02-Java/Core/Stream API.md"
     },
     {
-      "basename": "时序图",
-      "path": "01-IDE-Guide/JetBrains/IDEA/时序图.md"
+      "basename": "Obsidian Tutorial",
+      "path": "Obsidian-Related/Obsidian Tutorial.md"
     },
     {
-      "basename": "Template Pattern",
-      "path": "02-Java/Design-Pattern/Template Pattern.md"
+      "basename": "时序图",
+      "path": "01-IDE-Guide/JetBrains/IDEA/时序图.md"
     },
     {
       "basename": "Default",
