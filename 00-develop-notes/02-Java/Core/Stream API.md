@@ -4,6 +4,7 @@ created: 2024-05-27
 tags:
     - Java
     - Stream
+    - Tutorial
 ---
 
 # Stream API
@@ -26,11 +27,11 @@ title: Stream API Flowchart
 flowchart LR
     subgraph Stream-Creation
         direction LR
-        List(List)
-        Array(Array)
-        File(File)
-        IO(IO)
-        Ellipsis1(...)
+        List
+        Array
+        File
+        IO
+        Ellipsis0[...]
     end
 
     subgraph Intermediate-Operations
@@ -38,16 +39,16 @@ flowchart LR
         Filter
         Map
         Sort
-        ...
+        Ellipsis1[...]
     end
 
     subgraph Terminal-Operations
         direction LR
-        Collect
-        Reduce
-        Count
-        Match
-        Ellipsis2(...)
+        Collect --> Result
+        Reduce --> Result
+        Count --> Result
+        Match --> Result
+        Ellipsis2[...] --> Result
 
         ForEach
     end
