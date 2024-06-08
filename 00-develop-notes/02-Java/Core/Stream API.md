@@ -55,3 +55,44 @@ flowchart LR
 
     Stream-Creation --> Stream1(Stream) --> Intermediate-Operations --> Stream2(Stream) --> Terminal-Operations
 ```
+
+## Stream Creation
+
+### 从集合创建 Stream
+
+任何实现了 Collection 接口的类都可以通过 `stream()` 方法创建 Stream。比如 List、Set、Queue 等。
+
+```java
+// 从 List 创建 Stream
+List<String> list = Arrays.asList("a", "b", "c");
+Stream<String> stream = list.stream();
+
+// 从 Set 创建 Stream
+Set<String> set = new HashSet<>(Arrays.asList("a", "b", "c"));
+Stream<String> stream = set.stream();
+
+// 从 Queue 创建 Stream
+Queue<String> queue = new LinkedList<>(Arrays.asList("a", "b", "c"));
+Stream<String> stream = queue.stream();
+
+// 从 Map 创建 Stream
+Map<String, String> map = new HashMap<>();
+Stream<String> keyStream = map.keySet().stream();
+Stream<String> valueStream = map.values().stream();
+
+// 从数组创建 Stream
+String[] array = new String[] {"a", "b", "c"};
+Stream<String> stream = Arrays.stream(array);
+
+// 从文件创建 Stream
+Stream<String> stream = Files.lines(Paths.get("file.txt"));
+
+// 从 IO 创建 Stream
+BufferedReader reader = new BufferedReader(new FileReader("file.txt"));
+Stream<String> stream = reader.lines();
+
+// 从 Stream 创建 Stream
+Stream<String> stream = Stream.of("a", "b", "c");
+```
+
+
