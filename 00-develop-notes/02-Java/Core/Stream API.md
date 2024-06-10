@@ -60,7 +60,7 @@ flowchart LR
 
 ### 从集合创建 Stream
 
-任何实现了 Collection 接口的类都可以通过 `stream()` 方法创建 Stream。比如 List、Set、Queue 等。
+任何实现了 Collection 接口的类都可以通过 `stream()` 方法创建 Stream。比如 List、Set、Queue 等。 Stream 可以从静态的数据结构中创建，也可以从动态的创建。
 
 ```java
 // 从 List 创建 Stream
@@ -95,4 +95,78 @@ Stream<String> stream = reader.lines();
 Stream<String> stream = Stream.of("a", "b", "c");
 ```
 
+#### 合并两个流
+
+```java
+Stream<String> stream1 = Stream.of("a", "b", "c");
+Stream<String> stream2 = Stream.of("d", "e", "f");
+Stream<String> stream = Stream.concat(stream1, stream2);
+```
+
+动态的决定是否将元素添加到 Stream 中：
+
+```java
+Stream.Builder<String> streamBuilder = Stream.builder();
+
+if (condition) {
+    streamBuilder.add("a");
+}
+
+// 使用 build() 方法创建 Stream
+Stream<String> stream = streamBuilder.build();
+```
+
+一旦 Stream 被创建，就不能向 streamBuilder 添加更多元素。尝试调用 `add()` 方法会抛出 `IllegalStateException` 异常。
+
+对于基本类型的处理，可以使用 `IntStream`、`LongStream`、`DoubleStream` 来分别处理 `int`、`long`、`double` 类型的数据。 通过使用 `range` 和 `rangeClosed` 等方法可以创建一个范围内的 Stream。
+
+```java
+IntStream intStream = IntStream.of(1, 2, 3);
+LongStream longStream = LongStream.of(1, 2, 3);
+DoubleStream doubleStream = DoubleStream.of(1, 2, 3);
+```
+
+```java
+IntStream.range(1, 4).forEach(System.out::println); // 1, 2, 3
+IntStream.rangeClosed(1, 4).forEach(System.out::println); // 1, 2, 3, 4
+```
+
+在 intStream 的基础上，生成对象流
+
+```java
+IntStream intStream = IntStream.of(1, 2, 3);
+Stream<Integer> stream = intStream.boxed();
+```
+
+使用 Random 类生成随机流
+
+```java
+Random random = new Random();
+random.ints(5).forEach(System.out::println);
+```
+
+### 无限流
+
+无限流没有固定的大小，它可以无限的生成元素。Stream API 提供了一些方法来创建无限流，但是需要注意的是，无限流需要通过 limit() 方法限制流的大小，否则会导致无限循环。
+
+```java
+Stream.generate(() -> "a").limit(5).forEach(System.out::println);
+Stream.iterate(0, i -> i + 1).limit(5).forEach(System.out::println);
+
+// 带有终止条件的无限流，不需要使用 limit 进行限制
+Stream.iterate(0, integer -> integer <= 10, integer -> integer + 2).forEach(System.out::println);
+```
+
+### 并行流
+
+Stream API 提供了并行流的支持，可以通过 `parallel()` 方法将串行流转换为并行流。并行流可以充分利用多核处理器的优势，提高处理效率。
+
+```java
+// 直接从集合创建并行流
+List<String> list = Arrays.asList("a", "b", "c");
+Stream<String> parallelStream = list.parallelStream();
+
+// 从串行流创建并行流
+Stream<Integer> parallelStream2 = Stream.of(1, 2, 3).parallel();
+```
 
