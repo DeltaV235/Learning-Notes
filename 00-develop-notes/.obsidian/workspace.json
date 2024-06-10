@@ -8,43 +8,83 @@
         "type": "tabs",
         "children": [
           {
-            "id": "dcf2f840186bf315",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "02-Java/Design-Pattern/Template Pattern.md",
-                "mode": "source",
-                "source": true
-              }
-            }
-          },
-          {
             "id": "639336f6e51f6875",
             "type": "leaf",
+            "pinned": true,
             "state": {
               "type": "markdown",
               "state": {
                 "file": "02-Java/Core/Stream API.md",
-                "mode": "preview",
+                "mode": "source",
                 "source": true
+              },
+              "pinned": true
+            }
+          },
+          {
+            "id": "82082cb023392e92",
+            "type": "leaf",
+            "state": {
+              "type": "image",
+              "state": {
+                "file": "attachments/stream-map-1.drawio.svg"
               }
             }
           },
           {
-            "id": "d1740e9565134b8d",
+            "id": "5b2d2bc62a48e0b7",
+            "type": "leaf",
+            "state": {
+              "type": "image",
+              "state": {
+                "file": "attachments/stream-map-1.drawio.svg"
+              }
+            }
+          },
+          {
+            "id": "56030db34c152962",
+            "type": "leaf",
+            "state": {
+              "type": "image",
+              "state": {
+                "file": "attachments/stream-map-1.drawio.svg"
+              }
+            }
+          },
+          {
+            "id": "a04ef7b9f206ee60",
+            "type": "leaf",
+            "state": {
+              "type": "image",
+              "state": {
+                "file": "attachments/stream-map-1.drawio.svg"
+              }
+            }
+          },
+          {
+            "id": "dbd569a20679c0f0",
+            "type": "leaf",
+            "state": {
+              "type": "image",
+              "state": {
+                "file": "attachments/Pasted image 20230304204203.png"
+              }
+            }
+          },
+          {
+            "id": "2ca0a06535eb00c1",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "02-Java/Design-Pattern/Template Pattern.md",
+                "file": "01-IDE-Guide/JetBrains/IDEA/时序图.md",
                 "mode": "source",
                 "source": true
               }
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 6
       }
     ],
     "direction": "vertical"
@@ -126,7 +166,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "02-Java/Core/Stream API.md",
+                "file": "01-IDE-Guide/JetBrains/IDEA/时序图.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -143,7 +183,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "02-Java/Core/Stream API.md",
+                "file": "01-IDE-Guide/JetBrains/IDEA/时序图.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -166,7 +206,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "02-Java/Core/Stream API.md"
+                "file": "01-IDE-Guide/JetBrains/IDEA/时序图.md"
               }
             }
           }
@@ -186,14 +226,26 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "639336f6e51f6875",
+  "active": "2ca0a06535eb00c1",
   "lastOpenFiles": [
-    "Misc/Keyboard.md",
-    "02-Java/Design-Pattern/Template Pattern.md",
+    "01-IDE-Guide/JetBrains/IDEA/书签.md",
+    "attachments/Pasted image 20230422152658.png",
+    "attachments/Pasted image 20230422152603.png",
+    "attachments/Pasted image 20230422124747.png",
+    "attachments/Pasted image 20230304204203.png",
+    "attachments/Pasted image 20230422132745.png",
+    "attachments/Pasted image 20230422131244.png",
+    "01-IDE-Guide/JetBrains/IDEA/时序图.md",
     "02-Java/Core/Stream API.md",
+    "01-IDE-Guide/JetBrains/IDEA/代码跳转.md",
+    "attachments/Pasted.md",
+    "attachments/stream-map-1.drawio.svg",
+    "02-Java/Web/Web-Container/Tomcat & Jetty.md",
+    "02-Java/Design-Pattern/Template Pattern.md",
+    "attachments/stream-map-1.drawio",
+    "Misc/Keyboard.md",
     "Misc",
     "Obsidian-Related/Obsidian Tutorial.md",
-    "01-IDE-Guide/JetBrains/IDEA/时序图.md",
     "02-Java/Core",
     "Obsidian-Related/Template/Default.md",
     "Software-List/MacOS-12.md",
@@ -207,34 +259,21 @@
     "Obsidian-Related/Template",
     "Obsidian-Related",
     "2024-05-12.md",
-    "attachments/Pasted image 20230422124747.png",
     "04-Network/DHCP.md",
     "04-Network/VLAN.md",
     "03-Middleware/Redis.md",
     "02-Java/Design-Pattern/Observer Pattern.md",
     "02-Java/Design-Pattern/Strategy Pattern.md",
     "未命名.canvas",
-    "attachments/Pasted image 20230304204203.png",
-    "attachments/Pasted image 20230422131244.png",
-    "attachments/Pasted image 20230422132745.png",
-    "attachments/Pasted image 20230422152603.png",
-    "attachments/Pasted image 20230422152658.png",
-    "01-IDE-Guide/JetBrains/IDEA/代码跳转.md",
     "attachments/Pasted image 20240501212501.png",
     "attachments/Pasted image 20240501212443.png",
     "attachments/Pasted image 20240501212554.png",
-    "attachments/Pasted image 20240501212415.png",
     "02-Java/Design-Pattern",
     "05-Architecture/SOA.md",
     "06-Software-List",
     "05-Architecture",
     "Network/DHCP.md",
     "IDE-Guide/JetBrains/IDEA/书签.md",
-    "IDE-Guide/JetBrains/IDEA/代码跳转.md",
-    "IDE-Guide/JetBrains/IDEA/时序图.md",
-    "02-Java/Web/Web-Container/Tomcat & Jetty.md",
-    "Network",
-    "Java/Web/Web-Container/Tomcat & Jetty.md",
     "IDE-Guide/JetBrains/IDEA/未命名.canvas"
   ]
 }

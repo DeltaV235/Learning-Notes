@@ -8,5 +8,6 @@
   "strictLineBreaks": true,
   "alwaysUpdateLinks": true,
   "useTab": false,
-  "defaultViewMode": "preview"
+  "defaultViewMode": "preview",
+  "useMarkdownLinks": true
 }
