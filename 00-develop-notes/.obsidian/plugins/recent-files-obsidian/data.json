@@ -1,6 +1,14 @@
 {
   "recentFiles": [
     {
+      "basename": "Stream API",
+      "path": "02-Java/Core/Stream API.md"
+    },
+    {
+      "basename": "代码跳转",
+      "path": "01-IDE-Guide/JetBrains/IDEA/代码跳转.md"
+    },
+    {
       "basename": "时序图",
       "path": "01-IDE-Guide/JetBrains/IDEA/时序图.md"
     },
@@ -31,14 +39,6 @@
     {
       "basename": "Pasted image 20230422131244",
       "path": "attachments/Pasted image 20230422131244.png"
-    },
-    {
-      "basename": "Stream API",
-      "path": "02-Java/Core/Stream API.md"
-    },
-    {
-      "basename": "代码跳转",
-      "path": "01-IDE-Guide/JetBrains/IDEA/代码跳转.md"
     },
     {
       "basename": "stream-map-1.drawio",

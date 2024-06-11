@@ -1,0 +1,98 @@
+<mxfile host="Electron" modified="2024-06-10T12:53:04.942Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.5.1 Chrome/124.0.6367.207 Electron/30.0.6 Safari/537.36" etag="W3Bd-RTHRn3AGDqorFIH" version="24.5.1" type="device">
+  <diagram name="第 1 页" id="ucdzHPmyJ2J6GfFSBA6N">
+    <mxGraphModel dx="1012" dy="550" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="biIRqhmJbugQj_Tld155-1" value="List" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="60" y="48" width="40" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="biIRqhmJbugQj_Tld155-2" value="" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="110" y="33" width="500" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="biIRqhmJbugQj_Tld155-3" value="John-30-USA" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="130" y="48" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="biIRqhmJbugQj_Tld155-4" value="Alice-35-UK" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="250" y="48" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="biIRqhmJbugQj_Tld155-5" value="Tom-45-USA" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="370" y="48" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="biIRqhmJbugQj_Tld155-6" value="Sam-55-UK" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="490" y="48" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="biIRqhmJbugQj_Tld155-8" value="Stream" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="50" y="172" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="biIRqhmJbugQj_Tld155-9" value="" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=8 8;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="110" y="157" width="500" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="biIRqhmJbugQj_Tld155-10" value="John-30-USA" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="130" y="172" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="biIRqhmJbugQj_Tld155-11" value="Alice-35-UK" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="250" y="172" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="biIRqhmJbugQj_Tld155-12" value="Tom-45-USA" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="370" y="172" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="biIRqhmJbugQj_Tld155-13" value="Sam-55-UK" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="490" y="172" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="biIRqhmJbugQj_Tld155-14" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="35" y="120" as="sourcePoint" />
+            <mxPoint x="685" y="120" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="biIRqhmJbugQj_Tld155-15" value="" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="biIRqhmJbugQj_Tld155-2" target="biIRqhmJbugQj_Tld155-9">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="320" y="150" as="sourcePoint" />
+            <mxPoint x="370" y="100" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="biIRqhmJbugQj_Tld155-16" value="Collection.stream()" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="biIRqhmJbugQj_Tld155-15">
+          <mxGeometry x="-0.4306" y="1" relative="1" as="geometry">
+            <mxPoint x="-1" y="9" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="biIRqhmJbugQj_Tld155-17" value="Stream" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="50" y="296" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="biIRqhmJbugQj_Tld155-18" value="" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=8 8;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="110" y="281" width="500" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="biIRqhmJbugQj_Tld155-19" value="John" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="130" y="296" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="biIRqhmJbugQj_Tld155-20" value="Alice" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="250" y="296" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="biIRqhmJbugQj_Tld155-21" value="Tom" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="370" y="296" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="biIRqhmJbugQj_Tld155-22" value="Sam" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="490" y="296" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="biIRqhmJbugQj_Tld155-23" value="" style="endArrow=none;dashed=1;html=1;rounded=0;strokeWidth=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="35" y="244" as="sourcePoint" />
+            <mxPoint x="685" y="244" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="biIRqhmJbugQj_Tld155-24" value="" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" target="biIRqhmJbugQj_Tld155-18">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="360" y="217" as="sourcePoint" />
+            <mxPoint x="370" y="224" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="biIRqhmJbugQj_Tld155-25" value="Stream.map(Person::getName())" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="biIRqhmJbugQj_Tld155-24">
+          <mxGeometry x="-0.4306" y="1" relative="1" as="geometry">
+            <mxPoint x="-1" y="9" as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

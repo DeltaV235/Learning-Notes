@@ -15,7 +15,7 @@
               "type": "markdown",
               "state": {
                 "file": "02-Java/Core/Stream API.md",
-                "mode": "source",
+                "mode": "preview",
                 "source": true
               },
               "pinned": true
@@ -77,14 +77,13 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "01-IDE-Guide/JetBrains/IDEA/时序图.md",
+                "file": "01-IDE-Guide/JetBrains/IDEA/代码跳转.md",
                 "mode": "source",
                 "source": true
               }
             }
           }
-        ],
-        "currentTab": 6
+        ]
       }
     ],
     "direction": "vertical"
@@ -166,7 +165,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "01-IDE-Guide/JetBrains/IDEA/时序图.md",
+                "file": "02-Java/Core/Stream API.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -183,7 +182,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "01-IDE-Guide/JetBrains/IDEA/时序图.md",
+                "file": "02-Java/Core/Stream API.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -206,7 +205,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "01-IDE-Guide/JetBrains/IDEA/时序图.md"
+                "file": "02-Java/Core/Stream API.md"
               }
             }
           }
@@ -226,8 +225,12 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "2ca0a06535eb00c1",
+  "active": "639336f6e51f6875",
   "lastOpenFiles": [
+    "01-IDE-Guide/JetBrains/IDEA/代码跳转.md",
+    "attachments/stream-flatMap-1.drawio.svg",
+    "attachments/stream-flatMap-1.drawio",
+    "01-IDE-Guide/JetBrains/IDEA/时序图.md",
     "01-IDE-Guide/JetBrains/IDEA/书签.md",
     "attachments/Pasted image 20230422152658.png",
     "attachments/Pasted image 20230422152603.png",
@@ -235,9 +238,7 @@
     "attachments/Pasted image 20230304204203.png",
     "attachments/Pasted image 20230422132745.png",
     "attachments/Pasted image 20230422131244.png",
-    "01-IDE-Guide/JetBrains/IDEA/时序图.md",
     "02-Java/Core/Stream API.md",
-    "01-IDE-Guide/JetBrains/IDEA/代码跳转.md",
     "attachments/Pasted.md",
     "attachments/stream-map-1.drawio.svg",
     "02-Java/Web/Web-Container/Tomcat & Jetty.md",
@@ -267,11 +268,9 @@
     "未命名.canvas",
     "attachments/Pasted image 20240501212501.png",
     "attachments/Pasted image 20240501212443.png",
-    "attachments/Pasted image 20240501212554.png",
     "02-Java/Design-Pattern",
     "05-Architecture/SOA.md",
     "06-Software-List",
-    "05-Architecture",
     "Network/DHCP.md",
     "IDE-Guide/JetBrains/IDEA/书签.md",
     "IDE-Guide/JetBrains/IDEA/未命名.canvas"
