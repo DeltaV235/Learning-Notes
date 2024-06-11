@@ -1,4 +1,4 @@
-package com.deltav.stream;
+package com.deltav.stream.creation;
 
 import java.io.IOException;
 import java.nio.file.Files;
