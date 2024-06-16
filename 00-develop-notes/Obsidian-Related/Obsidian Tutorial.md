@@ -8,6 +8,10 @@ tags:
 
 # Obsidian Tutorial
 
+## Video Tutorial
+
+- [Tutorial From Bilibili](https://www.bilibili.com/video/BV1Qi421D7uv/?p=14&spm_id_from=pageDriver)
+
 ## Shortcuts
 
 **Quick Switcher**: `CMD + O`
