@@ -22,89 +22,31 @@
             }
           },
           {
-            "id": "d305a84519120473",
+            "id": "7cd9ed9871615339",
             "type": "leaf",
-            "state": {
-              "type": "empty",
-              "state": {}
-            }
-          },
-          {
-            "id": "82082cb023392e92",
-            "type": "leaf",
-            "state": {
-              "type": "image",
-              "state": {
-                "file": "attachments/stream-map-1.drawio.svg"
-              }
-            }
-          },
-          {
-            "id": "5b2d2bc62a48e0b7",
-            "type": "leaf",
-            "state": {
-              "type": "image",
-              "state": {
-                "file": "attachments/stream-map-1.drawio.svg"
-              }
-            }
-          },
-          {
-            "id": "56030db34c152962",
-            "type": "leaf",
-            "state": {
-              "type": "image",
-              "state": {
-                "file": "attachments/stream-map-1.drawio.svg"
-              }
-            }
-          },
-          {
-            "id": "a04ef7b9f206ee60",
-            "type": "leaf",
-            "state": {
-              "type": "image",
-              "state": {
-                "file": "attachments/stream-map-1.drawio.svg"
-              }
-            }
-          },
-          {
-            "id": "dbd569a20679c0f0",
-            "type": "leaf",
-            "state": {
-              "type": "image",
-              "state": {
-                "file": "attachments/Pasted image 20230304204203.png"
-              }
-            }
-          },
-          {
-            "id": "2ca0a06535eb00c1",
-            "type": "leaf",
+            "pinned": true,
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Obsidian-Related/Template/Default.md",
-                "mode": "source",
-                "source": true
-              }
-            }
-          },
-          {
-            "id": "42a0455ecf9856ac",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "02-Java/Core/Stream API.md",
+                "file": "Misc/All-In-One/网络拓扑.md",
                 "mode": "preview",
                 "source": true
+              },
+              "pinned": true
+            }
+          },
+          {
+            "id": "4b1a1cd7530f58d5",
+            "type": "leaf",
+            "state": {
+              "type": "excalidraw",
+              "state": {
+                "file": "Excalidraw/Bypass-Gateway-Mode-Topology.excalidraw.md"
               }
             }
           }
         ],
-        "currentTab": 8
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -178,7 +120,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "02-Java/Core/Stream API.md",
+                "file": "Misc/All-In-One/网络拓扑.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -195,7 +137,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "02-Java/Core/Stream API.md",
+                "file": "Misc/All-In-One/网络拓扑.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -218,7 +160,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "02-Java/Core/Stream API.md"
+                "file": "Misc/All-In-One/网络拓扑.md"
               }
             }
           }
@@ -240,14 +182,23 @@
       "obsidian-kanban:Create new board": false
     }
   },
-  "active": "42a0455ecf9856ac",
+  "active": "7cd9ed9871615339",
   "lastOpenFiles": [
+    "Excalidraw/Bypass-Gateway-Mode-Topology.excalidraw.md",
+    "Misc/All-In-One/网络拓扑.md",
+    "02-Java/Core/Stream API.md",
+    "Excalidraw/Library/network-topology-icons.excalidrawlib",
+    "Excalidraw/Library/未确认 612625.crdownload",
+    "Excalidraw/Library",
+    "attachments/Pasted image 20240616235513.png",
+    "Misc/All-In-One",
+    "Drawing 2024-06-16 11.06.19.excalidraw.md",
+    "attachments/stream-map-1.drawio.svg",
+    "attachments/Pasted image 20230304204203.png",
+    "Obsidian-Related/Template/Default.md",
+    "Obsidian-Related/Template/Snippet.md",
     "attachments/Pasted image 20240616223208.png",
     "Todo-List.md",
-    "Obsidian-Related/Template/Snippet.md",
-    "Obsidian-Related/Template/Default.md",
-    "02-Java/Core/Stream API.md",
-    "attachments/Pasted image 20230304204203.png",
     "06-Git/LF will be replaced by CRLF the next time Git touches it.md",
     "Obsidian-Related/Obsidian Tutorial.md",
     "Untitled.md",
@@ -266,7 +217,6 @@
     "attachments/stream-flatMap-1.drawio.svg",
     "attachments/stream-flatMap-1.drawio",
     "attachments/Pasted.md",
-    "attachments/stream-map-1.drawio.svg",
     "02-Java/Web/Web-Container/Tomcat & Jetty.md",
     "02-Java/Design-Pattern/Template Pattern.md",
     "attachments/stream-map-1.drawio",
@@ -275,20 +225,12 @@
     "02-Java/Core",
     "Software-List/MacOS-12.md",
     "Software-List",
-    "06-Git",
     "Obsidian Tutorial.md",
     "06-Software-List/MacOS-12.md",
     "Obsidian-Related/Link-Demo2.md",
     "Obsidian-Related/Link-Demo1.md",
-    "Obsidian-Related/Template",
-    "Obsidian-Related",
     "2024-05-12.md",
-    "04-Network/VLAN.md",
-    "03-Middleware/Redis.md",
-    "02-Java/Design-Pattern/Observer Pattern.md",
     "未命名.canvas",
-    "attachments/Pasted image 20240501212501.png",
-    "02-Java/Design-Pattern",
     "IDE-Guide/JetBrains/IDEA/未命名.canvas"
   ]
 }

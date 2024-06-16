@@ -338,6 +338,3 @@ TODO diagram for above case
 ### 排序 Sorting
 
 用于对流中的元素进行排序。通过 `sorted()` 方法可以对元素进行自然排序，通过 `sorted(Comparator)` 方法可以对元素进行定制排序。
-
-Excalidraw
-![Drawing 2024-06-16 11.06.19.excalidraw](Drawing%202024-06-16%2011.06.19.excalidraw.md)
