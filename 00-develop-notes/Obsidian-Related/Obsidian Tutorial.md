@@ -16,6 +16,8 @@ tags:
 
 **Quick Switcher**: `CMD + O`
 **Command Palette**: `CMD + P`
+**Insert Markdown Link**: `CMD + K`
+**Insert Template**: `CMD + OPT + T`
 
 ## Query
 
@@ -42,7 +44,21 @@ embed OR search
 
 [Obsidian Search Plugin Help Document](https://help.obsidian.md/Plugins/Search)
 
+## Theme
+
+- Minimal
+- Primary
+
 ## Plugins
+
+**Installed Community Plugins**
+
+- Dataview
+- Excalidraw
+- File Explorer Note Count
+- Kanban
+- Recent Files
+- Vimrc Support
 
 ### Dataview
 
@@ -57,3 +73,17 @@ sort file.ctime desc
 #### Reference
 
 [Dataview Reference Document](https://blacksmithgu.github.io/obsidian-dataview)
+
+## Callout
+
+Use callouts to include additional content without breaking the flow of your notes.
+
+Below is sample.
+
+> [!NOTE] Title
+> References
+> References2
+
+### Reference
+
+[Callouts Guide](https://help.obsidian.md/Editing+and+formatting/Callouts)

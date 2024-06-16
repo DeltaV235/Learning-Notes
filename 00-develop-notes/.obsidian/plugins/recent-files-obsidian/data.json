@@ -1,16 +1,32 @@
 {
   "recentFiles": [
     {
-      "basename": "Obsidian Tutorial",
-      "path": "Obsidian-Related/Obsidian Tutorial.md"
+      "basename": "Stream API",
+      "path": "02-Java/Core/Stream API.md"
+    },
+    {
+      "basename": "Snippet",
+      "path": "Obsidian-Related/Template/Snippet.md"
     },
     {
       "basename": "Default",
       "path": "Obsidian-Related/Template/Default.md"
     },
     {
-      "basename": "Stream API",
-      "path": "02-Java/Core/Stream API.md"
+      "basename": "Pasted image 20230304204203",
+      "path": "attachments/Pasted image 20230304204203.png"
+    },
+    {
+      "basename": "LF will be replaced by CRLF the next time Git touches it",
+      "path": "06-Git/LF will be replaced by CRLF the next time Git touches it.md"
+    },
+    {
+      "basename": "Todo-List",
+      "path": "Todo-List.md"
+    },
+    {
+      "basename": "Obsidian Tutorial",
+      "path": "Obsidian-Related/Obsidian Tutorial.md"
     },
     {
       "basename": "代码跳转",
@@ -23,10 +39,6 @@
     {
       "basename": "书签",
       "path": "01-IDE-Guide/JetBrains/IDEA/书签.md"
-    },
-    {
-      "basename": "Pasted image 20230304204203",
-      "path": "attachments/Pasted image 20230304204203.png"
     },
     {
       "basename": "Pasted image 20230422124747",

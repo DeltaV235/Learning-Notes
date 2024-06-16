@@ -85,20 +85,20 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "01-IDE-Guide/JetBrains/IDEA/代码跳转.md",
+                "file": "Obsidian-Related/Template/Default.md",
                 "mode": "source",
                 "source": true
               }
             }
           },
           {
-            "id": "c5b70916cbb35a34",
+            "id": "42a0455ecf9856ac",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Obsidian-Related/Obsidian Tutorial.md",
-                "mode": "source",
+                "file": "02-Java/Core/Stream API.md",
+                "mode": "preview",
                 "source": true
               }
             }
@@ -178,7 +178,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Obsidian-Related/Obsidian Tutorial.md",
+                "file": "02-Java/Core/Stream API.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -195,7 +195,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Obsidian-Related/Obsidian Tutorial.md",
+                "file": "02-Java/Core/Stream API.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -218,11 +218,12 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Obsidian-Related/Obsidian Tutorial.md"
+                "file": "02-Java/Core/Stream API.md"
               }
             }
           }
-        ]
+        ],
+        "currentTab": 3
       }
     ],
     "direction": "horizontal",
@@ -235,18 +236,25 @@
       "canvas:Create new canvas": false,
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
-      "obsidian-excalidraw-plugin:Create new drawing": false
+      "obsidian-excalidraw-plugin:Create new drawing": false,
+      "obsidian-kanban:Create new board": false
     }
   },
-  "active": "c5b70916cbb35a34",
+  "active": "42a0455ecf9856ac",
   "lastOpenFiles": [
+    "Obsidian-Related/Template/Snippet.md",
     "Obsidian-Related/Template/Default.md",
     "02-Java/Core/Stream API.md",
+    "attachments/Pasted image 20240616223208.png",
+    "attachments/Pasted image 20230304204203.png",
+    "06-Git/LF will be replaced by CRLF the next time Git touches it.md",
+    "Todo-List.md",
+    "Obsidian-Related/Obsidian Tutorial.md",
+    "Untitled.md",
     "01-IDE-Guide/JetBrains/IDEA/代码跳转.md",
     "Excalidraw/Drawing 2024-06-16 11.06.19.excalidraw.md",
     "01-IDE-Guide/JetBrains/IDEA/时序图.md",
     "01-IDE-Guide/JetBrains/IDEA/书签.md",
-    "attachments/Pasted image 20230304204203.png",
     "attachments/Pasted image 20230422124747.png",
     "attachments/Pasted image 20230422131244.png",
     "attachments/Pasted image 20230422152603.png",
@@ -264,11 +272,9 @@
     "attachments/stream-map-1.drawio",
     "Misc/Keyboard.md",
     "Misc",
-    "Obsidian-Related/Obsidian Tutorial.md",
     "02-Java/Core",
     "Software-List/MacOS-12.md",
     "Software-List",
-    "06-Git/LF will be replaced by CRLF the next time Git touches it.md",
     "06-Git",
     "Obsidian Tutorial.md",
     "06-Software-List/MacOS-12.md",
@@ -280,13 +286,9 @@
     "04-Network/VLAN.md",
     "03-Middleware/Redis.md",
     "02-Java/Design-Pattern/Observer Pattern.md",
-    "02-Java/Design-Pattern/Strategy Pattern.md",
     "未命名.canvas",
     "attachments/Pasted image 20240501212501.png",
-    "attachments/Pasted image 20240501212443.png",
     "02-Java/Design-Pattern",
-    "05-Architecture/SOA.md",
-    "Network/DHCP.md",
     "IDE-Guide/JetBrains/IDEA/未命名.canvas"
   ]
 }
