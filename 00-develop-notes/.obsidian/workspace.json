@@ -36,6 +36,16 @@
             }
           },
           {
+            "id": "518fe2a3c8bbe641",
+            "type": "leaf",
+            "state": {
+              "type": "excalidraw",
+              "state": {
+                "file": "Excalidraw/Asymmetric-Routing-Request.excalidraw.md"
+              }
+            }
+          },
+          {
             "id": "4b1a1cd7530f58d5",
             "type": "leaf",
             "state": {
@@ -61,6 +71,26 @@
             "state": {
               "type": "empty",
               "state": {}
+            }
+          },
+          {
+            "id": "db628650630b8729",
+            "type": "leaf",
+            "state": {
+              "type": "excalidraw",
+              "state": {
+                "file": "Excalidraw/Asymmetric-Routing-Response.excalidraw.md"
+              }
+            }
+          },
+          {
+            "id": "cbaced929fcbd80a",
+            "type": "leaf",
+            "state": {
+              "type": "excalidraw",
+              "state": {
+                "file": "Excalidraw/Asymmetric-Routing-Response.excalidraw.md"
+              }
             }
           }
         ],
@@ -122,7 +152,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 392.5
   },
   "right": {
     "id": "3170bf37929978fd",
@@ -200,13 +230,15 @@
       "obsidian-kanban:Create new board": false
     }
   },
-  "active": "7cd9ed9871615339",
+  "active": "e8b04d0e5f55f45a",
   "lastOpenFiles": [
+    "Excalidraw/Asymmetric-Routing-Response.excalidraw.md",
+    "Misc/All-In-One/网络拓扑.md",
+    "Excalidraw/Asymmetric-Routing-Request.excalidraw.md",
+    "Excalidraw/Bypass-Gateway-Mode-Topology.excalidraw.md",
     "02-Java/Core/Stream API.md",
     "attachments/stream-flatMap-1.drawio.svg",
-    "Excalidraw/Bypass-Gateway-Mode-Topology.excalidraw.md",
     "attachments/stream-map-1.drawio.svg",
-    "Misc/All-In-One/网络拓扑.md",
     "Excalidraw/Bypass-Gateway-Mode-Topology.excalidraw.svg",
     "Excalidraw/Bypass-Gateway-Mode-Topology.excalidraw.png",
     "Excalidraw/Library/network-topology-icons.excalidrawlib",
@@ -247,7 +279,6 @@
     "06-Software-List/MacOS-12.md",
     "Obsidian-Related/Link-Demo2.md",
     "Obsidian-Related/Link-Demo1.md",
-    "2024-05-12.md",
     "未命名.canvas",
     "IDE-Guide/JetBrains/IDEA/未命名.canvas"
   ]
