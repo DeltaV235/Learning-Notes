@@ -9,5 +9,6 @@
   "alwaysUpdateLinks": true,
   "useTab": false,
   "defaultViewMode": "preview",
-  "useMarkdownLinks": true
+  "useMarkdownLinks": true,
+  "showUnsupportedFiles": true
 }

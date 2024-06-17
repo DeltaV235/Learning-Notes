@@ -5,20 +5,24 @@
       "path": "Misc/All-In-One/网络拓扑.md"
     },
     {
-      "basename": "Bypass-Gateway-Mode-Topology.excalidraw",
-      "path": "Excalidraw/Bypass-Gateway-Mode-Topology.excalidraw.md"
-    },
-    {
       "basename": "Stream API",
       "path": "02-Java/Core/Stream API.md"
     },
     {
-      "basename": "Pasted image 20240616235513",
-      "path": "attachments/Pasted image 20240616235513.png"
+      "basename": "stream-flatMap-1.drawio",
+      "path": "attachments/stream-flatMap-1.drawio.svg"
+    },
+    {
+      "basename": "Bypass-Gateway-Mode-Topology.excalidraw",
+      "path": "Excalidraw/Bypass-Gateway-Mode-Topology.excalidraw.md"
     },
     {
       "basename": "stream-map-1.drawio",
       "path": "attachments/stream-map-1.drawio.svg"
+    },
+    {
+      "basename": "Pasted image 20240616235513",
+      "path": "attachments/Pasted image 20240616235513.png"
     },
     {
       "basename": "Pasted image 20230304204203",
