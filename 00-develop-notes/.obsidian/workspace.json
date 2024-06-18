@@ -104,9 +104,26 @@
                 "source": true
               }
             }
+          },
+          {
+            "id": "056bcf031a91933d",
+            "type": "leaf",
+            "state": {
+              "type": "kanban",
+              "state": {
+                "file": "Todo-List.md",
+                "kanbanViewState": {
+                  "kanban-plugin": "board",
+                  "list-collapse": [
+                    false,
+                    false,
+                    false
+                  ]
+                }
+              }
+            }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -180,7 +197,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Misc/All-In-One/网络拓扑.md",
+                "file": "02-Java/Core/Stream API.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -197,7 +214,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Misc/All-In-One/网络拓扑.md",
+                "file": "02-Java/Core/Stream API.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -220,7 +237,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Misc/All-In-One/网络拓扑.md"
+                "file": "02-Java/Core/Stream API.md"
               }
             }
           }
@@ -242,10 +259,12 @@
       "obsidian-kanban:Create new board": false
     }
   },
-  "active": "7cd9ed9871615339",
+  "active": "639336f6e51f6875",
   "lastOpenFiles": [
-    "04-Network/OpenWRT 通过配置 DHCP 服务为不同设备分配不同的 Gateway 和 DNS IP.md",
+    "attachments/Pasted image 20240618201102.png",
+    "Todo-List.md",
     "Misc/All-In-One/网络拓扑.md",
+    "04-Network/OpenWRT 通过配置 DHCP 服务为不同设备分配不同的 Gateway 和 DNS IP.md",
     "Excalidraw/Asymmetric-Routing-Response.excalidraw.md",
     "Excalidraw/Asymmetric-Routing-Request.excalidraw.md",
     "Excalidraw/Bypass-Gateway-Mode-Topology.excalidraw.md",
@@ -264,7 +283,6 @@
     "Obsidian-Related/Template/Default.md",
     "Obsidian-Related/Template/Snippet.md",
     "attachments/Pasted image 20240616223208.png",
-    "Todo-List.md",
     "06-Git/LF will be replaced by CRLF the next time Git touches it.md",
     "Obsidian-Related/Obsidian Tutorial.md",
     "Untitled.md",
@@ -290,7 +308,6 @@
     "Software-List",
     "Obsidian Tutorial.md",
     "06-Software-List/MacOS-12.md",
-    "Obsidian-Related/Link-Demo2.md",
     "未命名.canvas",
     "IDE-Guide/JetBrains/IDEA/未命名.canvas"
   ]

@@ -176,8 +176,6 @@ Stream<Integer> parallelStream2 = Stream.of(1, 2, 3).parallel();
 
 流的操作应该是链式调用的，即每次中间操作都应该基于前一次的操作结果，而不是重复使用同一个流实例进行多次操作，否则会抛出 `IllegalStateException` 异常。这是因为流的中间操作返回的是一个新的流，而原始流在第一次操作后就会被标记为已操作，不能再次进行操作。
 
-```java
-
 中间操作可以分为以下几个功能类别：
 
 - **筛选与切片**：filter、distinct、limit、skip
@@ -283,8 +281,6 @@ list.stream().map(String::length).forEach(System.out::println);
 
 和 `map()` 一样，`flatMap()` 会对每个元素调用传入的 Function 函数，但是这个函数的返回值是一个 Stream，而不是一个单个元素。`flatMap()` 方法会将多个 Stream 合并为一个 Stream。
 
-![stream-mapping-flatMap-1](../../attachments/stream-flatMap-1.drawio.svg)
-
 ```java
 // 将多个 Stream 合并为一个 Stream
 Stream<List<String>> stream = Stream.of(
@@ -329,7 +325,15 @@ nestedPersonList.stream()
 
 第一种是将原始 Stream 中的每个元素转换为一个新的 `Stream<Person>`，然后将这些新的 `Stream<Person>` 合并为一个 Stream。第二种是将原始 Stream 中的每个元素通过 `people -> people.stream().map(Person::getName)` 将 `Stream<Person>` 直接转换为一个新的 `Stream<String>`，然后将这些新的 `Stream<String>` 合并为一个 Stream。
 
-TODO diagram for above case
+第一种写法更加灵活，可以在 `flatMap()` 后进行更多的操作，而第二种写法更加简洁。
+
+**第一种 `flatMap()` 的图示：**
+
+![stream-mapping-flatMap-1](../../attachments/stream-flatMap-1.drawio.svg)
+
+**第二种 `flatMap()` 的图示：**
+
+![[Pasted image 20240618201102.png]]
 
 在使用 `flatMap()` 方法时，需要注意返回的 Stream 类型必须是相同的，否则会抛出 `ClassCastException` 异常。
 
