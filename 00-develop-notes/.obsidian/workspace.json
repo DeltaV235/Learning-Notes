@@ -92,6 +92,18 @@
                 "file": "Excalidraw/Asymmetric-Routing-Response.excalidraw.md"
               }
             }
+          },
+          {
+            "id": "802b1664a999ad42",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "04-Network/OpenWRT 通过配置 DHCP 服务为不同设备分配不同的 Gateway 和 DNS IP.md",
+                "mode": "source",
+                "source": true
+              }
+            }
           }
         ],
         "currentTab": 1
@@ -230,10 +242,11 @@
       "obsidian-kanban:Create new board": false
     }
   },
-  "active": "e8b04d0e5f55f45a",
+  "active": "7cd9ed9871615339",
   "lastOpenFiles": [
-    "Excalidraw/Asymmetric-Routing-Response.excalidraw.md",
+    "04-Network/OpenWRT 通过配置 DHCP 服务为不同设备分配不同的 Gateway 和 DNS IP.md",
     "Misc/All-In-One/网络拓扑.md",
+    "Excalidraw/Asymmetric-Routing-Response.excalidraw.md",
     "Excalidraw/Asymmetric-Routing-Request.excalidraw.md",
     "Excalidraw/Bypass-Gateway-Mode-Topology.excalidraw.md",
     "02-Java/Core/Stream API.md",
@@ -278,7 +291,6 @@
     "Obsidian Tutorial.md",
     "06-Software-List/MacOS-12.md",
     "Obsidian-Related/Link-Demo2.md",
-    "Obsidian-Related/Link-Demo1.md",
     "未命名.canvas",
     "IDE-Guide/JetBrains/IDEA/未命名.canvas"
   ]

@@ -5,6 +5,10 @@
       "path": "Misc/All-In-One/网络拓扑.md"
     },
     {
+      "basename": "OpenWRT 通过配置 DHCP 服务为不同设备分配不同的 Gateway 和 DNS IP",
+      "path": "04-Network/OpenWRT 通过配置 DHCP 服务为不同设备分配不同的 Gateway 和 DNS IP.md"
+    },
+    {
       "basename": "Asymmetric-Routing-Response.excalidraw",
       "path": "Excalidraw/Asymmetric-Routing-Response.excalidraw.md"
     },
