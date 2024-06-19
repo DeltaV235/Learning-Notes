@@ -22,6 +22,16 @@
             }
           },
           {
+            "id": "78c4833637ce3856",
+            "type": "leaf",
+            "state": {
+              "type": "release-notes",
+              "state": {
+                "currentVersion": "1.6.2"
+              }
+            }
+          },
+          {
             "id": "7cd9ed9871615339",
             "type": "leaf",
             "pinned": true,
@@ -123,7 +133,8 @@
               }
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -259,7 +270,7 @@
       "obsidian-kanban:Create new board": false
     }
   },
-  "active": "639336f6e51f6875",
+  "active": "78c4833637ce3856",
   "lastOpenFiles": [
     "attachments/Pasted image 20240618201102.png",
     "Todo-List.md",
