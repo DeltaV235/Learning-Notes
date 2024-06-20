@@ -34,9 +34,26 @@
 
     <script>
         let items = document.getElementsByClassName('item');
-        for (let i = 0; i < items.length; i++) {
+        for (var i = 0; i < items.length; i++) {
             items[i].onclick = function () {
                 // this 指向当前点击的元素
+                this.style.backgroundColor = 'pink';
+            }
+        }
+
+        /*
+        var 声明的变量会提升到函数作用域的顶部，所以在循环中使用 var 声明的变量会导致问题，因为循环结束后 i 的值为 3，所以点击任何一个 div 都会将最后一个 div 的背景色改为 pink， 为了解决这个问题，可以使用闭包或者 let 声明变量
+
+        for (var i = 0; i < items.length; i++) {
+            items[i].onclick = function () {
+                items[i].style.backgroundColor = 'pink';
+            }
+        }
+        */
+
+        // 使用闭包解决问题， 闭包会保存当前 i 的值，所以点击任何一个 div 都会将当前 div 的背景色改为 pink，而不是最后一个 div
+        for (let i = 0; i < items.length; i++) {
+            items[i].onclick = function () {
                 items[i].style.backgroundColor = 'pink';
             }
         }
