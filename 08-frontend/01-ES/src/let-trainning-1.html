@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>点击 DIV 换色</title>
+</head>
+
+<style>
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .item {
+        width: 100px;
+        height: 100px;
+        margin: 10px;
+        background-color: lightblue;
+        cursor: pointer;
+    }
+</style>
+
+<body>
+    <div class="container">
+        <h2 class="page-header">点击切换颜色</h2>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+    </div>
+
+    <script>
+        let items = document.getElementsByClassName('item');
+        for (let i = 0; i < items.length; i++) {
+            items[i].onclick = function () {
+                // this 指向当前点击的元素
+                items[i].style.backgroundColor = 'pink';
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -22,16 +22,6 @@
             }
           },
           {
-            "id": "78c4833637ce3856",
-            "type": "leaf",
-            "state": {
-              "type": "release-notes",
-              "state": {
-                "currentVersion": "1.6.2"
-              }
-            }
-          },
-          {
             "id": "7cd9ed9871615339",
             "type": "leaf",
             "pinned": true,
@@ -76,14 +66,6 @@
             }
           },
           {
-            "id": "12b19811c2215450",
-            "type": "leaf",
-            "state": {
-              "type": "empty",
-              "state": {}
-            }
-          },
-          {
             "id": "db628650630b8729",
             "type": "leaf",
             "state": {
@@ -109,7 +91,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "04-Network/OpenWRT 通过配置 DHCP 服务为不同设备分配不同的 Gateway 和 DNS IP.md",
+                "file": "07-Frontend/闭包.md",
                 "mode": "source",
                 "source": true
               }
@@ -134,7 +116,7 @@
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 7
       }
     ],
     "direction": "vertical"
@@ -208,7 +190,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "02-Java/Core/Stream API.md",
+                "file": "07-Frontend/闭包.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -225,7 +207,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "02-Java/Core/Stream API.md",
+                "file": "07-Frontend/闭包.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -248,7 +230,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "02-Java/Core/Stream API.md"
+                "file": "07-Frontend/闭包.md"
               }
             }
           }
@@ -270,16 +252,18 @@
       "obsidian-kanban:Create new board": false
     }
   },
-  "active": "78c4833637ce3856",
+  "active": "802b1664a999ad42",
   "lastOpenFiles": [
-    "attachments/Pasted image 20240618201102.png",
-    "Todo-List.md",
-    "Misc/All-In-One/网络拓扑.md",
     "04-Network/OpenWRT 通过配置 DHCP 服务为不同设备分配不同的 Gateway 和 DNS IP.md",
-    "Excalidraw/Asymmetric-Routing-Response.excalidraw.md",
-    "Excalidraw/Asymmetric-Routing-Request.excalidraw.md",
-    "Excalidraw/Bypass-Gateway-Mode-Topology.excalidraw.md",
+    "07-Frontend/闭包.md",
+    "07-Frontend",
+    "Todo-List.md",
     "02-Java/Core/Stream API.md",
+    "Excalidraw/Asymmetric-Routing-Request.excalidraw.md",
+    "attachments/Pasted image 20240618201102.png",
+    "Misc/All-In-One/网络拓扑.md",
+    "Excalidraw/Asymmetric-Routing-Response.excalidraw.md",
+    "Excalidraw/Bypass-Gateway-Mode-Topology.excalidraw.md",
     "attachments/stream-flatMap-1.drawio.svg",
     "attachments/stream-map-1.drawio.svg",
     "Excalidraw/Bypass-Gateway-Mode-Topology.excalidraw.svg",
@@ -303,7 +287,6 @@
     "01-IDE-Guide/JetBrains/IDEA/书签.md",
     "attachments/Pasted image 20230422124747.png",
     "attachments/Pasted image 20230422131244.png",
-    "attachments/Pasted image 20230422152603.png",
     "04-Network/DHCP.md",
     "Untitled.canvas",
     "Excalidraw",
@@ -316,7 +299,6 @@
     "Misc",
     "02-Java/Core",
     "Software-List/MacOS-12.md",
-    "Software-List",
     "Obsidian Tutorial.md",
     "06-Software-List/MacOS-12.md",
     "未命名.canvas",

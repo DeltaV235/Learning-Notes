@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // let 声明的变量不能重名
+        let a;
+        let b, c;
+        let d = 10, e = 'hello', f = true, g = null, h = undefined, i = [1, 2, 3], j = { name: 'John', age: 25 };
+        console.log(a, b, c, d, e, f, g, h, i, j)
+        {
+            // inner 的作用域只在这个代码块内
+            let inner = 100;
+            console.log('inner = ', inner);
+            console.log('d = ', d);
+        }
+        // error inner is not defined
+        // console.log(inner);
+
+        {
+            // 不影响作用域链
+            let time = 'day';
+            function fn() {
+                console.log('Good ' + time);
+            }
+            fn();
+        }
+    </script>
+</body>
+
+</html>
