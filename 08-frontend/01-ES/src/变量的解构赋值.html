@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>变量的解构赋值</title>
+</head>
+
+<body>
+    <script>
+        // 1. 数组的解构
+        {
+            const array = [1, 2, 3, 4];
+            let [a, b, c, d] = array;
+
+            console.log(a, b, c, d);
+
+            let [x, y, ...z] = array;
+            console.log(x, y, z);
+
+            let [m, n, o, p, q = 5] = array;
+            console.log(m, n, o, p, q);
+
+            let [r, s, t, u, v = 5] = [1, 2, 3];
+            console.log(r, s, t, u, v);
+
+            let [w, [x1, y1], z1] = [1, [2, 3], 4];
+            console.log(w, x1, y1, z1);
+
+            const word = ['f', 'g', 'h'];
+            let [h] = word;
+            console.log(h);
+
+            let [i, j, k] = 'abc';
+            console.log(i, j, k);
+        }
+        // 2. 对象的解构
+        const obj = {
+            name: 'Tom',
+            age: 18,
+            job: function () {
+                console.log('I am a student');
+            }
+        }
+
+        // let 中定义的变量名必须和对象中的属性名一致，否则变量不会被赋值
+        {
+            let { name, b, c } = obj;
+            console.log(name, b, c);
+        }
+
+        {
+            let { name, age, job } = obj;
+            console.log(name, age, job);
+            job();
+        }
+
+        {
+            let {job} = obj;
+            job();
+        }
+
+        {
+            // 对象的解构赋值可以给变量重命名
+            let { name: n, age: a, job: j } = obj;
+            console.log(n, a);
+            j();
+        }
+        
+    </script>
+</body>
+
+</html>
