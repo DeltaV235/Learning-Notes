@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>const 定义常量</title>
+</head>
+
+<body>
+    <script>
+        // 1. 一定要赋初始值
+        // 2. 一般常量使用大写变量名
+        // 3. 常量的值不能修改
+        // 4. 块级作用域
+        // 5. 对于数组和对象的元素修改，不算做对常量的修改，不会报错
+
+        // const 声明的变量是常量，不能被修改
+        const PI = 3.1415926;
+        console.log(PI);
+
+        // 会报错，常量不能被修改 TypeError: Assignment to constant variable.
+        // PI = 3.14;
+
+        // const 声明的变量必须初始化 Uncaught SyntaxError: Missing initializer in const declaration 
+        // const PI;
+
+        // const 声明的变量是块级作用域
+        if (true) {
+            const PI = 3.14;
+            console.log(PI);
+        }
+
+        // 会报错，PI 变量只在 if 语句块中有效 const.html:29 Uncaught ReferenceError: PI is not defined
+        // console.log(PI);
+
+        // 对于数组和对象的元素修改，不算做对常量的修改，不会报错
+        const array = [1, 2, 3, 4];
+        array.push(5);
+        console.log(array);
+    </script>
+</body>
+
+</html>
