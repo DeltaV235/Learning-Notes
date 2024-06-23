@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>object</title>
+</head>
+
+<body>
+    <script>
+        {
+            // delete property
+            let obj = {
+                key1: 'value1',
+                key2: 'value2'
+            }
+
+            console.log(Object.keys(obj));
+
+            delete obj.key2;
+            console.log(Object.keys(obj));
+
+            console.log('obj.key2 = ', obj.key2);
+            // obj.key2 =  undefined
+
+            let obj2 = Object.defineProperty({}, 'p', {
+                value: 123,
+                configurable: false
+            });
+            console.log(obj2.p)
+            // 123
+            delete obj2.p;
+            console.log(obj2.p)
+            // 123
+        }
+
+        {
+            let obj = { p: '1' }
+            console.log('p' in obj)
+            // true
+            console.log('toString' in obj)
+            // true in 无法判断属性是否是对象自身的属性，还是继承的属性
+
+            console.log(obj.hasOwnProperty('toString'))
+            // false
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>function</title>
+</head>
+
+<body>
+    <script>
+        {
+            function add(x, y) {
+                return x + y;
+            }
+
+            // 将函数赋值给一个变量
+            var operator = add;
+
+            // 将函数作为参数和返回值
+            function a(op) {
+                return op;
+            }
+            let result = a(add)(1, 1);
+            console.log(result);
+            // 2
+        }
+
+        {
+            // SyntaxError: Identifier 'f' has already been declared
+            // var f = function () {
+            //     console.log('1');
+            // }
+
+            // function f() {
+            //     console.log('2');
+            // }
+
+            // f() // 1
+        }
+
+        console.log(Math.sqrt.toString());
+        // function sqrt() { [native code] }
+
+    </script>
+</body>
+
+</html>

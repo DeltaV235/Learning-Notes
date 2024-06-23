@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>箭头函数</title>
+</head>
+
+<body>
+    <script>
+        let fn = function (a, b) {
+            return a + b;
+        }
+
+        console.log(fn(1, 2));
+
+        let fn2 = (a, b) => a + b;
+        console.log(fn2(2, 3))
+
+        // 1. this 是静态的，this 始终指向函数定义时所在作用域下的 this 的值
+        function getName() {
+            console.log(this.name);
+        }
+        let getName2 = () => console.log(this.name);
+        window.name = 'DeltaV';
+        const obj = {
+            name: 'obj'
+        }
+
+        getName(); // DeltaV
+        getName2(); // DeltaV
+
+        getName.call(obj); // obj
+        getName2.call(obj); // DeltaV
+
+        // 2. 不可以使用 arguments 对象
+        // 3. 不可以使用 new 命令，箭头函数没有自己的 this，无法通过 new 命令调用
+        // 4. 不可以使用 yield 命令，因此箭头函数不能用作 Generator 函数
+        // 5. 箭头函数没有 prototype 属性
+        // 6. 箭头函数不能当作构造函数，不能使用 new 命令，否则会抛出一个错误
+        // 7. 箭头函数没有自己的 this，所以不能用 call()、apply()、bind() 这些方法去改变 this 的指向
+        // 8. 箭头函数没有 arguments 对象，如果要用，可以用 rest 参数代替
+
+    </script>
+</body>
+
+</html>

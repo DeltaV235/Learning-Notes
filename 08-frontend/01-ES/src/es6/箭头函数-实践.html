@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>箭头函数-实践</title>
+    <style>
+        div {
+            width: 200px;
+            height: 200px;
+            background: #58a;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="ad"></div>
+
+    <script>
+        // 1. 点击 div 2s 后颜色变成粉色
+        document.getElementById('ad').onclick = function () {
+            setTimeout(() => {
+                this.style.background = 'pink';
+            }, 2000);
+        }
+        // 2. 从数组中返回偶数元素
+    </script>
+</body>
+
+</html>
