@@ -1,6 +1,10 @@
 {
   "recentFiles": [
     {
+      "basename": "Stream API",
+      "path": "02-Java/Core/Stream API.md"
+    },
+    {
       "basename": "闭包",
       "path": "07-Frontend/闭包.md"
     },
@@ -11,10 +15,6 @@
     {
       "basename": "Todo-List",
       "path": "Todo-List.md"
-    },
-    {
-      "basename": "Stream API",
-      "path": "02-Java/Core/Stream API.md"
     },
     {
       "basename": "Asymmetric-Routing-Request.excalidraw",
