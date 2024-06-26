@@ -134,9 +134,19 @@
                 "source": true
               }
             }
+          },
+          {
+            "id": "82ae2e1a197daf82",
+            "type": "leaf",
+            "state": {
+              "type": "release-notes",
+              "state": {
+                "currentVersion": "1.6.3"
+              }
+            }
           }
         ],
-        "currentTab": 10
+        "currentTab": 11
       }
     ],
     "direction": "vertical"
@@ -272,7 +282,7 @@
       "obsidian-kanban:Create new board": false
     }
   },
-  "active": "b280f2bcce40f419",
+  "active": "82ae2e1a197daf82",
   "lastOpenFiles": [
     "02-Java/Core/Stream API.md",
     "07-Frontend/ES 中的 this 变量.md",
