@@ -134,19 +134,8 @@
                 "source": true
               }
             }
-          },
-          {
-            "id": "82ae2e1a197daf82",
-            "type": "leaf",
-            "state": {
-              "type": "release-notes",
-              "state": {
-                "currentVersion": "1.6.3"
-              }
-            }
           }
-        ],
-        "currentTab": 11
+        ]
       }
     ],
     "direction": "vertical"
@@ -220,7 +209,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "07-Frontend/ES 中的 this 变量.md",
+                "file": "02-Java/Core/Stream API.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -237,7 +226,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "07-Frontend/ES 中的 this 变量.md",
+                "file": "02-Java/Core/Stream API.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -260,7 +249,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "07-Frontend/ES 中的 this 变量.md"
+                "file": "02-Java/Core/Stream API.md"
               }
             }
           }
@@ -282,11 +271,11 @@
       "obsidian-kanban:Create new board": false
     }
   },
-  "active": "82ae2e1a197daf82",
+  "active": "639336f6e51f6875",
   "lastOpenFiles": [
-    "02-Java/Core/Stream API.md",
     "07-Frontend/ES 中的 this 变量.md",
     "07-Frontend/闭包.md",
+    "02-Java/Core/Stream API.md",
     "07-Frontend",
     "attachments/Pasted image 20240618201102.png",
     "Todo-List.md",
