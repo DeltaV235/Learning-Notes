@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>function</title>
+</head>
+
+<body>
+    <script>
+        const array = ['a', 'b', 'c'];
+        console.log(typeof array);
+        console.log(Object.keys(array)) // [ '0', '1', '2' ]
+        console.log(array.length);
+        // array[3] - array[999] 会产生空位，直接读取会返回 undefined
+        array[1000] = 'd';
+        console.log(array.length);
+        console.log(array);
+
+        array.forEach((item, index) => {
+            // forEach 不会遍历空位
+            console.log(index, item);
+        });
+        for (let i in array) {
+            // for in 不会遍历空位
+            console.log(i, array[i]);
+        }
+        for(let i = 0; i < array.length; i++) {
+            // for 循环会遍历空位
+            console.log(i, array[i]);
+        }
+
+        array.length = 2;
+        console.log(array);
+        array.length = 0;
+        console.log(array); // []
+
+        var a = [1, , ,];
+        console.log(a.length); // 3
+
+        var a = [,,];
+        a.forEach(function (x, i) { console.log(i + '. ' + x) });
+    </script>
+</body>
+
+</html>
