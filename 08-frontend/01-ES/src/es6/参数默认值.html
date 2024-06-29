@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>参数默认值</title>
+</head>
+
+<body>
+    <script>
+        // 1. ES6 允许为函数的参数设置默认值，即直接写在参数定义的后面。
+        function add(a, b, c = 20) {
+            return a + b + c;
+        }
+        console.log(add(1, 2));
+
+        // 2. 与解构赋值默认值结合使用
+        function connect({ host = 'localhost', username, password, port = 3306}) {
+            console.log(host);
+            console.log(username);
+            console.log(password);
+            console.log(port);
+        }
+
+        connect({
+            host: 'www.google.com',
+            username: 'root',
+            password: '123456',
+        });
+
+    </script>
+</body>
+
+</html>

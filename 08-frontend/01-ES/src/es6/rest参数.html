@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rest参数</title>
+</head>
+
+<body>
+    <script>
+        // 1. ES6 引入 rest 参数（形式为“...变量名”），用于获取函数的多余参数，这样就不需要使用arguments对象了。
+        // 2. rest 参数搭配的变量是一个数组，该变量将多余的参数放入数组中。
+        // 3. rest 参数之后不能再有其他参数（即只能是最后一个参数），否则会报错。
+        function date(first, ...rest) {
+            console.log(rest.length);
+            console.log(first);
+            console.log(rest);
+        }
+
+        date(1, 2, 3, 4, 5, 6, 7);
+    </script>
+</body>
+
+</html>
