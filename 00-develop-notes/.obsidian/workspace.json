@@ -134,8 +134,33 @@
                 "source": true
               }
             }
+          },
+          {
+            "id": "f5137bffa62ac26e",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "07-Frontend/ES 中的 this 变量.md",
+                "mode": "source",
+                "source": true
+              }
+            }
+          },
+          {
+            "id": "75d52713a95b21aa",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "07-Frontend/ES 中的 this 变量.md",
+                "mode": "source",
+                "source": true
+              }
+            }
           }
-        ]
+        ],
+        "currentTab": 12
       }
     ],
     "direction": "vertical"
@@ -209,7 +234,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "02-Java/Core/Stream API.md",
+                "file": "07-Frontend/ES 中的 this 变量.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -226,7 +251,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "02-Java/Core/Stream API.md",
+                "file": "07-Frontend/ES 中的 this 变量.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -249,7 +274,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "02-Java/Core/Stream API.md"
+                "file": "07-Frontend/ES 中的 this 变量.md"
               }
             }
           }
@@ -271,11 +296,12 @@
       "obsidian-kanban:Create new board": false
     }
   },
-  "active": "639336f6e51f6875",
+  "active": "75d52713a95b21aa",
   "lastOpenFiles": [
+    "07-Frontend/Array.md",
+    "02-Java/Core/Stream API.md",
     "07-Frontend/ES 中的 this 变量.md",
     "07-Frontend/闭包.md",
-    "02-Java/Core/Stream API.md",
     "07-Frontend",
     "attachments/Pasted image 20240618201102.png",
     "Todo-List.md",
@@ -319,7 +345,6 @@
     "Misc",
     "02-Java/Core",
     "Software-List/MacOS-12.md",
-    "Obsidian Tutorial.md",
     "未命名.canvas",
     "IDE-Guide/JetBrains/IDEA/未命名.canvas"
   ]

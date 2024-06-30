@@ -1,12 +1,16 @@
 {
   "recentFiles": [
     {
-      "basename": "Stream API",
-      "path": "02-Java/Core/Stream API.md"
-    },
-    {
       "basename": "ES 中的 this 变量",
       "path": "07-Frontend/ES 中的 this 变量.md"
+    },
+    {
+      "basename": "Array",
+      "path": "07-Frontend/Array.md"
+    },
+    {
+      "basename": "Stream API",
+      "path": "02-Java/Core/Stream API.md"
     },
     {
       "basename": "闭包",
