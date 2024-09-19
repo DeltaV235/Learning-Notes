@@ -3,6 +3,8 @@ package medium;
 import java.util.Arrays;
 
 /**
+ * <a href="https://leetcode.cn/problems/the-latest-time-to-catch-a-bus/description/?envType=daily-question&envId=2024-09-18">leetcode</a>
+ * <p>
  * Not Completed
  */
 public class TheLatestTimeToCatchBus {
