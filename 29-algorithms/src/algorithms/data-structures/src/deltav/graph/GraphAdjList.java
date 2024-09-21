@@ -58,6 +58,10 @@ public class GraphAdjList {
         }
     }
 
+    public Map<Vertex, Set<Vertex>> getAdjList() {
+        return adjList;
+    }
+
     public static void main(String[] args) {
         /* 初始化无向图 */
         Vertex[] v = Vertex.valsToVets(new int[]{1, 3, 2, 5, 4});

@@ -34,4 +34,11 @@ public class Vertex {
         }
         return vals;
     }
+
+    @Override
+    public String toString() {
+        return "Vertex{" +
+                "val=" + val +
+                '}';
+    }
 }
