@@ -4,7 +4,7 @@ import deltav.utils.Vertex;
 
 import java.util.*;
 
-public class GraphTraversal {
+public class GraphAdjListTraversal {
     public static List<Vertex> graphBfsForAdjList(GraphAdjList adjList, Vertex startVertex) {
         List<Vertex> res = new ArrayList<>();
         Set<Vertex> visited = new HashSet<>();
@@ -67,7 +67,7 @@ public class GraphTraversal {
         System.out.println("\n初始化后，图为");
         adjList.print();
 
-        List<Vertex> vertices = GraphTraversal.graphBfsForAdjList(adjList, v[0]);
+        List<Vertex> vertices = GraphAdjListTraversal.graphBfsForAdjList(adjList, v[0]);
         System.out.println("vertices = " + vertices);
 
         v = Vertex.valsToVets(new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8});
@@ -81,7 +81,7 @@ public class GraphTraversal {
 
         adjList = new GraphAdjList(edges);
 
-        vertices = GraphTraversal.graphDfsForAdjList(adjList, v[0]);
+        vertices = GraphAdjListTraversal.graphDfsForAdjList(adjList, v[0]);
         System.out.println("vertices = " + vertices);
     }
 }

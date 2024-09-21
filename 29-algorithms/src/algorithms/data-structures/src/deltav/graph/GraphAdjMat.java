@@ -75,6 +75,14 @@ public class GraphAdjMat {
         PrintUtil.printMatrix(adjMat);
     }
 
+    public List<Integer> getVertices() {
+        return vertices;
+    }
+
+    public List<List<Integer>> getAdjMat() {
+        return adjMat;
+    }
+
     public static void main(String[] args) {
         /* 初始化无向图 */
         // 请注意，edges 元素代表顶点索引，即对应 vertices 元素索引
