@@ -1,7 +1,7 @@
 package medium;
 
 /**
- * <a href="https://leetcode.cn/problems/node-with-highest-edge-score/description">...</a>
+ * <a href="https://leetcode.cn/problems/node-with-highest-edge-score/description">leetcode</a>
  */
 public class NodeWithHighestEdgeScore {
     public int edgeScore(int[] edges) {
