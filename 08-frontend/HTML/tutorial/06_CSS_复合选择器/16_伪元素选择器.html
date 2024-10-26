@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>16_伪元素选择器</title>
+    <style>
+        div>p::first-letter {
+            color: red;
+            font-size: 40px;
+        }
+
+        div>p::first-line {
+            background-color: yellow;
+        }
+
+        div>p::before {
+            content: "hello";
+        }
+
+        div>p::after {
+            content: "byebye";
+        }
+
+        div>p::selection {
+            color: aqua;
+            background-color: brown;
+        }
+
+        div>input::placeholder {
+            color: cadetblue;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti, culpa eos. Officia, sit? Dolore ullam,
+            rem commodi cumque possimus laudantium ab ratione consectetur laboriosam officia corrupti excepturi. Nemo
+            excepturi id voluptas. Earum, atque voluptatem blanditiis ad est magnam tenetur mollitia beatae obcaecati
+            inventore, iste aspernatur quia consectetur esse odio fugiat quo rem corporis perferendis. Enim, possimus
+            qui? Perferendis, eaque. Architecto pariatur id dicta, quo consequatur tempora quae maxime tempore totam
+            obcaecati veniam minus itaque neque quas doloribus sed iusto. Commodi natus recusandae, tempora minima
+            soluta et eum ab quas obcaecati delectus doloremque eaque adipisci odio, culpa ipsam repellendus ut facere.
+            Quaerat ex quisquam quas molestiae, ipsa sit soluta. Possimus debitis laborum ratione quaerat! Explicabo
+            molestiae laudantium unde, quas odio sequi necessitatibus expedita vero perspiciatis, provident dolorum eos
+            excepturi tenetur at maxime voluptatum. Debitis accusantium culpa laboriosam quae vero nostrum porro
+            provident dicta repudiandae, non, autem ratione unde veritatis quod iusto eius enim aut corporis. Amet
+            ducimus qui voluptatem quam accusantium! Sint unde soluta ullam, ad voluptate earum error corporis, eius ab
+            dolorum quibusdam officia, cumque voluptas perferendis provident molestias eum aliquam et. Commodi mollitia
+            numquam, doloremque omnis unde, libero quaerat ducimus ullam consequuntur odio quasi nihil eaque distinctio
+            repellat, blanditiis velit impedit! Quis quos ipsum vitae amet, unde maxime recusandae dolorum, facere
+            delectus non laborum odio quaerat adipisci esse officia sint nemo, tempora quidem veniam consequatur minus
+            a. Eos ex fuga at, rem alias dignissimos nostrum reprehenderit. Dicta ducimus facilis, cum non est nemo
+            temporibus optio minus asperiores laborum, qui magnam odit fugiat recusandae reiciendis, tempora saepe
+            voluptatibus velit iusto eum quidem sequi sit! Illo asperiores vitae hic rerum, quae culpa, dicta maiores
+            reprehenderit laboriosam cum dolores mollitia temporibus porro quaerat veritatis fuga facilis atque
+            inventore! Velit beatae maiores recusandae architecto! Doloremque laborum facilis suscipit tenetur adipisci
+            voluptate incidunt? Quisquam eveniet ratione tempora corporis eos! Molestias temporibus quos omnis
+            perferendis, enim, iusto non sint modi, blanditiis alias aperiam. Facere iste praesentium illum labore, modi
+            eum maxime commodi corporis molestias nesciunt numquam, velit rem molestiae cumque dolores sunt tempora odit
+            aliquid dolorum excepturi recusandae impedit eveniet totam. Dicta esse odio dolorem explicabo reprehenderit
+            blanditiis, rem laudantium dolorum ipsum ipsam culpa excepturi possimus asperiores reiciendis recusandae
+            perspiciatis expedita? Dolores aspernatur nisi deleniti esse fugit quisquam necessitatibus, unde temporibus
+            quia nobis dicta ipsam molestias labore odio error. Eos dicta necessitatibus ea magnam vel rem ad ex. Neque
+            aperiam aut id, a tempora quisquam?
+        </p>
+
+        <input type="text" placeholder="input">
+    </div>
+</body>
+
+</html>
