@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>10_伪类选择器_结构伪类</title>
+    <style>
+        /* div>p:nth-child(-n + 5) {
+            color: red;
+        } */
+        div>p:first-of-type {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <span>1</span>
+        <p>2</p>
+        <p>3</p>
+        <p>4</p>
+        <p>5</p>
+        <p>6</p>
+        <p>7</p>
+    </div>
+</body>
+
+</html>
