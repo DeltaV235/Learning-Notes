@@ -1,0 +1,3 @@
+[submodule "ObsidianVault"]
+	path = ObsidianVault
+	url = https://github.com/DeltaV235/ObsidianVault.git
