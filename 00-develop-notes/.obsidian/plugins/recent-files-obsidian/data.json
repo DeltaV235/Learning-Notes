@@ -1,6 +1,30 @@
 {
   "recentFiles": [
     {
+      "basename": "MacOS-15",
+      "path": "Software-List/MacOS-15.md"
+    },
+    {
+      "basename": "Default",
+      "path": "Obsidian-Related/Template/Default.md"
+    },
+    {
+      "basename": "Snippet",
+      "path": "Obsidian-Related/Template/Snippet.md"
+    },
+    {
+      "basename": "Obsidian Tutorial",
+      "path": "Obsidian-Related/Obsidian Tutorial.md"
+    },
+    {
+      "basename": "Link-Demo2",
+      "path": "Obsidian-Related/Link-Demo2.md"
+    },
+    {
+      "basename": "Link-Demo1",
+      "path": "Obsidian-Related/Link-Demo1.md"
+    },
+    {
       "basename": "ES 中的 this 变量",
       "path": "07-Frontend/ES 中的 this 变量.md"
     },
@@ -57,20 +81,8 @@
       "path": "attachments/Pasted image 20230304204203.png"
     },
     {
-      "basename": "Default",
-      "path": "Obsidian-Related/Template/Default.md"
-    },
-    {
-      "basename": "Snippet",
-      "path": "Obsidian-Related/Template/Snippet.md"
-    },
-    {
       "basename": "LF will be replaced by CRLF the next time Git touches it",
       "path": "06-Git/LF will be replaced by CRLF the next time Git touches it.md"
-    },
-    {
-      "basename": "Obsidian Tutorial",
-      "path": "Obsidian-Related/Obsidian Tutorial.md"
     },
     {
       "basename": "代码跳转",
@@ -122,6 +134,7 @@
     }
   ],
   "omittedPaths": [],
+  "omittedTags": [],
   "maxLength": null,
   "openType": "tab"
 }

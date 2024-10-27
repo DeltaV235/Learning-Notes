@@ -153,7 +153,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "07-Frontend/ES 中的 this 变量.md",
+                "file": "Software-List/MacOS-15.md",
                 "mode": "source",
                 "source": true
               }
@@ -234,7 +234,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "07-Frontend/ES 中的 this 变量.md",
+                "file": "Software-List/MacOS-15.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -251,7 +251,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "07-Frontend/ES 中的 this 变量.md",
+                "file": "Software-List/MacOS-15.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -274,7 +274,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "07-Frontend/ES 中的 this 变量.md"
+                "file": "Software-List/MacOS-15.md"
               }
             }
           }
@@ -293,14 +293,21 @@
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
       "obsidian-excalidraw-plugin:Create new drawing": false,
-      "obsidian-kanban:Create new board": false
+      "obsidian-kanban:Create new board": false,
+      "obsidian-git:Open Git source control": false
     }
   },
   "active": "75d52713a95b21aa",
   "lastOpenFiles": [
+    "Obsidian-Related/Template/Default.md",
+    "Obsidian-Related/Template/Snippet.md",
+    "Obsidian-Related/Obsidian Tutorial.md",
+    "Obsidian-Related/Link-Demo2.md",
+    "Obsidian-Related/Link-Demo1.md",
+    "Software-List/MacOS-15.md",
+    "07-Frontend/ES 中的 this 变量.md",
     "07-Frontend/Array.md",
     "02-Java/Core/Stream API.md",
-    "07-Frontend/ES 中的 this 变量.md",
     "07-Frontend/闭包.md",
     "07-Frontend",
     "attachments/Pasted image 20240618201102.png",
@@ -321,11 +328,8 @@
     "Misc/All-In-One",
     "Drawing 2024-06-16 11.06.19.excalidraw.md",
     "attachments/Pasted image 20230304204203.png",
-    "Obsidian-Related/Template/Default.md",
-    "Obsidian-Related/Template/Snippet.md",
     "attachments/Pasted image 20240616223208.png",
     "06-Git/LF will be replaced by CRLF the next time Git touches it.md",
-    "Obsidian-Related/Obsidian Tutorial.md",
     "Untitled.md",
     "01-IDE-Guide/JetBrains/IDEA/代码跳转.md",
     "Excalidraw/Drawing 2024-06-16 11.06.19.excalidraw.md",
@@ -339,12 +343,9 @@
     "attachments/stream-flatMap-1.drawio",
     "attachments/Pasted.md",
     "02-Java/Web/Web-Container/Tomcat & Jetty.md",
-    "02-Java/Design-Pattern/Template Pattern.md",
     "attachments/stream-map-1.drawio",
-    "Misc/Keyboard.md",
     "Misc",
     "02-Java/Core",
-    "Software-List/MacOS-12.md",
     "未命名.canvas",
     "IDE-Guide/JetBrains/IDEA/未命名.canvas"
   ]

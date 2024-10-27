@@ -2,6 +2,7 @@
 - Homebrew
 	- mos
 	- stats
+    - jordanbaird-ice
 - ClashX
 - Google Chrome
 - JetBrains ToolBox
@@ -14,6 +15,7 @@
 	- Karabiner
 	- Mos(installed by Homebrew)
 	- Stats(installed by Homebrew)
+	- iStat
 - Obsidian
 - Telegram
 - VS Code
@@ -34,6 +36,8 @@
 	- tree
 	- neofetch
 	- im-select: Switch your input method in shell. This project is a basic support for VSCodeVim. It provides the command line program for VSCodeVim's autoSwitchIM function.
+    - neovim
+    - 
 - Oh-My-Zsh
 	- git
 	- zsh-autosuggestions
