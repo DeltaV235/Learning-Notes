@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>02_表格相关属性</title>
+    <style>
+        .tab {
+            border: 1px #ff0000 solid;
+            width: 500px;
+            table-layout: fixed;
+            border-spacing: 20px;
+            border-collapse: collapse;
+            empty-cells: hide;
+            caption-side: bottom;
+        }
+        th, td {
+            border: 2px orange solid;
+        }
+    </style>
+</head>
+
+<body>
+    <table class="tab">
+        <caption>人员信息</caption>
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>姓名</th>
+                <th>性别</th>
+                <th>年龄</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>张三</td>
+                <td></td>
+                <td>21</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>李四</td>
+                <td>女</td>
+                <td>23</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>王五</td>
+                <td>男</td>
+                <td>24</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+</html>
