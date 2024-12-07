@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>26_行内块的幽灵空白问题</title>
+    <style>
+        div {
+            width: 500px;
+            background-color: gray;
+            font-size: 0;
+        }
+        img {
+            /* vertical-align: bottom; */
+            /* display: block; */
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <img src="../images/悟空.jpg" alt="">
+    </div>
+</body>
+</html>
