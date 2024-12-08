@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>06_浮动布局练习</title>
+    <style>
+        body {
+            text-align: center;
+            font-size: 20px;
+        }
+
+        .header {
+            width: 960px;
+            line-height: 80px;
+            margin-bottom: 10px;
+        }
+
+        .header::after {
+            content: '';
+            display: block;
+            clear: both;
+        }
+
+        .float-left {
+            float: left;
+        }
+
+        .logo {
+            width: 200px;
+            height: 80px;
+            margin-right: 10px;
+        }
+
+        .banner1 {
+            width: 540px;
+            height: 80px;
+            margin-right: 10px;
+        }
+
+        .banner2 {
+            width: 200px;
+            height: 80px;
+        }
+
+        .gray-background {
+            background-color: #ddd;
+        }
+
+        .meun {
+            width: 960px;
+            height: 30px;
+            background-color: #ddd;
+            margin-bottom: 10px;
+        }
+
+        .content {
+            width: 960px;
+            line-height: 100px;
+        }
+
+        .content::after {
+            content: '';
+            display: block;
+            clear: both;
+        }
+
+        .left {
+            float: left;
+            width: 760px;
+        }
+
+        .left::after {
+            content: '';
+            display: block;
+            clear: both;
+        }
+
+        .right {
+            float: left;
+        }
+
+        .big-box {
+            width: 368px;
+            height: 198px;
+            border: 1px solid #000;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .middle-box {
+            width: 178px;
+            height: 198px;
+            border: 1px solid #000;
+            margin-right: 10px;
+        }
+        
+        .small-box {
+            width: 198px;
+            height: 128px;
+            border: 1px solid #000;
+            margin-bottom: 10px;
+        }
+
+        .footer {
+            width: 960px;
+            height: 60px;
+            background-color: #ddd;
+            line-height: 60px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="logo float-left gray-background">logo</div>
+        <div class="banner1 float-left gray-background">banner1</div>
+        <div class="banner2 float-left gray-background">banner2</div>
+    </div>
+    <div class="meun">菜单</div>
+    <div class="content">
+        <div class="left">
+            <div class="float-left big-box">栏目一</div>
+            <div class="float-left big-box">栏目二</div>
+            <div class="float-left middle-box">栏目三</div>
+            <div class="float-left middle-box">栏目四</div>
+            <div class="float-left middle-box">栏目五</div>
+            <div class="float-left middle-box">栏目六</div>
+        </div>
+        <div class="right">
+            <div class="small-box">栏目七</div>
+            <div class="small-box">栏目八</div>
+            <div class="small-box">栏目九</div>
+        </div>
+    </div>
+    <div class="footer">页脚</div>
+</body>
+
+</html>
