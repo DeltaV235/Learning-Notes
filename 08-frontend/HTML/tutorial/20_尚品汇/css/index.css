@@ -1,0 +1,259 @@
+/* common css */
+
+.container {
+    width: 1190px;
+    margin: 0 auto;
+}
+
+/* #region topbar start */
+
+.topbar {
+    height: 30px;
+    font-family: 'PingFangSC-Medium', sans-serif;
+    font-weight: 400;
+    font-size: 0;
+    color: #666;
+    background-color: #ECECEC;
+    line-height: 30px;
+}
+
+.topbar-welcome {
+    font-family: 'PingFangSC-Regular', sans-serif;
+}
+
+.topbar-item {
+    font-size: 12px;
+    vertical-align: middle;
+}
+
+.login {
+    margin-left: 28px;
+}
+
+.order {
+    margin-left: 336px;
+}
+
+.topbar-item-delimiter {
+    display: inline-block;
+    height: 12px;
+    margin: 0 15px;
+    border-left: 1px solid #666;
+}
+
+.small-margin {
+    margin: 0 10px;
+}
+
+/* #endregion topbar end */
+
+/* #region header start */
+
+.header {
+    height: 120px;
+    /* background-color: rgb(205, 216, 198); */
+}
+
+.header .search {
+    font-size: 0;
+    margin-top: 42px;
+}
+
+.header .search input {
+    width: 508px;
+    height: 34px;
+    border: 1px solid #DD302D;
+    font-size: 16px;
+}
+
+.header .search button {
+    width: 80px;
+    height: 36px;
+    background-color: #DD302D;
+    vertical-align: top;
+    background-image: url(../images/serch_icon.png);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* #endregion header end */
+
+/* #region main-nav start */
+
+.main-nav {
+    height: 48px;
+    border-bottom: 1px solid #DD302D;
+    font-family: 'PingFangSC-Medium', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.main-nav .all-product-category {
+    width: 190px;
+    height: 48px;
+    line-height: 48px;
+    background-color: #DD302D;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+.main-nav .main-nav-list li {
+    float: left;
+    margin: 0 10px;
+}
+
+.main-nav .main-nav-list {
+    color: #333333;
+    height: 48px;
+    line-height: 48px;
+}
+
+/* #endregion main-nav end */
+
+/* #region main-content start */
+
+.main-content {
+    margin-top: 10px;
+}
+
+.main-content .side-nav {
+    width: 190px;
+    height: 458px;
+    background-color: #F4F4F4;
+    font: 14px 'PingFangSC-Medium', sans-serif;
+    color: #333333;
+    position: relative;
+}
+
+.main-content .side-nav li {
+    height: 28px;
+    line-height: 28px;
+    padding-left: 16px;
+}
+
+.main-content .side-nav li:hover {
+    background-color: #DD302D;
+}
+
+.main-content .side-nav li:hover>a {
+    color: #FFFFFF;
+}
+
+.main-content .side-nav li:first-child {
+    margin-top: 5px;
+}
+
+.main-content .second-menu {
+    width: 680px;
+    height: 458px;
+    background-color: #FFFFFF;
+    position: absolute;
+    top: 0;
+    left: 190px;
+    display: none;
+    padding-left: 20px;
+}
+
+.main-content .side-nav li:hover .second-menu {
+    display: block;
+}
+
+.main-content .side-nav li:hover .second-menu a:hover {
+    color: #DD302D;
+}
+
+.main-content .side-nav .second-menu dl {
+    height: 36px;
+    line-height: 36px;
+}
+
+.main-content .side-nav .second-menu dl:first-child {
+    margin-top: 10px;
+}
+
+.main-content .side-nav .second-menu dt {
+    float: left;
+    width: 70px;
+    margin-right: 10px;
+}
+
+.main-content .side-nav .second-menu dt>a {
+    font-size: 14px;
+    color: #000000;
+    font-family: 'PingFangSC-Medium', sans-serif;
+    font-weight: 500;
+}
+
+.main-content .side-nav .second-menu dd {
+    float: left;
+}
+
+.main-content .side-nav .second-menu dd>a {
+    font-family: 'PingFangSC-Medium', sans-serif;
+    font-size: 14px;
+    color: #666666;
+    font-weight: 500;
+    padding: 0 10px;
+    border-left: 1px solid #999999;
+}
+
+.main-content .banner {
+    width: 690px;
+    height: 458px;
+    margin: 0 10px;
+}
+
+.main-content .side-other {
+    width: 290px;
+    height: 458px;
+}
+
+.main-content .side-other .message {
+    width: 260px;
+    height: 156px;
+    border: 1px solid #D9D9D9;
+    margin-bottom: 10px;
+    padding: 0 14px;
+}
+
+.main-content .side-other .message .title {
+    height: 39px;
+    border-bottom: 1px solid #D9D9D9;
+    line-height: 39px;
+}
+
+.main-content .side-other .message .title>h3 {
+    font-family: 'PingFangSC-Regular', sans-serif;
+    font-size: 14px;
+    color: #000000;
+    font-weight: 400;
+}
+
+.main-content .side-other .message .title>a {
+    font-family: 'PingFangSC-Medium', sans-serif;
+    font-size: 12px;
+    color: #999999;
+}
+
+.main-content .side-other .message .title>a:hover {
+    color: #DD302D;
+}
+
+.main-content .side-other .message .msg-list>li {
+    height: 28px;
+    line-height: 28px;
+    font-family: 'PingFangSC-Medium', sans-serif;
+    font-size: 12px;
+}
+
+.main-content .side-other .message .msg-list>li:first-child {
+    margin-top: 2px;
+}
+
+.main-content .side-other .other-nav {
+    width: 290px;
+    height: 290px;
+    background-color: aliceblue;
+}
+
+/* #regionend main-content end */
