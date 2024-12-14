@@ -240,8 +240,8 @@
 }
 
 .main-content .side-other .message .msg-list>li {
-    height: 28px;
-    line-height: 28px;
+    height: 26px;
+    line-height: 26px;
     font-family: 'PingFangSC-Medium', sans-serif;
     font-size: 12px;
 }
@@ -253,7 +253,92 @@
 .main-content .side-other .other-nav {
     width: 290px;
     height: 290px;
-    background-color: aliceblue;
+    overflow: hidden;
+}
+
+.main-content .side-other .other-nav .other-nav-list>li {
+    float: left;
+    width: 48px;
+    height: 70px;
+    margin: 0 11px;
+    text-align: center;
+}
+
+.main-content .side-other .other-nav .other-nav-list>li:hover a>span {
+    color: #DD302D;
+}
+
+.main-content .side-other .other-nav .other-nav-list>li>a>span {
+    font-family: 'PingFangSC-Medium', sans-serif;
+    font-size: 14px;
+    color: #000000;
+    letter-spacing: 0;
+}
+
+.main-content .side-other .other-nav .other-nav-list>li:first-child {
+    margin-left: 16px;
+}
+
+.main-content .side-other .other-nav .other-nav-list:first-child {
+    margin-top: 16px;
+}
+
+.main-content .side-other .other-nav .other-nav-list:nth-child(2) {
+    margin: 17px 0;
+}
+
+.main-content .side-other .other-nav .other-nav-list .picture {
+    width: 48px;
+    height: 48px;
+    background-image: url(../images/精灵图-侧边功能.png);
+}
+
+.main-content .side-other .other-nav .other-nav-list:nth-child(1)>li:nth-child(1) .picture {
+    background-position: 0 0;
+}
+
+.main-content .side-other .other-nav .other-nav-list:nth-child(1)>li:nth-child(2) .picture {
+    background-position: -48px 0;
+}
+
+.main-content .side-other .other-nav .other-nav-list:nth-child(1)>li:nth-child(3) .picture {
+    background-position: -96px 0;
+}
+
+.main-content .side-other .other-nav .other-nav-list:nth-child(1)>li:nth-child(4) .picture {
+    background-position: -144px 0;
+}
+
+.main-content .side-other .other-nav .other-nav-list:nth-child(2)>li:nth-child(1) .picture {
+    background-position: 0 -48px;
+}
+
+.main-content .side-other .other-nav .other-nav-list:nth-child(2)>li:nth-child(2) .picture {
+    background-position: -48px -48px;
+}
+
+.main-content .side-other .other-nav .other-nav-list:nth-child(2)>li:nth-child(3) .picture {
+    background-position: -96px -48px;
+}
+
+.main-content .side-other .other-nav .other-nav-list:nth-child(2)>li:nth-child(4) .picture {
+    background-position: -144px -48px;
+}
+
+.main-content .side-other .other-nav .other-nav-list:nth-child(3)>li:nth-child(1) .picture {
+    background-position: 0 -96px;
+}
+
+.main-content .side-other .other-nav .other-nav-list:nth-child(3)>li:nth-child(2) .picture {
+    background-position: -48px -96px;
+}
+
+.main-content .side-other .other-nav .other-nav-list:nth-child(3)>li:nth-child(3) .picture {
+    background-position: -96px -96px;
+}
+
+.main-content .side-other .other-nav .other-nav-list:nth-child(3)>li:nth-child(4) .picture {
+    background-position: -144px -96px;
 }
 
 /* #regionend main-content end */
