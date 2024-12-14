@@ -341,4 +341,29 @@
     background-position: -144px -96px;
 }
 
-/* #regionend main-content end */
+/* #endregion main-content end */
+
+/* #region seckill start */
+
+.seckill {
+    margin-top: 10px;
+}
+
+.seckill img {
+    float: left;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.seckill img:last-child {
+    margin-right: 0;
+}
+
+.seckill img:nth-child(3) {
+    margin-right: 14px;
+}
+
+/* #endregion seckill end */
+
+/* #region seckill start */
+/* #endregion seckill end */
