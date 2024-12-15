@@ -365,5 +365,121 @@
 
 /* #endregion seckill end */
 
-/* #region seckill start */
-/* #endregion seckill end */
+/* #region floor start */
+
+.floor {
+    margin-top: 48px;
+}
+
+.floor-nav {
+    height: 30px;
+    line-height: 30px;
+    padding-bottom: 4px;
+    border-bottom: 2px solid #DD302D;
+}
+
+.floor-nav-name {
+    font-family: 'PingFangSC-Medium', sans-serif;
+    font-size: 20px;
+    color: #000000;
+}
+
+.floor-nav>.floor-nav-list {
+    font-family: 'PingFangSC-Medium', sans-serif;
+    font-size: 16px;
+}
+
+.floor-nav>.floor-nav-list>li {
+    float: left;
+    display: inline;
+}
+
+.floor-nav>.floor-nav-list>li>a {
+    color: #666666;
+}
+
+.floor-nav>.floor-nav-list>li:hover>a {
+    color: #DD302D;
+}
+
+.floor-nav>.floor-nav-list>li:first-child>a {
+    color: #DD302D;
+}
+
+.floor-nav>.floor-nav-list>.item-delimiter {
+    float: left;
+    height: 16px;
+    border-left: 1px solid #666666;
+    margin: 7px 10px;
+}
+
+.floor-info-item {
+    float: left;
+}
+
+.floor-info-item img {
+    cursor: pointer;
+}
+
+.floor-info .item1 {
+    width: 190px;
+    height: 392px;
+    background-color: #F4F4F4;
+    padding: 20px;
+}
+
+.floor-info .item1 .item1-list {
+    margin-bottom: 30px;
+}
+
+.floor-info .item1 .item1-list>li {
+    width: 90px;
+    padding-bottom: 3.5px;
+    border-bottom: 1px solid #D9D9D9;
+    font-family: 'PingFangSC-Medium', sans-serif;
+    font-size: 16px;
+    line-height: 22px;
+    color: #666666;
+    text-align: center;
+}
+
+.floor-info .item1 .item1-list>li:nth-child(2n-1) {
+    float: left;
+}
+
+.floor-info .item1 .item1-list>li:nth-child(2n) {
+    float: right;
+}
+
+.floor-info .item1 .item1-list>li:nth-child(3),
+.floor-info .item1 .item1-list>li:nth-child(4) {
+    margin: 14.4px 0;
+}
+
+.floor-info .item2 {
+    width: 340px;
+    height: 432px;
+}
+
+.floor-info .item3,
+.floor-info .item4,
+.floor-info .item5 {
+    width: 206px;
+    height: 432px;
+}
+
+.floor-info .item3>img,
+.floor-info .item4>img,
+.floor-info .item5>img {
+    border-bottom: 1px solid #E2E2E2;
+}
+
+.floor-info .item4 {
+    border-left: 1px solid #E2E2E2;
+    border-right: 1px solid #E2E2E2;
+}
+
+/* #endregion floor end */
+
+/* #region footer start */
+/* #endregion footer end */
