@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>01_线性渐变</title>
+    <style>
+        .box {
+            width: 300px;
+            height: 200px;
+            border: 1px solid #000;
+            float: left;
+            margin-left: 50px;
+            margin-top: 50px;
+        }
+
+        .box1 {
+            background-image: linear-gradient(red, yellow, green);
+        }
+
+        .box2 {
+            background-image: linear-gradient(to right, red, yellow, green);
+        }
+
+        .box3 {
+            background-image: linear-gradient(45deg, red, yellow, green);
+        }
+        
+        .box4 {
+            /* background-image: linear-gradient(45deg, red, yellow 20%, green 80%); */
+            background-image: linear-gradient(red 50px, yellow 100px, green 150px);
+        }
+
+        .box5 {
+            background-image: linear-gradient(20deg, red 70px, yellow 120px, green 200px);
+            font-size: 90px;
+            color: transparent;
+            font-weight: bold;
+            text-align: center;
+            line-height: 200px;
+            background-clip: text;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box box1"></div>
+    <div class="box box2"></div>
+    <div class="box box3"></div>
+    <div class="box box4"></div>
+    <div class="box box5">Hello</div>
+</body>
+
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>03-background-size</title>
+    <style>
+        .box {
+            width: 400px;
+            height: 400px;
+            /* background-color: lightblue; */
+            margin: 0 auto;
+            margin-top: 100px;
+            padding: 30px;
+            border: 30px dashed lightcoral;
+
+            /* background-image: url(../images/bg03.jpg);
+            background-repeat: no-repeat;
+            background-origin: padding-box;
+            background-size: cover; */
+
+            background: lightblue url(../images/bg03.jpg) no-repeat 0 0 / cover content-box padding-box;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+    </div>
+</body>
+
+</html>
