@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>02_缩放</title>
+    <style>
+        .outer {
+            width: 200px;
+            height: 200px;
+            border: 2px solid black;
+            margin: 0 auto;
+            margin-top: 100px;
+        }
+
+        .inner {
+            width: 200px;
+            height: 200px;
+            background-color: lightblue;
+            /* transform: scaleX(.5) scaleY(1.3); */
+            transform: scale(1.5);
+        }
+
+        span {
+            font-size: 20px;
+            transform: scale(.5);
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="outer">
+        <div class="inner">Lorem ipsum dolor sit amet consectetur adipisicing elit.</div>
+    </div>
+    <span>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Maxime, sint. Impedit deserunt, consequuntur alias
+        quisquam vero odio suscipit soluta in, provident cupiditate porro debitis, praesentium eos obcaecati mollitia.
+        Dignissimos, molestiae?</span>
+</body>
+
+</html>

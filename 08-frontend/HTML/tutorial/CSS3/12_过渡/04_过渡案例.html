@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>04_过渡案例</title>
+    <style>
+        .outer {
+            width: 1000px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        img {
+            width: 1000px;
+            transition: 0.5s linear;
+            transform: scale(1.1);
+        }
+
+        .mask {
+            width: 1000px;
+            height: 569px;
+            background-color: black;
+            color: white;
+            line-height: 563px;
+            text-align: center;
+            font-size: 200px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: 0.5s linear;
+            cursor: pointer;
+        }
+
+        .outer:hover .mask {
+            opacity: 0.5;
+        }
+
+        .outer:hover img {
+            transform: scale(2) rotate(35deg);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="outer">
+        <img src="./img4.jpg" alt="">
+        <div class="mask">MTN</div>
+    </div>
+</body>
+
+</html>

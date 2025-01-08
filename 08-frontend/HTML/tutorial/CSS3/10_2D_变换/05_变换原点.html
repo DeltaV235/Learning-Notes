@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>05_变换原点</title>
+    <style>
+        .outer {
+            width: 200px;
+            height: 200px;
+            border: 2px solid black;
+            margin: 0 auto;
+            margin-top: 100px;
+        }
+
+        .inner {
+            width: 200px;
+            height: 200px;
+            background-color: lightblue;
+            /* transform-origin: bottom right; */
+            /* transform: translate(100px, 100px); */
+            /* transform: rotate(30deg); */
+
+            /* transform-origin: top right; */
+            /* transform: scale(.5); */
+
+            transform-origin: 50px 50px;
+            transform: rotate(30deg);
+
+            transform-origin: 50px;
+            transform: scale(0.8);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="outer">
+        <div class="inner">Lorem ipsum dolor sit amet consectetur adipisicing elit.</div>
+    </div>
+</body>
+
+</html>

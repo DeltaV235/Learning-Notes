@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>02_高级使用</title>
+    <style>
+        .outer {
+            width: 1400px;
+            height: 810px;
+            border: 1px solid #000;
+        }
+
+        .outer:hover .box {
+            width: 1400px;
+        }
+
+        .box {
+            width: 150px;
+            height: 90px;
+            transition-property: all;
+            transition-duration: 5s;
+        }
+
+        .box1 {
+            background-color: antiquewhite;
+            transition-timing-function: ease;
+        }
+
+        .box2 {
+            background-color: yellowgreen;
+            transition-timing-function: linear;
+        }
+
+        .box3 {
+            background-color: aquamarine;
+            transition-timing-function: ease-in;
+        }
+
+        .box4 {
+            background-color: cadetblue;
+            transition-timing-function: ease-out;
+        }
+
+        .box5 {
+            background-color: coral;
+            transition-timing-function: ease-in-out;
+        }
+
+        .box6 {
+            background-color: darkgoldenrod;
+            transition-timing-function: step-start;
+        }
+
+        .box7 {
+            background-color: darkmagenta;
+            transition-timing-function: step-end;
+        }
+
+        .box8 {
+            background-color: darkorange;
+            transition-timing-function: steps(20, end);
+        }
+
+        .box9 {
+            background-color: gainsboro;
+            transition-timing-function: cubic-bezier(.67,.13,.79,1.17);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="outer">
+        <div class="box box1">ease</div>
+        <div class="box box2">linear</div>
+        <div class="box box3">ease-in</div>
+        <div class="box box4">ease-out</div>
+        <div class="box box5">ease-in-out</div>
+        <div class="box box6">step-start</div>
+        <div class="box box7">step-end</div>
+        <div class="box box8">steps()</div>
+        <div class="box box9">cubic-bezier</div>
+    </div>
+</body>
+
+</html>

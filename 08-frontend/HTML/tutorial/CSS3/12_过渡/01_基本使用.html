@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>01_基本使用</title>
+    <style>
+        .box {
+            width: 200px;
+            height: 200px;
+            background-color: aquamarine;
+            opacity: 0.5;
+            transform-origin: top left;
+            /* transition-property: transform; */
+            /* transition-property: transform, background-color, box-shadow; */
+            /* transition-duration: 500ms,3s, 10s; */
+            transition-property: all;
+            transition-duration: 2s;
+        }
+
+        .box:hover {
+            opacity: 1;
+            transform-origin: top left;
+            transform: translate(200px,50px) scale(2) rotate(30deg);
+            background-color: bisque;
+            box-shadow: 0 0 30px black;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box"></div>
+</body>
+
+</html>

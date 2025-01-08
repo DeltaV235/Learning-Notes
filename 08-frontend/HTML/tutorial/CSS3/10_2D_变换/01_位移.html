@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>01_位移</title>
+    <style>
+        .outer {
+            width: 200px;
+            height: 230px;
+            border: 2px solid black;
+            margin: 0 auto;
+            margin-top: 100px;
+            position: relative;
+        }
+
+        .inner {
+            width: 200px;
+            height: 200px;
+            background-color: lightblue;
+            /* transform: translateX(50px); */
+            /* transform: translateY(50px); */
+            /* transform: translate(50px, 50px) */
+            transform: translate(50%, 50%);
+        }
+
+        .inner-2 {
+            width: 100px;
+            height: 100px;
+            background-color: lightcyan;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            /* margin-left: -50px;
+            margin-top: -50px; */
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="outer">
+        <div class="inner">Lorem ipsum dolor sit amet consectetur adipisicing elit.</div>
+        <hr>
+    </div>
+    <div class="outer">
+        <div class="inner-2"></div>
+    </div>
+</body>
+
+</html>

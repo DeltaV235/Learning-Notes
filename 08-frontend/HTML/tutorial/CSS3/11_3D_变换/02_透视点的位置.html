@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>01_3D空间与景深</title>
+    <style>
+        .outer {
+            width: 200px;
+            height: 200px;
+            border: 2px solid black;
+            margin: 0 auto;
+            margin-top: 100px;
+            perspective: 300px;
+            perspective-origin: 302px 2px;
+            transform-style: preserve-3d;
+        }
+
+        .inner {
+            width: 200px;
+            height: 200px;
+            background-color: lightblue;
+            transform: rotateX(30deg);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="outer">
+        <div class="inner">Lorem ipsum dolor sit amet consectetur adipisicing elit.</div>
+    </div>
+</body>
+
+</html>

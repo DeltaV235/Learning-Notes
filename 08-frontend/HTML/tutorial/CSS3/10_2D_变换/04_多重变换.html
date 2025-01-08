@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>04_多重变换</title>
+    <style>
+        .outer {
+            width: 200px;
+            height: 200px;
+            border: 2px solid black;
+            margin: 0 auto;
+            margin-top: 100px;
+        }
+
+        .inner {
+            width: 200px;
+            height: 200px;
+            background-color: lightblue;
+            transform: translate(100px, 100px) scale(0.5);
+            transform: scale(0.5) translate(100px, 100px);
+            transform: translate(100px, 100px) rotate(45deg);
+            transform: rotate(45deg) translate(100px, 100px);
+            transform: rotate(45deg) translate(100px, 100px) scale(1.2);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="outer">
+        <div class="inner">Lorem ipsum dolor sit amet consectetur adipisicing elit.</div>
+    </div>
+</body>
+
+</html>
