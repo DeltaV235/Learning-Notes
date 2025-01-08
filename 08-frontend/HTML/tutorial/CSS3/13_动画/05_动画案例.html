@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>05_动画案例</title>
+    <style>
+        .animation {
+            width: 130px;
+            height: 130px;
+            margin: 0 auto;
+            margin-top: 200px;
+            background-image: url(bike.png);
+            animation: bike 1s steps(31) infinite;
+        }
+        @keyframes bike {
+            from {}
+            to {
+                background-position: 0 -4030px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="animation"></div>
+</body>
+
+</html>

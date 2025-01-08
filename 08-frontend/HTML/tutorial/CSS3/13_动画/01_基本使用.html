@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>01_基本使用</title>
+    <style>
+        .outer {
+            width: 1200px;
+            height: 100px;
+            border: 1px solid black;
+        }
+
+        .inner {
+            width: 100px;
+            height: 100px;
+            background-color: lightblue;
+            animation-name: move-left;
+            animation-duration: 5s;
+            animation-delay: .5s;
+        }
+
+        /* @keyframes move-left {
+            from {}
+
+            to {
+                transform: translate(1100px);
+                background-color: yellowgreen;
+            }
+        } */
+        @keyframes move-left {
+            0% {}
+
+            50% {
+                transform: translate(700px);
+                border-radius: 10%;
+                background-color: tomato;
+            }
+
+            100% {
+                transform: translate(1100px) rotate(360deg);
+                background-color: yellowgreen;
+                border-radius: 50%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="outer">
+        <div class="inner"></div>
+    </div>
+</body>
+
+</html>
