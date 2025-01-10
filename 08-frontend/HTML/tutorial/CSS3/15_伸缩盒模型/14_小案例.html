@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>14_小案例</title>
+    <style>
+        * {
+            font-family: Arial;
+            font-size: 14px;
+            margin: 0;
+            padding: 0;
+            border: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            background-image: url(./imgs/bg.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .page-header {
+            height: 70px;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-header-nav {
+            display: flex;
+        }
+
+        .page-header-nav li a {
+            color: #fff;
+            font-size: 20px;
+            border: 1px solid #fff;
+            padding: 10px;
+            border-radius: 8px;
+            margin-left: 20px;
+        }
+
+        .page-content {
+            display: flex;
+            height: calc(100vh - 70px);
+        }
+
+        .page-content-nav {
+            width: 1000px;
+            height: 300px;
+            margin: auto;
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+
+        .content-nav-item {
+            width: 180px;
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            cursor: pointer;
+            transition: 0.2s linear;
+        }
+
+        .content-nav-item:nth-child(1) {
+            background-color: #595CA8;
+        }
+
+        .content-nav-item:nth-child(2) {
+            background-color: #FF9D2E;
+        }
+
+        .content-nav-item:nth-child(3) {
+            background-color: #01A6DE;
+        }
+
+        .content-nav-item:nth-child(4) {
+            background-color: #1DC128;
+        }
+
+        .content-nav-item:nth-child(5) {
+            background-color: #015E91;
+        }
+
+        .content-nav-item span {
+            font-size: 20px;
+            color: #fff;
+        }
+
+        .content-nav-item:hover {
+            box-shadow: 0 0 10px black;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="page-header">
+        <img src="./imgs/logo.png" alt="logo">
+        <ul class="page-header-nav">
+            <li><a href="#">国内校区</a></li>
+            <li><a href="#">缅北校区</a></li>
+            <li><a href="#">非洲校区</a></li>
+            <li><a href="#">北美校区</a></li>
+        </ul>
+    </header>
+
+    <div class="page-content">
+        <div class="page-content-nav">
+            <div class="content-nav-item">
+                <img src="./imgs/item1.png" alt="">
+                <span>我的邮箱</span>
+            </div>
+            <div class="content-nav-item">
+                <img src="./imgs/item2.png" alt="">
+                <span>云服务</span>
+            </div>
+            <div class="content-nav-item">
+                <img src="./imgs/item3.png" alt="">
+                <span>手机课堂</span>
+            </div>
+            <div class="content-nav-item">
+                <img src="./imgs/item4.png" alt="">
+                <span>微信服务</span>
+            </div>
+
+            <div class="content-nav-item">
+                <img src="./imgs/item5.png" alt="">
+                <span>在线客服</span>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

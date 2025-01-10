@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>06_侧轴对齐方式_一行</title>
+    <style>
+        .outer {
+            width: 1200px;
+            height: 500px;
+            background-color: #888;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            /* justify-content: flex-start; */
+            /* justify-content: flex-end; */
+            /* justify-content: center; */
+            /* justify-content: space-between; */
+            /* justify-content: space-around; */
+            justify-content: space-evenly;
+
+            /* align-items: flex-start; */
+            /* align-items: flex-end; */
+            /* align-items: center; */
+            /* align-items: baseline; */
+            align-items: stretch;
+        }
+
+        .inner {
+            width: 200px;
+            height: 200px;
+            border: 1px solid #000;
+            background-color: aquamarine;
+            box-sizing: border-box;
+        }
+
+        .inner2 {
+            height: 250px;
+            font-size: 50px;
+        }
+
+        .inner3 {
+            height: 300px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="outer">
+        <div class="inner">1</div>
+        <div class="inner inner2">2</div>
+        <div class="inner inner3">3</div>
+    </div>
+</body>
+
+</html>
