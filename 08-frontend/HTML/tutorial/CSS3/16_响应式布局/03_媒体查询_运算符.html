@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>03_媒体查询_运算符</title>
+    <style>
+        h1 {
+            font-size: 40px;
+            height: 70px;
+            line-height: 70px;
+            text-align: center;
+            background-color: wheat;
+        }
+
+        @media only screen {
+            h1 {
+                background-color: violet;
+            }
+        }
+
+        @media (device-aspect-ratio: 16/9) {
+            h1 {
+                background-color: lightblue;
+            }
+        }
+
+        @media (width: 800px) {
+            h1 {
+                background-color: lightgreen;
+            }
+        }
+
+        /* @media  only screen and (max-width: 700px) and (min-width: 400px) {
+            h1 {
+                background-color: lightcoral;
+            }
+        } */
+
+        @media not screen and ((max-width: 400px) or (min-width: 700px)) {
+            h1 {
+                background-color: lightcoral;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Hello World!</h1>
+</body>
+
+</html>
