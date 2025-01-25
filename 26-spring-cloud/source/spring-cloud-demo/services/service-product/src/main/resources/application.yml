@@ -4,5 +4,8 @@ spring:
   cloud:
     nacos:
       server-addr: 192.168.0.31:8848
+      config:
+        import-check:
+          enabled: false
 server:
   port: 9000

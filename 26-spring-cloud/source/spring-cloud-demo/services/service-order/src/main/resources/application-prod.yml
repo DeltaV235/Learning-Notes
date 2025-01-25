@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: service-order
+  cloud:
+    nacos:
+      server-addr: 192.168.0.31:8848
+      config:
+        namespace: prod
+  config:
+    import:
+      - nacos:service-order.yml?group=SERVICE_ORDER
+      - nacos:database.yml?group=SERVICE_ORDER
+      - nacos:prod.yml?group=SERVICE_ORDER
+server:
+  port: 8000
