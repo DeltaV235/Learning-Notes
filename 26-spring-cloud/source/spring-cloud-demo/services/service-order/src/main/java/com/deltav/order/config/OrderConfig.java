@@ -3,6 +3,8 @@ package com.deltav.order.config;
 import com.alibaba.cloud.nacos.NacosConfigManager;
 import com.alibaba.nacos.api.config.ConfigService;
 import com.alibaba.nacos.api.config.listener.Listener;
+import feign.Logger;
+import feign.Retryer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
@@ -41,4 +43,16 @@ public class OrderConfig {
             log.info("Config listener started");
         };
     }
+
+//    @Bean
+//    public Logger.Level feignLoggerLevel() {
+//        return Logger.Level.FULL;
+//    }
+
+    @Bean
+    public Retryer serviceProductRetryer() {
+        return new Retryer.Default();
+    }
+
+
 }

@@ -1,6 +1,7 @@
 spring:
   profiles:
     active: dev
+    include: feign
   application:
     name: service-order
   cloud:
@@ -10,6 +11,10 @@ spring:
         namespace: ${spring.profiles.active:public}
 server:
   port: 8000
+
+logging:
+  level:
+    com.deltav.order.feign: debug
 
 ---
 spring:

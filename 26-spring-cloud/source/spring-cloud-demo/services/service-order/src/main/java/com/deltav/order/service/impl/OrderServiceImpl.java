@@ -1,6 +1,7 @@
 package com.deltav.order.service.impl;
 
 import com.deltav.order.bean.Order;
+import com.deltav.order.feign.OrderFeignClient;
 import com.deltav.order.service.OrderService;
 import com.deltav.product.bean.Product;
 import lombok.extern.slf4j.Slf4j;
@@ -21,19 +22,23 @@ public class OrderServiceImpl implements OrderService {
     private final RestTemplate restTemplate;
     private final DiscoveryClient discoveryClient;
     private final LoadBalancerClient loadBalancerClient;
+    private final OrderFeignClient orderFeignClient;
 
     @Autowired
     public OrderServiceImpl(RestTemplate restTemplate,
                             DiscoveryClient discoveryClient,
-                            LoadBalancerClient loadBalancerClient) {
+                            LoadBalancerClient loadBalancerClient,
+                            OrderFeignClient orderFeignClient) {
         this.restTemplate = restTemplate;
         this.discoveryClient = discoveryClient;
         this.loadBalancerClient = loadBalancerClient;
+        this.orderFeignClient = orderFeignClient;
     }
 
     @Override
     public Order create(Long productId, Long userId) {
-        Product product = getProductWithLoadBalancerAnnotation(productId);
+//        Product product = getProductWithLoadBalancerAnnotation(productId);
+        Product product = orderFeignClient.getProduct(productId);
         BigDecimal totalAmount = product.getPrice().multiply(BigDecimal.valueOf(product.getNum()));
         return Order.builder()
                 .id(1L) // Dummy ID
