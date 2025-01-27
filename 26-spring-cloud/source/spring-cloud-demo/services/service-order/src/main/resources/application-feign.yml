@@ -10,3 +10,9 @@ spring:
           service-product:
             connect-timeout: 3000
             read-timeout: 5000
+            request-interceptors:
+              - com.deltav.order.interceptor.XTokenRequestInterceptor
+
+feign:
+  sentinel:
+    enabled: true
