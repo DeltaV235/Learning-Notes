@@ -1,0 +1,6 @@
+spring:
+  cloud:
+    sentinel:
+      eager: true
+      transport:
+        dashboard: 192.168.0.31:8080

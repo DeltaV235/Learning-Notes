@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    include: sentinel
   application:
     name: service-product
   cloud:

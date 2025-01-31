@@ -1,5 +1,7 @@
 package com.deltav.order.service.impl;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
+import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.deltav.order.bean.Order;
 import com.deltav.order.feign.OrderFeignClient;
 import com.deltav.order.service.OrderService;
@@ -36,6 +38,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @SentinelResource(value = "createOrder", blockHandler = "createOrderFallback")
     public Order create(Long productId, Long userId) {
 //        Product product = getProductWithLoadBalancerAnnotation(productId);
         Product product = orderFeignClient.getProduct(productId);
@@ -47,6 +50,17 @@ public class OrderServiceImpl implements OrderService {
                 .nickName("Dummy NickName") // Dummy nickname
                 .address("Dummy Address") // Dummy address
                 .productList(Collections.singletonList(product)) // Get from remote
+                .build();
+    }
+
+    public Order createOrderFallback(Long productId, Long userId, BlockException blockException) {
+        return Order.builder()
+                .id(0L)
+                .totalAmount(BigDecimal.ZERO)
+                .userId(userId)
+                .nickName("Unknown NickName")
+                .address("Unknown Address")
+                .productList(Collections.emptyList())
                 .build();
     }
 
