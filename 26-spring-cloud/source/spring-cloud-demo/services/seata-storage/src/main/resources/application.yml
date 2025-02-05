@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: seata-storage
+  datasource:
+    url: jdbc:mariadb://192.168.0.32:3306/account_db?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: deltav
+    password: testPass
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  cloud:
+    nacos:
+      server-addr: 192.168.0.31:8848
+      config:
+        import-check:
+          enabled: false
+
+server:
+  port: 13000
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
