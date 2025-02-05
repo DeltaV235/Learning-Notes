@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @FeignClient(value = "service-product", fallback = OrderFeignClient.OrderFeignClientFallback.class)
 public interface OrderFeignClient {
 
-    @GetMapping("/product/{id}")
+    @GetMapping("/{id}")
     Product getProduct(@PathVariable("id") Long productId);
 
     @Component

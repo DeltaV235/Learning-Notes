@@ -1,0 +1,19 @@
+spring:
+  profiles:
+    include: router
+  application:
+    name: gateway
+  cloud:
+    nacos:
+      server-addr: 192.168.0.31:8848
+
+server:
+  port: 80
+
+#logging:
+#  level:
+#    org.springframework.cloud.gateway: DEBUG
+#    org.springframework.http.server.reactive: DEBUG
+#    org.springframework.web.reactive: DEBUG
+#    reactor.netty: DEBUG
+#    com.alibaba.nacos: DEBUG

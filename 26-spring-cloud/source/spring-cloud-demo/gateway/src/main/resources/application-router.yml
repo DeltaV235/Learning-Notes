@@ -1,0 +1,39 @@
+spring:
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowed-origin-patterns: '*'
+            allowed-headers: '*'
+            allowed-methods: '*'
+      routes:
+        - id: google
+          uri: https://google.com
+          predicates:
+            - Path=/search
+            - name: Query
+              args:
+                param: q
+                regexp: ds
+            - Vip=userId,100
+          order: 10
+        - id: order-router
+          uri: lb://service-order
+          predicates:
+            - name: Path
+              args:
+                patterns:
+                  - /api/order/**
+                matchTrailingSlash: true
+          filters:
+            - RewritePath=/api/order/?(?<segment>.*), /$\{segment}
+            - AddToken=X-Token,999
+        - id: product-router
+          uri: lb://service-product
+          predicates:
+            - Path=/api/product/**
+          filters:
+            - RewritePath=/api/product/?(?<segment>.*), /$\{segment}
+      default-filters:
+        - AddResponseHeader=X-Response-Red, Blue
