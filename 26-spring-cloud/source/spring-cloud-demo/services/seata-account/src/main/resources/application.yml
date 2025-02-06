@@ -2,7 +2,7 @@ spring:
   application:
     name: seata-account
   datasource:
-    url: jdbc:mariadb://192.168.0.32:3306/account_db?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    url: jdbc:mysql://192.168.0.32:3306/account_db?useUnicode=true&characterEncoding=utf-8&useSSL=false
     username: deltav
     password: testPass
     driver-class-name: com.mysql.cj.jdbc.Driver

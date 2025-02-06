@@ -9,4 +9,3 @@ spring:
           enabled: false
 server:
   port: 11000
-
