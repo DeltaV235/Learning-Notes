@@ -3,8 +3,10 @@ corejava*
 *.pdf
 
 # lib folder
-lib/
-libs/
+**/lib/
+**/libs/
+!08-frontend/**/lib/
+!08-frontend/**/libs/
 
 #ignore ide file
 .idea/
