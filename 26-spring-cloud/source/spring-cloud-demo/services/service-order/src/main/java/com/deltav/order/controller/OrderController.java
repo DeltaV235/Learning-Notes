@@ -4,14 +4,15 @@ import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.deltav.order.bean.Order;
 import com.deltav.order.properties.OrderProperties;
 import com.deltav.order.service.OrderService;
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.RequestEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @RestController
@@ -64,5 +65,27 @@ public class OrderController {
     public Order seckill(@RequestParam Long productId,
                          @RequestParam Long userId) {
         return orderService.create(productId, userId);
+    }
+
+    @GetMapping("/demo/get")
+    public String demoGet(RequestEntity<?> requestEntity) {
+        String url = requestEntity.getUrl().toString();
+        return "{\"url\": \"%s\"}".formatted(url);
+    }
+
+    @PostMapping("/demo/post")
+    public String demoPost(RequestEntity<JsonNode> requestEntity) {
+        String url = requestEntity.getUrl().toString();
+        JsonNode body = requestEntity.getBody();
+        return "{\"url\": \"%s\", \"body\":%s}".formatted(url, Optional.ofNullable(body).orElseThrow().toPrettyString());
+    }
+
+    @GetMapping("demo/delay/{second}")
+    public void demoDelay(@PathVariable("second") int second) {
+        try {
+            TimeUnit.SECONDS.sleep(second);
+        } catch (InterruptedException e) {
+            log.error(e.getMessage(), e);
+        }
     }
 }
