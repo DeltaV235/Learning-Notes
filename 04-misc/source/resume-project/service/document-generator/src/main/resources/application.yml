@@ -1,0 +1,49 @@
+# 服务器配置
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+# 数据库配置
+spring:
+  datasource:
+    url: jdbc:mysql://192.168.0.32:3306/resume_project?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: deltav
+    password: testPass
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database-platform: org.hibernate.dialect.MySQLDialect
+  application:
+    name: document-generator
+
+# Prometheus监控配置
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus,health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+    prometheus:
+      access: read_only
+  metrics:
+    tags:
+      application: ${spring.application.name}
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+
+# 日志配置
+logging:
+  level:
+    root: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n" 
