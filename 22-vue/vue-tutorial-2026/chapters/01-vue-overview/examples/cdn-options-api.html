@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8">
+    <title>Vue CDN Options API 示例</title>
+  </head>
+  <body>
+    <div id="app">
+      <h1>{{ title }}</h1>
+      <button @click="count++">点击次数：{{ count }}</button>
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+      const { createApp } = Vue
+
+      createApp({
+        data() {
+          return {
+            title: 'Options API 入门',
+            count: 0
+          }
+        }
+      }).mount('#app')
+    </script>
+  </body>
+</html>
+
