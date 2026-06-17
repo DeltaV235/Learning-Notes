@@ -1,6 +1,6 @@
 # Vue3 全栈课程笔记 2026
 
-这是一套面向 Java 后端转 Vue3 全栈的学习资料。内容按课程章节组织，每章包含课程文档、示例代码和练习题；生成进度记录在 [PROGRESS.md](/Users/deltav/Developer/01-Learning-Notes/22-vue/vue-tutorial-2026/PROGRESS.md)。
+这是一套面向 Java 后端转 Vue3 全栈的学习资料。课件、示例和练习题由 Vue 页面渲染，不再使用章节 Markdown 作为学习内容载体；生成进度记录在 [PROGRESS.md](/Users/deltav/Developer/01-Learning-Notes/22-vue/vue-tutorial-2026/PROGRESS.md)。
 
 ## 学习路线
 
@@ -14,20 +14,12 @@
 
 ```text
 .
-├── chapters/
-│   ├── 01-vue-overview/
-│   ├── 02-core-syntax/
-│   ├── 03-composition-api/
-│   ├── 04-components/
-│   ├── 05-router/
-│   ├── 06-data-request/
-│   ├── 07-state-management/
-│   ├── 08-ui-framework/
-│   ├── 09-typescript/
-│   └── 10-vue-ts/
-├── projects/
-│   └── element-plus-admin/
+├── exercises/
+│   └── */submissions, reviews, attachments
 ├── src/
+│   ├── course/
+│   ├── App.vue
+│   └── style.css
 ├── COURSE_PLAN.md
 ├── OFFICIAL_REFERENCES.md
 └── PROGRESS.md
@@ -47,10 +39,11 @@
 
 每章建议遵循这个顺序：
 
-1. 阅读 `README.md`，理解概念和面试重点。
-2. 打开 `examples/` 目录，逐个运行或阅读示例。
-3. 完成 `exercises.md` 里的练习。
-4. 在 `PROGRESS.md` 标记学习状态，方便下次继续。
+1. 运行课程工作台，进入对应章节的“课件”页签，课件中直接包含示例代码。
+2. 打开对应章节的“练习”页签，按目标文件完成指定练习。
+3. 从第 2 章开始，`submissions/starter-vue-app` 提供基础 Vue 项目，不需要重新创建项目。
+4. 把答案交给我后，我会读取 `submissions` 并批改到 `reviews`。
+5. 如果你提问知识点，我会把问题和解答追加到对应章节“课件”页内的“本章答疑补充”。
 
 ## 运行课程索引页
 
@@ -61,5 +54,4 @@ npm install
 npm run dev
 ```
 
-当前课程资料本身主要是 Markdown 和示例源码，不依赖开发服务器阅读。
-
+当前课程资料主要通过 Vue 页面呈现；第 2、3 章的练习 starter 项目位于对应章节的 `submissions/starter-vue-app`。

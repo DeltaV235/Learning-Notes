@@ -1,0 +1,17 @@
+{
+  "chapterId": "01",
+  "chapterTitle": "Vue.js 概述",
+  "submittedAt": "2026-06-17",
+  "answers": [
+    {
+      "exerciseId": "01-basic-01",
+      "title": "解释 Vue 的声明式渲染",
+      "answer": "Vue 的声明式渲染指的是所有由 Vue 管理的变量的值在发生变化后，页面上会自动渲染新的值，无需手动操作 DOM"
+    },
+    {
+      "exerciseId": "01-basic-02",
+      "title": "区分 Vue Router、Pinia、axios",
+      "answer": "Vue Router 用于单页面应用的页面切换，Pinia 用于存储全局的共享的变量，axios 用于调用后端 API"
+    }
+  ]
+}

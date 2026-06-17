@@ -1,0 +1,40 @@
+{
+  "chapterId": "01",
+  "chapterTitle": "Vue.js 概述",
+  "submissionFile": "exercises/01-vue-overview/submissions/2026-06-17-01-basic.json",
+  "reviewedAt": "2026-06-17",
+  "overallScore": 92,
+  "passed": true,
+  "items": [
+    {
+      "exerciseId": "01-basic-01",
+      "title": "解释 Vue 的声明式渲染",
+      "score": 90,
+      "passed": true,
+      "matchedRubric": [
+        "能说出状态变化驱动页面更新",
+        "能说明 Vue 负责维护 DOM 更新细节"
+      ],
+      "feedback": "回答已经抓住声明式渲染的关键：数据变化后页面自动更新，不需要手动操作 DOM。需要把“所有由 Vue 管理的变量”改得更精确一些，Vue 自动追踪的是响应式数据，例如 data、ref、reactive 创建或返回的状态；普通局部变量变化不会自动触发视图更新。",
+      "revisionTask": "复述时使用“响应式数据变化后，Vue 会根据模板自动更新对应 DOM”这个表达。"
+    },
+    {
+      "exerciseId": "01-basic-02",
+      "title": "区分 Vue Router、Pinia、axios",
+      "score": 94,
+      "passed": true,
+      "matchedRubric": [
+        "Router 负责页面路由",
+        "Pinia 负责共享状态",
+        "axios 负责 HTTP 请求"
+      ],
+      "feedback": "三个工具的职责区分正确。进一步面试表述时，可以把 Pinia 说成“管理跨组件共享的业务状态”，而不是简单理解成全局变量容器，避免把所有临时变量都放进 Pinia。",
+      "revisionTask": "补一句：页面内部临时状态优先放组件里，多个页面或多个组件都要共享的状态再考虑 Pinia。"
+    }
+  ],
+  "nextSteps": [
+    "第 1 章练习已通过。",
+    "继续第 2 章前，重点记住 Vue 的自动更新依赖响应式状态。",
+    "Router、Pinia、axios 在项目里分别对应页面切换、共享状态、后端接口请求。"
+  ]
+}
