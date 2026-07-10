@@ -1,0 +1,148 @@
+[project]
+name = "langchain1-2-tutorial"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    # LangChain 核心框架
+    "langchain==1.2.12",
+    "langchain-core==1.2.18",
+    "langchain-community==0.4.1",
+    "langchain-classic==1.0.2",
+    "langchain-text-splitters==1.1.1",
+    "langchain-experimental==0.4.1",
+
+    # jupyter
+    "jupyter",
+
+    # ollama
+    "langchain-ollama==1.0.1",
+    "ollama==0.6.2",
+
+    # LangGraph / Agent 编排
+    "langgraph==1.1.2",
+    "langgraph-prebuilt==1.0.8",
+    "langgraph-checkpoint==4.0.1",
+    "langgraph-checkpoint-postgres==3.0.5",
+    "langgraph-sdk==0.3.9",
+
+    # MCP / FastMCP 集成
+    "mcp==1.27.0",
+    "fastmcp==3.2.4",
+    "langchain-mcp-adapters==0.2.1",
+
+    # 大模型供应商与 LangChain 适配器
+    "openai==2.26.0",
+    "anthropic==0.84.0",
+    "langchain-openai==1.1.11",
+    "langchain-deepseek==1.0.1",
+    "langchain-anthropic==1.3.4",
+    "langchain-openrouter==0.1.0",
+    "openrouter==0.7.11",
+    "dashscope==1.25.6",
+    "tencentcloud-sdk-python==3.1.86",
+    "PyJWT==2.10.1",
+
+    # 搜索工具 / 外部工具集成
+    "langchain-tavily==0.2.17",
+
+    # Web 服务 / API / SSE
+    "fastapi==0.135.1",
+    "uvicorn==0.46.0",
+    "sse-starlette==3.3.4",
+    "httpx==0.28.1",
+    "httpx-sse==0.4.3",
+    "aiohttp==3.12.14",
+    "requests==2.32.5",
+    "requests-toolbelt==1.0.0",
+    "websockets==16.0",
+    "watchfiles==1.1.1",
+
+    # 配置管理 / 数据校验 / 序列化
+    "python-dotenv==1.2.1",
+    "pydantic==2.12.5",
+    "pydantic-settings==2.12.0",
+    "PyYAML==6.0.3",
+    "orjson==3.11.7",
+    "jsonschema==4.26.0",
+    "jsonref==1.1.0",
+    "dataclasses-json==0.6.7",
+
+    # 日志 / 命令行 / 调试辅助
+    "loguru==0.7.3",
+    "rich==14.3.3",
+    "typer==0.24.1",
+    "click==8.3.1",
+    "tenacity==9.1.4",
+    "tqdm==4.67.3",
+    "python-dateutil==2.9.0.post0",
+    "pytz==2026.2",
+
+    # 测试工具
+    "pytest==9.0.3",
+
+    # 记忆相关
+    "psycopg[binary]==3.3.3",
+    "psycopg-pool==3.3.0",
+
+    # 如下注释部分，在 RAG 章节才需要安装，暂时注释掉。
+
+    # RAG / 向量数据库 / 数据库连接
+    # "langchain-milvus==0.3.3",
+    # "pymilvus==2.6.12",
+    # "SQLAlchemy==2.0.48",
+
+    # Embedding / Tokenizer / 文本处理
+    # "tiktoken==0.12.0",
+    # "numpy==2.4.4",
+    # "scipy==1.17.1",
+    # "scikit-learn==1.8.0",
+    # "nltk==3.9.4",
+    # "regex==2026.2.28",
+    # "langdetect==1.0.9",
+
+    # HuggingFace / Transformers 基础组件
+    # "transformers==5.3.0",
+    # "tokenizers==0.22.2",
+    # "huggingface-hub==1.11.0",
+    # "safetensors==0.7.0",
+
+    # PyTorch 的安装 -- CPU 版本
+    # "torch==2.11.0",
+    # "torchvision==0.26.0",
+
+    # Unstructured / LangChain Loader 文档解析
+    # "unstructured==0.20.6",
+    # "unstructured-client==0.44.0",
+    # "unstructured-inference==1.6.11",
+    # "unstructured.pytesseract==0.3.15",
+    # "pdfminer.six==20260107",
+    # "pdf2image==1.17.0",
+    # "pypdf==6.10.2",
+    # "pypdfium2==5.8.0",
+    # "pikepdf==10.5.1",
+    # "pi-heif==1.3.0",
+    # "pillow==12.2.0",
+    # "opencv-python==4.13.0.92",
+    # "onnx==1.21.0",
+    # "onnxruntime==1.25.1",
+    # "python-docx==1.2.0",
+    # "python-pptx==1.0.2",
+    # "openpyxl==3.1.5",
+    # "xlrd==2.0.2",
+    # "xlsxwriter==3.2.9",
+    # "pandas==3.0.2",
+    # "beautifulsoup4==4.14.3",
+    # "html5lib==1.1",
+    # "lxml==6.1.0",
+    # "Markdown==3.10.2",
+    # "jq==1.11.0",
+    # "filetype==1.2.0",
+    # "python-magic==0.4.27",
+    # "python-iso639==2026.4.20",
+    # "msoffcrypto-tool==6.0.0",
+    # "python-oxmsg==0.0.2",
+    # "olefile==0.47",
+    # "pypandoc-binary==1.17",
+]
