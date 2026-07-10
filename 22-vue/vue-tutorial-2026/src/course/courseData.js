@@ -309,12 +309,13 @@ function increment() {
     ],
     qaNotes: [
       {
-        id: 'qa-2026-06-17-sfc',
-        topic: '组件基础',
+        id: 'qa-2026-06-17-computed-syntax',
+        topic: 'computed 语法拆解',
         date: '2026-06-17',
-        question: '什么是单文件组件？',
+        question:
+          'const keyword = this.keyword.trim() 是引用赋值还是变量拷贝？[...this.visibleUsers].sort((a, b) => b.score - a.score) 和 visibleUsers() 语法分别是什么意思？',
         answer:
-          '单文件组件（Single File Component，SFC）是 Vue 项目中以 .vue 结尾的组件文件，通常把一个组件的模板 template、逻辑 script 和样式 style 写在同一个文件里。它不是浏览器原生能直接运行的文件，而是由 Vite、Vue 编译器等构建工具编译成浏览器可执行的 JavaScript 和 CSS。'
+          'const keyword = this.keyword.trim() 是把 trim() 返回的新字符串绑定到局部常量 keyword，不是引用 this.keyword；字符串是基本类型且不可变，trim() 不会修改原字符串。[...this.visibleUsers] 使用数组展开语法浅拷贝一个新数组，sort() 会原地排序这个新数组，比较函数 (a, b) => b.score - a.score 表示按 score 从大到小排序。visibleUsers() 写在 computed 对象中是 JavaScript 对象字面量的方法简写，不是 JSON；等价于 visibleUsers: function () { ... }，Vue 会把它注册成计算属性，模板中按 visibleUsers 读取。'
       }
     ]
   },
@@ -543,7 +544,16 @@ onBeforeUnmount(() => {
         rubric: ['能区分 props、emits、provide/inject、Pinia 或 mitt']
       }
     ],
-    qaNotes: []
+    qaNotes: [
+      {
+        id: 'qa-2026-06-17-sfc',
+        topic: '组件基础',
+        date: '2026-06-17',
+        question: '什么是单文件组件？',
+        answer:
+          '单文件组件（Single File Component，SFC）是 Vue 项目中以 .vue 结尾的组件文件，通常把一个组件的模板 template、逻辑 script 和样式 style 写在同一个文件里。它不是浏览器原生能直接运行的文件，而是由 Vite、Vue 编译器等构建工具编译成浏览器可执行的 JavaScript 和 CSS。'
+      }
+    ]
   },
   {
     id: '05',
@@ -624,7 +634,24 @@ onBeforeUnmount(() => {
         rubric: ['能说明局部状态和跨页面共享状态的区别']
       }
     ],
-    qaNotes: []
+    qaNotes: [
+      {
+        id: 'qa-2026-06-17-local-storage',
+        topic: '状态持久化',
+        date: '2026-06-17',
+        question: 'localStorage 是什么？',
+        answer:
+          'localStorage 是浏览器提供的本地持久化存储 API，按同源站点保存 key/value 字符串数据。页面刷新或浏览器关闭后数据仍然保留，除非主动删除、用户清理浏览器数据或站点存储被浏览器策略清掉。Vue 项目常用它保存主题、侧边栏折叠状态、简单偏好设置，或配合 Pinia 做状态持久化；但不应该把密码、长期敏感凭证等高风险数据直接放进去。'
+      },
+      {
+        id: 'qa-2026-06-17-local-storage-vs-pinia',
+        topic: '状态归属',
+        date: '2026-06-17',
+        question: 'localStorage 和 Pinia 分别适合存储什么数据？',
+        answer:
+          'Pinia 适合存放应用运行期间需要多个组件或多个页面共享的响应式业务状态，例如当前用户信息、权限菜单、购物车、当前选中的组织、列表查询条件等；这些状态变化后页面会自动更新。localStorage 适合存放刷新页面后仍希望保留的少量字符串化数据，例如主题、侧边栏折叠状态、用户偏好、Pinia 状态持久化后的快照。简单判断：要让页面响应式更新，用 Pinia；要跨刷新保留，用 localStorage；既要共享又要刷新保留，就让 Pinia 管状态，再把必要字段持久化到 localStorage。'
+      }
+    ]
   },
   {
     id: '08',
