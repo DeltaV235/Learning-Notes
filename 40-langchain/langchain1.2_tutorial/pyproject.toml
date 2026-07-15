@@ -16,6 +16,10 @@ dependencies = [
     # jupyter
     "jupyter",
 
+    # Python 异步教程
+    "anyio==4.14.1",
+    "trio==0.32.0",
+
     # ollama
     "langchain-ollama==1.0.1",
     "ollama==0.6.2",
